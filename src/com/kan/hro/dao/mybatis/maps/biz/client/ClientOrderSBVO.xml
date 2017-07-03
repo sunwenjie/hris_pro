@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.client.ClientOrderSBVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.client.ClientOrderSBVO">
+		<result property="orderSbId" column="orderSbId" />
+		<result property="orderHeaderId" column="orderHeaderId" />
+		<result property="sbSolutionId" column="sbSolutionId" />
+		<result property="vendorId" column="vendorId" />
+		<result property="vendorServiceId" column="vendorServiceId" />
+		<result property="personalSBBurden" column="personalSBBurden" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="sbSolutionNameZH" column="sbSolutionNameZH" />
+		<result property="sbSolutionNameEN" column="sbSolutionNameEN" />
+		<result property="orderHeaderNameZH" column="orderHeaderNameZH" />
+		<result property="orderHeaderNameEN" column="orderHeaderNameEN" />
+	</resultMap>
+  	
+	<sql id="clientOrderSBColumns">
+		orderHeaderId, sbSolutionId, vendorId, vendorServiceId, personalSBBurden, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, 
+		createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="clientOrderSBColumns-for-join">
+		a.orderHeaderId, a.sbSolutionId, a.vendorId, a.vendorServiceId, a.personalSBBurden, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, 
+		a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countClientOrderSBVOsByCondition" parameterType="clientOrderSB" resultType="int">
+		select count(*)
+		from HRO_BIZ_Client_Order_Sb
+		where deleted = 1 AND orderHeaderId = #{orderHeaderId}
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+	</select>
+
+	<select id="getClientOrderSBVOsByCondition" parameterType="clientOrderSB" resultMap="result">
+		select orderSbId, <include refid="clientOrderSBColumns"/>  
+		from HRO_BIZ_Client_Order_Sb 
+		where deleted = 1 AND orderHeaderId = #{orderHeaderId}
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getClientOrderSBVOByOrderSbId" parameterType="int" resultMap="result">
+		SELECT a.orderSbId, <include refid="clientOrderSBColumns-for-join"/>, b.nameZH as orderHeaderNameZH, b.nameEN as orderHeaderNameEN, 
+			c.nameZH as sbSolutionNameZH, c.nameEN as sbSolutionNameEN
+		FROM HRO_BIZ_Client_Order_SB a LEFT OUTER JOIN HRO_BIZ_Client_Order_Header b ON a.orderHeaderId = b.orderHeaderId AND b.deleted = 1 
+			LEFT OUTER JOIN HRO_MGT_Social_Benefit_Solution_Header c ON a.sbSolutionId = c.headerId AND c.deleted = 1 
+	 	WHERE a.orderSbId = #{value}
+	</select>
+
+	<update id="updateClientOrderSB" parameterType="clientOrderSB">
+		update HRO_BIZ_Client_Order_Sb set orderHeaderId = #{orderHeaderId}, sbSolutionId = #{sbSolutionId}, vendorId = #{vendorId}, 
+			vendorServiceId = #{vendorServiceId}, personalSBBurden = #{personalSBBurden}, description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, 
+			remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where orderSbId = #{orderSbId} 
+  	</update>
+
+	<insert id="insertClientOrderSB" parameterType="clientOrderSB" useGeneratedKeys="true" keyProperty="orderSbId">
+		insert into HRO_BIZ_Client_Order_Sb( <include refid="clientOrderSBColumns" /> )
+		values (#{orderHeaderId}, #{sbSolutionId}, #{vendorId}, #{vendorServiceId}, #{personalSBBurden}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, 
+			#{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteClientOrderSB" parameterType="int">
+		delete from HRO_BIZ_Client_Order_Sb where orderSbId = #{value}
+  	</delete>
+
+	<select id="getClientOrderSBVOsByClientOrderHeaderId" parameterType="int" resultMap="result">
+		SELECT a.orderSbId, <include refid="clientOrderSBColumns-for-join"/>, b.nameZH as orderHeaderNameZH, b.nameEN as orderHeaderNameEN, 
+			c.nameZH as sbSolutionNameZH, c.nameEN as sbSolutionNameEN
+		FROM HRO_BIZ_Client_Order_SB a LEFT OUTER JOIN HRO_BIZ_Client_Order_Header b ON a.orderHeaderId = b.orderHeaderId AND b.deleted = 1 
+			LEFT OUTER JOIN HRO_MGT_Social_Benefit_Solution_Header c ON a.sbSolutionId = c.headerId AND c.deleted = 1 
+	 	WHERE a.deleted = 1 AND a.orderHeaderId = #{value} 
+	</select>
+	
+	<select id="getClientOrderSBVOsByEmployeeContractId" parameterType="int" resultMap="result">
+		SELECT a.orderSbId, <include refid="clientOrderSBColumns-for-join"/>, b.nameZH as orderHeaderNameZH, b.nameEN as orderHeaderNameEN, 
+			c.nameZH as sbSolutionNameZH, c.nameEN as sbSolutionNameEN
+		FROM HRO_BIZ_Client_Order_SB a LEFT OUTER JOIN HRO_BIZ_Client_Order_Header b ON a.orderHeaderId = b.orderHeaderId AND b.deleted = 1 
+			LEFT OUTER JOIN HRO_MGT_Social_Benefit_Solution_Header c ON a.sbSolutionId = c.headerId AND c.deleted = 1 
+			LEFT OUTER JOIN HRO_BIZ_Employee_Contract d ON d.orderId = b.orderHeaderId AND d.flag = 2 
+		WHERE a.deleted = 1 AND d.contractId = #{value}
+  	</select>
+
+</mapper>

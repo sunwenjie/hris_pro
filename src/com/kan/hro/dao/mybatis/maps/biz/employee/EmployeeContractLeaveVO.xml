@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeContractLeaveVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeContractLeaveVO">
+		<result property="employeeLeaveId" column="employeeLeaveId" />
+		<result property="contractId" column="contractId" />
+		<result property="itemId" column="itemId" />
+		<result property="legalQuantity" column="legalQuantity" />
+		<result property="benefitQuantity" column="benefitQuantity" />
+		<result property="cycle" column="cycle" />
+		<result property="year" column="year" />
+		<result property="probationUsing" column="probationUsing" />
+		<result property="delayUsing" column="delayUsing" />
+		<result property="legalQuantityDelayMonth" column="legalQuantityDelayMonth" />
+		<result property="benefitQuantityDelayMonth" column="benefitQuantityDelayMonth" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For Application -->
+		<result property="contractNameZH" column="contractNameZH" />
+		<result property="contractNameEN" column="contractNameEN" />
+	</resultMap>
+	
+	<resultMap type="com.kan.hro.domain.biz.employee.EmployeeContractLeaveReportVO" id="leaveReport">
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="employeeShortName" column="employeeShortName" />
+		<result property="contractId" column="contractId" />
+		<result property="orderId" column="orderId" />
+		<result property="currYear" column="currYear" />
+		<result property="lastYearLeaveDetails" column="lastYearLeaveDetails" />
+		<result property="thisYearLeaveDetails" column="thisYearTotalHours" />
+		<result property="contractStatus" column="contractStatus" />
+	</resultMap>
+
+	<sql id="employeeContractLeaveColumns">
+		contractId, itemId, legalQuantity, benefitQuantity, cycle, year, probationUsing, delayUsing, legalQuantityDelayMonth, benefitQuantityDelayMonth, 
+		description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>	
+	
+	<sql id="employeeContractLeaveColumns-for-join">
+		a.contractId, a.itemId, a.legalQuantity, a.benefitQuantity, a.cycle, a.year, a.probationUsing, a.delayUsing, a.legalQuantityDelayMonth, 
+		a.benefitQuantityDelayMonth, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, 
+		a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countEmployeeContractLeaveVOsByCondition" parameterType="employeeContractLeave" resultType="int">
+		SELECT COUNT(1)
+		FROM HRO_BIZ_Employee_Contract_Leave a LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId 
+		WHERE a.deleted = 1 AND a.contractId = #{contractId}
+		<if test="itemId != null and itemId != ''">
+			AND ( a.itemId = #{itemId} or 0 = #{itemId} )
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getEmployeeContractLeaveVOsByCondition" parameterType="employeeContractLeave" resultMap="result">
+		SELECT a.employeeLeaveId, <include refid="employeeContractLeaveColumns-for-join" />, b.nameZH as contractNameZH, b.nameEN as contractNameEN
+		FROM HRO_BIZ_Employee_Contract_Leave a LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId 
+		WHERE a.deleted = 1 AND a.contractId = #{contractId}
+		<if test="itemId != null and itemId != ''">
+			AND ( a.itemId = #{itemId} or 0 = #{itemId} )
+		</if>
+		<if test="status != null and status != ''">
+			AND ( a.status = #{status} or 0 = #{status} )
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getEmployeeContractLeaveVOByEmployeeLeaveId" parameterType="int" resultMap="result">
+		SELECT a.employeeLeaveId, <include refid="employeeContractLeaveColumns-for-join" />, b.nameZH as contractNameZH, b.nameEN as contractNameEN
+		FROM HRO_BIZ_Employee_Contract_Leave a LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId 
+		WHERE a.deleted = 1 AND a.employeeLeaveId = #{value}
+	</select>
+	
+	<select id="getEmployeeContractLeaveVOsByContractId" parameterType="int"  resultMap="result">
+		SELECT a.employeeLeaveId, <include refid="employeeContractLeaveColumns-for-join" />, b.nameZH as contractNameZH, b.nameEN as contractNameEN
+		FROM HRO_BIZ_Employee_Contract_Leave a LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId 
+		WHERE a.deleted = 1 AND a.contractId = #{value}
+		ORDER BY a.employeeLeaveId
+	</select>
+	
+	<insert id="insertEmployeeContractLeave" parameterType="employeeContractLeave" useGeneratedKeys="true" keyProperty="employeeLeaveId">
+		INSERT into HRO_BIZ_Employee_Contract_Leave( <include refid="employeeContractLeaveColumns" /> )
+		VALUES(#{contractId}, #{itemId}, #{legalQuantity}, #{benefitQuantity}, #{cycle}, #{year}, #{probationUsing}, #{delayUsing}, #{legalQuantityDelayMonth}, 
+			#{benefitQuantityDelayMonth}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, 
+			#{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<update id="updateEmployeeContractLeave" parameterType="employeeContractLeave">
+		UPDATE HRO_BIZ_Employee_Contract_Leave SET contractId = #{contractId}, itemId = #{itemId}, legalQuantity = #{legalQuantity},
+			benefitQuantity = #{benefitQuantity}, cycle = #{cycle}, year = #{year}, probationUsing = #{probationUsing}, delayUsing = #{delayUsing}, 
+			legalQuantityDelayMonth = #{legalQuantityDelayMonth}, benefitQuantityDelayMonth = #{benefitQuantityDelayMonth}, description = #{description}, 
+			deleted = #{deleted}, `status` = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, 
+			remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE employeeLeaveId = #{employeeLeaveId} 
+	</update>	
+	
+	<delete id="deleteEmployeeContractLeave" parameterType="int">
+		DELETE FROM HRO_BIZ_Employee_Contract_Leave WHERE employeeLeaveId = #{value}
+  	</delete>	
+  	
+  	<select id="getLastYearAnnualLeaveByCondition" parameterType="employeeContractLeave" resultMap="result">
+  		SELECT employeeLeaveId , <include refid="employeeContractLeaveColumns" />
+  		FROM HRO_BIZ_Employee_Contract_Leave 
+  		WHERE deleted = 1 AND `status` = 1 AND contractId = #{contractId} AND itemId = #{itemId}
+  		<if test="year != null and year != ''">
+			AND	year = #{year}
+		</if>
+  	</select>
+  	
+  	<!-- 获取年假(今年/去年)总额 -->
+  	<select id="countAnnualLeaveDetailsByCondition" parameterType="leaveReport" resultType="int">
+	  	select count(1) from (
+	  		select
+	  			count(1)
+	  		from 
+	  			hro_biz_employee_contract_leave a 
+	  				left join
+	  			hro_biz_employee_contract b on a.contractId = b.contractId
+	  				left join
+	  			hro_biz_employee c on b.employeeId = c.employeeId
+	  		where b.deleted = 1
+	  		<if test="accountId != null and accountId != ''">
+	  			and b.accountId = #{accountId}
+			</if>
+			<if test="corpId != null and corpId != ''">
+				and b.corpId = #{corpId}
+			</if>	
+			<if test="contractId != null and contractId != ''">
+				and b.contractId = #{contractId}
+			</if>
+			<if test="employeeId != null and employeeId != ''">
+				and b.employeeId = #{employeeId}
+			</if>		
+	  		<if test="employeeNameZH != null and employeeNameZH != ''">
+	  			and c.nameZH like CONCAT('%', '${employeeNameZH}', '%')
+	  		</if>
+	  		<if test="employeeNameEN != null and employeeNameEN != ''">
+	  			and UPPER(c.nameEN) like CONCAT('%', '${employeeNameEN}', '%')
+	  		</if>
+	  		<if test="employeeShortName != null and employeeShortName != ''">
+	  			and c.remark1 like CONCAT('%', '${employeeShortName}', '%')
+	  		</if>
+	  		<if test="contractStatus != null and contractStatus != ''">
+	  			and (b.status = #{contractStatus} or 0 = #{contractStatus}) 
+	  		</if>
+	  		
+	  		<if test="rulePublic == 1">
+				AND ( false 
+				<if test="rulePrivateIds !=null">
+					 OR c.employeeId in
+					<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+		        		#{rulePrivateId}
+		     		</foreach>
+				</if>
+				<if test="rulePositionIds !=null">
+					OR c.owner in
+					<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+		        		#{rulePositionId}
+		     		</foreach>
+				</if>
+				<if test="ruleBranchIds !=null">
+					OR c._tempBranchIds in
+					<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+		        		#{ruleBranchId}
+		     		</foreach>
+				</if>
+				<if test="ruleBusinessTypeIds !=null">
+					OR b.businessTypeId in
+					<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+		        		#{ruleBusinessTypeId}
+		     		</foreach>
+				</if>
+				<if test="ruleEntityIds !=null">
+					OR b.entityId in
+					<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+		        		#{ruleEntityId}
+		     		</foreach>
+				</if>
+				)
+			</if>
+	  		
+	  		GROUP BY a.contractId
+	  	) temp
+  	</select>
+  	
+  	
+  	<!-- 获取年假(今年/去年)总额 -->
+  	<select id="getAnnualLeaveDetailsByCondition" parameterType="leaveReport" resultMap="leaveReport">
+  		select
+  			
+  			b.employeeId as employeeId,
+  			c.nameZH as employeeNameZH,
+  			c.nameEN as employeeNameEN,
+  			c.remark1 as remark1,
+  			b.contractId as contractId,
+  			b.orderId as orderId,
+  			b.`status` as contractStatus,
+  			max(
+  				case when itemId = 41 and year = #{currYear} - 1 
+  				then CONCAT(
+  					a.year, '_', 
+  					a.benefitQuantity, '_',
+  					a.probationUsing,'_',
+  					a.delayUsing,'_',
+  					a.benefitQuantityDelayMonth) else null end
+  				) as 'lastYearLeaveDetails',
+  			max(
+  				case when itemId = 41 and year = #{currYear}
+  				then CONCAT(
+  					a.year, '_', 
+  					a.benefitQuantity, '_',
+  					a.probationUsing,'_',
+  					a.delayUsing,'_',
+  					a.benefitQuantityDelayMonth) else null end
+  				) as 'thisYearLeaveDetails'
+  			
+  		from 
+  			hro_biz_employee_contract_leave a 
+  				left join
+  			hro_biz_employee_contract b on a.contractId = b.contractId
+  				left join
+  			hro_biz_employee c on b.employeeId = c.employeeId
+  		where b.deleted = 1
+  		<if test="accountId != null and accountId != ''">
+  			and b.accountId = #{accountId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			and b.corpId = #{corpId}
+		</if>	
+		<if test="contractId != null and contractId != ''">
+			and b.contractId = #{contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			and b.employeeId = #{employeeId}
+		</if>		
+  		<if test="employeeNameZH != null and employeeNameZH != ''">
+  			and c.nameZH like CONCAT('%', '${employeeNameZH}', '%')
+  		</if>
+  		<if test="employeeNameEN != null and employeeNameEN != ''">
+  			and UPPER(c.nameEN) like CONCAT('%', '${employeeNameEN}', '%')
+  		</if>
+  		<if test="employeeShortName != null and employeeShortName != ''">
+  			and c.remark1 like CONCAT('%', '${employeeShortName}', '%')
+  		</if>
+  		<if test="contractStatus != null and contractStatus != ''">
+  			and (b.status = #{contractStatus} or 0 = #{contractStatus}) 
+  		</if>
+  		
+  		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR c.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR c.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR c._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR b.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR b.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+  		
+  		GROUP BY a.contractId
+  	</select>
+  	
+</mapper>

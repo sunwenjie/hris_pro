@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.workflow.WorkflowActualVO">
+
+	<resultMap id="result" type="com.kan.base.domain.workflow.WorkflowActualVO">
+		<result property="workflowId" column="workflowId"/>
+		<result property="systemId" column="systemId"/>
+		<result property="accountId" column="accountId"/>
+		<result property="corpId" column="corpId"/>
+		<result property="defineId" column="defineId"/>
+		<result property="workflowModuleId" column="workflowModuleId"/>
+		<result property="rightId" column="rightId"/>
+		<result property="objectId" column="objectId"/>
+		<result property="positionId" column="positionId"/>
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<result property="includeViewObjJsp" column="includeViewObjJsp" />
+		<!-- for app mobile -->
+		<result property="systemModuleId" column="systemModuleId" />
+		<result property="accessAction" column="accessAction" />
+	</resultMap>
+  	
+  	<sql id="workflowActuals"> 
+  		systemId, accountId,corpId, defineId, workflowModuleId, rightId, objectId, positionId, nameZH, nameEN,
+  		deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="workflowActuals-for-join"> 
+  		a.systemId, a.accountId,a.corpId, a.defineId, a.workflowModuleId, a.rightId, a.objectId, a.positionId, a.nameZH, a.nameEN,
+  		a.deleted, a.status, a.remark1, a.remark2, a.createBy, a.createDate, a.modifyBy, a.modifyDate , b.includeViewObjJsp
+	</sql>
+	
+	<sql id="workflowActuals-for-join-2"> 
+  		a.systemId, a.accountId,a.corpId, a.defineId, a.workflowModuleId, a.rightId, a.objectId, a.positionId, a.nameZH, a.nameEN,
+  		a.deleted, a.status, a.remark1, a.remark2, a.createBy, a.createDate, a.modifyBy, a.modifyDate, 
+  		b.nameZH rightNameZH,b.nameEN rightNameEN, s.`status` actualStepStatus ,s.handleDate 
+	</sql>
+	
+	<select id="countWorkflowActualVOsByCondition" parameterType="workflowActual" resultType="int">
+	SELECT COUNT(0) FROM
+	(
+		SELECT 0
+		FROM HRO_Workflow_Actual a
+		INNER JOIN HRO_Workflow_Actual_Steps s ON a.workflowId = s.workflowId
+		LEFT JOIN hro_sys_right b ON a.rightId = b.rightId
+		LEFT JOIN hro_sys_workflow w on a.workflowModuleId = w.workflowModuleId AND w.deleted = 1
+		LEFT JOIN hro_sys_module m on m.moduleId = w.moduleId AND m.deleted = 1
+		LEFT JOIN hro_history h on h.workflowId = a.workflowId
+		WHERE a.deleted = 1
+		<if test="contractId != null and contractId != ''">
+			AND h.passObject LIKE CONCAT('%', '"contractId":"${contractId}"', '%') 
+		</if>
+		<if test="accountId != null and accountId != '' ">
+			AND a.accountId = #{accountId}
+		</if>
+		<if test="corpId != null and corpId != '' ">
+			AND a.corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == '' ">
+			AND a.corpId is null
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN LIKE CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="currentPositionId != null and currentPositionId != ''">
+			AND (( s.auditType = 1 AND s.auditTargetId = #{currentPositionId}) OR ( s.auditType = 4 AND ( (s.auditTargetId = #{staffId}) OR (s.auditTargetId = #{logonUserId}) ) ) ) 
+		</if>
+		<if test="workflowModuleId != null and workflowModuleId != '' ">
+			AND a.workflowModuleId = #{workflowModuleId}
+		</if>
+		<if test="rightId != null and rightId != '' ">
+			AND (a.rightId = #{rightId} OR 0 = #{rightId})
+		</if>
+		<if test="createDateStr != null and createDateStr != '' ">
+			AND DATE(a.createDate) = #{createDateStr}
+		</if>
+		<if test="createBy != null and createBy != '' ">
+			AND a.createBy = #{createBy}
+		</if>
+		<if test="actualStepStatus != null and actualStepStatus != ''">
+			<if test="actualStepStatus == 0">
+				AND s.status in (2,3,4,5,6)
+			</if>
+			<if test="actualStepStatus != 0">
+				AND s.status = #{actualStepStatus}
+			</if>
+		</if>
+		<if test="actualStepStatus == null or actualStepStatus == ''">
+			AND s.status in (2,3,4,5,6)
+		</if>
+		<if test="actualStepModifyDate != null and actualStepModifyDate != ''">
+			AND DATE(s.modifyDate) = #{actualStepModifyDate}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} OR 0 = #{status})
+		</if>
+		<if test="chineseName != null and chineseName != ''">
+			AND h.passObject LIKE CONCAT('%', '${chineseName}', '%') 
+		</if>
+		<if test="shortName != null and shortName != ''">
+			AND h.passObject LIKE CONCAT('%', '${shortName}', '%') 
+		</if>
+		<!-- for mobile 只查看请假和加班 -->
+		<if test="systemModuleId != null and systemModuleId != '' ">
+			AND m.moduleId IN (${systemModuleId})
+		</if>
+		GROUP BY a.workflowId
+	) t
+  	</select>
+  	
+	<select id="getWorkflowActualVOsByCondition" parameterType="workflowActual" resultMap="result">
+		SELECT
+			  a.workflowId,<include refid="workflowActuals-for-join-2"/> ,h.passObject as contractId, h.accessAction as accessAction
+		FROM HRO_Workflow_Actual a
+		INNER JOIN HRO_Workflow_Actual_Steps s ON a.workflowId = s.workflowId
+		LEFT JOIN hro_sys_right b ON a.rightId = b.rightId
+		LEFT JOIN hro_sys_workflow w on a.workflowModuleId = w.workflowModuleId AND w.deleted = 1
+		LEFT JOIN hro_sys_module m on m.moduleId = w.moduleId AND m.deleted = 1
+		LEFT JOIN hro_history h on h.workflowId = a.workflowId
+		WHERE a.deleted = 1
+		<if test="contractId != null and contractId != ''">
+			AND h.passObject LIKE CONCAT('%', '"contractId":"${contractId}"', '%') 
+		</if>
+		<if test="accountId != null and accountId != '' ">
+			AND a.accountId = #{accountId}
+		</if>
+		<if test="corpId != null and corpId != '' ">
+			AND a.corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == '' ">
+			AND a.corpId is null
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN LIKE CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="currentPositionId != null and currentPositionId != ''">
+			AND (( s.auditType = 1 AND s.auditTargetId = #{currentPositionId}) OR ( s.auditType = 4 AND ( (s.auditTargetId = #{staffId}) OR (s.auditTargetId = #{logonUserId}) ) ) ) 
+		</if>
+		<if test="workflowModuleId != null and workflowModuleId != '' ">
+			AND a.workflowModuleId = #{workflowModuleId}
+		</if>
+		<if test="rightId != null and rightId != '' ">
+			AND (a.rightId = #{rightId} OR 0 = #{rightId})
+		</if>
+		<if test="createDateStr != null and createDateStr != '' ">
+			AND DATE(a.createDate) = #{createDateStr}
+		</if>
+		<if test="createBy != null and createBy != '' ">
+			AND a.createBy = #{createBy}
+		</if>
+		<if test="actualStepStatus != null and actualStepStatus != ''">
+			<if test="actualStepStatus == 0">
+				AND s.status in (2,3,4,5,6)
+			</if>
+			<if test="actualStepStatus != 0">
+				AND s.status = #{actualStepStatus}
+			</if>
+		</if>
+		<if test="actualStepStatus == null or actualStepStatus == ''">
+			AND s.status in (2,3,4,5,6)
+		</if>
+		<if test="actualStepModifyDate != null and actualStepModifyDate != ''">
+			AND DATE(s.modifyDate) = #{actualStepModifyDate}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} OR 0 = #{status})
+		</if>
+		<if test="chineseName != null and chineseName != ''">
+			AND h.passObject LIKE CONCAT('%', '${chineseName}', '%') 
+		</if>
+		<if test="shortName != null and shortName != ''">
+			AND h.passObject LIKE CONCAT('%', '${shortName}', '%') 
+		</if>
+		<!-- for mobile 只查看请假和加班 -->
+		<if test="systemModuleId != null and systemModuleId != '' ">
+			AND m.moduleId IN (${systemModuleId})
+		</if>
+		GROUP BY a.workflowId
+		<if test="actualStepStatus != null and actualStepStatus != ''">
+			<if test="actualStepStatus == 0">
+				<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+					ORDER BY s.status ASC,${sortColumn} ${sortOrder}
+				</if>
+			</if>
+			<if test="actualStepStatus != 0">
+				<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+					ORDER BY ${sortColumn} ${sortOrder}
+				</if>
+			</if>
+		</if>
+		<if test="actualStepStatus == null or actualStepStatus == ''">
+			<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+				ORDER BY s.status ASC,${sortColumn} ${sortOrder}
+			</if>
+		</if>
+  	</select>
+	
+  	<select id="getWorkflowActualVOByWorkflowId" parameterType="int" resultMap="result">
+		SELECT
+			 a.workflowId, <include refid="workflowActuals-for-join"/> ,m.moduleId as systemModuleId
+		FROM hro_workflow_actual a
+		LEFT JOIN hro_sys_workflow b ON a.workflowModuleId = b.workflowModuleId
+		LEFT JOIN hro_sys_module m ON b.moduleId = m.moduleId
+		WHERE workflowId = #{value}
+  	</select>
+  	
+  	<select id="getWorkflowActualVOByMap" parameterType="map" resultMap="result">
+		SELECT a.workflowId, <include refid="workflowActuals-for-join"/>,c.status actualStepStatus
+		FROM hro_workflow_actual a
+		LEFT JOIN hro_sys_workflow b 
+		ON a.workflowModuleId = b.workflowModuleId
+		JOIN HRO_Workflow_Actual_Steps c on a.workflowId = c.workflowId 
+		WHERE a.deleted = 1 
+		<if test="stauts !=null ">
+			AND a.status in 
+			 <foreach collection="statuses" item="status_item"  open="(" separator="," close=")">  
+		        #{status_item}  
+		     </foreach> 
+		</if>
+		<if test="stauts !=null ">
+			AND a.status  = #{status}
+		</if>
+		AND c.auditType = #{auditType}
+		<if test="auditTargetIds !=null ">
+			AND c.auditTargetId in 
+			 <foreach collection="auditTargetIds" item="auditTargetId_item"  open="(" separator="," close=")">  
+		        #{auditTargetId_item}  
+		     </foreach> 
+		</if>
+		<if test="auditTargetId !=null ">
+			AND c.auditTargetId  = #{auditTargetId}
+		</if>
+		<if test="actualStepStatuses !=null ">
+			AND c.status in 
+			 <foreach collection="actualStepStatuses" item="actualStepStatus_item"  open="(" separator="," close=")">  
+		        #{actualStepStatus_item}  
+		     </foreach> 
+		</if>
+		<if test="actualStepStatus !=null ">
+			AND c.status  = #{actualStepStatus}
+		</if>
+		GROUP BY a.workflowId
+  	</select>
+  	
+  	
+	<update id="updateWorkflowActual" parameterType="workflowActual">
+		UPDATE HRO_Workflow_Actual SET
+		    defineId = #{defineId}, workflowModuleId = #{workflowModuleId}, rightId = #{rightId}, objectId = #{objectId}, positionId = #{positionId}, nameZH = #{nameZH}, nameEN = #{nameEN},
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE workflowId = #{workflowId} 
+  	</update>
+  	
+  	<insert id="insertWorkflowActual" parameterType="workflowActual" useGeneratedKeys="true" keyProperty="workflowId">
+		INSERT INTO HRO_Workflow_Actual(<include refid="workflowActuals"/>) 
+		VALUES(#{systemId}, #{accountId}, #{corpId},#{defineId}, #{workflowModuleId}, #{rightId}, #{objectId}, #{positionId}, #{nameZH}, #{nameEN},
+			   1, 1, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+  	
+  	<delete id="deleteWorkflowActual" parameterType="int">
+		DELETE FROM HRO_Workflow_Actual WHERE workflowId = #{workflowId}
+  	</delete>
+	
+</mapper>

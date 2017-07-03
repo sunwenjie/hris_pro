@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.performance.InviteAssessmentVO">
+
+	<resultMap type="com.kan.hro.domain.biz.performance.InviteAssessmentVO" id="result">
+		<result property="inviteId" column="inviteId" />
+		<result property="assessmentId" column="assessmentId" />
+		<result property="inviteEmployeeId" column="inviteEmployeeId" />
+		<result property="randomKey" column="randomKey" />
+		<result property="answer1" column="answer1" />
+		<result property="answer2" column="answer2" />
+		<result property="answer3" column="answer3" />
+		<result property="answer4" column="answer4" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />	
+		<!-- FOR APP -->
+		<result property="inviteEmployeeNameZH" column="inviteEmployeeNameZH" />
+		<result property="inviteEmployeeNameEN" column="inviteEmployeeNameEN" />	
+	</resultMap>
+	
+	<sql id="inviteAssessmentColumns">
+		assessmentId, inviteEmployeeId, randomKey, answer1, answer2, answer3, answer4,
+		deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<sql id="inviteAssessmentColumns-for-join">
+		a.assessmentId, a.inviteEmployeeId, a.randomKey, a.answer1, a.answer2, a.answer3, a.answer4,
+		a.deleted, a.status, a.remark1, a.remark2, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countInviteAssessmentVOsByCondition" parameterType="inviteAssessment" resultType="int">
+		select 
+			count(1) 
+		from hro_pm_invite_assessment a left join
+			hro_biz_employee b on a.inviteEmployeeId = b.employeeId
+		where a.deleted = 1
+		<if test="inviteEmployeeId != null and inviteEmployeeId != ''">
+			AND a.inviteEmployeeId = #{inviteEmployeeId}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+
+	<select id="getInviteAssessmentVOsByCondition" parameterType="inviteAssessment" resultMap="result">
+		select 
+			a.inviteId, <include refid="inviteAssessmentColumns-for-join" />
+		from hro_pm_invite_assessment a left join
+			hro_biz_employee b on a.inviteEmployeeId = b.employeeId
+		where a.deleted = 1
+		<if test="inviteEmployeeId != null and inviteEmployeeId != ''">
+			AND a.inviteEmployeeId = #{inviteEmployeeId}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>	
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+	
+	<insert id="insertInviteAssessment" parameterType="inviteAssessment" useGeneratedKeys="true" keyProperty="inviteId">
+  		insert into hro_pm_invite_assessment(<include refid="inviteAssessmentColumns"/>)		
+  		values(
+  			#{assessmentId}, #{inviteEmployeeId}, #{randomKey}, #{answer1}, #{answer2}, #{answer3}, #{answer4}, 1, #{status}, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate}
+  		)
+  	</insert>
+  	
+  	<update id="updateInviteAssessment" parameterType="inviteAssessment">
+  		update hro_pm_invite_assessment set 
+  			randomKey = #{randomKey},
+  			answer1 = #{answer1}, answer2 = #{answer2}, answer3 = #{answer3}, answer4 = #{answer4},
+  			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy},
+  			modifyDate =#{modifyDate}
+  		where inviteId = #{inviteId}	
+  	</update>
+	
+	<select id="getInviteAssessmentVOByInviteId" parameterType="String" resultMap="result">
+		select inviteId, <include refid="inviteAssessmentColumns" />
+		from hro_pm_invite_assessment where inviteId = #{value}
+	</select>
+	
+	<select id="getInviteAssessmentVOsByMapParameter" parameterType="Map" resultMap="result">
+		select 
+			a.inviteId, <include refid="inviteAssessmentColumns-for-join" />, 
+			b.nameZH as inviteEmployeeNameZH, b.nameEN as inviteEmployeeNameEN
+		from hro_pm_invite_assessment a left join hro_biz_employee b on a.inviteEmployeeId = b.employeeId 
+		where a.deleted = 1
+		<if test="assessmentId != null and assessmentId != ''">
+			AND a.assessmentId = #{assessmentId}
+		</if>
+		<if test="inviteEmployeeId != null and inviteEmployeeId != ''">
+			AND a.inviteEmployeeId = #{inviteEmployeeId}
+		</if>
+		<if test="status != null and status != ''">
+			AND a.status = #{status}
+		</if>
+	</select>
+	
+	<select id="getInviteAssessmentVOByRandomKey" parameterType="String" resultMap="result">
+		select inviteId, <include refid="inviteAssessmentColumns" />
+		from hro_pm_invite_assessment where randomKey = #{value}
+	</select>
+	
+</mapper>

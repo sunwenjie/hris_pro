@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.client.ClientInvoiceVO">
+
+	<resultMap id="clientInvoiceBaseView" type="com.kan.hro.domain.biz.client.ClientInvoiceBaseView">
+		<result property="accountId" column="accountId" />
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+	</resultMap>
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.client.ClientInvoiceVO">
+		<result property="clientInvoiceId" column="clientInvoiceId" />
+		<result property="clientId" column="clientId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="title" column="title" />
+		<result property="salutation" column="salutation" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="position" column="position" />
+		<result property="department" column="department" />
+		<result property="cityId" column="cityId" />
+		<result property="address" column="address" />
+		<result property="postcode" column="postcode" />
+		<result property="email" column="email" />
+		<result property="phone" column="phone" />
+		<result property="mobile" column="mobile" />
+		<result property="invoiceDate" column="invoiceDate" />
+		<result property="paymentTerms" column="paymentTerms" />
+		<result property="legalEntity" column="legalEntity" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="clientNumber" column="clientNumber" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+	</resultMap>
+
+  	<select id="getClientInvoiceBaseViews" parameterType='String' resultType="clientInvoiceBaseView" >
+  		SELECT clientInvoiceId as id, title as name, accountId
+  		FROM HRO_BIZ_Client_Invoice
+  		WHERE deleted = 1 and accountId = ${value}
+  		ORDER by name
+  	</select>
+  	
+	<sql id="ClientInvoiceColumns">
+		clientId, accountId,corpId, title, salutation, nameZH, nameEN, position, department, cityId, address, postcode, email, phone, mobile, invoiceDate, 
+		paymentTerms, legalEntity, description, deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="ClientInvoiceColumns-for-join">
+		a.clientId, a.accountId, a.corpId, a.title, a.salutation, a.nameZH, a.nameEN, a.position, a.department, a.cityId, a.address, a.postcode, a.email, a.phone, 
+		a.mobile, a.invoiceDate, a.paymentTerms, a.legalEntity, a.description, a.deleted, a.status, a.remark1, a.remark2, a.createBy, a.createDate, 
+		a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countClientInvoiceVOsByCondition" parameterType="clientInvoice" resultType="int">
+		SELECT COUNT(*)
+		FROM HRO_BIZ_Client_Invoice a LEFT JOIN HRO_BIZ_Client b ON a.clientId = b.clientId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="title != null and title != ''">
+			AND a.title like CONCAT('%', '${title}', '%') 
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="clientNumber != null and clientNumber != ''">
+			AND b.number = #{clientNumber}
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND b.nameZH like CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND b.nameEN like CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="address != null and address != ''">
+			AND a.address like CONCAT('%', '${address}', '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+	</select>
+
+	<select id="getClientInvoiceVOsByCondition" parameterType="clientInvoice" resultMap="result">
+		SELECT a.clientInvoiceId, <include refid="ClientInvoiceColumns-for-join" />, b.nameZH AS clientNameZH, b.nameEN AS clientNameEN, 
+			b.number AS clientNumber
+		FROM HRO_BIZ_Client_Invoice a LEFT JOIN HRO_BIZ_Client b on a.clientId = b.clientId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="title != null and title != ''">
+			AND a.title like CONCAT('%', '${title}', '%') 
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="clientNumber != null and clientNumber != ''">
+			AND b.number = #{clientNumber}
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND b.nameZH like CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND b.nameEN like CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="address != null and address != ''">
+			AND a.address like CONCAT('%', '${address}', '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getClientInvoiceVOByClientInvoiceId" parameterType="int" resultMap="result">
+		SELECT a.clientInvoiceId, <include refid="ClientInvoiceColumns-for-join" />, b.nameZH AS clientNameZH, b.nameEN AS clientNameEN, 
+			b.number AS clientNumber
+		FROM HRO_BIZ_Client_Invoice a LEFT JOIN HRO_BIZ_Client b on a.clientId = b.clientId AND b.deleted = 1
+		WHERE a.clientInvoiceId = #{value}
+	</select>
+
+	<update id="updateClientInvoice" parameterType="clientInvoice">
+		UPDATE HRO_BIZ_Client_Invoice set clientId = #{clientId}, accountId = #{accountId}, corpId=#{corpId},title = #{title}, salutation = #{salutation}, 
+			nameZH = #{nameZH}, nameEN = #{nameEN}, position = #{position}, department = #{department}, cityId = #{cityId}, address = #{address},
+			postcode = #{postcode}, email = #{email}, phone = #{phone}, mobile = #{mobile}, invoiceDate = #{invoiceDate}, paymentTerms = #{paymentTerms}, 
+			legalEntity = #{legalEntity}, description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, 
+			remark2 = #{remark2}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE clientInvoiceId = #{clientInvoiceId} 
+  	</update>
+
+	<insert id="insertClientInvoice" parameterType="clientInvoice" useGeneratedKeys="true" keyProperty="clientInvoiceId">
+		INSERT into HRO_BIZ_Client_Invoice( <include refid="ClientInvoiceColumns" /> )
+		values (#{clientId}, #{accountId},#{corpId}, #{title}, #{salutation}, #{nameZH}, #{nameEN}, #{position}, #{department}, #{cityId}, #{address}, #{postcode},
+			#{email}, #{phone}, #{mobile}, #{invoiceDate}, #{paymentTerms}, #{legalEntity}, #{description}, 1, #{status}, #{remark1}, #{remark2}, 
+			#{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteClientInvoice" parameterType="int">
+		DELETE from HRO_BIZ_Client_Invoice WHERE clientInvoiceId = #{value}
+  	</delete>
+  	
+  	<select id="getClientInvoiceVOsByClientId" parameterType="int" resultMap="result">
+		SELECT clientInvoiceId, <include refid="ClientInvoiceColumns" />
+		FROM HRO_BIZ_Client_Invoice
+		WHERE deleted = 1 AND status = 1 AND clientId = #{value}
+		ORDER BY clientInvoiceId
+	</select>
+
+</mapper>

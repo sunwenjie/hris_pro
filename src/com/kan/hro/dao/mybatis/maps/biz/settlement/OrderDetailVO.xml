@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.settlement.OrderDetailVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.settlement.OrderDetailVO">
+		<result property="orderDetailId" column="orderDetailId" />
+		<result property="contractId" column="contractId" />
+		<result property="headerId" column="headerId" />
+		<result property="detailId" column="detailId" />
+		<result property="detailType" column="detailType" />
+		<result property="itemId" column="itemId" />
+		<result property="itemNo" column="itemNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="base" column="base" />
+		<result property="quantity" column="quantity" />
+		<result property="discount" column="discount" />
+		<result property="multiple" column="multiple" />
+		<result property="sbBaseCompany" column="sbBaseCompany" />
+		<result property="sbBasePersonal" column="sbBasePersonal" />
+		<result property="billRatePersonal" column="billRatePersonal" />
+		<result property="billRateCompany" column="billRateCompany" />
+		<result property="costRatePersonal" column="costRatePersonal" />
+		<result property="costRateCompany" column="costRateCompany" />
+		<result property="billFixPersonal" column="billFixPersonal" />
+		<result property="billFixCompany" column="billFixCompany" />
+		<result property="costFixPersonal" column="costFixPersonal" />
+		<result property="costFixCompany" column="costFixCompany" />
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+		<result property="taxAmountActual" column="taxAmountActual" />
+		<result property="taxAmountCost" column="taxAmountCost" />
+		<result property="taxAmountSales" column="taxAmountSales" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+  	
+	<sql id="orderDetailColumns">
+		contractId, headerId, detailId, detailType, itemId, itemNo, nameZH, nameEN, base, quantity, discount, multiple, sbBaseCompany, sbBasePersonal, 
+		billRatePersonal, billRateCompany, costRatePersonal, costRateCompany, billFixPersonal, billFixCompany, costFixPersonal, costFixCompany, 
+		billAmountPersonal, billAmountCompany, costAmountPersonal, costAmountCompany, taxAmountActual, taxAmountCost, taxAmountSales, description, deleted, 
+		status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+  	
+	<sql id="orderDetailColumns-for-join">
+		a.contractId, a.headerId, a.detailId, a.detailType, a.itemId, a.itemNo, a.nameZH, a.nameEN, a.base, a.quantity, a.discount, a.multiple, 
+		a.sbBaseCompany, a.sbBasePersonal, a.billRatePersonal, a.billRateCompany, a.costRatePersonal, a.costRateCompany, a.billFixPersonal, 
+		a.billFixCompany, a.costFixPersonal, a.costFixCompany, a.billAmountPersonal, a.billAmountCompany, a.costAmountPersonal, a.costAmountCompany, 
+		a.taxAmountActual, a.taxAmountCost, a.taxAmountSales, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, 
+		a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countOrderDetailVOsByCondition" parameterType="settlementOrderDetail" resultType="int">
+		select COUNT(1)
+		FROM hro_settle_order_detail a LEFT JOIN hro_settle_order_contract b ON a.contractId = b.contractId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_header c ON c.orderHeaderId = b.orderHeaderId AND c.deleted = 1
+		WHERE a.deleted = 1 AND b.accountId = #{accountId} 
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND c.batchId = #{batchId}
+		</if>
+		<if test="orderHeaderId != null and orderHeaderId != ''">
+			AND b.orderHeaderId = #{orderHeaderId}
+		</if>
+		<if test="employeeContractId != null and employeeContractId != ''">
+			AND b.employeeContractId = #{employeeContractId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (b.monthly = #{monthly} or 0 = #{monthly})
+		</if>
+	</select>
+
+	<select id="getOrderDetailVOsByCondition" parameterType="settlementOrderDetail" resultMap="result">
+		SELECT a.orderDetailId, <include refid="orderDetailColumns-for-join"/>, b.orderHeaderId, c.batchId 
+		FROM hro_settle_order_detail a LEFT JOIN hro_settle_order_contract b ON a.contractId = b.contractId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_header c ON c.orderHeaderId = b.orderHeaderId AND c.deleted = 1
+		WHERE a.deleted = 1 AND b.accountId = #{accountId} 
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND c.batchId = #{batchId}
+		</if>
+		<if test="orderHeaderId != null and orderHeaderId != ''">
+			AND b.orderHeaderId = #{orderHeaderId}
+		</if>
+		<if test="employeeContractId != null and employeeContractId != ''">
+			AND b.employeeContractId = #{employeeContractId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (b.monthly = #{monthly} or 0 = #{monthly})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getOrderDetailVOByOrderDetailId" parameterType="int" resultMap="result">
+		SELECT a.orderDetailId, <include refid="orderDetailColumns-for-join"/>, b.orderHeaderId, c.batchId 
+		FROM hro_settle_order_detail a LEFT JOIN hro_settle_order_contract b ON a.contractId = b.contractId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_header c ON c.orderHeaderId = b.orderHeaderId AND c.deleted = 1
+		WHERE a.orderDetailId = #{value}
+	</select>
+
+	<select id="getOrderDetailVOsByContractId" parameterType="int" resultMap="result">
+		SELECT a.orderDetailId, <include refid="orderDetailColumns-for-join"/>, b.orderHeaderId, c.batchId 
+		FROM hro_settle_order_detail a LEFT JOIN hro_settle_order_contract b ON a.contractId = b.contractId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_header c ON c.orderHeaderId = b.orderHeaderId AND c.deleted = 1
+		WHERE a.contractId = #{value} AND a.deleted = 1
+	</select>
+
+	<update id="updateOrderDetail" parameterType="settlementOrderDetail">
+		update hro_settle_order_detail set contractId = #{contractId}, headerId = #{headerId}, detailId = #{detailId}, detailType = #{detailType}, 
+			itemId = #{itemId}, itemNo = #{itemNo}, nameZH = #{nameZH}, nameEN = #{nameEN}, base = #{base}, quantity = #{quantity}, discount = #{discount}, 
+			multiple = #{multiple}, sbBaseCompany = #{sbBaseCompany}, sbBasePersonal = #{sbBasePersonal}, billRatePersonal = #{billRatePersonal}, 
+			billRateCompany = #{billRateCompany}, costRatePersonal = #{costRatePersonal}, costRateCompany = #{costRateCompany}, 
+			billFixPersonal = #{billFixPersonal}, billFixCompany = #{billFixCompany}, costFixPersonal = #{costFixPersonal}, 
+			costFixCompany = #{costFixCompany}, billAmountPersonal = #{billAmountPersonal}, billAmountCompany = #{billAmountCompany}, 
+			costAmountPersonal = #{costAmountPersonal}, costAmountCompany = #{costAmountCompany}, taxAmountActual = #{taxAmountActual}, 
+			taxAmountCost = #{taxAmountCost}, taxAmountSales = #{taxAmountSales}, description = #{description}, deleted = #{deleted}, status = #{status}, 
+			remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, 
+			modifyDate = #{modifyDate}
+		where orderDetailId = #{orderDetailId} 
+  	</update>
+
+	<insert id="insertOrderDetail" parameterType="settlementOrderDetail" useGeneratedKeys="true" keyProperty="orderDetailId">
+		insert into hro_settle_order_detail( <include refid="orderDetailColumns" /> )
+		values(#{contractId}, #{headerId}, #{detailId}, #{detailType}, #{itemId}, #{itemNo}, #{nameZH}, #{nameEN}, #{base}, #{quantity}, #{discount}, 
+			#{multiple}, #{sbBaseCompany}, #{sbBasePersonal}, #{billRatePersonal}, #{billRateCompany}, #{costRatePersonal}, #{costRateCompany}, 
+			#{billFixPersonal}, #{billFixCompany}, #{costFixPersonal}, #{costFixCompany}, #{billAmountPersonal}, #{billAmountCompany}, 
+			#{costAmountPersonal}, #{costAmountCompany}, #{taxAmountActual}, #{taxAmountCost}, #{taxAmountSales}, #{description}, 1, #{status}, #{remark1}, 
+			#{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteOrderDetail" parameterType="int">
+		delete from hro_settle_order_detail where orderDetailId = #{value}
+  	</delete>
+
+</mapper>

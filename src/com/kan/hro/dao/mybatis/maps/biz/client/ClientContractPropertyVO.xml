@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.client.ClientContractPropertyVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.client.ClientContractPropertyVO">
+		<result property="propertyId" column="propertyId" />
+		<result property="contractId" column="contractId" />
+		<result property="constantId" column="constantId" />
+		<result property="propertyName" column="propertyName" />
+		<result property="propertyValue" column="propertyValue" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<result property="propertyName" column="propertyName" />
+	</resultMap>
+  	
+	<sql id="ClientContractPropertyColumns">
+		contractId, constantId, propertyName, propertyValue, description, deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+
+	<select id="countClientContractPropertyVOsByCondition" parameterType="clientContractProperty" resultType="int">
+		select count(*)
+		from HRO_BIZ_Client_Contract_Property
+		where deleted = 1
+		<if test="propertyName != null and propertyName != ''">
+			AND propertyName like CONCAT('%', '${propertyName}', '%') 
+		</if>
+		<if test="propertyValue != null and propertyValue != ''">
+			AND propertyValue like CONCAT('%', '${propertyValue}', '%') 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND (contractId = #{contractId} or 0 = #{contractId})
+		</if>
+		<if test="constantId != null and constantId != ''">
+			AND (constantId = #{constantId} or 0 = #{constantId})
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+	</select>
+
+	<select id="getClientContractPropertyVOsByCondition" parameterType="clientContractProperty" resultMap="result">
+		select propertyId, <include refid="ClientContractPropertyColumns"/>  
+		from HRO_BIZ_Client_Contract_Property 
+		where deleted = 1
+		<if test="propertyName != null and propertyName != ''">
+			AND propertyName like CONCAT('%', '${propertyName}', '%') 
+		</if>
+		<if test="propertyValue != null and propertyValue != ''">
+			AND propertyValue like CONCAT('%', '${propertyValue}', '%') 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND (contractId = #{contractId} or 0 = #{contractId})
+		</if>
+		<if test="constantId != null and constantId != ''">
+			AND (constantId = #{constantId} or 0 = #{constantId})
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getClientContractPropertyVOByContractPropertyId" parameterType="int" resultMap="result">
+		select propertyId, <include refid="ClientContractPropertyColumns"/>  
+		from HRO_BIZ_Client_Contract_Property 
+		where propertyId = #{value}
+	</select>
+
+	<update id="updateClientContractProperty" parameterType="clientContractProperty">
+		update HRO_BIZ_Client_Contract_Property set contractId = #{contractId}, constantId = #{constantId}, propertyValue = #{propertyValue},
+			propertyName = #{propertyName}, description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, 
+			remark2 = #{remark2}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where propertyId = #{propertyId} 
+  	</update>
+
+	<insert id="insertClientContractProperty" parameterType="clientContractProperty" useGeneratedKeys="true" keyProperty="propertyId">
+		insert into HRO_BIZ_Client_Contract_Property( <include refid="ClientContractPropertyColumns" /> )
+		values (#{contractId}, #{constantId}, #{propertyName}, #{propertyValue}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{createBy}, 
+			#{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteClientContractProperty" parameterType="int">
+		delete from HRO_BIZ_Client_Contract_Property where propertyId = #{value}
+  	</delete>
+  	
+  	<select id="getClientContractPropertyVOsByContractId" parameterType="int" resultMap="result">
+		select propertyId, <include refid="ClientContractPropertyColumns"/>  
+		from HRO_BIZ_Client_Contract_Property 
+		where contractId = #{value}
+	</select>
+
+</mapper>

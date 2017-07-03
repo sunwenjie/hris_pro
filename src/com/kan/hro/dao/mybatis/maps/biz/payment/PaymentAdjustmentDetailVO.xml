@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.payment.PaymentAdjustmentDetailVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.payment.PaymentAdjustmentDetailVO">
+		<result property="adjustmentDetailId" column="adjustmentDetailId" />
+		<result property="adjustmentHeaderId" column="adjustmentHeaderId" />
+		<result property="itemId" column="itemId" />
+		<result property="itemNo" column="itemNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+		<result property="taxAmountPersonal" column="taxAmountPersonal" />
+		<result property="addtionalBillAmountPersonal" column="addtionalBillAmountPersonal" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="itemType" column="itemType" />
+	</resultMap>
+
+	<sql id="paymentAdjustmentDetailColumns-join">
+		a.adjustmentHeaderId, a.itemId, a.itemNo, a.nameZH, a.nameEN, 
+		a.billAmountPersonal- getIncrement(getPublicCode(b.employeeId), 'PRIVATE_CODE') as billAmountPersonal, 
+		a.costAmountPersonal- getIncrement(getPublicCode(b.employeeId), 'PRIVATE_CODE') as costAmountPersonal, 
+		a.taxAmountPersonal- getIncrement(getPublicCode(b.employeeId), 'PRIVATE_CODE') as taxAmountPersonal,
+		a.addtionalBillAmountPersonal- getIncrement(getPublicCode(b.employeeId), 'PRIVATE_CODE') as addtionalBillAmountPersonal,
+		a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<sql id="paymentAdjustmentDetailColumns">
+		adjustmentHeaderId, itemId, itemNo, nameZH, nameEN, billAmountPersonal, costAmountPersonal, taxAmountPersonal, addtionalBillAmountPersonal, description, deleted, status, 
+		remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+
+	<select id="countPaymentAdjustmentDetailVOsByCondition" parameterType="paymentAdjustmentDetail" resultType="int">
+		SELECT COUNT(1)
+		FROM hro_payment_adjustment_detail
+		WHERE deleted = 1
+		<if test="adjustmentHeaderId != null and adjustmentHeaderId != ''">
+			AND adjustmentHeaderId = #{adjustmentHeaderId} 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getPaymentAdjustmentDetailVOsByCondition" parameterType="paymentAdjustmentDetail" resultMap="result">
+		SELECT a.adjustmentDetailId, <include refid="paymentAdjustmentDetailColumns-join" />
+		FROM hro_payment_adjustment_detail a
+		LEFT JOIN hro_payment_adjustment_header b ON b.adjustmentHeaderId = a.adjustmentHeaderId AND b.deleted = 1
+		WHERE a.deleted = 1
+		<if test="adjustmentHeaderId != null and adjustmentHeaderId != ''">
+			AND a.adjustmentHeaderId = #{adjustmentHeaderId} 
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getPaymentAdjustmentDetailVOByAdjustmentDetailId" parameterType="int" resultMap="result">
+		SELECT a.adjustmentDetailId, <include refid="paymentAdjustmentDetailColumns-join" />
+		FROM hro_payment_adjustment_detail a 
+		LEFT JOIN hro_payment_adjustment_header b ON b.adjustmentHeaderId = a.adjustmentHeaderId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.adjustmentDetailId = #{value}
+	</select>
+	
+	<select id="getPaymentAdjustmentDetailVOsByAdjustmentHeaderId" parameterType="int" resultMap="result">
+		SELECT a.adjustmentDetailId, <include refid="paymentAdjustmentDetailColumns-join" />
+		FROM hro_payment_adjustment_detail a 
+		LEFT JOIN hro_payment_adjustment_header b ON b.adjustmentHeaderId = a.adjustmentHeaderId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.adjustmentHeaderId = #{value}
+	</select>
+	
+	<insert id="insertPaymentAdjustmentDetail" parameterType="paymentAdjustmentDetail" useGeneratedKeys="true" keyProperty="adjustmentDetailId">
+		INSERT INTO hro_payment_adjustment_detail (	<include refid="paymentAdjustmentDetailColumns" /> )
+		values (#{adjustmentHeaderId}, #{itemId}, #{itemNo}, #{nameZH}, #{nameEN}, #{billAmountPersonal}, #{costAmountPersonal}, #{taxAmountPersonal}, #{addtionalBillAmountPersonal}, 
+			#{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+	
+	<update id="updatePaymentAdjustmentDetail" parameterType="paymentAdjustmentDetail">
+		UPDATE hro_payment_adjustment_detail set adjustmentHeaderId = #{adjustmentHeaderId}, itemId = #{itemId}, itemNo = #{itemNo}, nameZH = #{nameZH}, nameEN = #{nameEN}, 
+			billAmountPersonal = #{billAmountPersonal}, costAmountPersonal = #{costAmountPersonal}, taxAmountPersonal = #{taxAmountPersonal}, 
+			addtionalBillAmountPersonal = #{addtionalBillAmountPersonal}, description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, 
+			remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate}, 
+			modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE adjustmentDetailId = #{adjustmentDetailId}
+	</update>
+
+</mapper>

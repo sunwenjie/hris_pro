@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+           http://www.springframework.org/schema/aop   
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
+           http://www.springframework.org/schema/tx  
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- Dao Initialization -->
+	<bean id="paymentBatchDao" class="com.kan.hro.dao.mybatis.impl.biz.payment.PaymentBatchDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="paymentHeaderDao" class="com.kan.hro.dao.mybatis.impl.biz.payment.PaymentHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="paymentDetailDao" class="com.kan.hro.dao.mybatis.impl.biz.payment.PaymentDetailDaoImpl">
+		<property name="paymentHeaderDao" ref="paymentHeaderDao"></property>
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="paymentAdjustmentHeaderDao" class="com.kan.hro.dao.mybatis.impl.biz.payment.PaymentAdjustmentHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="paymentAdjustmentDetailDao" class="com.kan.hro.dao.mybatis.impl.biz.payment.PaymentAdjustmentDetailDaoImpl">
+		<property name="paymentAdjustmentHeaderDao" ref="paymentAdjustmentHeaderDao"></property>
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="payslipHeaderViewDao" class="com.kan.hro.dao.mybatis.impl.biz.payment.PayslipHeaderViewDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="payslipDetailViewDao" class="com.kan.hro.dao.mybatis.impl.biz.payment.PayslipDetailViewDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="salaryHeaderDao" class="com.kan.hro.dao.mybatis.impl.biz.payment.SalaryHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="salaryDetailDao" class="com.kan.hro.dao.mybatis.impl.biz.payment.SalaryDetailDaoImpl">
+		<property name="salaryHeaderDao" ref="salaryHeaderDao"></property>
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	
+	<bean id="salaryBatchDao" class="com.kan.hro.dao.mybatis.impl.biz.payment.CommonBatchDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="incomeTaxYearViewDao" class="com.kan.hro.dao.mybatis.impl.biz.payment.IncomeTaxYearViewDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="paymentReportDao" class="com.kan.hro.dao.mybatis.impl.biz.payment.PaymentReportDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<!-- Service Initialization -->
+	<bean id="paymentBatchService" class="com.kan.hro.service.impl.biz.payment.PaymentBatchServiceImpl">
+		<property name="dao" ref="paymentBatchDao" />
+		<property name="paymentHeaderDao" ref="paymentHeaderDao" />
+		<property name="paymentDetailDao" ref="paymentDetailDao" />
+		<property name="batchDao" ref="batchDao" />
+		<property name="serviceContractDao" ref="serviceContractDao" />
+		<property name="orderHeaderDao" ref="orderHeaderDao" />
+		<property name="orderDetailDao" ref="orderDetailDao" />
+		<property name="clientOrderHeaderService" ref="clientOrderHeaderService" />
+		<property name="batchTempService" ref="batchTempService" />
+		<property name="serviceContractService" ref="serviceContractService" />
+		<property name="timesheetBatchDao" ref="timesheetBatchDao" />
+		<property name="timesheetHeaderDao" ref="timesheetHeaderDao" />
+		<property name="sbBatchDao" ref="sbBatchDao" />
+		<property name="sbHeaderDao" ref="sbHeaderDao" />
+		<property name="sbDetailDao" ref="sbDetailDao" />
+		<property name="cbBatchDao" ref="cbBatchDao" />
+		<property name="cbHeaderDao" ref="cbHeaderDao" />
+		<property name="cbDetailDao" ref="cbDetailDao" />
+		<property name="sbAdjustmentHeaderDao" ref="sbAdjustmentHeaderDao" />
+		<property name="sbAdjustmentDetailDao" ref="sbAdjustmentDetailDao" />
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="messageMailDao" ref="messageMailDao" />
+		<property name="salaryHeaderDao" ref="salaryHeaderDao" />
+		<property name="salaryDetailDao" ref="salaryDetailDao" />
+		<property name="vendorDao" ref="vendorDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="paymentHeaderService" class="com.kan.hro.service.impl.biz.payment.PaymentHeaderServiceImpl">
+		<property name="dao" ref="paymentHeaderDao" />
+		<property name="paymentDetailDao" ref="paymentDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="paymentDetailService" class="com.kan.hro.service.impl.biz.payment.PaymentDetailServiceImpl">
+		<property name="dao" ref="paymentDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="paymentAdjustmentHeaderService" class="com.kan.hro.service.impl.biz.payment.PaymentAdjustmentHeaderServiceImpl">
+		<property name="dao" ref="paymentAdjustmentHeaderDao" />
+		<property name="paymentAdjustmentDetailDao" ref="paymentAdjustmentDetailDao" />
+		<property name="serviceContractService" ref="serviceContractService" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="paymentAdjustmentDetailService" class="com.kan.hro.service.impl.biz.payment.PaymentAdjustmentDetailServiceImpl">
+		<property name="dao" ref="paymentAdjustmentDetailDao" />
+		<property name="paymentAdjustmentHeaderDao" ref="paymentAdjustmentHeaderDao" />
+		<property name="serviceContractService" ref="serviceContractService" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="payslipHeaderViewService" class="com.kan.hro.service.impl.biz.payment.PayslipHeaderViewServiceImpl">
+		<property name="dao" ref="payslipHeaderViewDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="payslipDetailViewService" class="com.kan.hro.service.impl.biz.payment.PayslipDetailViewServiceImpl">
+		<property name="dao" ref="payslipDetailViewDao" />
+		<property name="employeeContractSalaryDao" ref="employeeContractSalaryDao" />
+		<property name="orderDetailDao" ref="orderDetailDao" />
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="laborContractTemplateDao" ref="laborContractTemplateDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="salaryHeaderService" class="com.kan.hro.service.impl.biz.payment.SalaryHeaderServiceImpl">
+		<property name="dao" ref="salaryHeaderDao" />
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="commonBatchDao" ref="salaryBatchDao" />
+		<property name="salaryHeaderDao" ref="salaryHeaderDao" />
+		<property name="salaryDetailDao" ref="salaryDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="salaryDetailService" class="com.kan.hro.service.impl.biz.payment.SalaryDetailServiceImpl">
+		<property name="dao" ref="paymentHeaderDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="salaryBatchService" class="com.kan.hro.service.impl.biz.payment.CommonBatchServiceImpl">
+		<property name="dao" ref="salaryBatchDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="incomeTaxYearViewService" class="com.kan.hro.service.impl.biz.payment.IncomeTaxYearViewServiceImpl">
+		<property name="dao" ref="incomeTaxYearViewDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+		
+	<bean id="salaryExcueHandler" class="com.kan.hro.service.impl.biz.payment.SalaryImportHandlerImpl">
+		<property name="employeeDao" ref="employeeDao"></property>
+		<property name="employeeContractDao" ref="employeeContractDao"></property>
+		<property name="clientDao" ref="clientDao" />
+		<property name="commonBatchDao" ref="commonBatchDao" />
+		<property name="salaryHeaderDao" ref="salaryHeaderDao" />
+		<property name="salaryDetailDao" ref="salaryDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+		
+	<bean id="paymentAdjustmentImportBatchDao"
+		class="com.kan.hro.dao.mybatis.impl.biz.payment.PaymentAdjustmentImportBatchDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="paymentAdjustmentImportHeaderDao"
+		class="com.kan.hro.dao.mybatis.impl.biz.payment.PaymentAdjustmentImportHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="paymentAdjustmentImportDetailDao"
+		class="com.kan.hro.dao.mybatis.impl.biz.payment.PaymentAdjustmentImportDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+			
+	<bean id="paymentAdjustmentImportBatchService"
+		class="com.kan.hro.service.impl.biz.payment.PaymentAdjustmentImportBatchServiceImpl">
+		<property name="commonBatchDao" ref="commonBatchDao" />
+		<property name="paymentAdjustmentImportBatchDao" ref="paymentAdjustmentImportBatchDao" />
+		<property name="paymentAdjustmentImportHeaderDao" ref="paymentAdjustmentImportHeaderDao" />
+		<property name="paymentAdjustmentImportDetailDao" ref="paymentAdjustmentImportDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="paymentAdjustmentImportHeaderService"
+		class="com.kan.hro.service.impl.biz.payment.PaymentAdjustmentImportHeaderServiceImpl">
+		<property name="commonBatchDao" ref="commonBatchDao" />
+		<property name="paymentAdjustmentImportBatchDao" ref="paymentAdjustmentImportBatchDao" />
+		<property name="paymentAdjustmentImportHeaderDao" ref="paymentAdjustmentImportHeaderDao" />
+		<property name="paymentAdjustmentImportDetailDao" ref="paymentAdjustmentImportDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="paymentAdjustmentImportDetailService"
+		class="com.kan.hro.service.impl.biz.payment.PaymentAdjustmentImportDetailServiceImpl">
+		<property name="paymentAdjustmentImportDetailDao" ref="paymentAdjustmentImportDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="paymentAdjustmentExcueHandler"
+		class="com.kan.hro.service.impl.biz.payment.PaymentAdjustmentHandlerImp">
+		<property name="employeeContractSalaryDao" ref="employeeContractSalaryDao"></property>
+		<property name="employeeContractDao" ref="employeeContractDao"></property>
+		<property name="clientOrderHeaderDao" ref="clientOrderHeaderDao" />
+		<property name="paymentHeaderDao" ref="paymentHeaderDao" />
+		<property name="paymentAdjustmentImportBatchDao" ref="paymentAdjustmentImportBatchDao" />
+	</bean>
+	
+	<bean id="paymentReportService"
+		class="com.kan.hro.service.impl.biz.payment.PaymentReportServiceImpl">
+		<property name="dao" ref="paymentReportDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+</beans>  

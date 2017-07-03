@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeContractLeaveTempVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeContractLeaveVO">
+		<result property="employeeLeaveId" column="employeeLeaveId" />
+		<result property="contractId" column="contractId" />
+		<result property="itemId" column="itemId" />
+		<result property="legalQuantity" column="legalQuantity" />
+		<result property="benefitQuantity" column="benefitQuantity" />
+		<result property="cycle" column="cycle" />
+		<result property="year" column="year" />
+		<result property="probationUsing" column="probationUsing" />
+		<result property="delayUsing" column="delayUsing" />
+		<result property="legalQuantityDelayMonth" column="legalQuantityDelayMonth" />
+		<result property="benefitQuantityDelayMonth" column="benefitQuantityDelayMonth" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For Application -->
+		<result property="contractNameZH" column="contractNameZH" />
+		<result property="contractNameEN" column="contractNameEN" />
+	</resultMap>
+
+	<sql id="employeeContractLeaveColumns">
+		contractId, itemId, legalQuantity, benefitQuantity, cycle, `year`, probationUsing, delayUsing, legalQuantityDelayMonth, benefitQuantityDelayMonth, 
+		description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>	
+	
+	<sql id="employeeContractLeaveColumns-for-join">
+		a.contractId, a.itemId, a.legalQuantity, a.benefitQuantity, a.cycle, a.`year`, a.probationUsing, a.delayUsing, a.legalQuantityDelayMonth, 
+		a.benefitQuantityDelayMonth, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, 
+		a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countEmployeeContractLeaveTempVOsByCondition" parameterType="employeeContractLeave" resultType="int">
+		SELECT COUNT(1)
+		FROM HRO_BIZ_Employee_Contract_Leave_Temp a LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId 
+		WHERE a.deleted = 1 AND a.contractId = #{contractId}
+		<if test="itemId != null and itemId != ''">
+			AND ( a.itemId = #{itemId} or 0 = #{itemId} )
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getEmployeeContractLeaveTempVOsByCondition" parameterType="employeeContractLeave" resultMap="result">
+		SELECT a.employeeLeaveId, <include refid="employeeContractLeaveColumns-for-join" />, b.nameZH as contractNameZH, b.nameEN as contractNameEN
+		FROM HRO_BIZ_Employee_Contract_Leave_Temp a LEFT JOIN HRO_BIZ_Employee_Contract_Temp b ON a.contractId = b.contractId 
+		WHERE a.deleted = 1 AND a.contractId = #{contractId}
+		<if test="itemId != null and itemId != ''">
+			AND ( a.itemId = #{itemId} or 0 = #{itemId} )
+		</if>
+		<if test="status != null and status != ''">
+			AND ( a.status = #{status} or 0 = #{status} )
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getEmployeeContractLeaveTempVOByEmployeeLeaveId" parameterType="int" resultMap="result">
+		SELECT a.employeeLeaveId, <include refid="employeeContractLeaveColumns-for-join" />, b.nameZH as contractNameZH, b.nameEN as contractNameEN
+		FROM HRO_BIZ_Employee_Contract_Leave_Temp a LEFT JOIN HRO_BIZ_Employee_Contract_Temp b ON a.contractId = b.contractId 
+		WHERE a.deleted = 1 AND a.employeeLeaveId = #{value}
+	</select>
+	
+	<select id="getEmployeeContractLeaveTempVOsByContractId" parameterType="int"  resultMap="result">
+		SELECT a.employeeLeaveId, <include refid="employeeContractLeaveColumns-for-join" />, b.nameZH as contractNameZH, b.nameEN as contractNameEN
+		FROM HRO_BIZ_Employee_Contract_Leave_Temp a LEFT JOIN HRO_BIZ_Employee_Contract_Temp b ON a.contractId = b.contractId 
+		WHERE a.deleted = 1 AND a.contractId = #{value}
+		ORDER BY a.itemId
+	</select>
+	
+	<insert id="insertEmployeeContractLeaveTemp" parameterType="employeeContractLeave" useGeneratedKeys="true" keyProperty="employeeLeaveId">
+		INSERT into HRO_BIZ_Employee_Contract_Leave_Temp( <include refid="employeeContractLeaveColumns" /> )
+		VALUES(#{contractId}, #{itemId}, #{legalQuantity}, #{benefitQuantity}, #{cycle}, #{year}, #{probationUsing}, #{delayUsing}, #{legalQuantityDelayMonth}, 
+			#{benefitQuantityDelayMonth}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, 
+			#{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<update id="updateEmployeeContractLeaveTemp" parameterType="employeeContractLeave">
+		UPDATE HRO_BIZ_Employee_Contract_Leave_Temp SET contractId = #{contractId}, itemId = #{itemId}, legalQuantity = #{legalQuantity},
+			benefitQuantity = #{benefitQuantity}, cycle = #{cycle}, year = #{year}, probationUsing = #{probationUsing}, delayUsing = #{delayUsing}, 
+			legalQuantityDelayMonth = #{legalQuantityDelayMonth}, benefitQuantityDelayMonth = #{benefitQuantityDelayMonth}, description = #{description}, 
+			deleted = #{deleted}, `status` = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, 
+			remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE employeeLeaveId = #{employeeLeaveId} 
+	</update>	
+	
+	<delete id="deleteEmployeeContractLeaveTemp" parameterType="int">
+		DELETE FROM HRO_BIZ_Employee_Contract_Leave_Temp WHERE employeeLeaveId = #{value}
+  	</delete>	
+  	
+</mapper>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeLanguageVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeLanguageVO">
+		<result property="employeeLanguageId" column="employeeLanguageId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="languageId" column="languageId" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<result property="languageName" column="languageName" />
+	</resultMap>
+
+	<sql id="employeeLanguageColumns">
+		employeeId, languageId, description, 
+		deleted, status, remark1, remark2, remark3, remark4, remark5, createBy,
+		createDate, modifyBy, modifyDate
+	</sql>	
+	
+	<sql id="employeeLanguageColumns-inner-join">
+		e.employeeLanguageId,e.employeeId, e.languageId, e.description, 
+		e.deleted, e.status, e.remark1, e.remark2, e.remark3, e.remark4, e.remark5, e.createBy,
+		e.createDate, e.modifyBy, e.modifyDate
+	</sql>	
+	
+	<select id="countEmployeeLanguageVOsByCondition" parameterType="employeeLanguage" resultType="int">
+		SELECT COUNT(0)
+		FROM HRO_BIZ_Employee_Language 
+		WHERE deleted = 1
+		<if test="employeeId != null and employeeId != ''">
+			AND (employeeId = #{employeeId} OR 0 = #{employeeId})
+		</if>
+		
+		<if test="status != null and status != ''">
+			AND (status = #{status} OR 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getEmployeeLanguageVOsByCondition" parameterType="employeeLanguage" resultMap="result">
+
+		SELECT <include refid="employeeLanguageColumns-inner-join"/>, CONCAT(m.nameZH,' - ',m.nameEN)languageName
+		FROM  HRO_BIZ_Employee_Language e
+			INNER JOIN hro_mgt_language  m ON e.languageId = m.languageId
+		WHERE e.deleted = 1 
+		<if test="employeeId != null and employeeId != ''">
+			AND (e.employeeId = #{employeeId} OR 0 = #{employeeId})
+		</if>
+		<if test="status != null and status != ''">
+			AND (e.status = #{status} OR 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getEmployeeLanguageVOByEmployeeLanguageId" parameterType="int" resultMap="result">
+		SELECT <include refid="employeeLanguageColumns-inner-join"/>, CONCAT(m.nameZH,' - ',m.nameEN)languageName
+		FROM  HRO_BIZ_Employee_Language e
+			INNER JOIN hro_mgt_language  m ON e.languageId = m.languageId
+		WHERE e.deleted = 1 
+			AND e.employeeLanguageId = #{value}
+	</select>
+	
+	<select id="getEmployeeLanguageVOsByEmployeeId" parameterType="int"  resultMap="result">
+		SELECT <include refid="employeeLanguageColumns-inner-join"/>, CONCAT(m.nameZH,' - ',m.nameEN)languageName ,m.nameZH languageNameZH, m.nameEN languageNameEN
+		FROM  HRO_BIZ_Employee_Language e
+			INNER JOIN hro_mgt_language  m ON e.languageId = m.languageId
+		WHERE e.deleted = 1 
+			AND e.employeeId = #{value}
+	</select>
+	
+	<insert id="insertEmployeeLanguage" parameterType="employeeLanguage" useGeneratedKeys="true" keyProperty="employeeLanguageId">
+		INSERT INTO HRO_BIZ_Employee_Language(<include refid="employeeLanguageColumns" />)
+		VALUES(#{employeeId}, #{languageId},#{description}, 
+			   1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, 
+		       #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<update id="updateEmployeeLanguage" parameterType="employeeLanguage">
+		UPDATE HRO_BIZ_Employee_Language SET employeeId=#{employeeId}, languageId=#{languageId}, description = #{description}, deleted = #{deleted},
+			status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5},
+			createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE employeeLanguageId = #{employeeLanguageId} 
+	</update>	
+	
+	<delete id="deleteEmployeeLanguage" parameterType="int">
+		DELETE FROM HRO_BIZ_Employee_Language WHERE employeeLanguageId = #{value}
+  	</delete>	
+</mapper>

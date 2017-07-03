@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="workflowDefineForm" type="com.kan.base.domain.workflow.WorkflowDefineVO" />
+		<form-bean name="workflowDefineStepsForm" type="com.kan.base.domain.workflow.WorkflowDefineStepsVO" />
+		<form-bean name="workflowDefineRequirementsForm" type="com.kan.base.domain.workflow.WorkflowDefineRequirementsVO" />
+		<form-bean name="workflowActualForm" type="com.kan.base.domain.workflow.WorkflowActualVO" />
+		<form-bean name="workflowActualStepsForm" type="com.kan.base.domain.workflow.WorkflowActualStepsVO" />
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+		
+		<!-- WorkflowModule configuration actions start -->
+		<action parameter="proc" path="/workflowDefineAction" type="com.kan.base.web.actions.workflow.WorkflowDefineAction" 
+			name="workflowDefineForm" scope="request" validate="false">
+			<forward name="listWorkflowDefine" path="/jsp/workflow/define/listWorkflowDefine.jsp" />
+			<forward name="listWorkflowDefineInHouse" path="/jsp/workflow/define/listWorkflowDefineInHouse.jsp" />
+			<forward name="listWorkflowDefineTable" path="/contents/workflow/define/table/listWorkflowDefineTable.jsp" />
+			<forward name="listWorkflowDefineTableInHouse" path="/contents/workflow/define/table/listWorkflowDefineTableInHouse.jsp" />
+			<forward name="manageWorkflowDefine" path="/jsp/workflow/define/manageWorkflowDefine.jsp" />
+			<forward name="manageWorkflowDefineInHouse" path="/jsp/workflow/define/manageWorkflowDefineInHouse.jsp" />
+			<forward name="listWorkflowDefineSteps" path="/jsp/workflow/defineSteps/listWorkflowDefineSteps.jsp" />
+			<forward name="listWorkflowDefineStepsInHouse" path="/jsp/workflow/defineSteps/listWorkflowDefineStepsInHouse.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/workflowDefineStepsAction" type="com.kan.base.web.actions.workflow.WorkflowDefineStepsAction" 
+			name="workflowDefineStepsForm" scope="request" validate="false">
+			<forward name="listWorkflowDefineSteps" path="/jsp/workflow/defineSteps/listWorkflowDefineSteps.jsp" />
+			<forward name="listWorkflowDefineStepsInHouse" path="/jsp/workflow/defineSteps/listWorkflowDefineStepsInHouse.jsp" />
+			<forward name="listWorkflowDefineStepsTable" path="/contents/workflow/defineSteps/table/listWorkflowDefineStepsTable.jsp" />
+			<forward name="manageWorkflowDefineSteps" path="/jsp/workflow/defineSteps/manageWorkflowDefineSteps.jsp" />
+			<forward name="manageWorkflowDefineStepsForm" path="/contents/workflow/defineSteps/form/manageWorkflowDefineStepsForm.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/workflowDefineRequirementsAction" type="com.kan.base.web.actions.workflow.WorkflowDefineRequirementsAction" 
+			name="workflowDefineRequirementsForm" scope="request" validate="false">
+			<forward name="listWorkflowDefineRequirementsTable" path="/contents/workflow/defineRequirements/table/listWorkflowDefineRequirementsTable.jsp" />
+			<forward name="manageWorkflowDefineRequirementsForm" path="/contents/workflow/defineRequirements/form/manageWorkflowDefineRequirementsForm.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/workflowActualAction" type="com.kan.base.web.actions.workflow.WorkflowActualAction" 
+			name="workflowActualForm" scope="request" validate="false">
+			<forward name="listWorkflowActual" path="/jsp/workflow/actual/listWorkflowActual.jsp" />
+			<forward name="listWorkflowAcutalUnfinished" path="/jsp/workflow/actual/listWorkflowAcutalUnfinished.jsp" />
+			<forward name="listWorkflowActualTable" path="/contents/workflow/actual/table/listWorkflowActualTable.jsp" />
+			<forward name="listWorkflowActualUnfinishedTable" path="/contents/workflow/actual/table/listWorkflowActualUnfinishedTable.jsp" />
+			<forward name="listTask" path="/mobile/listTask.jsp" />
+			<forward name="manageWorkflowActual" path="/jsp/workflow/actual/manageWorkflowActual.jsp" />
+			<forward name="chooseNotice" path="/mobile/chooseNotice.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/workflowActualStepsAction" type="com.kan.base.web.actions.workflow.WorkflowActualStepsAction" 
+			name="workflowActualStepsForm" scope="request" validate="false">
+			<forward name="listWorkflowActualSteps" path="/jsp/workflow/actualSteps/listWorkflowActualSteps.jsp" />
+			<forward name="listWorkflowActualStepsTable" path="/contents/workflow/actualSteps/table/listWorkflowActualStepsTable.jsp" />
+			<forward name="manageWorkflowActualSteps" path="/jsp/workflow/actualSteps/manageWorkflowActualSteps.jsp" />
+			<forward name="popupListWorkflowActual" path="/popup/workflowList.jsp" />
+			<forward name="listTask" path="/mobile/listTask.jsp" />
+			<forward name="taskDetail" path="/mobile/taskDetail.jsp" />
+			<forward name="auditMessage" path="/jsp/workflow/auditMessage.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+	</action-mappings>
+
+	<message-resources parameter="MessageResources/Workflow/Workflow" key="workflow" />
+
+</struts-config>

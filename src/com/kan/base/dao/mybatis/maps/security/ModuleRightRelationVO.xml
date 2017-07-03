@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.security.ModuleRightRelationVO">
+
+	<resultMap id="result" type="com.kan.base.domain.security.ModuleRightRelationVO">
+		<result property="relationId" column="relationId" />
+		<result property="accountId" column="accountId" />
+		<result property="moduleId" column="moduleId" />
+		<result property="rightId" column="rightId" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+	
+  	<sql id="moduleRightRelationColumns"> 
+  		accountId, moduleId, rightId, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="moduleRightRelationColumns-for-join"> 
+  		a.accountId, a.moduleId, a.rightId, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, 
+  		a.modifyBy, a.modifyDate 
+	</sql>
+	
+	<select id="countModuleRightRelationVOsByCondition" parameterType="moduleRightRelation" resultType="int">
+		select count(*) 
+		from HRO_SEC_Module_Right_Relation
+		where deleted = 1 AND status = 1 AND accountId = #{accountId}
+		<if test="moduleId != null and moduleId != ''">
+			AND moduleId = #{moduleId}
+		</if>
+		<if test="rightId != null and rightId != ''">
+			AND rightId = #{rightId}
+		</if>
+  	</select>
+  	
+	<select id="getModuleRightRelationVOsByCondition" parameterType="moduleRightRelation" resultMap="result">
+		select relationId, <include refid="moduleRightRelationColumns"/>  
+		from HRO_SEC_Module_Right_Relation 
+		where deleted = 1 AND status = 1 AND accountId = #{accountId}
+		<if test="moduleId != null and moduleId != ''">
+			AND moduleId = #{moduleId}
+		</if>
+		<if test="rightId != null and rightId != ''">
+			AND rightId = #{rightId}
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+  	
+	<select id="getModuleRightRelationVOsByAccountId" parameterType="int" resultMap="result">
+		select relationId, <include refid="moduleRightRelationColumns"/>  
+		from HRO_SEC_Module_Right_Relation 
+		where accountId = #{value}
+  	</select>
+  	
+  	<select id="getModuleRightRelationVOByModuleRightRelationId" parameterType="int" resultMap="result">
+		select relationId, <include refid="moduleRightRelationColumns"/>  
+		from HRO_SEC_Module_Right_Relation 
+		where relationId = #{value}
+  	</select>
+  	
+	<update id="updateModuleRightRelation" parameterType="moduleRightRelation">
+		update HRO_SEC_Module_Right_Relation set accountId = #{accountId}, moduleId = #{moduleId}, rightId = #{rightId}, deleted = #{deleted}, 
+			status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, 
+			modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where relationId = #{relationId} 
+  	</update>
+  	
+  	<insert id="insertModuleRightRelation" parameterType="moduleRightRelation" useGeneratedKeys="true" keyProperty="relationId">
+		insert into HRO_SEC_Module_Right_Relation(<include refid="moduleRightRelationColumns"/>) 
+		values (#{accountId}, #{moduleId}, #{rightId}, 1, 1, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, 
+			#{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+  	
+  	<delete id="deleteModuleRightRelationByCondition" parameterType="moduleRightRelation">
+		delete from HRO_SEC_Module_Right_Relation where accountId = #{accountId} AND moduleId = #{moduleId}
+  	</delete>
+  	
+</mapper>

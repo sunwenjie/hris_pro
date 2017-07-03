@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.payment.PayslipHeaderView">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.payment.PayslipHeaderView">
+		<result property="headerId" column="headerId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="contractId" column="contractId" />
+		<result property="monthly" column="monthly" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="orderId" column="orderId" />
+		<result property="vendorId" column="vendorId" />
+		<result property="vendorNameZH" column="vendorNameZH" />
+		<result property="vendorNameEN" column="vendorNameEN" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="itemGroupId" column="itemGroupId"/>
+		<result property="bankId" column="bankId" />
+		<result property="bankNameZH" column="bankNameZH" />
+		<result property="bankNameEN" column="bankNameEN" />
+		<result property="bankBranch" column="bankBranch" />
+		<result property="bankAccount" column="bankAccount" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="certificateType" column="certificateType" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+		<result property="taxAgentAmountPersonal" column="taxAgentAmountPersonal" />
+		<result property="salaryTax" column="salaryTax" />
+		<result property="addtionalBillAmountPersonal" column="addtionalBillAmountPersonal" />
+		<result property="status" column="status" />
+		<!-- For Application -->
+		<result property="cityId" column="cityId" />
+		<result property="clientNO" column="clientNO" />
+	</resultMap>
+		
+	<select id="getPayslipHeaderViewsByCondition" parameterType="payslipHeaderView" resultMap="result">
+		SELECT concat('P', a.paymentHeaderId) as headerId, a.accountId, a.corpId, a.employeeId, a.contractId, a.monthly, a.entityId, a.businessTypeId, a.orderId, a.vendorId, a.vendorNameZH, a.vendorNameEN, a.employeeNameZH, a.employeeNameEN,
+			a.bankId, a.bankNameZH, a.bankNameEN,a.itemGroupId, a.bankAccount,h.bankBranch ,a.startDate, a.endDate, a.certificateType, a.certificateNumber, 
+			a.billAmountCompany - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS billAmountCompany, 
+			a.billAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS billAmountPersonal, 
+			a.costAmountCompany - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS costAmountCompany, 
+			a.costAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS costAmountPersonal, 
+			a.taxAgentAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS taxAgentAmountPersonal, 
+			a.taxAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS salaryTax, 
+			a.addtionalBillAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS addtionalBillAmountPersonal, 
+			a.remark5 - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS remark5, 
+			a.status, f.cityId, g.number as clientNO,h.residencyType
+		FROM hro_payment_header a LEFT JOIN hro_sec_entity e ON a.entityId = e.entityId AND e.deleted = 1
+			LEFT JOIN hro_sec_location f ON e.locationId = f.locationId AND f.deleted = 1 
+			LEFT JOIN hro_biz_client g ON a.clientId = g.clientId AND g.deleted = 1
+			LEFT JOIN hro_biz_employee h on h.employeeId = a.employeeId AND h.deleted = 1
+			LEFT JOIN hro_biz_employee_contract hbizemp ON a.contractId = hbizemp.contractId and hbizemp.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="bankId != null and bankId != ''">
+			AND a.bankId = #{bankId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or 0 = #{monthly})
+		</if>
+		<if test="itemGroupId != null and itemGroupId != ''">
+			AND (a.itemGroupId = #{itemGroupId} or 0 = #{itemGroupId})
+		</if>
+		<if test="clientNO != null and clientNO != ''">
+			AND g.number = #{clientNO}
+		</if>
+		<if test="status != null and status != ''">
+			<if test="status == 0">
+				AND (a.status in (2, 3))
+			</if>
+			<if test="status == 2">
+				AND (a.status = 2)
+			</if>
+			<if test="status == 3">
+				AND (a.status = 3)
+			</if>
+		</if>
+		<if test="status == null or status == '' ">
+			AND (a.status in (2, 3))
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR h._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR h.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		UNION ALL
+		
+		SELECT concat('A', a.adjustmentHeaderId) as headerId, a.accountId, a.corpId, a.employeeId, a.contractId, a.monthly, a.entityId, a.businessTypeId, a.orderId, a.vendorId, a.vendorNameZH, a.vendorNameEN, a.employeeNameZH, a.employeeNameEN, 
+			"" AS bankId, "" AS bankNameZH, "" AS bankNameEN,a.itemGroupId, "" AS bankAccount,"" AS bankBranch ,"" AS startDate, "" AS endDate, "" AS certificateType, "" AS certificateNumber, 
+			0 AS billAmountCompany, 
+			a.billAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS billAmountPersonal, 
+			0 AS costAmountCompany, 
+			a.costAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS costAmountPersonal, 
+			a.taxAgentAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS taxAgentAmountPersonal, 
+			a.taxAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS salaryTax, 
+			a.addtionalBillAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS addtionalBillAmountPersonal, 
+			"" as remark5
+			CASE WHEN a.status = 3 THEN 2 WHEN a.status = 5 THEN 3 ELSE a.status END AS status,
+			f.cityId, g.number as clientNO,h.residencyType
+		FROM hro_payment_adjustment_header a LEFT JOIN hro_sec_entity e ON a.entityId = e.entityId AND e.deleted = 1
+			LEFT JOIN hro_sec_location f ON e.locationId = f.locationId AND f.deleted = 1 
+			LEFT JOIN hro_biz_client g ON a.clientId = g.clientId AND g.deleted = 1
+			LEFT JOIN hro_biz_employee h on h.employeeId = a.employeeId AND h.deleted = 1
+			LEFT JOIN hro_biz_employee_contract hbizemp ON a.contractId = hbizemp.contractId and hbizemp.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="bankId != null and bankId != ''">
+			AND a.bankId = #{bankId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or 0 = #{monthly})
+		</if>
+		<if test="itemGroupId != null and itemGroupId != ''">
+			AND (a.itemGroupId = #{itemGroupId} or 0 = #{itemGroupId})
+		</if>
+		<if test="clientNO != null and clientNO != ''">
+			AND c.number = #{clientNO}
+		</if>
+		<if test="status != null and status != ''">
+			<if test="status == 0">
+				AND (a.status in (3, 5))
+			</if>
+			<if test="status == 2">
+				AND (a.status = 3)
+			</if>
+			<if test="status == 3">
+				AND (a.status = 5)
+			</if>
+		</if>
+		<if test="status == null or status == '' ">
+			AND (a.status in (3, 5))
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR h._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR h.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		group by itemGroupId
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+</mapper>

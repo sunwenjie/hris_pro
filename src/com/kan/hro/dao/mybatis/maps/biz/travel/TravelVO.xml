@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.travel.TravelVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.travel.TravelVO">
+	
+		<result property="travelId" column="travelId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		
+		
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+	
+	</resultMap>
+  	
+	<sql id="travelColumns">
+		accountId, corpId,employeeId,startDate,endDate,description,
+		deleted, status, remark1, remark2, remark3, remark4, 
+		remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="travelColumns-for-join">
+		a.accountId, a.corpId,a.employeeId,a.startDate,a.endDate, a.description, 
+		a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countTravelVOsByCondition" parameterType="travel" resultType="int">
+		SELECT COUNT(1)
+		FROM hro_biz_travel a LEFT JOIN hro_biz_employee b ON a.employeeId = b.employeeId and b.deleted = 1 
+		WHERE a.deleted = 1 
+		
+		 AND a.accountId = #{accountId} 
+		<if test="corpId != null and corpId != ''">
+			AND ( a.corpId = #{corpId} or 0 = #{corpId} )
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		
+		<if test="nameZH != null and nameZH != ''">
+			AND b.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND UPPER(b.nameEN) LIKE CONCAT('%', '${nameEN}', '%')
+		</if>
+		
+		
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+	</select>
+
+	<select id="getTravelVOsByCondition" parameterType="travel" resultMap="result">
+		SELECT a.travelId, <include refid="travelColumns-for-join"/>, b.nameZH,b.nameEN
+		FROM hro_biz_travel a LEFT JOIN hro_biz_employee b ON a.employeeId = b.employeeId and b.deleted = 1 
+		WHERE a.deleted = 1 
+		 AND a.accountId = #{accountId} 
+		<if test="corpId != null and corpId != ''">
+			AND ( a.corpId = #{corpId} or 0 = #{corpId} )
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND b.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND UPPER(b.nameEN) LIKE CONCAT('%', '${nameEN}', '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getTravelVOByTravelId" parameterType="int" resultMap="result">
+		SELECT travelId, <include refid="travelColumns"/>
+		FROM hro_biz_travel
+	 	WHERE travelId = #{value}
+	</select>
+	
+
+	<update id="updateTravel" parameterType="travel" >
+		UPDATE hro_biz_travel SET
+			accountId= #{accountId},
+			corpId= #{corpId},
+			employeeId= #{employeeId},
+			startDate= #{startDate},
+			endDate= #{endDate},
+			description = #{description}, 
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4},
+			remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE travelId = #{travelId} 
+  	</update>
+
+	<insert id="insertTravel" parameterType="travel" useGeneratedKeys="true" keyProperty="travelId">
+		INSERT INTO hro_biz_travel( <include refid="travelColumns" /> )
+		VALUES ( #{accountId},#{corpId},#{employeeId},#{startDate},#{endDate},
+			#{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, 
+			#{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteTravel" parameterType="int">
+		DELETE FROM hro_biz_travel WHERE travelId = #{value}
+  	</delete>
+
+</mapper>

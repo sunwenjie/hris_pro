@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.vendor.VendorContactVO">
+	
+	<resultMap id="result" type="com.kan.hro.domain.biz.vendor.VendorContactVO">
+		<result property="vendorContactId" column="vendorContactId" />
+		<result property="vendorId" column="vendorId" />
+		<result property="corpId" column="corpId" />
+		<result property="accountId" column="accountId" />
+		<result property="salutation" column="salutation" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="title" column="title" />		
+		<result property="department" column="department" />
+		<result property="bizPhone" column="bizPhone" />
+		<result property="personalPhone" column="personalPhone" />
+		<result property="bizMobile" column="bizMobile" />
+		<result property="personalMobile" column="personalMobile" />
+		<result property="otherPhone" column="otherPhone" />
+		<result property="fax" column="fax" />		
+		<result property="bizEmail" column="bizEmail" />
+		<result property="personalEmail" column="personalEmail" />
+		<result property="comment" column="comment" />
+		<result property="canAdvBizEmail" column="canAdvBizEmail" />
+		<result property="canAdvPersonalEmail" column="canAdvPersonalEmail" />
+		<result property="canAdvBizSMS" column="canAdvBizSMS" />
+		<result property="canAdvPersonalSMS" column="canAdvPersonalSMS" />
+		<result property="cityId" column="cityId" />
+		<result property="address" column="address" />
+		<result property="postcode" column="postcode" />
+		<result property="branch" column="branch" />
+		<result property="owner" column="owner" />	
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For Application -->
+		<result property="vendorName" column="vendorName" />
+		<result property="vendorNameZH" column="vendorNameZH" />
+		<result property="vendorNameEN" column="vendorNameEN" />
+		<result property="username" column="username" />
+	</resultMap>
+	
+	<sql id="vendorContactColumns">
+		vendorId, accountId, corpId, salutation, nameZH, nameEN, title, department, bizPhone, personalPhone, bizMobile, personalMobile,
+	    otherPhone, fax, bizEmail, personalEmail, comment, canAdvBizEmail, canAdvPersonalEmail, canAdvBizSMS, canAdvPersonalSMS,
+		cityId, address, postcode, branch, owner, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, 
+		createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="vendorContactColumns-for-join">
+		a.vendorId, a.accountId, a.corpId, a.salutation, a.nameZH, a.nameEN, a.title, a.department, a.bizPhone, a.personalPhone, a.bizMobile, a.personalMobile,
+	    a.otherPhone, a.fax, a.bizEmail, a.personalEmail, a.comment, a.canAdvBizEmail, a.canAdvPersonalEmail, a.canAdvBizSMS, a.canAdvPersonalSMS,
+		a.cityId, a.address, a.postcode, a.branch, a.owner, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, 
+		a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+	
+	<resultMap id="vendorContactBaseView" type="com.kan.hro.domain.biz.vendor.VendorContactBaseView">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="vendorId" column="vendorId" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+	</resultMap>
+	
+	<select id="getVendorContactBaseViewsByAccountId" resultType="vendorContactBaseView">
+		SELECT
+			 a.vendorContactId AS id, CONCAT(a.nameZH, ' - ', a.nameEN) AS name, a.nameZH, a.nameEN  
+  		FROM HRO_Biz_Vendor_Contact a LEFT OUTER JOIN HRO_Biz_Vendor b 
+  		ON a.vendorId = b.vendorId 
+  		WHERE a.deleted = 1 AND a.vendorId = 0 AND a.accountId = #{accountId} 
+  		ORDER BY name
+  	</select>
+
+	<select id="countVendorContactVOsByCondition" parameterType="vendorContact" resultType="int">
+		SELECT COUNT(0) FROM
+		(
+			SELECT 0
+			FROM HRO_BIZ_Vendor_Contact a LEFT JOIN HRO_BIZ_Vendor b 
+			ON a.vendorId = b.vendorId
+			WHERE a.deleted = 1 AND a.accountId = #{accountId}
+			<if test="vendorId != null and vendorId != ''">
+				AND (a.vendorId = #{vendorId} or 0 = #{vendorId})
+			</if>
+			<if test="corpId != null and corpId != ''">
+				AND (a.corpId = #{corpId} or 0 = #{corpId})
+			</if>
+			<if test="corpId == null or corpId == ''">
+				AND a.corpId IS NULL
+			</if>
+			<if test="salutation != null and salutation != ''">
+				AND (a.salutation = #{salutation} or 0 = #{salutation})
+			</if>
+			<if test="nameZH != null and nameZH != ''">
+				AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+			</if> 
+			<if test="nameEN != null and nameEN != ''">
+				AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+			</if> 
+			<if test="department != null and department != ''">
+				AND (a.department = #{department} or 0 = #{department})
+			</if>
+			<if test="cityId != null and cityId != ''">
+				AND (a.cityId = #{cityId} or 0 = #{cityId})
+			</if>
+			<if test="owner != null and owner != ''">
+				AND (a.owner = #{owner} or 0 = #{owner})
+			</if>
+			<if test="status != null and status != ''">
+				AND (a.status = #{status} or 0 = #{status})
+			</if>
+			GROUP BY a.vendorContactId
+		)t
+	</select>
+
+	<select id="getVendorContactVOsByCondition" parameterType="vendorContact" resultMap="result">
+		SELECT 
+			a.vendorContactId, <include refid="vendorContactColumns-for-join" />,
+			b.nameZH AS vendorNameZH, b.nameEN AS vendorNameEN 
+		FROM HRO_BIZ_Vendor_Contact a LEFT JOIN HRO_BIZ_Vendor b 
+		ON a.vendorId = b.vendorId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="vendorId != null and vendorId != ''">
+			AND (a.vendorId = #{vendorId} or 0 = #{vendorId})
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="salutation != null and salutation != ''">
+			AND (a.salutation = #{salutation} or 0 = #{salutation})
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if> 
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if> 
+		<if test="department != null and department != ''">
+			AND (a.department = #{department} or 0 = #{department})
+		</if>
+		<if test="cityId != null and cityId != ''">
+			AND (a.cityId = #{cityId} or 0 = #{cityId})
+		</if>
+		<if test="owner != null and owner != ''">
+			AND (a.owner = #{owner} or 0 = #{owner})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		GROUP BY a.vendorContactId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if> 
+	</select>
+
+	<select id="getVendorContactVOByVendorContactId" parameterType="int" resultMap="result">
+		SELECT 
+			a.vendorContactId, <include refid="vendorContactColumns-for-join" />,
+			b.nameZH AS vendorNameZH , b.nameEN AS vendorNameEN,
+			c.username AS username
+		FROM HRO_BIZ_Vendor_Contact a LEFT JOIN HRO_BIZ_Vendor b
+		ON a.vendorId = b.vendorId LEFT JOIN HRO_BIZ_Vendor_User c
+		ON a.vendorContactId = c.vendorContactId
+		WHERE a.vendorContactId = #{value}
+	</select>
+
+	<insert id="insertVendorContact" parameterType="vendorContact" useGeneratedKeys="true" keyProperty="vendorContactId">
+		INSERT INTO HRO_BIZ_Vendor_Contact(<include refid="vendorContactColumns" />)
+		VALUES(#{vendorId}, #{accountId}, #{corpId}, #{salutation}, #{nameZH}, #{nameEN}, #{title}, #{department}, #{bizPhone}, #{personalPhone}, 
+		       #{bizMobile}, #{personalMobile}, #{otherPhone}, #{fax}, #{bizEmail}, #{personalEmail}, #{comment}, #{canAdvBizEmail},
+		       #{canAdvPersonalEmail}, #{canAdvBizSMS}, #{canAdvPersonalSMS}, #{cityId}, #{address}, #{postcode}, #{branch}, #{owner}, 1, 
+		       #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<update id="updateVendorContact" parameterType="vendorContact">
+		UPDATE HRO_BIZ_Vendor_Contact SET 
+			vendorId = #{vendorId},  salutation = #{salutation},
+			nameZH = #{nameZH}, nameEN = #{nameEN},title = #{title}, department = #{department}, bizPhone = #{bizPhone},
+			personalPhone = #{personalPhone}, bizMobile = #{bizMobile}, personalMobile = #{personalMobile}, otherPhone = #{otherPhone},
+			fax = #{fax}, bizEmail = #{bizEmail}, personalEmail = #{personalEmail}, comment = #{comment}, canAdvBizEmail = #{canAdvBizEmail},
+			canAdvPersonalEmail = #{canAdvPersonalEmail}, canAdvBizSMS = #{canAdvBizSMS}, canAdvPersonalSMS = #{canAdvPersonalSMS},
+			cityId = #{cityId}, address = #{address}, postcode = #{postcode}, branch = #{branch}, owner = #{owner}, deleted = #{deleted},
+			status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5},
+			createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE vendorContactId = #{vendorContactId} 
+	</update>
+	
+	<delete id="deleteVendorContact" parameterType="int">
+		DELETE FROM HRO_BIZ_Vendor_Contact WHERE vendorContactId = #{value}
+  	</delete>
+  	
+  	<select id="getVendorContactVOsByVendorId" parameterType="int" resultMap="result">
+  		SELECT 
+  			vendorContactId,<include refid="vendorContactColumns" />
+		FROM HRO_BIZ_Vendor_Contact
+		WHERE deleted = 1 AND vendorId = #{value} 
+  	</select>
+  	
+  	  	<select id="vendorLogon" parameterType="vendorContact" resultMap="result">
+  		SELECT 
+  			vendorContactId,<include refid="vendorContactColumns" />
+		FROM HRO_BIZ_Vendor_Contact
+		WHERE deleted = 1 AND vendorId = #{vendorId} 
+		<if test="bizPhone != null and bizPhone != '' ">
+			and bizPhone = #{bizPhone}  
+		</if>
+		<if test="personalPhone != null and personalPhone != '' ">
+			or personalPhone = #{personalPhone}  
+		</if>
+		<if test="bizMobile != null and bizMobile != '' ">
+			or bizMobile = #{bizMobile}  
+		</if>
+		<if test="personalMobile != null and personalMobile != '' ">
+			or personalMobile = #{personalMobile}
+		</if>
+		<if test="otherPhone != null and otherPhone != '' ">
+			or otherPhone = #{otherPhone}  
+		</if>
+		<if test="bizEmail != null and bizEmail != '' ">
+			or bizEmail = #{bizEmail}  
+		</if>
+		<if test="personalEmail != null and personalEmail != '' ">
+			or personalEmail = #{personalEmail}
+		</if>
+  	</select>
+</mapper>

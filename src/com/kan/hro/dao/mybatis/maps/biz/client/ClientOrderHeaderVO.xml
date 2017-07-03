@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.kan.hro.domain.biz.client.ClientOrderHeaderVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.client.ClientOrderHeaderVO">
+		<result property="orderHeaderId" column="orderHeaderId" />
+		<result property="clientId" column="clientId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="contractId" column="contractId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="invoiceAddressId" column="invoiceAddressId" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="circleStartDay" column="circleStartDay" />
+		<result property="circleEndDay" column="circleEndDay" />
+		<result property="salaryVendorId" column="salaryVendorId" />
+		<result property="salaryType" column="salaryType" />
+		<result property="divideType" column="divideType" />
+		<result property="divideTypeIncomplete" column="divideTypeIncomplete" />
+		<result property="excludeDivideItemIds" column="excludeDivideItemIds" />
+		<result property="payrollDay" column="payrollDay" />
+		<result property="salaryMonth" column="salaryMonth" />
+		<result property="sbMonth" column="sbMonth" />
+		<result property="cbMonth" column="cbMonth" />
+		<result property="fundMonth" column="fundMonth" />
+		<result property="salesType" column="salesType" />
+		<result property="invoiceType" column="invoiceType" />
+		<result property="settlementType" column="settlementType" />
+		<result property="probationMonth" column="probationMonth" />
+		<result property="serviceScope" column="serviceScope" />
+		<result property="personalSBBurden" column="personalSBBurden" />
+		<result property="applyOTFirst" column="applyOTFirst" />
+		<result property="otLimitByDay" column="otLimitByDay" />
+		<result property="otLimitByMonth" column="otLimitByMonth" />
+		<result property="workdayOTItemId" column="workdayOTItemId" />
+		<result property="weekendOTItemId" column="weekendOTItemId" />
+		<result property="holidayOTItemId" column="holidayOTItemId" />
+		<result property="attendanceCheckType" column="attendanceCheckType" />
+		<result property="attendanceGenerate" column="attendanceGenerate" />
+		<result property="approveType" column="approveType" />
+		<result property="calendarId" column="calendarId" />
+		<result property="sickLeaveSalaryId" column="sickLeaveSalaryId" />
+		<result property="calendarId" column="calendarId" />
+		<result property="taxId" column="taxId" />
+		<result property="incomeTaxBaseId" column="incomeTaxBaseId" />
+		<result property="incomeTaxRangeHeaderId" column="incomeTaxRangeHeaderId" />
+		<result property="attachment" column="attachment" />
+		<result property="branch" column="branch" />
+		<result property="owner" column="owner" />
+		<result property="locked" column="locked" />
+		<result property="noticeExpire" column="noticeExpire" />
+		<result property="noticeProbationExpire" column="noticeProbationExpire" />
+		<result property="noticeRetire" column="noticeRetire" />
+		<result property="noticeHKSB" column="noticeHKSB" />
+		<result property="currency" column="currency" />
+		<result property="contractPeriod" column="contractPeriod" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="clientNumber" column="clientNumber" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="contractNumber" column="contractNumber" />
+		<result property="contractNameZH" column="contractNameZH" />
+		<result property="contractNameEN" column="contractNameEN" />
+	</resultMap>
+	
+	<resultMap id="baseView" type="com.kan.hro.domain.biz.client.ClientOrderHeaderBaseView" >
+		<result property="orderHeaderId" column="orderHeaderId" />
+		<result property="clientId" column="clientId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+	</resultMap>
+	
+	<sql id="clientOrderHeaderColumns">
+		clientId, accountId,corpId, contractId, nameZH, nameEN, entityId, businessTypeId, invoiceAddressId, startDate, endDate, circleStartDay, circleEndDay, salaryVendorId ,salaryType, divideType,
+		divideTypeIncomplete, excludeDivideItemIds, payrollDay, salaryMonth, sbMonth, cbMonth, fundMonth, salesType, invoiceType, settlementType, probationMonth, serviceScope, personalSBBurden, applyOTFirst, 
+		otLimitByDay, otLimitByMonth, workdayOTItemId, weekendOTItemId, holidayOTItemId, attendanceCheckType, attendanceGenerate, approveType, calendarId, shiftId, sickLeaveSalaryId, taxId, 
+		incomeTaxBaseId, incomeTaxRangeHeaderId, attachment, branch, owner, locked, noticeExpire,noticeProbationExpire,noticeRetire,noticeHKSB,currency,contractPeriod,description, deleted, status, remark1, remark2, remark3, 
+		remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="clientOrderHeaderColumns-for-join">
+		a.clientId, a.accountId, a.corpId, a.contractId, a.nameZH, a.nameEN, a.entityId, a.businessTypeId, a.invoiceAddressId, a.startDate, a.endDate, a.circleStartDay, a.circleEndDay, 
+		a.salaryVendorId, a.salaryType, a.divideType, a.divideTypeIncomplete, a.excludeDivideItemIds, a.payrollDay, a.salaryMonth, a.sbMonth, a.cbMonth, a.fundMonth, a.salesType, a.invoiceType, 
+		a.settlementType, a.probationMonth, a.serviceScope, a.personalSBBurden, a.applyOTFirst, a.otLimitByDay, a.otLimitByMonth, a.workdayOTItemId, a.weekendOTItemId, a.holidayOTItemId, 
+		a.attendanceCheckType, a.attendanceGenerate, a.approveType, a.calendarId, a.shiftId, a.sickLeaveSalaryId, a.taxId, a.incomeTaxBaseId, a.incomeTaxRangeHeaderId, a.attachment, a.branch, 
+		a.owner, a.locked, a.noticeExpire,a.noticeProbationExpire,a.noticeRetire,a.noticeHKSB,a.currency,a.contractPeriod,a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, 
+		a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countClientOrderHeaderVOsByCondition" parameterType="clientOrderHeader" resultType="int">
+		SELECT count(DISTINCT a.orderHeaderId)
+		FROM HRO_BIZ_Client_Order_Header a LEFT JOIN HRO_BIZ_Client b ON a.clientId = b.clientId AND b.deleted = 1  
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="orderHeaderId != null and orderHeaderId != ''">
+			AND a.orderHeaderId = #{orderHeaderId}
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="clientNumber != null and clientNumber != ''">
+			AND b.number like CONCAT('%', '${clientNumber}', '%') 
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND b.nameZH like CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND b.nameEN like CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="startDate != null and startDate != ''">
+			AND a.startDate = #{startDate}
+		</if>
+		<if test="endDate != null and endDate != ''">
+			AND a.endDate = #{endDate}
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>		
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="branch != null and branch!= ''">
+			AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+		<if test="owner != null and owner != ''">
+			AND (a.owner = #{owner} or 0 = #{owner})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) or '0' = '${status}')
+		</if>
+		<if test="branch != null and branch != ''">
+			AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+  	</select>
+  	
+	<select id="getClientOrderHeaderVOsByCondition" parameterType="clientOrderHeader" resultMap="result">
+		SELECT a.orderHeaderId, <include refid="clientOrderHeaderColumns-for-join" />, b.nameZH AS clientNameZH, b.nameEN AS clientNameEN, 
+			b.number AS clientNumber, c.contractNo AS contractNumber, null AS workflowId 
+		FROM HRO_BIZ_Client_Order_Header a LEFT JOIN HRO_BIZ_Client b ON a.clientId = b.clientId AND b.deleted = 1  
+			LEFT JOIN hro_biz_client_contract c ON a.contractId = c.contractId AND c.deleted = 1 
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="orderHeaderId != null and orderHeaderId != ''">
+			AND a.orderHeaderId = #{orderHeaderId}
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="clientNumber != null and clientNumber != ''">
+			AND b.number like CONCAT('%', '${clientNumber}', '%') 
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND b.nameZH like CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND b.nameEN like CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="startDate != null and startDate != ''">
+			AND a.startDate = #{startDate}
+		</if>
+		<if test="endDate != null and endDate != ''">
+			AND a.endDate = #{endDate}
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>		
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="branch != null and branch!= ''">
+			AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+		<if test="owner != null and owner != ''">
+			AND (a.owner = #{owner} or 0 = #{owner})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) or '0' = '${status}')
+		</if>
+		<if test="branch != null and branch != ''">
+			AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+		GROUP BY a.orderHeaderId
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getSettlementClientOrderHeaderVOsByCondition" parameterType="clientOrderHeader" resultMap="result">
+		SELECT distinct a.orderHeaderId, <include refid="clientOrderHeaderColumns-for-join" />
+		FROM HRO_BIZ_Client_Order_Header a 
+			LEFT JOIN HRO_BIZ_Employee_Contract d ON a.orderHeaderId = d.orderId AND d.deleted = 1 AND (d.locked is NULL OR d.locked != 1) AND d.flag = 2 
+			LEFT JOIN Hro_Biz_Employee hbe ON hbe.employeeId = d.employeeId and hbe.deleted = 1		
+			LEFT JOIN (SELECT c.clientId, 
+							CASE WHEN c.settlementCondition > 0 THEN c.settlementCondition ELSE e.settlementCondition END as settlementCondition, 
+							CASE WHEN c.settlementConditionSC > 0 THEN c.settlementConditionSC ELSE e.settlementConditionSC END as settlementConditionSC
+						FROM HRO_BIZ_Client c LEFT JOIN HRO_MGT_Options e ON c.accountId = e.accountId 
+			) f ON a.clientId = f.clientId 
+		<!-- 按照订单及服务协议的结算条件筛选数 -->
+		WHERE a.deleted = 1 AND (a.locked is NULL OR a.locked != 1) AND a.accountId = #{accountId}
+			AND ((1 = f.settlementCondition AND (a.status = 3 OR a.status = 5)) OR (2 = f.settlementCondition AND a.status = 5)) 
+			AND ((1 = f.settlementConditionSC AND (d.status = 3 OR d.status = 5 OR d.status = 6 OR d.status = 7)) 
+				OR (2 = f.settlementConditionSC AND (d.status = 5 OR d.status = 6 OR d.status = 7)) OR (3 = f.settlementConditionSC AND (d.status = 6 OR d.status = 7)))
+			AND d.contractId NOT IN (SELECT DISTINCT employeeContractId FROM HRO_SETTLE_Order_Contract_Temp WHERE monthly = #{monthly})
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="orderHeaderId != null and orderHeaderId != ''">
+			AND a.orderHeaderId = #{orderHeaderId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND d.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeContractId != null and employeeContractId != ''">
+			AND d.contractId = #{employeeContractId} 
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR d.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR d.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR hbe._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR hbe.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR d.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		order by a.orderHeaderId
+	</select>
+	
+	<select id="getClientOrderHeaderVOByOrderHeaderId" parameterType="int" resultMap="result">
+		SELECT a.orderHeaderId, <include refid="clientOrderHeaderColumns-for-join" />, b.nameZH AS clientNameZH, b.nameEN AS clientNameEN, b.number AS clientNumber, c.contractNo AS contractNumber, 
+			c.nameZH as contractNameZH, c.nameEN AS contractNameEN, MAX(h.workflowId) AS workflowId
+		FROM HRO_BIZ_Client_Order_Header a LEFT JOIN HRO_BIZ_Client b ON a.clientId = b.clientId AND b.deleted = 1  
+			LEFT JOIN hro_biz_client_contract c ON a.contractId = c.contractId AND c.deleted = 1 
+			LEFT JOIN hro_history h ON ( (a.corpId IS null AND h.accessAction = 'HRO_BIZ_CLIENT_ORDER_HEADER') OR (a.corpId IS not null AND h.accessAction = 'HRO_BIZ_CLIENT_ORDER_HEADER_IN_HOUSE') ) 
+				AND h.objectType = 2 AND a.orderHeaderId = h.objectId 
+		WHERE a.orderHeaderId = #{value}
+	</select>
+
+	<select id="getClientOrderHeaderVOsByOrderHeaderIds" parameterType="int" resultMap="result">
+		SELECT orderHeaderId, <include refid="clientOrderHeaderColumns" />
+		FROM HRO_BIZ_Client_Order_Header  
+		WHERE deleted = 1 AND orderHeaderId in
+		<foreach collection="list" item="selectedIds" index="index" open="(" close=")" separator=",">
+			#{selectedIds}
+        </foreach>
+	</select>
+
+	<update id="updateClientOrderHeader" parameterType="clientOrderHeader">
+		UPDATE HRO_BIZ_Client_Order_Header SET clientId = #{clientId}, accountId = #{accountId}, corpId = #{corpId}, contractId = #{contractId}, nameZH = #{nameZH}, nameEN = #{nameEN}, 
+			entityId = #{entityId}, businessTypeId = #{businessTypeId}, invoiceAddressId = #{invoiceAddressId}, startDate = #{startDate}, endDate = #{endDate}, circleStartDay = #{circleStartDay}, 
+			circleEndDay = #{circleEndDay}, salaryVendorId = #{salaryVendorId}, salaryType = #{salaryType}, divideType = #{divideType}, divideTypeIncomplete = #{divideTypeIncomplete},
+			excludeDivideItemIds = #{excludeDivideItemIds}, payrollDay = #{payrollDay}, salaryMonth = #{salaryMonth}, sbMonth = #{sbMonth}, cbMonth = #{cbMonth}, fundMonth = #{fundMonth}, 
+			salesType = #{salesType}, invoiceType = #{invoiceType}, settlementType = #{settlementType}, probationMonth = #{probationMonth}, serviceScope = #{serviceScope}, 
+			personalSBBurden = #{personalSBBurden}, applyOTFirst = #{applyOTFirst}, otLimitByDay = #{otLimitByDay}, otLimitByMonth = #{otLimitByMonth}, workdayOTItemId = #{workdayOTItemId}, 
+			weekendOTItemId = #{weekendOTItemId}, holidayOTItemId = #{holidayOTItemId}, attendanceCheckType = #{attendanceCheckType}, attendanceGenerate = #{attendanceGenerate}, 
+			approveType = #{approveType}, calendarId = #{calendarId}, shiftId = #{shiftId}, sickLeaveSalaryId = #{sickLeaveSalaryId}, taxId = #{taxId}, incomeTaxBaseId = #{incomeTaxBaseId}, 
+			incomeTaxRangeHeaderId = #{incomeTaxRangeHeaderId}, attachment = #{attachment}, branch = #{branch}, owner = #{owner}, locked = #{locked}, noticeExpire = #{noticeExpire}, 
+			noticeProbationExpire = #{noticeProbationExpire}, noticeRetire = #{noticeRetire}, noticeHKSB = #{noticeHKSB},currency=#{currency}, contractPeriod=#{contractPeriod},description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, 
+			remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE orderHeaderId = #{orderHeaderId}
+	</update>
+
+	<insert id="insertClientOrderHeader" parameterType="clientOrderHeader" useGeneratedKeys="true" keyProperty="orderHeaderId">
+		INSERT INTO HRO_BIZ_Client_Order_Header( <include refid="clientOrderHeaderColumns" /> )
+		VALUES(#{clientId}, #{accountId}, #{corpId}, #{contractId}, #{nameZH}, #{nameEN}, #{entityId}, #{businessTypeId}, #{invoiceAddressId}, #{startDate}, #{endDate}, #{circleStartDay}, 
+			#{circleEndDay}, #{salaryVendorId}, #{salaryType}, #{divideType}, #{divideTypeIncomplete}, #{excludeDivideItemIds}, #{payrollDay}, #{salaryMonth}, #{sbMonth}, #{cbMonth}, #{fundMonth},
+			#{salesType}, #{invoiceType}, #{settlementType}, #{probationMonth}, #{serviceScope}, #{personalSBBurden}, #{applyOTFirst}, #{otLimitByDay}, #{otLimitByMonth}, #{workdayOTItemId}, 
+			#{weekendOTItemId}, #{holidayOTItemId}, #{attendanceCheckType}, #{attendanceGenerate}, #{approveType}, #{calendarId}, #{shiftId}, #{sickLeaveSalaryId}, #{taxId}, #{incomeTaxBaseId}, 
+			#{incomeTaxRangeHeaderId}, #{attachment}, #{branch}, #{owner}, 2, #{noticeExpire}, #{noticeProbationExpire}, #{noticeRetire}, #{noticeHKSB},#{currency},#{contractPeriod}, #{description}, 1, #{status}, #{remark1}, #{remark2}, 
+			#{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteClientOrderHeader" parameterType="int">
+		DELETE FROM HRO_BIZ_Client_Order_Header WHERE orderHeaderId = #{value}
+  	</delete>
+  	
+  	<select id="getClientOrderHeaderBaseViewsByClientId" parameterType="int" resultMap="baseView">
+  		SELECT orderHeaderId id, clientId, entityId, nameZH, nameEN, CONCAT(CONCAT_WS('-', nameZH, nameEN), '(', orderHeaderId, ')') AS name, startDate, endDate
+		FROM hro_biz_client_order_header
+  		WHERE deleted = 1 AND (status = 1 or status = 2 or status = 3 or status = 5) AND clientId = #{value}
+	</select>
+
+	<update id="updateEmployeeSBBaseBySolution" parameterType="java.util.HashMap">
+		UPDATE hro_biz_employee_contract_sb_detail a
+		JOIN hro_biz_employee_contract_sb b ON a.employeeSBId = b.employeeSBId
+		AND b.STATUS != 6
+		JOIN hro_biz_employee_contract c ON b.contractId = c.contractId
+		JOIN hro_mgt_social_benefit_solution_header e ON b.sbSolutionId = e.headerId
+		JOIN hro_mgt_social_benefit_solution_detail f ON e.headerId = f.headerId
+		AND a.solutionDetailId = f.detailId
+		SET a.baseCompany = CASE
+		WHEN 
+		<![CDATA[a.baseCompany < f.companyFloor THEN f.companyFloor ELSE a.baseCompany END ]]>,
+		<![CDATA[a.basePersonal = CASE WHEN a.basePersonal < f.personalFloor THEN f.personalFloor ELSE a.basePersonal END ]]>
+		WHERE
+		 c.deleted = 1
+		AND (
+		 		<![CDATA[a.basePersonal < f.personalFloor OR a.baseCompany < f.companyFloor]]>
+			)
+		AND c.accountId = #{accountId}
+		AND b.sbSolutionId = #{sbSolutionId}
+		AND c.orderId = #{orderId}
+	</update>
+</mapper>

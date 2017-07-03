@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.define.TableVO">
+
+	<resultMap id="result" type="com.kan.base.domain.define.TableVO">
+		<result property="tableId" column="tableId"/>
+		<result property="accountId" column="accountId"/>
+		<result property="corpId" column="corpId"/>
+		<result property="nameZH" column="nameZH"/>
+		<result property="nameEN" column="nameEN"/>
+		<result property="tableType" column="tableType"/>
+		<result property="tableIndex" column="tableIndex"/>
+		<result property="moduleType" column="moduleType"/>
+		<result property="accessAction" column="accessAction"/>
+		<result property="accessName" column="accessName"/>
+		<result property="accessTempName" column="accessTempName"/>
+		<result property="linkedTableIds" column="linkedTableIds"/>
+		<result property="canManager" column="canManager"/>
+		<result property="canList" column="canList"/>
+		<result property="canSearch" column="canSearch"/>
+		<result property="canReport" column="canReport"/>
+		<result property="canImport" column="canImport"/>
+		<result property="role" column="role"/>
+		<result property="className" column="className"/>
+		<result property="description" column="description"/>
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />		
+	</resultMap>
+	
+	<sql id="tableColumns">
+		accountId,corpId, nameZH, nameEN, tableType, tableIndex,moduleType, accessAction, accessName, accessTempName, linkedTableIds, canManager, canList, canSearch, canReport, canImport, 
+		role, className, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<select id="countTableVOsByCondition" parameterType="table" resultType="int">
+		select count(1)
+		from HRO_Def_Table
+		where deleted = 1 AND status = 1 
+		<if test="accountId != 1 and role != null and role != ''">
+			AND ( role = 0 OR role = #{role} )
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>			
+		<if test="tableType != null and tableType != ''">
+			AND (tableType = #{tableType} or 0 = #{tableType})
+		</if>		
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getTableVOsByCondition" parameterType="table" resultMap="result">
+		select tableId, <include refid="tableColumns" />
+		from HRO_Def_Table
+		where deleted = 1 AND status = 1 
+		<if test="accountId != 1 and role != null and role != ''">
+			AND ( role = 0 OR role = #{role} )
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>			
+		<if test="tableType != null and tableType != ''">
+			AND (tableType = #{tableType} or 0 = #{tableType})
+		</if>		
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+		<if test="sortColumn ==null or sortColumn==''">
+			order by moduleType,tableIndex asc
+		</if>
+	</select>
+	
+	<select id="getTableVOByTableId" parameterType="int" resultMap="result">
+		select tableId, <include refid="tableColumns" />
+		from HRO_Def_Table
+		where tableId = #{value}
+	</select>
+	
+	<insert id="insertTable" parameterType="table" useGeneratedKeys="true" keyProperty="tableId">
+		insert into HRO_Def_Table(<include refid="tableColumns" />)
+		values(#{accountId},#{corpId}, #{nameZH}, #{nameEN}, #{tableType}, #{tableIndex},#{moduleType}, #{accessAction}, #{accessName}, #{accessTempName}, #{linkedTableIds}, #{canManager}, #{canList}, #{canSearch}, #{canReport}, #{canImport},
+		#{role}, #{className}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+	
+	<update id="updateTable" parameterType="table">
+		update HRO_Def_Table set  nameZH = #{nameZH}, nameEN = #{nameEN}, tableType = #{tableType}, tableIndex=#{tableIndex},moduleType=#{moduleType}, accessAction = #{accessAction},
+			accessName = #{accessName}, accessTempName = #{accessTempName}, linkedTableIds = #{linkedTableIds}, canManager = #{canManager}, canList = #{canList}, canSearch = #{canSearch}, canReport = #{canReport}, 
+			canImport = #{canImport}, role = #{role}, className = #{className}, description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, 
+			remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, 
+			modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where tableId = #{tableId} 		
+  	</update>
+	
+	<delete id="deleteTable" parameterType="int">
+		DELETE FROM HRO_Def_Table WHERE tableId = #{value}
+  	</delete> 	
+	
+</mapper>

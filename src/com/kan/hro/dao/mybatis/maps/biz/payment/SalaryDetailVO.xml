@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.payment.SalaryDetailVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.payment.SalaryDetailVO">
+		<result property="salaryDetailId" column="salaryDetailId" />
+		<result property="salaryHeaderId" column="salaryHeaderId" />
+		<result property="itemId" column="itemId" />
+		<result property="itemNo" column="itemNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="baseCompany" column="baseCompany" />
+		<result property="basePersonal" column="basePersonal" />
+		<result property="billRateCompany" column="billRateCompany" />
+		<result property="billRatePersonal" column="billRatePersonal" />
+		<result property="costRateCompany" column="costRateCompany" />
+		<result property="costRatePersonal" column="costRatePersonal" />
+		<result property="billFixCompany" column="billFixCompany" />
+		<result property="billFixPersonal" column="billFixPersonal" />
+		<result property="costFixCompany" column="costFixCompany" />
+		<result property="costFixPersonal" column="costFixPersonal" />
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- for app -->
+		<result property="itemType" column="itemType" />
+	</resultMap>
+  	
+	<sql id="salaryDetailColumns">
+		salaryHeaderId, itemId, itemNo, nameZH, nameEN, baseCompany, basePersonal, billRateCompany, billRatePersonal, costRateCompany, costRatePersonal, billFixCompany, 
+		billFixPersonal, costFixCompany, costFixPersonal, billAmountCompany, billAmountPersonal, costAmountCompany, costAmountPersonal, description, deleted, status, 
+		remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<sql id="salaryDetailColumns-for-join">
+		a.salaryHeaderId, a.itemId, a.itemNo, a.nameZH, a.nameEN, a.baseCompany, a.basePersonal, a.billRateCompany, a.billRatePersonal, a.costRateCompany, a.costRatePersonal, 
+		a.billFixCompany, a.billFixPersonal, a.costFixCompany, a.costFixPersonal, 
+		a.billAmountCompany - getIncrement(getPublicCode(c.employeeId), 'PRIVATE_CODE') AS billAmountCompany, 
+		a.billAmountPersonal - getIncrement(getPublicCode(c.employeeId), 'PRIVATE_CODE') AS billAmountPersonal, 
+		a.costAmountCompany - getIncrement(getPublicCode(c.employeeId), 'PRIVATE_CODE') AS costAmountCompany, 
+		a.costAmountPersonal - getIncrement(getPublicCode(c.employeeId), 'PRIVATE_CODE') AS costAmountPersonal, 
+		a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countSalaryDetailVOsByCondition" parameterType="salaryDetail" resultType="int">
+		SELECT COUNT(1)
+		FROM hro_salary_detail a LEFT JOIN hro_mgt_item b on a.itemId = b.itemId and b.deleted = 1
+			LEFT JOIN hro_salary_header c on a.salaryHeaderId = c.salaryHeaderId and c.deleted = 1
+		WHERE a.deleted = 1 AND a.salaryHeaderId = #{salaryHeaderId} 
+		<if test="salaryDetailId != null and salaryDetailId != ''">
+			AND a.salaryDetailId = #{salaryDetailId} 
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND (c.batchId = #{batchId} OR 0 = #{batchId} )
+		</if>
+		<if test="itemId != null and itemId != ''">
+			AND (a.itemId = #{itemId} OR 0 = #{itemId})
+		</if>
+		<if test="itemType != null and itemType != ''">
+			AND b.itemType in (${itemType})
+		</if>
+	</select>
+	
+	<select id="getSalaryDetailVOsByCondition" parameterType="salaryDetail" resultMap="result">
+		SELECT a.salaryDetailId, <include refid="salaryDetailColumns-for-join" />, b.itemType as itemType
+		FROM hro_salary_detail a LEFT JOIN hro_mgt_item b on a.itemId = b.itemId and b.deleted = 1
+			LEFT JOIN hro_salary_header c on a.salaryHeaderId = c.salaryHeaderId and c.deleted = 1
+		WHERE a.deleted = 1 
+		<if test="salaryHeaderId != null and salaryHeaderId != ''">
+			AND (a.salaryHeaderId = #{salaryHeaderId} OR 0 = #{salaryHeaderId})
+		</if>
+		<if test="salaryDetailId != null and salaryDetailId != ''">
+			AND a.salaryDetailId = #{salaryDetailId} 
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND (c.batchId = #{batchId} OR 0 = #{batchId} )
+		</if>
+		<if test="itemId != null and itemId != ''">
+			AND (a.itemId = #{itemId} OR 0 = #{itemId})
+		</if>
+		<if test="itemType != null and itemType != ''">
+			AND b.itemType in (${itemType})
+		</if>
+		order by a.itemId
+	</select>
+	
+	<select id="getSalaryDetailVOByDetailId" parameterType="int" resultMap="result">
+		SELECT a.salaryDetailId, <include refid="salaryDetailColumns-for-join" />
+		FROM hro_salary_detail a
+		LEFT JOIN hro_salary_header c on a.salaryHeaderId = c.salaryHeaderId and c.deleted = 1
+		WHERE a.salaryDetailId = #{value}
+	</select>
+	
+	<select id="getSalaryDetailVOsByHeaderId" parameterType="int" resultMap="result">
+		SELECT a.salaryDetailId, <include refid="salaryDetailColumns-for-join" />
+		FROM hro_salary_detail a
+		LEFT JOIN hro_salary_header c on a.salaryHeaderId = c.salaryHeaderId and c.deleted = 1
+		WHERE a.salaryHeaderId = #{value}
+	</select>
+
+	<update id="updateSalaryDetail" parameterType="salaryDetail">
+		UPDATE hro_salary_detail SET itemId = #{itemId}, itemNo = #{itemNo}, nameZH = #{nameZH}, nameEN = #{nameEN}, baseCompany = #{baseCompany}, basePersonal = #{basePersonal}, 
+			billRateCompany = #{billRateCompany}, billRatePersonal = #{billRatePersonal}, costRateCompany = #{costRateCompany}, costRatePersonal = #{costRatePersonal}, 
+			billFixCompany = #{billFixCompany}, billFixPersonal = #{billFixPersonal}, costFixCompany = #{costFixCompany}, costFixPersonal = #{costFixPersonal}, 
+			billAmountCompany = #{billAmountCompany}, billAmountPersonal = #{billAmountPersonal}, costAmountCompany = #{costAmountCompany}, costAmountPersonal = #{costAmountPersonal}, 
+			description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, 
+			remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate} 
+		WHERE salaryDetailId = #{salaryDetailId}
+  	</update>
+
+	<insert id="insertSalaryDetail" parameterType="salaryDetail" useGeneratedKeys="true" keyProperty="salaryDetailId">
+		INSERT INTO hro_salary_detail( <include refid="salaryDetailColumns" /> )
+		VALUES (#{accountId}, #{entityId}, #{businessTypeId}, #{corpId}, #{clientNameZH}, #{clientNameEN}, #{orderId}, #{contractId}, #{employeeId}, #{employeeNameZH}, #{employeeNameEN}, 
+			#{startDate}, #{endDate}, #{certificateType}, #{certificateNumber}, #{bankId}, #{bankNameZH}, #{bankNameEN}, #{bankAccount}, #{billAmountCompany}, #{billAmountPersonal},
+			#{costAmountCompany}, #{costAmountPersonal}, #{taxAmountPersonal}, #{addtionalBillAmountPersonal}, #{monthly}, #{description}, #{deleted}, #{status}, #{remark1}, #{remark2}, 
+			#{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteSalaryDetail" parameterType="int">
+		DELETE FROM hro_salary_detail WHERE salaryDetailId = #{value}
+  	</delete>
+  	
+  	<delete id="deleteSalaryDetailByHeaderIds" parameterType="int">
+		DELETE FROM hro_salary_detail WHERE salaryHeaderId in
+		<foreach collection="list" item="headerIds" index="index" open="(" close=")" separator=",">
+			#{headerIds}
+	    </foreach>
+	</delete>
+	
+	<!-- 导入后的加密 -->
+	<update id="updateSalaryDetailAfterImport" parameterType="int">
+		UPDATE hro_salary_detail d right join hro_salary_header h on d.salaryHeaderId = h.salaryHeaderId set 
+			d.billAmountCompany = d.billAmountCompany +`getIncrement`(`getPublicCode`(h.employeeId),'PRIVATE_CODE'), 
+			d.billAmountPersonal = d.billAmountPersonal +`getIncrement`(`getPublicCode`(h.employeeId),'PRIVATE_CODE'), 
+			d.costAmountCompany = d.costAmountCompany +`getIncrement`(`getPublicCode`(h.employeeId),'PRIVATE_CODE'), 
+			d.costAmountPersonal = d.costAmountPersonal +`getIncrement`(`getPublicCode`(h.employeeId),'PRIVATE_CODE')
+		WHERE h.batchId = #{value}
+	</update>
+	
+</mapper>

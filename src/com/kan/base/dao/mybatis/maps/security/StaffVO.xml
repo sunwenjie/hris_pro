@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.security.StaffVO">
+
+	<resultMap id="staffBaseView" type="com.kan.base.domain.security.StaffBaseView">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="userId" column="userId" />
+		<result property="staffNo" column="staffNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="remark1" column="remark1" />
+	</resultMap>
+	
+	<resultMap id="result" type="com.kan.base.domain.security.StaffVO">
+		<result property="staffId" column="staffId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId"/>
+		<result property="staffNo" column="staffNo" />
+		<result property="employeeId" column="employeeId" />
+		<result property="salutation" column="salutation" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="birthday" column="birthday" />
+		<result property="bizPhone" column="bizPhone" />
+		<result property="bizExt" column="bizExt" />
+		<result property="personalPhone" column="personalPhone" />
+		<result property="bizMobile" column="bizMobile" />
+		<result property="personalMobile" column="personalMobile" />
+		<result property="otherPhone" column="otherPhone" />
+		<result property="fax" column="fax" />
+		<result property="bizEmail" column="bizEmail" />
+		<result property="personalEmail" column="personalEmail" />
+		<result property="certificateType" column="certificateType" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="maritalStatus" column="maritalStatus" />
+		<result property="registrationHometown" column="registrationHometown" />
+		<result property="registrationAddress" column="registrationAddress" />
+		<result property="personalAddress" column="personalAddress" />
+		<result property="personalPostcode" column="personalPostcode" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- for app -->
+		<result property="pTitle" column="pTitle" />
+		<result property="bankId" column="bankId" />
+		<result property="bankAccount" column="bankAccount" />
+	</resultMap>
+	
+	<resultMap id="resultCascade" type="com.kan.base.domain.security.StaffVO">
+		<result property="staffId" column="staffId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId"/>
+		<result property="staffNo" column="staffNo" />
+		<result property="employeeId" column="employeeId" />
+		<result property="salutation" column="salutation" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="birthday" column="birthday" />
+		<result property="bizPhone" column="bizPhone" />
+		<result property="bizExt" column="bizExt" />
+		<result property="personalPhone" column="personalPhone" />
+		<result property="bizMobile" column="bizMobile" />
+		<result property="personalMobile" column="personalMobile" />
+		<result property="otherPhone" column="otherPhone" />
+		<result property="fax" column="fax" />
+		<result property="bizEmail" column="bizEmail" />
+		<result property="personalEmail" column="personalEmail" />
+		<result property="certificateType" column="certificateType" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="maritalStatus" column="maritalStatus" />
+		<result property="registrationHometown" column="registrationHometown" />
+		<result property="registrationAddress" column="registrationAddress" />
+		<result property="personalAddress" column="personalAddress" />
+		<result property="personalPostcode" column="personalPostcode" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- for app -->
+		<result property="pTitle" column="pTitle" />
+		<!-- 级联查询 -->
+		<association property="positionStaffRelationVOs" column="staffId" javaType="ArrayList" select="com.kan.base.domain.security.PositionStaffRelationVO.getPositionStaffRelationVOsByStaffId" />
+		<association property="userVO" column="staffId" javaType="com.kan.base.domain.security.UserVO" select="com.kan.base.domain.security.UserVO.getUserVOByStaffId" />
+	
+	</resultMap>
+	
+	<sql id="StaffColumns"> 
+  		accountId, corpId, staffNo, employeeId, salutation, nameZH, nameEN, birthday, bizPhone, bizExt, personalPhone, bizMobile, personalMobile, otherPhone, fax, bizEmail, personalEmail, certificateType, certificateNumber, maritalStatus, registrationHometown, registrationAddress, personalAddress, personalPostcode, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+  	
+  	<sql id="StaffColumns-left-join-branchId"> 
+  		s.accountId,s.corpId, s.staffNo,s.employeeId, s.salutation, s.nameZH, s.nameEN, s.birthday, s.bizPhone,
+  		s.bizExt, s.personalPhone, s.bizMobile, s.personalMobile,s.otherPhone, s.fax, s.bizEmail, s.personalEmail, 
+  		s.certificateType, s.certificateNumber, s.maritalStatus, s.registrationHometown, s.registrationAddress,
+  		s.personalAddress, s.personalPostcode, s.description, s.deleted, s.status, s.remark1, s.remark2, s.remark3, 
+  		s.remark4, s.remark5, s.createBy, s.createDate, s.modifyBy, s.modifyDate 
+	</sql>
+	
+	
+	<select id="getStaffBaseViewsByAccountId" resultType="staffBaseView">
+		SELECT a.staffId AS id, CONCAT(a.nameZH, ' - ', a.nameEN) AS name, b.userId, a.staffNo, a.nameZH, a.nameEN, c.remark1 AS remark1  
+  		FROM hro_sec_staff a LEFT OUTER JOIN HRO_SEC_User b ON a.staffId = b.staffId LEFT JOIN hro_biz_employee c ON a.employeeId = c.employeeId AND c.deleted = 1
+  		WHERE a.deleted = 1 
+  		AND (a.status = 1 or a.status = 3) 
+  		AND a.accountId = #{accountId}
+  		ORDER BY name
+  	</select>
+  	
+  	<select id="getActiveStaffBaseViewsByAccountId" resultType="staffBaseView">
+  		SELECT a.staffId AS id, CONCAT(a.nameZH, ' - ', a.nameEN) AS name, b.userId, a.staffNo, a.nameZH, a.nameEN     
+  		FROM hro_sec_staff a LEFT OUTER JOIN hro_sec_user b ON a.staffId = b.staffId 
+  		WHERE a.deleted = 1 AND a.status = 1 AND a.accountId = #{accountId}
+  		ORDER BY nameZH
+  	</select>
+  	
+  	<select id="getActiveStaffVOsByCorpId" parameterType="staff" resultMap="result" >
+  		SELECT staffId, <include refid="StaffColumns"/>
+  		FROM hro_sec_staff
+  		WHERE deleted = 1 AND status = 1 AND corpId = #{corpId} AND accountId = #{accountId}
+  		ORDER BY nameZH
+  	</select>
+  	
+  	<select id="getActiveStaffVOsByAccountId" resultMap="result">
+  		SELECT staffId, <include refid="StaffColumns"/>
+  		FROM hro_sec_staff
+  		WHERE deleted = 1 AND status = 1 AND accountId = #{accountId}
+  		ORDER BY nameZH
+  	</select>
+	
+	<select id="countStaffVOsByCondition" parameterType="staff" resultType="int">
+		SELECT COUNT(0) 
+		FROM hro_sec_staff
+		WHERE deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="staffNo != null and staffNo != ''">
+			AND staffNo like CONCAT('%', '${staffNo}', '%') 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND employeeId = #{employeeId}
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="salutation != null and salutation != ''">
+			AND (salutation = #{salutation} or 0 = #{salutation})
+		</if>
+		<if test="remark1 != null and remark1 != ''">
+			AND remark1 like CONCAT('%', '${remark1}', '%') 
+		</if>
+  	</select>
+  	
+	<select id="getStaffVOsByCondition" parameterType="staff" resultMap="result">
+		SELECT staffId, <include refid="StaffColumns"/>  
+		FROM hro_sec_staff 
+		WHERE deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="staffNo != null and staffNo != ''">
+			AND staffNo like CONCAT('%', '${staffNo}', '%') 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND employeeId = #{employeeId}
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="salutation != null and salutation != ''">
+			AND (salutation = #{salutation} or 0 = #{salutation})
+		</if>
+		<if test="remark1 != null and remark1 != ''">
+			AND remark1 like CONCAT('%', '${remark1}', '%') 
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+  	
+  	<select id="getStaffVOByStaffId" parameterType="int" resultMap="result">
+		SELECT s.staffId, <include refid="StaffColumns-left-join-branchId"/> ,e.bankId,e.bankAccount 
+		FROM hro_sec_staff s left join hro_biz_employee e on s.employeeId = e.employeeId and e.deleted = 1
+		WHERE s.deleted = 1 AND s.staffId = #{value}
+  	</select>
+  	
+	<update id="updateStaff" parameterType="staff">
+		UPDATE hro_sec_staff set  staffNo = #{staffNo}, salutation = #{salutation}, nameZH = #{nameZH}, nameEN = #{nameEN},
+			birthday = #{birthday}, bizPhone = #{bizPhone}, bizExt = #{bizExt}, personalPhone = #{personalPhone}, bizMobile = #{bizMobile},
+			personalMobile = #{personalMobile}, otherPhone = #{otherPhone}, fax = #{fax}, bizEmail = #{bizEmail}, personalEmail = #{personalEmail},
+			certificateType = #{certificateType}, certificateNumber = #{certificateNumber}, maritalStatus = #{maritalStatus}, registrationHometown = #{registrationHometown},
+			registrationAddress = #{registrationAddress}, personalAddress = #{personalAddress}, personalPostcode = #{personalPostcode}, description = #{description},
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, 
+			remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+			WHERE staffId = #{staffId} 
+  	</update>
+  	
+  	<insert id="insertStaff" parameterType="staff" useGeneratedKeys="true" keyProperty="staffId">
+		INSERT INTO hro_sec_staff(<include refid="StaffColumns"/>) 
+		VALUES (#{accountId},#{corpId}, #{staffNo},#{employeeId}, #{salutation}, #{nameZH}, #{nameEN}, #{birthday}, #{bizPhone}, #{bizExt}, #{personalPhone}, #{bizMobile},
+			#{personalMobile}, #{otherPhone}, #{fax}, #{bizEmail}, #{personalEmail}, #{certificateType}, #{certificateNumber}, #{maritalStatus}, #{registrationHometown},
+			#{registrationAddress}, #{personalAddress}, #{personalPostcode}, #{description},
+		 	1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, 
+			#{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+  	
+  	<delete id="deleteStaff" parameterType="int">
+		DELETE FROM hro_sec_staff WHERE staffId = #{value}
+  	</delete>
+	  	
+	<select id="getStaffVOsByAccountId" parameterType="String" resultMap="result">
+		select staffId, <include refid="StaffColumns"/>  
+		from hro_sec_staff 
+		where deleted = 1 AND status = 1 AND accountId = #{value}
+		order by staffId
+  	</select>
+  	
+  	<select id="getStaffVOsCascadeByAccountId" parameterType="String" resultMap="resultCascade">
+		select staffId, <include refid="StaffColumns"/>  
+		from hro_sec_staff 
+		where deleted = 1 AND status = 1 AND accountId = #{value} 
+		order by staffId
+  	</select>
+  	
+  	<select id="getStaffVOByEmployeeId" parameterType="int" resultMap="result">
+		SELECT staffId, <include refid="StaffColumns"/>  
+		FROM hro_sec_staff 
+		WHERE deleted = 1 AND employeeId = #{value}
+  	</select>
+  	
+  	<select id="getCountStaffVOsByBranchId" parameterType="int"  resultType="int">
+		SELECT COUNT(0) FROM
+		(
+			SELECT 0
+			FROM hro_sec_staff s LEFT JOIN hro_sec_position_staff_relation r on s.staffId = r.staffId and r.deleted = 1
+			LEFT JOIN hro_sec_position p ON r.positionId = p.positionId and p.deleted = 1
+			LEFT JOIN hro_sec_branch b ON b.branchId = p.branchId and b.deleted = 1
+			WHERE s.deleted = 1
+			AND b.branchId = #{value}
+			AND r.staffType != 2
+			GROUP BY s.staffId
+		) t
+  	</select>
+  	<select id="getStaffVOsByBranchId" parameterType="int" resultMap="result">
+		SELECT s.staffId, <include refid="StaffColumns-left-join-branchId"/> ,concat(p.titleZH,' - ',p.titleEN) as pTitle
+		FROM hro_sec_staff s LEFT JOIN hro_sec_position_staff_relation r on s.staffId = r.staffId and r.deleted = 1
+		LEFT JOIN hro_sec_position p ON r.positionId = p.positionId and p.deleted = 1
+		LEFT JOIN hro_sec_branch b ON b.branchId = p.branchId and b.deleted = 1
+		WHERE s.deleted = 1
+		AND b.branchId = #{value}
+		AND r.staffType != 2
+		GROUP BY s.staffId
+  	</select>
+  	
+  	<select id="getStaffBaseViewByStaffId" parameterType="int" resultType="staffBaseView">
+		select a.staffId as id, CONCAT(a.nameZH, ' - ', a.nameEN) as name, b.userId, a.staffNo, a.nameZH, a.nameEN, c.remark1 AS remark1   
+  		from hro_sec_staff a left outer join HRO_SEC_User b on a.staffId = b.staffId and b.deleted = 1 
+  		LEFT JOIN hro_biz_employee c ON a.employeeId = c.employeeId AND c.deleted = 1
+  		where a.deleted = 1 
+  		and (a.status = 1 or a.status = 3) 
+  		and a.staffId = #{value}
+  		order by name
+  	</select>
+  	
+  	
+  	<select id="logon" parameterType="staff" resultMap="result">
+		SELECT staffId, <include refid="StaffColumns"/>
+  		FROM hro_sec_staff
+  		WHERE deleted = 1 AND status = 1  AND accountId = #{accountId}
+  		and(  
+			bizPhone = #{bizPhone}  
+			or personalPhone = #{personalPhone}  
+			or bizMobile = #{bizMobile}  
+			or personalMobile = #{personalMobile}
+			or otherPhone = #{otherPhone}  
+			or bizEmail = #{bizEmail}  
+			or personalEmail = #{personalEmail}
+		)
+  	</select>
+</mapper>

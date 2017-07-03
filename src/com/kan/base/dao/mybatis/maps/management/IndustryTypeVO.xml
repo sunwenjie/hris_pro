@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.management.IndustryTypeVO">
+
+	<resultMap id="result" type="com.kan.base.domain.management.IndustryTypeVO" >
+		<result property="typeId" column="typeId"/>
+		<result property="accountId" column="accountId"/>
+		<result property="corpId" column="corpId"/>
+		<result property="nameZH" column="nameZH"/>
+		<result property="nameEN" column="nameEN"/>
+		<result property="description" column="description"/>
+		<result property="deleted" column="deleted"/>
+		<result property="status" column="status"/>
+		<result property="remark1" column="remark1"/>
+		<result property="remark2" column="remark2"/>
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+	
+	<sql id="industryTypeColumns">
+		accountId, corpId,nameZH, nameEN, description, deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate
+	</sql>  	 	
+	
+	<select id="countIndustryTypeVOsByCondition" parameterType="industryType" resultType="int">
+		select count(*) 
+		from HRO_MGT_INDUSTRY_TYPE
+		where deleted = 1 AND accountId= #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+
+	<select id="getIndustryTypeVOsByCondition" parameterType="industryType" resultMap="result">
+		select typeId, <include refid="industryTypeColumns"/>  
+		from HRO_MGT_INDUSTRY_TYPE 
+		where deleted = 1 AND accountId= #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>			
+  	</select>
+  	
+  	<select id="getIndustryTypeVOByIndustryTypeId" parameterType="int" resultMap="result">
+  		select typeId, <include refid="industryTypeColumns"/>
+  		from HRO_MGT_INDUSTRY_TYPE
+  		where typeId = #{value}
+  	</select>
+  	
+  	<insert id="insertIndustryType" parameterType="industryType" useGeneratedKeys="true" keyProperty="typeId">
+  		insert into HRO_MGT_INDUSTRY_TYPE(<include refid="industryTypeColumns"/>)		
+  		values(	#{accountId},#{corpId}, #{nameZH}, #{nameEN}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate}) 	
+  	</insert>
+  	
+  	<update id="updateIndustryType" parameterType="industryType">  							
+  		update HRO_MGT_INDUSTRY_TYPE set 
+  				 nameZH = #{nameZH}, nameEN = #{nameEN}, description = #{description}, deleted = #{deleted}, status = #{status}, 
+  				 remark1 = #{remark1}, remark2 = #{remark2}, createBy = #{createBy}, 
+  				 createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+  		where typeId = #{typeId}  		
+  	</update>  	
+  	
+  	<delete id="deleteIndustryType" parameterType="int">
+  		delete from HRO_MGT_INDUSTRY_TYPE where typeId = #{value} 
+  	</delete>
+  	
+  	<select id="getIndustryTypeVOsByAccountId" parameterType="int" resultMap="result">
+  		select typeId, <include refid="industryTypeColumns"/>
+  		from HRO_MGT_INDUSTRY_TYPE
+  		where deleted = 1 AND status = 1 AND accountId = #{value}
+  	</select>
+</mapper>

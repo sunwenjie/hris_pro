@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.payment.CommonBatchVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.payment.CommonBatchVO">
+		<result property="batchId" column="batchId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="importExcelName" column="importExcelName" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+  	
+	<sql id="commonBatchColumns">
+			batchId,accountId,corpId,importExcelName,description,deleted,status,remark1,remark2,
+			remark3,remark4,remark5,createBy,createDate,modifyBy,modifyDate
+	</sql>
+	<sql id="commonBatchColumns-for-join">
+			a.accountId,a.corpId,a.importExcelName,a.description,a.deleted,a.status,a.remark1,a.remark2,
+			a.remark3,a.remark4,a.remark5,a.createBy,a.createDate,a.modifyBy,a.modifyDate
+	</sql>
+
+	<select id="countSalaryBatchVOsByCondition" parameterType="salaryBatch" resultType="int">
+		SELECT COUNT( DISTINCT a.batchId) as count
+		FROM hro_Common_batch a JOIN hro_salary_header b ON a.batchId = b.batchId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId} 
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND a.corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="importExcelName != null and importExcelName != ''">
+			AND a.importExcelName  LIKE CONCAT('%', '${importExcelName}', '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND (b.status in (${status}) or '0' = '${status}')
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePositionIds !=null">
+				OR a.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+				)
+		</if>
+		
+	</select>
+
+	<select id="getSalaryBatchVOsByCondition" parameterType="salaryBatch" resultMap="result">
+		SELECT a.batchId,<include refid="commonBatchColumns-for-join" />
+		FROM hro_Common_batch a JOIN hro_salary_header b ON a.batchId = b.batchId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId} 
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND a.corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="importExcelName != null and importExcelName != ''">
+			AND a.importExcelName  LIKE CONCAT('%', '${importExcelName}', '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND (b.status in (${status}) or '0' = '${status}')
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePositionIds !=null">
+				OR a.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+				)
+		</if>
+				
+		GROUP BY a.batchId
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getCommonBatchVOByBatchId" parameterType="int" resultMap="result">
+		SELECT batchId, <include refid="commonBatchColumns" />
+		FROM hro_common_batch
+		WHERE deleted = 1 and batchId = #{value}
+	</select>
+	
+	<insert id="insertCommonBatch" parameterType="salaryBatch" useGeneratedKeys="true" keyProperty="batchId">
+		insert into hro_common_batch( <include refid="commonBatchColumns" /> )
+		values(#{batchId},#{accountId},#{corpId},#{importExcelName},#{description},#{deleted},#{status},#{remark1},#{remark2},
+			#{remark3},#{remark4},#{remark5},#{createBy},#{createDate},#{modifyBy},#{modifyDate})
+	</insert>
+	
+	<update id="updateCommonBatch" parameterType="salaryBatch">
+		update hro_common_batch set batchId=#{batchId},accountId=#{accountId},corpId=#{corpId},importExcelName=#{importExcelName},
+		description=#{description},deleted=#{deleted},status=#{status},remark1=#{remark1},remark2=#{remark2},remark3=#{remark3},remark4=#{remark4},
+		remark5=#{remark5},createBy=#{createBy},createDate=#{createDate},modifyBy=#{modifyBy},modifyDate=#{modifyDate}
+		where batchId = #{batchId} 
+  	</update>
+  	
+  	<delete id="deleteCommonBatch" parameterType="int">
+		delete from hro_common_batch where batchId = #{value}
+  	</delete>
+
+</mapper>

@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.performance.PerformanceVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.performance.PerformanceVO">
+		<result property="performanceId" column="performanceId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="yearly" column="yearly" />
+		<result property="fullName" column="fullName" />
+		<result property="shortName" column="shortName" />
+		<result property="chineseName" column="chineseName" />
+		<result property="employmentEntityEN" column="employmentEntityEN" />
+		<result property="employmentEntityZH" column="employmentEntityZH" />
+		<result property="companyInitial" column="companyInitial" />
+		<result property="buFunctionEN" column="buFunctionEN" />
+		<result property="buFunctionZH" column="buFunctionZH" />
+		<result property="departmentEN" column="departmentEN" />
+		<result property="departmentZH" column="departmentZH" />
+		<result property="costCenter" column="costCenter" />
+		<result property="functionCode" column="functionCode" />
+		<result property="location" column="location" />
+		<result property="jobRole" column="jobRole" />
+		<result property="positionEN" column="positionEN" />
+		<result property="positionZH" column="positionZH" />
+		<result property="jobGrade" column="jobGrade" />
+		<result property="internalTitle" column="internalTitle" />
+		<result property="lineBizManager" column="lineBizManager" />
+		<result property="lineHRManager" column="lineHRManager" />
+		<result property="seniorityDate" column="seniorityDate" />
+		<result property="employmentDate" column="employmentDate" />
+		<result property="shareOptions" column="shareOptions" />
+		<result property="lastYearPerformanceRating" column="lastYearPerformanceRating" />
+		<result property="lastYearPerformancePromotion" column="lastYearPerformancePromotion" />
+		<result property="midYearPromotion" column="midYearPromotion" />
+		<result property="midYearSalaryIncrease" column="midYearSalaryIncrease" />
+		<result property="currencyCode" column="currencyCode" />
+		<result property="baseSalaryLocal" column="baseSalaryLocal" />
+		<result property="baseSalaryUSD" column="baseSalaryUSD" />
+		<result property="annualBaseSalaryLocal" column="annualBaseSalaryLocal" />
+		<result property="annualBaseSalaryUSD" column="annualBaseSalaryUSD" />
+		<result property="housingAllowanceLocal" column="housingAllowanceLocal" />
+		<result property="childrenEduAllowanceLocal" column="childrenEduAllowanceLocal" />
+		<result property="guaranteedCashLocal" column="guaranteedCashLocal" />
+		<result property="guaranteedCashUSD" column="guaranteedCashUSD" />
+		<result property="monthlyTarget" column="monthlyTarget" />
+		<result property="quarterlyTarget" column="quarterlyTarget" />
+		<result property="gpTarget" column="gpTarget" />
+		<result property="yearEndBonus" column="yearEndBonus" />
+		<result property="targetValueLocal" column="targetValueLocal" />
+		<result property="targetValueUSD" column="targetValueUSD" />
+		<result property="ttcLocal" column="ttcLocal" />
+		<result property="ttcUSD" column="ttcUSD" />
+		<result property="currentYearEndBonus" column="currentYearEndBonus" />
+		<result property="yearPerformanceRating" column="yearPerformanceRating" />
+		<result property="yearPerformancePromotion" column="yearPerformancePromotion" />
+		<result property="recommendTTCIncrease" column="recommendTTCIncrease" />
+		<result property="ttcIncrease" column="ttcIncrease" />
+		<result property="newTTCLocal" column="newTTCLocal" />
+		<result property="newTTCUSD" column="newTTCUSD" />
+		<result property="newBaseSalaryLocal" column="newBaseSalaryLocal" />
+		<result property="newBaseSalaryUSD" column="newBaseSalaryUSD" />
+		<result property="newAnnualSalaryLocal" column="newAnnualSalaryLocal" />
+		<result property="newAnnualSalaryUSD" column="newAnnualSalaryUSD" />
+		<result property="newAnnualHousingAllowance" column="newAnnualHousingAllowance" />
+		<result property="newAnnualChildrenEduAllowance" column="newAnnualChildrenEduAllowance" />
+		<result property="newAnnualGuaranteedAllowanceLocal" column="newAnnualGuaranteedAllowanceLocal" />
+		<result property="newAnnualGuatanteedAllowanceUSD" column="newAnnualGuatanteedAllowanceUSD" />
+		<result property="newMonthlyTarget" column="newMonthlyTarget" />
+		<result property="newQuarterlyTarget" column="newQuarterlyTarget" />
+		<result property="newGPTarget" column="newGPTarget" />
+		<result property="newTargetValueLocal" column="newTargetValueLocal" />
+		<result property="newTargetValueUSD" column="newTargetValueUSD" />
+		<result property="newJobGrade" column="newJobGrade" />
+		<result property="newInternalTitle" column="newInternalTitle" />
+		<result property="newPositionEN" column="newPositionEN" />
+		<result property="newPositionZH" column="newPositionZH" />
+		<result property="newShareOptions" column="newShareOptions" />
+		<result property="targetBonus" column="targetBonus" />
+		<result property="proposedBonus" column="proposedBonus" />
+		<result property="proposedPayoutLocal" column="proposedPayoutLocal" />
+		<result property="proposedPayoutUSD" column="proposedPayoutUSD" />
+		<result property="description" column="description" />
+		<result property="yesGPTarget" column="yesGPTarget" />
+		<result property="yesNewGPTarget" column="yesNewGPTarget" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- for app -->
+		<result property="tmpYearPerformanceRating" column="tmpYearPerformanceRating" />
+	</resultMap>
+
+	<sql id="performanceColumns">
+		accountId,corpId,employeeId,yearly,fullName,shortName,chineseName,employmentEntityEN,employmentEntityZH,companyInitial,
+      	buFunctionEN,buFunctionZH,departmentEN,departmentZH,costCenter,functionCode,location,jobRole,positionEN,positionZH,
+      	jobGrade,internalTitle,lineBizManager,lineHRManager,seniorityDate,employmentDate,shareOptions,lastYearPerformanceRating,
+      	lastYearPerformancePromotion,midYearPromotion,midYearSalaryIncrease,currencyCode,baseSalaryLocal,baseSalaryUSD,
+      	annualBaseSalaryLocal,annualBaseSalaryUSD,housingAllowanceLocal,childrenEduAllowanceLocal,guaranteedCashLocal,guaranteedCashUSD,
+     	monthlyTarget,quarterlyTarget,gpTarget,yearEndBonus,targetValueLocal,targetValueUSD,ttcLocal,ttcUSD,currentYearEndBonus,yearPerformanceRating,yearPerformancePromotion,
+      	recommendTTCIncrease,ttcIncrease,newTTCLocal,newTTCUSD,newBaseSalaryLocal,newBaseSalaryUSD,newAnnualSalaryLocal,newAnnualSalaryUSD,
+      	newAnnualHousingAllowance,newAnnualChildrenEduAllowance,newAnnualGuaranteedAllowanceLocal,newAnnualGuatanteedAllowanceUSD,
+      	newMonthlyTarget,newQuarterlyTarget,newGPTarget,newTargetValueLocal,newTargetValueUSD,newJobGrade,newInternalTitle,newPositionEN,
+      	newPositionZH,newShareOptions,targetBonus,proposedBonus,proposedPayoutLocal,proposedPayoutUSD,description,yesGPTarget,yesNewGPTarget,deleted,status,
+		remark1,remark2,remark3,remark4,remark5,createBy,createDate,modifyBy,modifyDate
+	</sql>	
+	
+	<sql id="performanceColumns_for_join">
+		a.accountId,a.corpId,a.employeeId,a.yearly,a.fullName,a.shortName,a.chineseName,a.employmentEntityEN,a.employmentEntityZH,a.companyInitial,
+      	a.buFunctionEN,a.buFunctionZH,a.departmentEN,a.departmentZH,a.costCenter,a.functionCode,a.location,a.jobRole,a.positionEN,a.positionZH,
+      	a.jobGrade,a.internalTitle,a.lineBizManager,a.lineHRManager,a.seniorityDate,a.employmentDate,a.shareOptions,a.lastYearPerformanceRating,
+      	a.lastYearPerformancePromotion,a.midYearPromotion,a.midYearSalaryIncrease,a.currencyCode,a.baseSalaryLocal,a.baseSalaryUSD,
+      	a.annualBaseSalaryLocal,a.annualBaseSalaryUSD,a.housingAllowanceLocal,a.childrenEduAllowanceLocal,a.guaranteedCashLocal,a.guaranteedCashUSD,
+     	a.monthlyTarget,a.quarterlyTarget,a.gpTarget,a.yearEndBonus,a.targetValueLocal,a.targetValueUSD,a.ttcLocal,a.ttcUSD,a.currentYearEndBonus,a.yearPerformanceRating,a.yearPerformancePromotion,
+      	a.recommendTTCIncrease,a.ttcIncrease,a.newTTCLocal,a.newTTCUSD,a.newBaseSalaryLocal,a.newBaseSalaryUSD,a.newAnnualSalaryLocal,a.newAnnualSalaryUSD,
+      	a.newAnnualHousingAllowance,a.newAnnualChildrenEduAllowance,a.newAnnualGuaranteedAllowanceLocal,a.newAnnualGuatanteedAllowanceUSD,
+      	a.newMonthlyTarget,a.newQuarterlyTarget,a.newGPTarget,a.newTargetValueLocal,a.newTargetValueUSD,a.newJobGrade,a.newInternalTitle,a.newPositionEN,
+      	a.newPositionZH,a.newShareOptions,a.targetBonus,a.proposedBonus,a.proposedPayoutLocal,a.proposedPayoutUSD,a.description,a.yesGPTarget,a.yesNewGPTarget,a.deleted,a.status,
+		a.remark1,a.remark2,a.remark3,a.remark4,a.remark5,a.createBy,a.createDate,a.modifyBy,a.modifyDate
+	</sql>	
+	
+	<select id="countPerformanceVOsByCondition" parameterType="performance" resultType="int">
+		SELECT COUNT(*)
+		FROM HRO_PERFORMANCE a
+		LEFT JOIN hro_biz_employee b ON a.employeeId = b.employeeId AND b.deleted = 1
+		LEFT JOIN hro_biz_employee_contract c ON b.employeeId = c.employeeId AND c.deleted = 1 AND c.employStatus = 1
+		WHERE a.accountId = #{accountId} AND a.deleted = 1
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="yearly != null and yearly != ''">
+			AND a.yearly = #{yearly}
+		</if>
+		<if test="fullName != null and fullName != ''">
+			AND a.fullName LIKE CONCAT('%', '${fullName}', '%')
+		</if>
+		<if test="shortName != null and shortName != ''">
+			AND a.shortName LIKE CONCAT('%', '${shortName}', '%')
+		</if>
+		<if test="chineseName != null and chineseName != ''">
+			AND a.chineseName LIKE CONCAT('%', '${chineseName}', '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND a.status = #{status}
+		</if>
+		<if test="tmpYearPerformanceRating != null and tmpYearPerformanceRating != ''">
+			AND a.yearPerformanceRating IS NOT NULL
+		</if>
+		<!-- 按BU/Function导出 -->
+		<if test="selectBUFunctionName != null and selectBUFunctionName != ''">
+			AND (a.buFunctionEN = #{selectBUFunctionName} OR a.buFunctionZH = #{selectBUFunctionName})
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR b.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR b.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR c.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR b._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR b.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR c.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+	</select>
+	
+	<select id="getPerformanceVOsByCondition" parameterType="performance" resultMap="result">
+		SELECT a.performanceId,<include refid="performanceColumns_for_join" />
+		FROM HRO_PERFORMANCE a
+		LEFT JOIN hro_biz_employee b ON a.employeeId = b.employeeId AND b.deleted = 1
+		LEFT JOIN hro_biz_employee_contract c ON b.employeeId = c.employeeId AND c.deleted = 1 AND c.employStatus = 1
+		WHERE a.accountId = #{accountId} AND a.deleted = 1
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="yearly != null and yearly != ''">
+			AND a.yearly = #{yearly}
+		</if>
+		<if test="fullName != null and fullName != ''">
+			AND a.fullName LIKE CONCAT('%', '${fullName}', '%')
+		</if>
+		<if test="shortName != null and shortName != ''">
+			AND a.shortName LIKE CONCAT('%', '${shortName}', '%')
+		</if>
+		<if test="chineseName != null and chineseName != ''">
+			AND a.chineseName LIKE CONCAT('%', '${chineseName}', '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND a.status = #{status}
+		</if>
+		<!-- 这里只用来判断是否有效绩效 -->
+		<if test="tmpYearPerformanceRating != null and tmpYearPerformanceRating != ''">
+			AND a.yearPerformanceRating IS NOT NULL
+		</if>
+		<!-- 按BU/Function导出 -->
+		<if test="selectBUFunctionName != null and selectBUFunctionName != ''">
+			AND (a.buFunctionEN = #{selectBUFunctionName} OR a.buFunctionZH = #{selectBUFunctionName})
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR b.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR b.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR c.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR b._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR b.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR c.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getPerformanceVOByPerformanceId" parameterType="int" resultMap="result">
+
+		SELECT performanceId,<include refid="performanceColumns" />
+		FROM HRO_PERFORMANCE
+		WHERE deleted = 1 
+		AND performanceId = #{value}
+		
+	</select>
+	
+	
+	<insert id="insertPerformance" parameterType="performance" useGeneratedKeys="true" keyProperty="performanceId">
+		INSERT INTO HRO_PERFORMANCE(<include refid="performanceColumns" />)
+		VALUES(#{accountId},#{corpId},#{employeeId},#{yearly},#{fullName},#{shortName},#{chineseName},#{employmentEntityEN},
+			#{employmentEntityZH},#{companyInitial},#{buFunctionEN},#{buFunctionZH},#{departmentEN},#{departmentZH},
+			#{costCenter},#{functionCode},#{location},#{jobRole},#{positionEN},#{positionZH},#{jobGrade},
+			#{internalTitle},#{lineBizManager},#{lineHRManager},#{seniorityDate},#{employmentDate},
+			#{shareOptions},#{lastYearPerformanceRating},#{lastYearPerformancePromotion},#{midYearPromotion},
+			#{midYearSalaryIncrease},#{currencyCode},#{baseSalaryLocal},#{baseSalaryUSD},#{annualBaseSalaryLocal},
+			#{annualBaseSalaryUSD},#{housingAllowanceLocal},#{childrenEduAllowanceLocal},#{guaranteedCashLocal},
+			#{guaranteedCashUSD},#{monthlyTarget},#{quarterlyTarget},#{gpTarget},#{yearEndBonus},#{targetValueLocal},
+			#{targetValueUSD},#{ttcLocal},#{ttcUSD},#{currentYearEndBonus},#{yearPerformanceRating},#{yearPerformancePromotion},
+			#{recommendTTCIncrease},#{ttcIncrease},#{newTTCLocal},#{newTTCUSD},#{newBaseSalaryLocal},
+			#{newBaseSalaryUSD},#{newAnnualSalaryLocal},#{newAnnualSalaryUSD},#{newAnnualHousingAllowance},
+			#{newAnnualChildrenEduAllowance},#{newAnnualGuaranteedAllowanceLocal},#{newAnnualGuatanteedAllowanceUSD},
+			#{newMonthlyTarget},#{newQuarterlyTarget},#{newGPTarget},#{newTargetValueLocal},#{newTargetValueUSD},
+			#{newJobGrade},#{newInternalTitle},#{newPositionEN},#{newPositionZH},#{newShareOptions},#{targetBonus},
+			#{proposedBonus},#{proposedPayoutLocal},#{proposedPayoutUSD},#{description},#{yesGPTarget},#{yesNewGPTarget},1,#{status},
+			#{remark1},#{remark2},#{remark3},#{remark4},#{remark5},#{createBy},#{createDate},#{modifyBy},#{modifyDate}
+		)
+	</insert>
+
+	<update id="updatePerformance" parameterType="performance">
+		UPDATE HRO_PERFORMANCE set employeeId=#{employeeId}, yearly=#{yearly},fullName=#{fullName},shortName=#{shortName},
+			chineseName=#{chineseName},employmentEntityEN=#{employmentEntityEN},employmentEntityZH=#{employmentEntityZH},
+			companyInitial=#{companyInitial},buFunctionEN=#{buFunctionEN},buFunctionZH=#{buFunctionZH},departmentEN=#{departmentEN},
+			departmentZH=#{departmentZH},costCenter=#{costCenter},functionCode=#{functionCode},location=#{location},
+			jobRole=#{jobRole},positionEN=#{positionEN},positionZH=#{positionZH},jobGrade=#{jobGrade},
+			internalTitle=#{internalTitle},lineBizManager=#{lineBizManager},lineHRManager=#{lineHRManager},
+			seniorityDate=#{seniorityDate},employmentDate=#{employmentDate},shareOptions=#{shareOptions},
+			lastYearPerformanceRating=#{lastYearPerformanceRating},lastYearPerformancePromotion=#{lastYearPerformancePromotion},
+			midYearPromotion=#{midYearPromotion},midYearSalaryIncrease=#{midYearSalaryIncrease},currencyCode=#{currencyCode},
+			baseSalaryLocal=#{baseSalaryLocal},baseSalaryUSD=#{baseSalaryUSD},annualBaseSalaryLocal=#{annualBaseSalaryLocal},
+			annualBaseSalaryUSD=#{annualBaseSalaryUSD},housingAllowanceLocal=#{housingAllowanceLocal},
+			childrenEduAllowanceLocal=#{childrenEduAllowanceLocal},guaranteedCashLocal=#{guaranteedCashLocal},
+			guaranteedCashUSD=#{guaranteedCashUSD},monthlyTarget=#{monthlyTarget},quarterlyTarget=#{quarterlyTarget},
+			gpTarget=#{gpTarget},yearEndBonus=#{yearEndBonus},targetValueLocal=#{targetValueLocal},targetValueUSD=#{targetValueUSD},
+			ttcLocal=#{ttcLocal},ttcUSD=#{ttcUSD},currentYearEndBonus=#{currentYearEndBonus},yearPerformanceRating=#{yearPerformanceRating},
+			yearPerformancePromotion=#{yearPerformancePromotion},recommendTTCIncrease=#{recommendTTCIncrease},
+			ttcIncrease=#{ttcIncrease},newTTCLocal=#{newTTCLocal},newTTCUSD=#{newTTCUSD},newBaseSalaryLocal=#{newBaseSalaryLocal},
+			newBaseSalaryUSD=#{newBaseSalaryUSD},newAnnualSalaryLocal=#{newAnnualSalaryLocal},newAnnualSalaryUSD=#{newAnnualSalaryUSD},
+			newAnnualHousingAllowance=#{newAnnualHousingAllowance},newAnnualChildrenEduAllowance=#{newAnnualChildrenEduAllowance},
+			newAnnualGuaranteedAllowanceLocal=#{newAnnualGuaranteedAllowanceLocal},
+			newAnnualGuatanteedAllowanceUSD=#{newAnnualGuatanteedAllowanceUSD},newMonthlyTarget=#{newMonthlyTarget},
+			newQuarterlyTarget=#{newQuarterlyTarget},newGPTarget=#{newGPTarget},
+			newTargetValueLocal=#{newTargetValueLocal},newTargetValueUSD=#{newTargetValueUSD},newJobGrade=#{newJobGrade},
+			newInternalTitle=#{newInternalTitle},newPositionEN=#{newPositionEN},newPositionZH=#{newPositionZH},
+			newShareOptions=#{newShareOptions},targetBonus=#{targetBonus},proposedBonus=#{proposedBonus},
+			proposedPayoutLocal=#{proposedPayoutLocal},proposedPayoutUSD=#{proposedPayoutUSD},description=#{description},
+			yesGPTarget = #{yesGPTarget},yesNewGPTarget=#{yesNewGPTarget},
+			deleted=#{deleted},status=#{status},remark1=#{remark1},remark2=#{remark2},remark3=#{remark3},remark4=#{remark4},
+			remark5=#{remark5},createBy=#{createBy},createDate=#{createDate},modifyBy=#{modifyBy},modifyDate=#{modifyDate}
+		WHERE performanceId = #{performanceId} 
+	</update>	
+	
+	<delete id="deletePerformance" parameterType="int">
+		DELETE FROM HRO_PERFORMANCE 
+		WHERE performanceId = #{value}
+  	</delete>	
+  	
+  	<select id="getPerformanceVOsByMapParameter" parameterType="Map" resultMap="result">
+  		SELECT performanceId,<include refid="performanceColumns" />
+		FROM HRO_PERFORMANCE
+		WHERE deleted = 1 and status = 1
+		<if test="year != null and year != ''">
+			AND yearly = #{year}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND employeeId = #{employeeId}
+		</if>
+  	</select>
+</mapper>

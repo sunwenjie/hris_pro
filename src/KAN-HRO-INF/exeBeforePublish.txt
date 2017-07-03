@@ -1,0 +1,3 @@
+## 修改MySQL
+MySQL 目录下my.ini 文件修改max_allowed_packet = 1M 为 max_allowed_packet = 16M
+如果没有max_allowed_packet，则在my.ini 最后添加该内容

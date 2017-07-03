@@ -1,0 +1,1067 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+           http://www.springframework.org/schema/aop   
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
+           http://www.springframework.org/schema/tx  
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- Dao Initialization -->
+	<bean id="vendorDao" class="com.kan.hro.dao.mybatis.impl.biz.vendor.VendorDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="vendorUserDao" class="com.kan.hro.dao.mybatis.impl.biz.vendor.VendorUserDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="vendorContactDao" class="com.kan.hro.dao.mybatis.impl.biz.vendor.VendorContactDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="vendorServiceDao" class="com.kan.hro.dao.mybatis.impl.biz.vendor.VendorServiceDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientGroupDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientGroupDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientContactDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientContactDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientUserDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientUserDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientContractDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientContractDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientContractPropertyDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientContractPropertyDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientInvoiceDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientInvoiceDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientOrderHeaderDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientOrderHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientOrderHeaderRuleDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientOrderHeaderRuleDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientOrderDetailDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientOrderDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientOrderDetailRuleDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientOrderDetailRuleDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="clientOrderDetailSBRuleDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientOrderDetailSBRuleDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientOrderSBDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientOrderSBDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientOrderCBDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientOrderCBDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientOrderOTDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientOrderOTDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientOrderOtherDao"
+		class="com.kan.hro.dao.mybatis.impl.biz.client.ClientOrderOtherDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="clientOrderLeaveDao" class="com.kan.hro.dao.mybatis.impl.biz.client.ClientOrderLeaveDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<!--employee dao -->
+	<bean id="employeeDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeEmergencyDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeEmergencyDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeEducationDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeEducationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeWorkDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeWorkDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeLanguageDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeLanguageDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeSkillDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeSkillDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeCertificationDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeCertificationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeMembershipDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeMembershipDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeContractDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeContractTempDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractTempDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeContractPropertyDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractPropertyDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeContractSBDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractSBDaoImpl">
+		<property name="employeeDao" ref="employeeDao"></property>
+		<property name="employeeContractDao" ref="employeeContractDao"></property>
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeContractSBTempDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractSBTempDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeContractSBDetailDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractSBDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeContractCBDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractCBDaoImpl">
+		<property name="employeeDao" ref="employeeDao"></property>
+		<property name="employeeContractDao" ref="employeeContractDao"></property>
+		<property name="employeeContractSBDao" ref="employeeContractSBDao" />
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeContractCBTempDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractCBTempDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeContractSalaryDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractSalaryDaoImpl">
+		<property name="employeeDao" ref="employeeDao"></property>
+		<property name="employeeContractDao" ref="employeeContractDao"></property>
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeContractSalaryTempDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractSalaryTempDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeContractOTDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractOTDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeContractOTTempDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractOTTempDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeContractLeaveDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractLeaveDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeContractLeaveTempDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractLeaveTempDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="employeeContractOtherDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractOtherDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeContractSettlementDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractSettlementDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeContractOtherTempDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractOtherTempDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeContractImportBatchDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractImportBatchDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeContractResignDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeContractResignDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeInsuranceNoImportBatchDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeInsuranceNoImportBatchDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeInsuranceNoImportHeaderDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeInsuranceNoImportHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeUserDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeUserDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeePositionChangeDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeePositionChangeDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeSalaryAdjustmentDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeSalaryAdjustmentDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeContractImportHandler" class="com.kan.hro.service.impl.biz.employee.EmployeeContractImportHandlerImpl">
+		<property name="employeeDao" ref="employeeDao"></property>
+		<property name="employeeContractDao" ref="employeeContractDao"></property>
+		<property name="employeeContractTempDao" ref="employeeContractTempDao"></property>
+		<property name="clientOrderHeaderDao" ref="clientOrderHeaderDao"></property>
+		<property name="positionDao" ref="mgtPositionDao"></property>
+		<property name="employeeContractService" ref="employeeContractService"></property>
+		<property name="staffDao" ref="staffDao"></property>
+	</bean>
+	
+	<bean id="employeeContractResignImportHandlerImpl" class="com.kan.hro.service.impl.biz.employee.EmployeeContractResignImportHandlerImpl">
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="employeeContractSBDao" ref="employeeContractSBDao" />
+		<property name="employeeContractCBDao" ref="employeeContractCBDao" />
+	</bean>
+	
+	<bean id="employeeContractResignImportHandler" class="com.kan.hro.service.impl.biz.employee.EmployeeContractResignImportHandlerImpl">
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="employeeContractSBDao" ref="employeeContractSBDao" />
+		<property name="employeeContractCBDao" ref="employeeContractCBDao" />
+	</bean>
+	
+	<bean id="employeeContractResignService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractResignServiceImpl">
+		<property name="dao" ref="employeeContractResignDao" />
+		<property name="commonBatchDao" ref="commonBatchDao" />
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="employeeContractSBDao" ref="employeeContractSBDao" />
+		<property name="employeeContractCBDao" ref="employeeContractCBDao" />
+		<property name="employeeContractService" ref="employeeContractService" />
+		<property name="employeeContractSBService" ref="employeeContractSBService" />
+		<property name="employeeContractCBService" ref="employeeContractCBService" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeLogDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeLogDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeReportDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeReportDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="iClickEmployeeReportDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.IClickEmployeeReportDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="leaveHeaderDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.LeaveHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="leaveDetailDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.LeaveDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="otHeaderDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.OTHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="otDetailDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.OTDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="timesheetBatchDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.TimesheetBatchDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="timesheetAllowanceBatchDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.TimesheetAllowanceBatchDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="timesheetHeaderDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.TimesheetHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="timesheetAllowanceHeaderDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.TimesheetAllowanceHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="timesheetDetailDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.TimesheetDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="timesheetAllowanceDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.TimesheetAllowanceDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="leaveImportBatchDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.LeaveImportBatchDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="leaveImportHeaderDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.LeaveImportHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="otImportBatchDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.OTImportBatchDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="otImportHeaderDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.OTImportHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="recordDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.RecordDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="dashboardDao" class="com.kan.hro.dao.mybatis.impl.biz.dashboard.DashboardDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="employeeAddSubtractDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeAddSubtractDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="attendanceImportHeaderDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.AttendanceImportHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="attendanceImportDetailDao" class="com.kan.hro.dao.mybatis.impl.biz.attendance.AttendanceImportDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="travelDao" class="com.kan.hro.dao.mybatis.impl.biz.travel.TravelDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="performanceDao" class="com.kan.hro.dao.mybatis.impl.biz.performance.PerformanceDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeSalaryAdjustmentBatchDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeSalaryAdjustmentBatchDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeeSalaryAdjustmentTempDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeeSalaryAdjustmentTempDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeePositionChangeBatchDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeePositionChangeBatchDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="employeePositionChangeTempDao" class="com.kan.hro.dao.mybatis.impl.biz.employee.EmployeePositionChangeTempDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<!-- Service Initialization -->
+	<bean id="vendorService" class="com.kan.hro.service.impl.biz.vendor.VendorServiceImpl">
+		<property name="dao" ref="vendorDao"></property>
+		<property name="vendorContactDao" ref="vendorContactDao"></property>
+		<property name="vendorServiceDao" ref="vendorServiceDao"></property>
+		<property name="workflowService" ref="workflowService"></property>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="vendorSBImportHandler" class="com.kan.hro.service.impl.biz.vendor.VendorSBImportHandlerImpl">
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="employeeContractSBDao" ref="employeeContractSBDao" />
+	</bean>
+
+	<bean id="vendorUserService" class="com.kan.hro.service.impl.biz.vendor.VendorUserServiceImpl">
+		<property name="dao" ref="vendorUserDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="vendorContactService" class="com.kan.hro.service.impl.biz.vendor.VendorContactServiceImpl">
+		<property name="dao" ref="vendorContactDao" />
+		<property name="vendorUserDao" ref="vendorUserDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="vendorServiceService" class="com.kan.hro.service.impl.biz.vendor.VendorServiceServiceImpl">
+		<property name="dao" ref="vendorServiceDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="clientService" class="com.kan.hro.service.impl.biz.client.ClientServiceImpl">
+		<property name="dao" ref="clientDao" />
+		<property name="clientContactDao" ref="clientContactDao" />
+		<property name="clientContractDao" ref="clientContractDao" />
+		<property name="clientInvoiceDao" ref="clientInvoiceDao" />
+		<property name="clientOrderHeaderDao" ref="clientOrderHeaderDao" />
+		<property name="moduleDao" ref="moduleDao"/>
+		<property name="workflowService" ref="workflowService" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="clientGroupService" class="com.kan.hro.service.impl.biz.client.ClientGroupServiceImpl">
+		<property name="dao" ref="clientGroupDao" />
+		<property name="clientDao" ref="clientDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="clientContactService" class="com.kan.hro.service.impl.biz.client.ClientContactServiceImpl">
+		<property name="dao" ref="clientContactDao" />
+		<property name="clientUserDao" ref="clientUserDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="clientUserService" class="com.kan.hro.service.impl.biz.client.ClientUserServiceImpl">
+		<property name="dao" ref="clientUserDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeUserService" class="com.kan.hro.service.impl.biz.employee.EmployeeUserServiceImpl">
+		<property name="employeeUserDao" ref="employeeUserDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="clientContractService" class="com.kan.hro.service.impl.biz.client.ClientContractServiceImpl">
+		<property name="dao" ref="clientContractDao" />
+		<property name="clientOrderHeaderDao" ref="clientOrderHeaderDao" />
+		<property name="clientContractPropertyDao" ref="clientContractPropertyDao" />
+		<property name="workflowService" ref="workflowService" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeLogService" class="com.kan.hro.service.impl.biz.employee.EmployeeLogServiceImpl">
+		<property name="dao" ref="employeeLogDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeReportService" class="com.kan.hro.service.impl.biz.employee.EmployeeReportServiceImpl">
+		<property name="dao" ref="employeeReportDao" />
+		<property name="employeeContractSalaryDao" ref="employeeContractSalaryDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeChangeReportService" class="com.kan.hro.service.impl.biz.employee.EmployeeChangeReportServiceImpl">
+		<property name="logDao" ref="logDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="iClickEmployeeReportService" class="com.kan.hro.service.impl.biz.employee.IClickEmployeeReportServiceImpl">
+		<property name="dao" ref="iClickEmployeeReportDao" />
+		<property name="employeeContractSalaryDao" ref="employeeContractSalaryDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="clientContractPropertyService" class="com.kan.hro.service.impl.biz.client.ClientContractPropertyServiceImpl">
+		<property name="dao" ref="clientContractPropertyDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="clientInvoiceService" class="com.kan.hro.service.impl.biz.client.ClientInvoiceServiceImpl">
+		<property name="dao" ref="clientInvoiceDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="clientOrderHeaderService" class="com.kan.hro.service.impl.biz.client.ClientOrderHeaderServiceImpl">
+		<property name="dao" ref="clientOrderHeaderDao" />
+		<property name="clientOrderHeaderRuleDao" ref="clientOrderHeaderRuleDao" />
+		<property name="clientService" ref="clientService" />
+		<property name="clientOrderDetailService" ref="clientOrderDetailService" />
+		<property name="clientOrderSBDao" ref="clientOrderSBDao" />
+		<property name="clientOrderCBDao" ref="clientOrderCBDao" />
+		<property name="clientOrderLeaveDao" ref="clientOrderLeaveDao" />
+		<property name="clientOrderOTDao" ref="clientOrderOTDao" />
+		<property name="clientOrderOtherDao" ref="clientOrderOtherDao" />
+		<property name="clientOrderDetailDao" ref="clientOrderDetailDao" />
+		<property name="clientOrderDetailRuleDao" ref="clientOrderDetailRuleDao" />
+		<property name="employeeContractService" ref="employeeContractService" />
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="clientContractDao" ref="clientContractDao" />
+		<property name="workflowService" ref="workflowService" />
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="employeeContractLeaveDao" ref="employeeContractLeaveDao" />
+	</bean>
+
+	<bean id="clientOrderHeaderRuleService" class="com.kan.hro.service.impl.biz.client.ClientOrderHeaderRuleServiceImpl">
+		<property name="dao" ref="clientOrderHeaderRuleDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="clientOrderDetailService" class="com.kan.hro.service.impl.biz.client.ClientOrderDetailServiceImpl">
+		<property name="dao" ref="clientOrderDetailDao" />
+		<property name="clientOrderDetailRuleDao" ref="clientOrderDetailRuleDao" />
+		<property name="clientOrderDetailSBRuleDao" ref="clientOrderDetailSBRuleDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="clientOrderDetailRuleService" class="com.kan.hro.service.impl.biz.client.ClientOrderDetailRuleServiceImpl">
+		<property name="dao" ref="clientOrderDetailRuleDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="clientOrderDetailSBRuleService" class="com.kan.hro.service.impl.biz.client.ClientOrderDetailSBRuleServiceImpl">
+		<property name="dao" ref="clientOrderDetailSBRuleDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="clientOrderSBService" class="com.kan.hro.service.impl.biz.client.ClientOrderSBServiceImpl">
+		<property name="dao" ref="clientOrderSBDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="clientOrderCBService" class="com.kan.hro.service.impl.biz.client.ClientOrderCBServiceImpl">
+		<property name="dao" ref="clientOrderCBDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="clientOrderOTService" class="com.kan.hro.service.impl.biz.client.ClientOrderOTServiceImpl">
+		<property name="dao" ref="clientOrderOTDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="clientOrderOtherService" class="com.kan.hro.service.impl.biz.client.ClientOrderOtherServiceImpl">
+		<property name="dao" ref="clientOrderOtherDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="clientOrderLeaveService" class="com.kan.hro.service.impl.biz.client.ClientOrderLeaveServiceImpl">
+		<property name="dao" ref="clientOrderLeaveDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<!-- employee service -->
+	<bean id="employeeService" class="com.kan.hro.service.impl.biz.employee.EmployeeServiceImpl">
+		<property name="dao" ref="employeeDao" />
+		<property name="employeeSkillDao" ref="employeeSkillDao"></property>
+		<property name="positionDao" ref="positionDao"></property>
+		<property name="branchDao" ref="branchDao"></property>
+		<property name="positionStaffRelationDao" ref="positionStaffRelationDao"></property>
+		<property name="userDao" ref="userDao"></property>
+		<property name="employeeUserDao" ref="employeeUserDao" />
+		<property name="workflowService" ref="workflowService"></property>
+		<property name="staffDao" ref="staffDao"></property>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeImportHandler" class="com.kan.hro.service.impl.biz.employee.EmployeeImportHandlerImpl">
+		<property name="userDao" ref="userDao"></property>
+		<property name="staffDao" ref="staffDao"></property>
+		<property name="employeeDao" ref="employeeDao"></property>
+		<property name="positionStaffRelationDao" ref="positionStaffRelationDao"></property>
+		<property name="positionDao" ref="positionDao"></property>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeEmergencyService" class="com.kan.hro.service.impl.biz.employee.EmployeeEmergencyServiceImpl">
+		<property name="dao" ref="employeeEmergencyDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeEducationService" class="com.kan.hro.service.impl.biz.employee.EmployeeEducationServiceImpl">
+		<property name="dao" ref="employeeEducationDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeWorkService" class="com.kan.hro.service.impl.biz.employee.EmployeeWorkServiceImpl">
+		<property name="dao" ref="employeeWorkDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeLanguageService" class="com.kan.hro.service.impl.biz.employee.EmployeeLanguageServiceImpl">
+		<property name="dao" ref="employeeLanguageDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeSkillService" class="com.kan.hro.service.impl.biz.employee.EmployeeSkillServiceImpl">
+		<property name="dao" ref="employeeSkillDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeCertificationService" class="com.kan.hro.service.impl.biz.employee.EmployeeCertificationServiceImpl">
+		<property name="dao" ref="employeeCertificationDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeMembershipService" class="com.kan.hro.service.impl.biz.employee.EmployeeMembershipServiceImpl">
+		<property name="dao" ref="employeeMembershipDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeContractService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractServiceImpl">
+		<property name="dao" ref="employeeContractDao" />
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="clientDao" ref="clientDao" />
+		<property name="clientOrderHeaderDao" ref="clientOrderHeaderDao" />
+		<property name="clientOrderSBDao" ref="clientOrderSBDao" />
+		<property name="clientOrderCBDao" ref="clientOrderCBDao" />
+		<property name="employeeContractSalaryDao" ref="employeeContractSalaryDao" />
+		<property name="employeeContractSBService" ref="employeeContractSBService" />
+		<property name="employeeContractCBDao" ref="employeeContractCBDao" />
+		<property name="employeeContractLeaveDao" ref="employeeContractLeaveDao" />
+		<property name="employeeContractOTDao" ref="employeeContractOTDao" />
+		<property name="employeeContractOtherDao" ref="employeeContractOtherDao" />
+		<property name="employeeContractSBDao" ref="employeeContractSBDao" />
+		<property name="employeeContractSBDetailDao" ref="employeeContractSBDetailDao" />
+		<property name="timesheetHeaderService" ref="timesheetHeaderService"></property>
+		<property name="sbHeaderService" ref="sbHeaderService"></property>
+		<property name="cbHeaderService" ref="cbHeaderService"></property>
+		<property name="employeeContractPropertyDao" ref="employeeContractPropertyDao"></property>
+		<property name="orderDetailDao" ref="orderDetailDao"></property>
+		<property name="sbAdjustmentHeaderService" ref="sbAdjustmentHeaderService"></property>
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="workflowService" ref="workflowService" />
+		<property name="salaryHeaderService" ref="salaryHeaderService" />
+		<property name="paymentHeaderDao" ref="paymentHeaderDao" />
+		<property name="paymentAdjustmentHeaderDao" ref="paymentAdjustmentHeaderDao" />
+		<property name="itemGroupRelationDao" ref="itemGroupRelationDao" />
+		<property name="itemGroupDao" ref="itemGroupDao" />
+		<property name="leaveHeaderDao" ref="leaveHeaderDao" />
+		<property name="userDao" ref="userDao" />
+		<property name="positionStaffRelationDao" ref="positionStaffRelationDao" />
+		<property name="employeePositionChangeDao" ref="employeePositionChangeDao" />
+		<property name="staffDao" ref="staffDao" />
+		<property name="clientOrderLeaveDao" ref="clientOrderLeaveDao" />
+		<property name="logDao" ref="logDao" />
+	</bean>
+	
+	<bean id="employeeContractTempService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractTempServiceImpl">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="dao" ref="employeeContractTempDao" />
+		<property name="employeeContractImportBatchDao" ref="employeeContractImportBatchDao" />
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="employeeContractSalaryDao" ref="employeeContractSalaryDao" />
+		<property name="employeeContractSalaryTempDao" ref="employeeContractSalaryTempDao" />
+		<property name="employeeContractSBDao" ref="employeeContractSBDao" />
+		<property name="employeeContractSBDetailDao" ref="employeeContractSBDetailDao" />
+		<property name="employeeContractSBTempDao" ref="employeeContractSBTempDao" />
+		<property name="employeeContractCBDao" ref="employeeContractCBDao" />
+		<property name="employeeContractCBTempDao" ref="employeeContractCBTempDao" />
+		<property name="employeeContractLeaveDao" ref="employeeContractLeaveDao" />
+		<property name="employeeContractLeaveTempDao" ref="employeeContractLeaveTempDao" />
+		<property name="employeeContractOTDao" ref="employeeContractOTDao" />
+		<property name="employeeContractOTTempDao" ref="employeeContractOTTempDao" />
+		<property name="employeeContractOtherDao" ref="employeeContractOtherDao" />
+		<property name="employeeContractOtherTempDao" ref="employeeContractOtherTempDao" />
+		<property name="logDao" ref="logDao" />
+	</bean>
+
+	<bean id="employeeContractPropertyService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractPropertyServiceImpl">
+		<property name="dao" ref="employeeContractPropertyDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeContractSBService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractSBServiceImpl">
+		<property name="dao" ref="employeeContractSBDao" />
+		<property name="vendorDao" ref="vendorDao" />
+		<property name="vendorServiceDao" ref="vendorServiceDao" />
+		<property name="employeeContractDao" ref="employeeContractDao"></property>
+		<property name="employeeContractSBDetailDao" ref="employeeContractSBDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="workflowService" ref="workflowService" />
+	</bean>
+	<bean id="employeeContractSBTempService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractSBTempServiceImpl">
+		<property name="dao" ref="employeeContractSBTempDao" />
+		<property name="vendorDao" ref="vendorDao" />
+		<property name="vendorServiceDao" ref="vendorServiceDao" />
+		<property name="employeeContractTempDao" ref="employeeContractTempDao"></property>
+		<property name="employeeContractSBDetailDao" ref="employeeContractSBDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeContractSBDetailService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractSBDetailServiceImpl">
+		<property name="dao" ref="employeeContractSBDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeContractCBService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractCBServiceImpl">
+		<property name="dao" ref="employeeContractCBDao" />
+		<property name="employeeContractDao" ref="employeeContractDao"></property>
+		<property name="workflowService" ref="workflowService" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeContractCBTempService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractCBTempServiceImpl">
+		<property name="dao" ref="employeeContractCBTempDao" />
+		<property name="employeeContractTempDao" ref="employeeContractTempDao"></property>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeContractSalaryService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractSalaryServiceImpl">
+		<property name="dao" ref="employeeContractSalaryDao" />
+		<property name="employeeContractDao" ref="employeeContractDao"></property>
+		<property name="workflowService" ref="workflowService" />
+		<property name="employeeSalaryAdjustmentDao" ref="employeeSalaryAdjustmentDao" />
+		<property name="logDao" ref="logDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeContractSalaryTempService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractSalaryTempServiceImpl">
+		<property name="dao" ref="employeeContractSalaryTempDao" />
+		<property name="employeeContractTempDao" ref="employeeContractTempDao"></property>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="leaveHeaderService" class="com.kan.hro.service.impl.biz.attendance.LeaveHeaderServiceImpl">
+		<property name="dao" ref="leaveHeaderDao" />
+		<property name="leaveDetailDao" ref="leaveDetailDao" />
+		<property name="otDetailDao" ref="otDetailDao" />
+		<property name="workflowService" ref="workflowService" />
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="employeeContractLeaveDao" ref="employeeContractLeaveDao" />
+		<property name="clientOrderHeaderDao" ref="clientOrderHeaderDao" />
+		<property name="clientOrderLeaveDao" ref="clientOrderLeaveDao" />
+		<property name="timesheetHeaderService" ref="timesheetHeaderService" />
+		<property name="timesheetHeaderDao" ref="timesheetHeaderDao" />
+		<property name="timesheetDetailDao" ref="timesheetDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeInsuranceNoImportBatchService" class="com.kan.hro.service.impl.biz.employee.EmployeeInsuranceNoImportBatchServiceImpl">
+		<property name="commonBatchDao" ref="commonBatchDao" />
+		<property name="employeeInsuranceNoImportBatchDao" ref="employeeInsuranceNoImportBatchDao" />
+		<property name="employeeInsuranceNoImportHeaderDao" ref="employeeInsuranceNoImportHeaderDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeInsuranceNoImportHeaderService" class="com.kan.hro.service.impl.biz.employee.EmployeeInsuranceNoImportHeaderServiceImpl">
+		<property name="commonBatchDao" ref="commonBatchDao" />
+		<property name="employeeInsuranceNoImportBatchDao" ref="employeeInsuranceNoImportBatchDao" />
+		<property name="employeeInsuranceNoImportHeaderDao" ref="employeeInsuranceNoImportHeaderDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeContractImportBatchService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractImportBatchServiceImpl">
+		<property name="dao" ref="employeeContractImportBatchDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="leaveDetailService" class="com.kan.hro.service.impl.biz.attendance.LeaveDetailServiceImpl">
+		<property name="dao" ref="leaveDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="otHeaderService" class="com.kan.hro.service.impl.biz.attendance.OTHeaderServiceImpl">
+		<property name="dao" ref="otHeaderDao" />
+		<property name="otDetailDao" ref="otDetailDao" />
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="employeeContractOTDao" ref="employeeContractOTDao" />
+		<property name="clientOrderHeaderDao" ref="clientOrderHeaderDao" />
+		<property name="clientOrderOTDao" ref="clientOrderOTDao" />
+		<property name="workflowService" ref="workflowService" />
+		<property name="timesheetHeaderService" ref="timesheetHeaderService" />
+		<property name="timesheetDetailDao" ref="timesheetDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="otDetailService" class="com.kan.hro.service.impl.biz.attendance.OTDetailServiceImpl">
+		<property name="dao" ref="otDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeContractOTService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractOTServiceImpl">
+		<property name="dao" ref="employeeContractOTDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeContractOTTempService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractOTTempServiceImpl">
+		<property name="dao" ref="employeeContractOTTempDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeContractLeaveService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractLeaveServiceImpl">
+		<property name="dao" ref="employeeContractLeaveDao" />
+		<property name="itemDao" ref="itemDao" />
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="clientOrderLeaveDao" ref="clientOrderLeaveDao" />
+		<property name="leaveHeaderDao" ref="leaveHeaderDao" />
+		<property name="leaveDetailDao" ref="leaveDetailDao" />
+		<property name="leaveHeaderService" ref="leaveHeaderService" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeContractLeaveTempService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractLeaveTempServiceImpl">
+		<property name="dao" ref="employeeContractLeaveTempDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeContractOtherService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractOtherServiceImpl">
+		<property name="dao" ref="employeeContractOtherDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeContractSettlementService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractSettlementServiceImpl">
+		<property name="dao" ref="employeeContractSettlementDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeContractOtherTempService" class="com.kan.hro.service.impl.biz.employee.EmployeeContractOtherTempServiceImpl">
+		<property name="dao" ref="employeeContractOtherTempDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="timesheetBatchService" class="com.kan.hro.service.impl.biz.attendance.TimesheetBatchServiceImpl">
+		<property name="dao" ref="timesheetBatchDao" />
+		<property name="timesheetHeaderService" ref="timesheetHeaderService" />
+		<property name="timesheetHeaderDao" ref="timesheetHeaderDao" />
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="workflowService" ref="workflowService" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="timesheetAllowanceBatchService" class="com.kan.hro.service.impl.biz.attendance.TimesheetAllowanceBatchServiceImpl">
+		<property name="dao" ref="timesheetAllowanceBatchDao" />
+		<property name="timesheetAllowanceDao" ref="timesheetAllowanceDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="timesheetHeaderService" class="com.kan.hro.service.impl.biz.attendance.TimesheetHeaderServiceImpl">
+		<property name="dao" ref="timesheetHeaderDao" />
+		<property name="timesheetDetailDao" ref="timesheetDetailDao" />
+		<property name="timesheetAllowanceDao" ref="timesheetAllowanceDao" />
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="clientOrderHeaderDao" ref="clientOrderHeaderDao" />
+		<property name="employeeContractSalaryDao" ref="employeeContractSalaryDao" />
+		<property name="leaveHeaderDao" ref="leaveHeaderDao" />
+		<property name="leaveDetailDao" ref="leaveDetailDao" />
+		<property name="otHeaderDao" ref="otHeaderDao" />
+		<property name="otDetailDao" ref="otDetailDao" />
+		<property name="shiftHeaderDao" ref="shiftHeaderDao" />
+		<property name="workflowService" ref="workflowService" />
+		<property name="timesheetBatchDao" ref="timesheetBatchDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="timesheetAllowanceHeaderService" class="com.kan.hro.service.impl.biz.attendance.TimesheetAllowanceHeaderServiceImpl">
+		<property name="dao" ref="timesheetAllowanceHeaderDao" />
+		<property name="otImportBatchDao" ref="otImportBatchDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="timesheetDetailService" class="com.kan.hro.service.impl.biz.attendance.TimesheetDetailServiceImpl">
+		<property name="dao" ref="timesheetDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="timesheetAllowanceService" class="com.kan.hro.service.impl.biz.attendance.TimesheetAllowanceServiceImpl">
+		<property name="dao" ref="timesheetAllowanceDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="dashboardService" class="com.kan.hro.service.impl.biz.dashboard.DashboardServiceImpl">
+		<property name="dao" ref="dashboardDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="timesheetAllowance" class="com.kan.hro.service.inf.biz.attendance.TimeSheetAllowanceImportHandlerImpl">
+		<property name="timesheetHeaderDao" ref="timesheetHeaderDao"></property>
+		<property name="timesheetAllowanceDao" ref="timesheetAllowanceDao"></property>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="leaveExcueHandler" class="com.kan.hro.service.impl.biz.attendance.LeaveImportHandlerImpl">
+		<property name="leaveHeaderDao" ref="leaveHeaderDao"></property>
+		<property name="leaveDetailDao" ref="leaveDetailDao"></property>
+		<property name="employeeContractDao" ref="employeeContractDao"></property>
+		<property name="employeeDao" ref="employeeDao"></property>
+		<property name="employeeContractLeaveDao" ref="employeeContractLeaveDao"></property>
+		<property name="clientOrderHeaderDao" ref="clientOrderHeaderDao"></property>
+		<property name="clientOrderLeaveDao" ref="clientOrderLeaveDao"></property>
+		<property name="leaveHeaderService" ref="leaveHeaderService"></property>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="leaveImportBatchService" class="com.kan.hro.service.impl.biz.attendance.LeaveImportBatchServiceImpl">
+		<property name="dao" ref="leaveImportBatchDao" />
+		<property name="leaveImportHeaderDao" ref="leaveImportHeaderDao"></property>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="leaveImportHeaderService" class="com.kan.hro.service.impl.biz.attendance.LeaveImportHeaderServiceImpl">
+		<property name="dao" ref="leaveImportHeaderDao" />
+		<property name="leaveImportBatchDao" ref="leaveImportBatchDao"></property>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="otExcueHandler" class="com.kan.hro.service.impl.biz.attendance.OTImportHandlerImpl">
+		<property name="otHeaderDao" ref="otHeaderDao"></property>
+		<property name="otDetailDao" ref="otDetailDao"></property>
+		<property name="employeeDao" ref="employeeDao"></property>
+		<property name="employeeContractDao" ref="employeeContractDao"></property>
+		<property name="employeeContractOTDao" ref="employeeContractOTDao"></property>
+		<property name="clientOrderHeaderDao" ref="clientOrderHeaderDao"></property>
+		<property name="clientOrderOTDao" ref="clientOrderOTDao"></property>
+		<property name="employeeContractOTService" ref="employeeContractOTService"></property>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="otImportHeaderService" class="com.kan.hro.service.impl.biz.attendance.OTImportHeaderServiceImpl">
+		<property name="dao" ref="otImportHeaderDao" />
+		<property name="otImportBatchDao" ref="otImportBatchDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="recordService" class="com.kan.hro.service.impl.biz.attendance.RecordServiceImpl">
+		<property name="dao" ref="recordDao" />
+		<property name="employeeService" ref="employeeService" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="otImportBatchService" class="com.kan.hro.service.impl.biz.attendance.OTImportBatchServiceImpl">
+		<property name="dao" ref="otImportBatchDao" />
+		<property name="otImportHeaderDao" ref="otImportHeaderDao"></property>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeAddSubtractService" class="com.kan.hro.service.impl.biz.employee.EmployeeAddSubtractServiceImpl">
+		<property name="dao" ref="employeeAddSubtractDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="cardNOExcueHandler"
+		class="com.kan.hro.service.impl.biz.employee.EmployeeContractCardNOImportHandlerImpl">
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="employeeContractCBDao" ref="employeeContractCBDao" />
+	</bean>
+	
+	<bean id="attendanceImportBatchService" class="com.kan.hro.service.impl.biz.attendance.AttendanceImportBatchServiceImpl">
+		<property name="commonBatchDao" ref="commonBatchDao" />
+		<property name="itemDao" ref="itemDao" />
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="clientOrderHeaderDao" ref="clientOrderHeaderDao" />
+		<property name="attendanceImportHeaderDao" ref="attendanceImportHeaderDao" />
+		<property name="attendanceImportDetailDao" ref="attendanceImportDetailDao" />
+		<property name="leaveHeaderDao" ref="leaveHeaderDao" />
+		<property name="leaveHeaderService" ref="leaveHeaderService" />
+		<property name="leaveDetailDao" ref="leaveDetailDao" />
+		<property name="otHeaderDao" ref="otHeaderDao" />
+		<property name="otDetailDao" ref="otDetailDao" />
+		<property name="timesheetBatchDao" ref="timesheetBatchDao" />
+		<property name="timesheetHeaderDao" ref="timesheetHeaderDao" />
+		<property name="timesheetHeaderService" ref="timesheetHeaderService" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="attendanceImportHeaderService" class="com.kan.hro.service.impl.biz.attendance.AttendanceImportHeaderServiceImpl">
+		<property name="dao" ref="attendanceImportHeaderDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="attendanceImportDetailService" class="com.kan.hro.service.impl.biz.attendance.AttendanceImportDetailServiceImpl">
+		<property name="dao" ref="attendanceImportDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="attendanceHeaderImportHandler" class="com.kan.hro.service.impl.biz.attendance.AttendanceHeaderImportHandlerImpl">
+		<property name="attendanceImportHeaderDao" ref="attendanceImportHeaderDao"></property>
+		<property name="attendanceImportDetailDao" ref="attendanceImportDetailDao"></property>
+		<property name="employeeContractDao" ref="employeeContractDao"></property>
+		<property name="itemDao" ref="itemDao"></property>
+		<property name="employeeDao" ref="employeeDao"></property>
+	</bean>
+	
+	<bean id="employeePositionChangeService" class="com.kan.hro.service.impl.biz.employee.EmployeePositionChangeServiceImpl">
+		<property name="employeePositionChangeDao" ref="employeePositionChangeDao"></property>
+		<property name="positionStaffRelationDao" ref="positionStaffRelationDao"></property>
+		<property name="employeeDao" ref="employeeDao"></property>
+		<property name="employeeContractDao" ref="employeeContractDao"></property>
+		<property name="positionDao" ref="positionDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeSalaryAdjustmentService" class="com.kan.hro.service.impl.biz.employee.EmployeeSalaryAdjustmentServiceImpl">
+		<property name="employeeContractDao" ref="employeeContractDao"></property>
+		<property name="employeeContractSalaryDao" ref="employeeContractSalaryDao"></property>
+		<property name="employeeSalaryAdjustmentDao" ref="employeeSalaryAdjustmentDao"></property>
+		<property name="clientOrderHeaderDao" ref="clientOrderHeaderDao"></property>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="travelService" class="com.kan.hro.service.impl.biz.travel.TravelServiceImpl">
+		<property name="dao" ref="travelDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="performanceService" class="com.kan.hro.service.impl.biz.performance.PerformanceServiceImpl">
+		<property name="dao" ref="performanceDao" />
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="employeeContractSalaryDao" ref="employeeContractSalaryDao" />
+		<property name="employeePositionChangeDao" ref="employeePositionChangeDao" />
+		<property name="employeeSalaryAdjustmentDao" ref="employeeSalaryAdjustmentDao" />
+		<property name="positionDao" ref="positionDao" />
+		<property name="logDao" ref="logDao" />
+		<property name="columnDao" ref="columnDao" />
+		<property name="messageMailDao" ref="messageMailDao" />
+		<property name="messageTemplateDao" ref="messageTemplateDao" />
+		<property name="yerrRuleDao" ref="yerrRuleDao" />
+		<property name="exchangeRateDao" ref="exchangeRateDao" />
+		<property name="budgetSettingHeaderDao" ref="budgetSettingHeaderDao" />
+		<property name="budgetSettingDetailDao" ref="budgetSettingDetailDao" />
+		<property name="selfAssessmentDao" ref="selfAssessmentDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeSalaryAdjustmentBatchService" class="com.kan.hro.service.impl.biz.employee.EmployeeSalaryAdjustmentBatchServiceImpl">
+		<property name="dao" ref="employeeSalaryAdjustmentBatchDao" />
+		<property name="commonBatchDao" ref="commonBatchDao" />
+		<property name="clientOrderHeaderDao" ref="clientOrderHeaderDao" />
+		<property name="employeeContractSalaryDao" ref="employeeContractSalaryDao" />
+		<property name="employeeSalaryAdjustmentTempDao" ref="employeeSalaryAdjustmentTempDao" />
+		<property name="employeeSalaryAdjustmentDao" ref="employeeSalaryAdjustmentDao" />
+		<property name="logDao" ref="logDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeeSalaryAdjustmentTempService" class="com.kan.hro.service.impl.biz.employee.EmployeeSalaryAdjustmentTempServiceImpl">
+		<property name="dao" ref="employeeSalaryAdjustmentTempDao" />
+		<property name="employeeSalaryAdjustmentBatchDao" ref="employeeSalaryAdjustmentBatchDao" />
+		<property name="employeeSalaryAdjustmentDao" ref="employeeSalaryAdjustmentDao" />
+		<property name="logDao" ref="logDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeePositionChangeBatchService" class="com.kan.hro.service.impl.biz.employee.EmployeePositionChangeBatchServiceImpl">
+		<property name="dao" ref="employeePositionChangeBatchDao" />
+		<property name="commonBatchDao" ref="commonBatchDao" />
+		<property name="employeePositionChangeTempDao" ref="employeePositionChangeTempDao" />
+		<property name="employeePositionChangeService" ref="employeePositionChangeService" />
+		<property name="logDao" ref="logDao" />
+		<property name="positionDao" ref="positionDao" />
+		<property name="positionGroupRelationDao" ref="positionGroupRelationDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="employeePositionChangeTempService" class="com.kan.hro.service.impl.biz.employee.EmployeePositionChangeTempServiceImpl">
+		<property name="dao" ref="employeePositionChangeTempDao" />
+		<property name="employeePositionChangeBatchDao" ref="employeePositionChangeBatchDao" />
+		<property name="employeePositionChangeDao" ref="employeePositionChangeDao" />
+		<property name="logDao" ref="logDao" />
+		<property name="transactionManager" ref="transactionManager" /> 
+	</bean>
+	
+</beans>  

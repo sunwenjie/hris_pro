@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+           http://www.springframework.org/schema/aop   
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
+           http://www.springframework.org/schema/tx  
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- Dao initialization -->
+	<bean id="optionsDao" class="com.kan.base.dao.mybatis.impl.management.OptionsDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="emailConfigurationDao" class="com.kan.base.dao.mybatis.impl.management.EmailConfigurationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="shareFolderConfigurationDao" class="com.kan.base.dao.mybatis.impl.management.ShareFolderConfigurationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="mgtPositionDao" class="com.kan.base.dao.mybatis.impl.management.PositionDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="mgtPositionGradeDao" class="com.kan.base.dao.mybatis.impl.management.PositionGradeDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="mgtPositionGradeCurrencyDao" class="com.kan.base.dao.mybatis.impl.management.PositionGradeCurrencyDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="employeeStatusDao" class="com.kan.base.dao.mybatis.impl.management.EmployeeStatusDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="educationDao" class="com.kan.base.dao.mybatis.impl.management.EducationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="languageDao" class="com.kan.base.dao.mybatis.impl.management.LanguageDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="skillDao" class="com.kan.base.dao.mybatis.impl.management.SkillDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="contractTypeDao" class="com.kan.base.dao.mybatis.impl.management.ContractTypeDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="itemDao" class="com.kan.base.dao.mybatis.impl.management.ItemDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="itemGroupDao" class="com.kan.base.dao.mybatis.impl.management.ItemGroupDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="itemGroupRelationDao" class="com.kan.base.dao.mybatis.impl.management.ItemGroupRelationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="itemMappingDao" class="com.kan.base.dao.mybatis.impl.management.ItemMappingDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="taxDao" class="com.kan.base.dao.mybatis.impl.management.TaxDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="socialBenefitSolutionHeaderDao" class="com.kan.base.dao.mybatis.impl.management.SocialBenefitSolutionHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="socialBenefitSolutionDetailDao" class="com.kan.base.dao.mybatis.impl.management.SocialBenefitSolutionDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="certificationDao" class="com.kan.base.dao.mybatis.impl.management.CertificationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="membershipDao" class="com.kan.base.dao.mybatis.impl.management.MembershipDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="businessContractTemplateDao" class="com.kan.base.dao.mybatis.impl.management.BusinessContractTemplateDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="laborContractTemplateDao" class="com.kan.base.dao.mybatis.impl.management.LaborContractTemplateDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="industryTypeDao" class="com.kan.base.dao.mybatis.impl.management.IndustryTypeDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="calendarHeaderDao" class="com.kan.base.dao.mybatis.impl.management.CalendarHeaderDaoImpl">
+		<property ref="sqlSessionTemplate" name="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="calendarDetailDao" class="com.kan.base.dao.mybatis.impl.management.CalendarDetailDaoImpl">
+		<property ref="sqlSessionTemplate" name="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="shiftHeaderDao" class="com.kan.base.dao.mybatis.impl.management.ShiftHeaderDaoImpl">
+		<property ref="sqlSessionTemplate" name="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="shiftDetailDao" class="com.kan.base.dao.mybatis.impl.management.ShiftDetailDaoImpl">
+		<property ref="sqlSessionTemplate" name="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="shiftExceptionDao" class="com.kan.base.dao.mybatis.impl.management.ShiftExceptionDaoImpl">
+		<property ref="sqlSessionTemplate" name="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="sickLeaveSalaryHeaderDao" class="com.kan.base.dao.mybatis.impl.management.SickLeaveSalaryHeaderDaoImpl">
+		<property ref="sqlSessionTemplate" name="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="sickLeaveSalaryDetailDao" class="com.kan.base.dao.mybatis.impl.management.SickLeaveSalaryDetailDaoImpl">
+		<property ref="sqlSessionTemplate" name="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="commercialBenefitSolutionHeaderDao" class="com.kan.base.dao.mybatis.impl.management.CommercialBenefitSolutionHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="commercialBenefitSolutionDetailDao" class="com.kan.base.dao.mybatis.impl.management.CommercialBenefitSolutionDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="bankDao" class="com.kan.base.dao.mybatis.impl.management.BankDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="settingDao" class="com.kan.base.dao.mybatis.impl.management.SettingDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="resignTemplateDao" class="com.kan.base.dao.mybatis.impl.management.ResignTemplateDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="annualLeaveRuleHeaderDao" class="com.kan.base.dao.mybatis.impl.management.AnnualLeaveRuleHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="annualLeaveRuleDetailDao" class="com.kan.base.dao.mybatis.impl.management.AnnualLeaveRuleDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="exchangeRateDao" class="com.kan.base.dao.mybatis.impl.management.ExchangeRateDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="yerrRuleDao" class="com.kan.base.dao.mybatis.impl.management.YERRRuleDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<!-- Service initialization -->
+	<bean id="optionsService" class="com.kan.base.service.impl.management.OptionsServiceImpl">
+		<property name="dao" ref="optionsDao" />
+		<property name="clientDao" ref="clientDao" />
+		<property name="entityDao" ref="entityDao" />
+		<property name="moduleDao" ref="moduleDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="emailConfigurationService" class="com.kan.base.service.impl.management.EmailConfigurationServiceImpl">
+		<property name="dao" ref="emailConfigurationDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="shareFolderConfigurationService" class="com.kan.base.service.impl.management.ShareFolderConfigurationServiceImpl">
+		<property name="dao" ref="shareFolderConfigurationDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="mgtPositionService" class="com.kan.base.service.impl.management.PositionServiceImpl">
+		<property name="dao" ref="mgtPositionDao" />
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="mgtPositionGradeService" class="com.kan.base.service.impl.management.PositionGradeServiceImpl">
+		<property name="dao" ref="mgtPositionGradeDao" />
+		<property name="positionGradeCurrencyDao" ref="mgtPositionGradeCurrencyDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="mgtPositionGradeCurrencyService" class="com.kan.base.service.impl.management.PositionGradeCurrencyServiceImpl">
+		<property name="dao" ref="mgtPositionGradeCurrencyDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="employeeStatusService" class="com.kan.base.service.impl.management.EmployeeStatusServiceImpl">
+		<property name="dao" ref="employeeStatusDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="educationService" class="com.kan.base.service.impl.management.EducationServiceImpl">
+		<property name="dao" ref="educationDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="languageService" class="com.kan.base.service.impl.management.LanguageServiceImpl">
+		<property name="dao" ref="languageDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="skillService" class="com.kan.base.service.impl.management.SkillServiceImpl">
+		<property name="dao" ref="skillDao" />
+		<property name="employeeSkillDao" ref="employeeSkillDao" />
+		<property name="positionDao" ref="mgtPositionDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="contractTypeService" class="com.kan.base.service.impl.management.ContractTypeServiceImpl">
+		<property name="dao" ref="contractTypeDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="itemService" class="com.kan.base.service.impl.management.ItemServiceImpl">
+		<property name="dao" ref="itemDao" />
+		<property name="listHeaderDao" ref="listHeaderDao" />
+		<property name="listDetailDao" ref="listDetailDao" />
+		<property name="importHeaderDao" ref="importHeaderDao" />
+		<property name="importDetailDao" ref="importDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="itemGroupService" class="com.kan.base.service.impl.management.ItemGroupServiceImpl">
+		<property name="dao" ref="itemGroupDao" />
+		<property name="itemDao" ref="itemDao" />
+		<property name="itemGroupRelationDao" ref="itemGroupRelationDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="itemMappingService" class="com.kan.base.service.impl.management.ItemMappingServiceImpl">
+		<property name="dao" ref="itemMappingDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="taxService" class="com.kan.base.service.impl.management.TaxServiceImpl">
+		<property name="dao" ref="taxDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="socialBenefitSolutionHeaderService" class="com.kan.base.service.impl.management.SocialBenefitSolutionHeaderServiceImpl">
+		<property name="dao" ref="socialBenefitSolutionHeaderDao" />
+		<property name="socialBenefitSolutionDetailDao" ref="socialBenefitSolutionDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="socialBenefitSolutionDetailService" class="com.kan.base.service.impl.management.SocialBenefitSolutionDetailServiceImpl">
+		<property name="dao" ref="socialBenefitSolutionDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="certificationService" class="com.kan.base.service.impl.management.CertificationServiceImpl">
+		<property name="dao" ref="certificationDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="membershipService" class="com.kan.base.service.impl.management.MembershipServiceImpl">
+		<property name="dao" ref="membershipDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="businessContractTemplateService" class="com.kan.base.service.impl.management.BusinessContractTemplateServiceImpl">
+		<property name="dao" ref="businessContractTemplateDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="laborContractTemplateService" class="com.kan.base.service.impl.management.LaborContractTemplateServiceImpl">
+		<property name="dao" ref="laborContractTemplateDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="industryTypeService" class="com.kan.base.service.impl.management.IndustryTypeServiceImpl">
+		<property name="dao" ref="industryTypeDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="calendarHeaderService" class="com.kan.base.service.impl.management.CalendarHeaderServiceImpl">
+		<property ref="calendarHeaderDao" name="dao" />
+		<property ref="calendarDetailDao" name="calendarDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="calendarDetailService" class="com.kan.base.service.impl.management.CalendarDetailServiceImpl">
+		<property ref="calendarDetailDao" name="dao" />
+		<property ref="transactionManager" name="transactionManager" />
+	</bean>
+
+	<bean id="shiftHeaderService" class="com.kan.base.service.impl.management.ShiftHeaderServiceImpl">
+		<property ref="shiftHeaderDao" name="dao" />
+		<property ref="shiftDetailDao" name="shiftDetailDao" />
+		<property ref="shiftExceptionDao" name="shiftExceptionDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="shiftDetailService" class="com.kan.base.service.impl.management.ShiftDetailServiceImpl">
+		<property ref="shiftDetailDao" name="dao" />
+		<property ref="transactionManager" name="transactionManager" />
+	</bean>
+	
+	<bean id="shiftExceptionService" class="com.kan.base.service.impl.management.ShiftExceptionServiceImpl">
+		<property ref="shiftExceptionDao" name="dao" />
+		<property ref="transactionManager" name="transactionManager" />
+	</bean>
+	
+	<bean id="sickLeaveSalaryHeaderService" class="com.kan.base.service.impl.management.SickLeaveSalaryHeaderServiceImpl">
+		<property ref="sickLeaveSalaryHeaderDao" name="dao" />
+		<property ref="sickLeaveSalaryDetailDao" name="sickLeaveSalaryDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="sickLeaveSalaryDetailService" class="com.kan.base.service.impl.management.SickLeaveSalaryDetailServiceImpl">
+		<property ref="sickLeaveSalaryDetailDao" name="dao" />
+		<property ref="transactionManager" name="transactionManager" />
+	</bean>
+
+	<bean id="commercialBenefitSolutionHeaderService" class="com.kan.base.service.impl.management.CommercialBenefitSolutionHeaderServiceImpl">
+		<property name="dao" ref="commercialBenefitSolutionHeaderDao" />
+		<property name="commercialBenefitSolutionDetailDao" ref="commercialBenefitSolutionDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="commercialBenefitSolutionDetailService" class="com.kan.base.service.impl.management.CommercialBenefitSolutionDetailServiceImpl">
+		<property name="dao" ref="commercialBenefitSolutionDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="bankService" class="com.kan.base.service.impl.management.BankServiceImpl">
+		<property name="dao" ref="bankDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="settingService" class="com.kan.base.service.impl.management.SettingServiceImpl">
+		<property name="dao" ref="settingDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="resignTemplateService" class="com.kan.base.service.impl.management.ResignTemplateServiceImpl">
+		<property name="dao" ref="resignTemplateDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="annualLeaveRuleHeaderService" class="com.kan.base.service.impl.management.AnnualLeaveRuleHeaderServiceImpl">
+		<property name="dao" ref="annualLeaveRuleHeaderDao" />
+		<property name="annualLeaveRuleDetailDao" ref="annualLeaveRuleDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="annualLeaveRuleDetailService" class="com.kan.base.service.impl.management.AnnualLeaveRuleDetailServiceImpl">
+		<property name="dao" ref="annualLeaveRuleDetailDao" />
+		<property name="annualLeaveRuleHeaderDao" ref="annualLeaveRuleHeaderDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="exchangeRateService" class="com.kan.base.service.impl.management.ExchangeRateServiceImpl">
+		<property name="dao" ref="exchangeRateDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="yerrRuleService" class="com.kan.base.service.impl.management.YERRRuleServiceImpl">
+		<property name="dao" ref="yerrRuleDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+</beans>  

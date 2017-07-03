@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>	
+		<form-bean name="tableForm" type="com.kan.base.domain.define.TableVO"></form-bean>	
+		<form-bean name="columnForm" type="com.kan.base.domain.define.ColumnVO"></form-bean>	
+		<form-bean name="columnGroupForm" type="com.kan.base.domain.define.ColumnGroupVO"></form-bean>
+		<form-bean name="optionHeaderForm" type="com.kan.base.domain.define.OptionHeaderVO"></form-bean>
+		<form-bean name="optionDetailForm" type="com.kan.base.domain.define.OptionDetailVO"></form-bean>
+		<form-bean name="searchHeaderForm" type="com.kan.base.domain.define.SearchHeaderVO"></form-bean>
+		<form-bean name="searchDetailForm" type="com.kan.base.domain.define.SearchDetailVO"></form-bean>
+		<form-bean name="listHeaderForm" type="com.kan.base.domain.define.ListHeaderVO"></form-bean>
+		<form-bean name="listDetailForm" type="com.kan.base.domain.define.ListDetailVO"></form-bean>
+		<form-bean name="reportHeaderForm" type="com.kan.base.domain.define.ReportHeaderVO"></form-bean>
+		<form-bean name="reportDetailForm" type="com.kan.base.domain.define.ReportDetailVO"></form-bean>
+		<form-bean name="reportSearchDetailForm" type="com.kan.base.domain.define.ReportSearchDetailVO"></form-bean>
+		<form-bean name="importHeaderForm" type="com.kan.base.domain.define.ImportHeaderVO"></form-bean>
+		<form-bean name="importDetailForm" type="com.kan.base.domain.define.ImportDetailVO"></form-bean>
+		<form-bean name="managerHeaderForm" type="com.kan.base.domain.define.ManagerHeaderVO"></form-bean>
+		<form-bean name="managerDetailForm" type="com.kan.base.domain.define.ManagerDetailVO"></form-bean>
+		<form-bean name="mappingHeaderForm" type="com.kan.base.domain.define.MappingHeaderVO"></form-bean>
+		<form-bean name="mappingDetailForm" type="com.kan.base.domain.define.MappingDetailVO"></form-bean>
+		<form-bean name="bankTemplateHeaderForm" type="com.kan.base.domain.define.BankTemplateHeaderVO"></form-bean>
+		<form-bean name="bankTemplateDetailForm" type="com.kan.base.domain.define.BankTemplateDetailVO"></form-bean>
+		<form-bean name="taxTemplateHeaderForm" type="com.kan.base.domain.define.TaxTemplateHeaderVO"></form-bean>
+		<form-bean name="taxTemplateDetailForm" type="com.kan.base.domain.define.TaxTemplateDetailVO"></form-bean>
+		<form-bean name="tableRelationForm" type="com.kan.base.domain.define.TableRelationVO"></form-bean>
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+
+		<!-- Table actions start -->
+		<action parameter="proc" path="/tableAction" type="com.kan.base.web.actions.define.TableAction" name="tableForm" scope="request" validate="false">
+			<forward name="listTable" path="/jsp/define/table/listTable.jsp"></forward>
+			<forward name="listTableTable" path="/contents/define/table/table/listTableTable.jsp" />
+			<forward name="manageTable" path="/jsp/define/table/manageTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Column actions start -->
+		<action parameter="proc" path="/columnAction" type="com.kan.base.web.actions.define.ColumnAction" name="columnForm" scope="request" validate="false">
+			<forward name="listColumn" path="/jsp/define/column/listColumn.jsp"></forward>
+			<forward name="listColumnTable" path="/contents/define/column/table/listColumnTable.jsp"></forward>
+			<forward name="manageColumn" path="/jsp/define/column/manageColumn.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ColumnGroup actions start -->
+		<action parameter="proc" path="/columnGroupAction" type="com.kan.base.web.actions.define.ColumnGroupAction" name="columnGroupForm"
+			scope="request" validate="false">
+			<forward name="listColumnGroup" path="/jsp/define/columnGroup/listColumnGroup.jsp"></forward>
+			<forward name="listColumnGroupTable" path="/contents/define/columnGroup/table/listColumnGroupTable.jsp"></forward>
+			<forward name="manageColumnGroup" path="/jsp/define/columnGroup/manageColumnGroup.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- OptionHeader actions start -->
+		<action parameter="proc" path="/optionHeaderAction" type="com.kan.base.web.actions.define.OptionHeaderAction" name="optionHeaderForm"
+			scope="request" validate="false">
+			<forward name="listOptionHeader" path="/jsp/define/option/header/listOptionHeader.jsp"></forward>
+			<forward name="listOptionHeaderTable" path="/contents/define/option/header/table/listOptionHeaderTable.jsp"></forward>
+			<forward name="managerOptionHeader" path="/jsp/define/option/detail/listOptionDetail.jsp"></forward>
+			<forward name="listOptionDetail" path="/jsp/define/option/detail/listOptionDetail.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- OptionDetail actions start -->
+		<action parameter="proc" path="/optionDetailAction" type="com.kan.base.web.actions.define.OptionDetailAction" name="optionDetailForm"
+			scope="request" validate="false">
+			<forward name="listOptionDetail" path="/jsp/define/option/detail/listOptionDetail.jsp"></forward>
+			<forward name="listOptionDetailTable" path="/contents/define/option/detail/table/listOptionDetailTable.jsp"></forward>
+			<forward name="manageOptionDetailForm" path="/contents/define/option/detail/form/manageOptionDetailForm.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- SearchHeader actions start -->
+		<action parameter="proc" path="/searchHeaderAction" type="com.kan.base.web.actions.define.SearchHeaderAction" name="searchHeaderForm"
+			scope="request" validate="false">
+			<forward name="listSearchHeader" path="/jsp/define/search/header/listSearchHeader.jsp"></forward>
+			<forward name="listSearchHeaderTable" path="/contents/define/search/header/table/listSearchHeaderTable.jsp"></forward>
+			<forward name="manageSearchHeader" path="/jsp/define/search/detail/listSearchDetail.jsp"></forward>
+			<forward name="listSearchDetail" path="/jsp/define/search/detail/listSearchDetail.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- SearchDetail actions start -->
+		<action parameter="proc" path="/searchDetailAction" type="com.kan.base.web.actions.define.SearchDetailAction" name="searchDetailForm"
+			scope="request" validate="false">
+			<forward name="listSearchDetail" path="/jsp/define/search/detail/listSearchDetail.jsp"></forward>
+			<forward name="manageSearchDetailForm" path="/contents/define/search/detail/form/manageSearchDetailForm.jsp"></forward>
+			<forward name="listSearchDetailTable" path="/contents/define/search/detail/table/listSearchDetailTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ListHeader actions start -->
+		<action parameter="proc" path="/listHeaderAction" type="com.kan.base.web.actions.define.ListHeaderAction" name="listHeaderForm"
+			scope="request" validate="false">
+			<forward name="listListHeader" path="/jsp/define/list/header/listListHeader.jsp"></forward>
+			<forward name="listListHeaderTable" path="/contents/define/list/header/table/listListHeaderTable.jsp"></forward>
+			<forward name="manageListHeader" path="/jsp/define/list/detail/listListDetail.jsp"></forward>
+			<forward name="listListDetail" path="/jsp/define/list/detail/listListDetail.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ListDetail actions start -->
+		<action parameter="proc" path="/listDetailAction" type="com.kan.base.web.actions.define.ListDetailAction" name="listDetailForm"
+			scope="request" validate="false">
+			<forward name="listListDetail" path="/jsp/define/list/detail/listListDetail.jsp"></forward>
+			<forward name="listListDetailTable" path="/contents/define/list/detail/table/listListDetailTable.jsp"></forward>
+			<forward name="manageListDetailForm" path="/contents/define/list/detail/form/manageListDetailForm.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ReportHeader actions start -->
+		<action parameter="proc" path="/reportHeaderAction" type="com.kan.base.web.actions.define.ReportHeaderAction" name="reportHeaderForm"
+			scope="request" validate="false">
+			<forward name="listReportHeader" path="/jsp/define/report/listReportHeader.jsp"></forward>
+			<forward name="listReportHeaderTable" path="/contents/define/report/table/listReportHeaderTable.jsp"></forward>
+			<forward name="manageReportHeader" path="/jsp/define/report/manageReportHeader.jsp"></forward>
+			<forward name="manageReportHeaderBaseInfo" path="/contents/define/report/includePage/manageReportBaseInfo.jsp"></forward>
+			<forward name="manageReportHeaderConfirmPublish" path="/contents/define/report/includePage/manageReportConfirmPublish.jsp"></forward>
+			<forward name="manageReportHeaderSpecifySort" path="/contents/define/report/includePage/manageReportSpecifySort.jsp"></forward>
+			<forward name="manageReportHeaderSpecifyGroup" path="/contents/define/report/includePage/manageReportSpecifyGroup.jsp"></forward>
+			
+			<forward name="generateReportList" path="/jsp/define/report/generateListReport.jsp"></forward>
+			
+			<forward name="manageReportDetail" path="/contents/define/report/includePage/manageReportSelectColumn.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ReportDetail actions start -->
+		<action parameter="proc" path="/reportDetailAction" type="com.kan.base.web.actions.define.ReportDetailAction" name="reportDetailForm"
+			scope="request" validate="false">
+			<forward name="manageReportDetail" path="/contents/define/report/includePage/manageReportSelectColumn.jsp"></forward>
+			<forward name="manageReportDetailForm" path="/contents/define/report/form/manageReportSelectColumnForm.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Report Search Detail actions start -->
+		<action parameter="proc" path="/reportSearchDetailAction" type="com.kan.base.web.actions.define.ReportSearchDetailAction" name="reportSearchDetailForm"
+			scope="request" validate="false">
+			<forward name="manageReportDetailSearch" path="/contents/define/report/includePage/manageReportSelectSearchCondition.jsp"></forward>
+			<forward name="manageReportSearchDetailForm" path="/contents/define/report/includePage/manageReportSelectSearchCondition.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ImportHeader actions start -->
+		<action parameter="proc" path="/importHeaderAction" type="com.kan.base.web.actions.define.ImportHeaderAction" name="importHeaderForm"
+			scope="request" validate="false">
+			<forward name="listImportHeader" path="/jsp/define/import/header/listImportHeader.jsp"></forward>
+			<forward name="listImportHeaderTable" path="/contents/define/import/header/table/listImportHeaderTable.jsp"></forward>
+			<forward name="manageImportHeader" path="/jsp/define/import/header/manageImportHeader.jsp"></forward>
+			<forward name="listImportDetail" path="/jsp/define/import/detail/listImportDetail.jsp"></forward>
+			<forward name="manageImportSelectColumn" path="/contents/define/import/header/includePage/manageImportSelectColumn.jsp"></forward>
+			<forward name="manageImportConfirmPublish" path="/contents/define/import/header/includePage/manageImportConfirmPublish.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ImportDetail actions start -->
+		<action parameter="proc" path="/importDetailAction" type="com.kan.base.web.actions.define.ImportDetailAction" name="importDetailForm"
+			scope="request" validate="false">
+			<forward name="listImportDetail" path="/jsp/define/import/detail/listImportDetail.jsp"></forward>
+			<forward name="listImportDetailTable" path="/contents/define/import/detail/table/listImportDetailTable.jsp"></forward>
+			<forward name="manageImportDetailTable" path="/contents/define/import/header/table/listImportDetailTable.jsp"></forward>
+			<forward name="manageImportSelectColumn" path="/contents/define/import/header/includePage/manageImportSelectColumn.jsp"></forward>
+			<forward name="manageImportSelectColumnForm" path="/contents/define/import/header/form/manageImportSelectColumnForm.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ManagerHeader actions start -->
+		<action parameter="proc" path="/managerHeaderAction" type="com.kan.base.web.actions.define.ManagerHeaderAction" name="managerHeaderForm"
+			scope="request" validate="false">
+			<forward name="listManagerHeader" path="/jsp/define/manager/header/listManagerHeader.jsp"></forward>
+			<forward name="listManagerHeaderTable" path="/contents/define/manager/header/table/listManagerHeaderTable.jsp"></forward>
+			<forward name="manageManagerHeader" path="/jsp/define/manager/detail/listManagerDetail.jsp"></forward>
+			<forward name="listManagerDetail" path="/jsp/define/manager/detail/listManagerDetail.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ManagerDetail actions start -->
+		<action parameter="proc" path="/managerDetailAction" type="com.kan.base.web.actions.define.ManagerDetailAction" name="managerDetailForm"
+			scope="request" validate="false">
+			<forward name="listManagerDetail" path="/jsp/define/manager/detail/listManagerDetail.jsp"></forward>
+			<forward name="listManagerDetailTable" path="/contents/define/manager/detail/table/listManagerDetailTable.jsp"></forward>
+			<forward name="manageManagerDetailForm" path="/contents/define/manager/detail/form/manageManagerDetailForm.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- MappingHeader actions start -->
+		<action parameter="proc" path="/mappingHeaderAction" type="com.kan.base.web.actions.define.MappingHeaderAction" name="mappingHeaderForm"
+			scope="request" validate="false">
+			<forward name="listMappingHeader" path="/jsp/define/mapping/header/listMappingHeader.jsp"></forward>
+			<forward name="listMappingHeaderTable" path="/contents/define/mapping/header/table/listMappingHeaderTable.jsp"></forward>
+			<forward name="manageMappingHeader" path="/jsp/define/mapping/detail/listMappingDetail.jsp"></forward>
+			<forward name="listMappingDetail" path="/jsp/define/mapping/detail/listMappingDetail.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- MappingDetail actions start -->
+		<action parameter="proc" path="/mappingDetailAction" type="com.kan.base.web.actions.define.MappingDetailAction" name="mappingDetailForm"
+			scope="request" validate="false">
+			<forward name="listMappingDetail" path="/jsp/define/mapping/detail/listMappingDetail.jsp" />
+			<forward name="listMappingDetailTable" path="/contents/define/mapping/detail/table/listMappingDetailTable.jsp"></forward>
+			<forward name="manageMappingDetailForm" path="/contents/define/mapping/detail/form/manageMappingDetailForm.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- BankTemplateHeader actions start -->
+		<action parameter="proc" path="/bankTemplateHeaderAction" type="com.kan.base.web.actions.define.BankTemplateHeaderAction" name="bankTemplateHeaderForm"
+			scope="request" validate="false">
+			<forward name="listBankTemplateHeader" path="/jsp/define/bankTemplate/header/listBankTemplateHeader.jsp" />
+			<forward name="listBankTemplateHeaderTable" path="/contents/define/bankTemplate/header/table/listBankTemplateHeaderTable.jsp"></forward>
+			<forward name="manageBankTemplateHeader" path="/jsp/define/bankTemplate/detail/listBankTemplateDetail.jsp" />
+			<forward name="listBankTemplateDetail" path="/jsp/define/bankTemplate/detail/listBankTemplateDetail.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- BankTemplateDetail actions start -->
+		<action parameter="proc" path="/bankTemplateDetailAction" type="com.kan.base.web.actions.define.BankTemplateDetailAction" name="bankTemplateDetailForm"
+			scope="request" validate="false">
+			<forward name="listBankTemplateDetail" path="/jsp/define/bankTemplate/detail/listBankTemplateDetail.jsp" />
+			<forward name="listBankTemplateDetailTable" path="/contents/define/bankTemplate/detail/table/listBankTemplateDetailTable.jsp" />
+			<forward name="manageBankTemplateDetailForm" path="/contents/define/bankTemplate/detail/form/manageBankTemplateDetailForm.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- TaxTemplateHeader actions start -->
+		<action parameter="proc" path="/taxTemplateHeaderAction" type="com.kan.base.web.actions.define.TaxTemplateHeaderAction" name="taxTemplateHeaderForm"
+			scope="request" validate="false">
+			<forward name="listTaxTemplateHeader" path="/jsp/define/taxTemplate/header/listTaxTemplateHeader.jsp" />
+			<forward name="listTaxTemplateHeaderTable" path="/contents/define/taxTemplate/header/table/listTaxTemplateHeaderTable.jsp"></forward>
+			<forward name="manageTaxTemplateHeader" path="/jsp/define/taxTemplate/detail/listTaxTemplateDetail.jsp" />
+			<forward name="listTaxTemplateDetail" path="/jsp/define/taxTemplate/detail/listTaxTemplateDetail.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- TaxTemplateDetail actions start -->
+		<action parameter="proc" path="/taxTemplateDetailAction" type="com.kan.base.web.actions.define.TaxTemplateDetailAction" name="taxTemplateDetailForm"
+			scope="request" validate="false">
+			<forward name="listTaxTemplateDetail" path="/jsp/define/taxTemplate/detail/listTaxTemplateDetail.jsp" />
+			<forward name="listTaxTemplateDetailTable" path="/contents/define/taxTemplate/detail/table/listTaxTemplateDetailTable.jsp" />
+			<forward name="manageTaxTemplateDetailForm" path="/contents/define/taxTemplate/detail/form/manageTaxTemplateDetailForm.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		
+		<action parameter="proc" path="/tableRelationAction" type="com.kan.base.web.actions.define.TableRelationAction" name="tableRelationForm"
+			scope="request" validate="false">
+			<forward name="listTableRelation" path="/jsp/define/tableRelation/listTableRelation.jsp" />
+			<forward name="listTableRelationTable" path="/contents/define/tableRelation/table/listTableRelationTable.jsp" />
+			<forward name="listTableRelationDetailTable" path="/contents/define/tableRelation/table/listTableRelationDetailTable.jsp" />
+			<forward name="manageTableRelation" path="/jsp/define/tableRelation/manageTableRelation.jsp" />
+			<forward name="manageTableRelationSelectColumnForm" path="/contents/define/tableRelation/form/manageTableRelationSelectColumnForm.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		
+	</action-mappings>
+
+	<message-resources parameter="MessageResources/Define/Define" key="define" />
+
+</struts-config>
+

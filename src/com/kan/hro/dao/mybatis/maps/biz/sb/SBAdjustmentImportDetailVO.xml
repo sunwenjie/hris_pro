@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.sb.SBAdjustmentImportDetailVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.sb.SBAdjustmentImportDetailVO">
+		<result property="adjustmentDetailId" column="adjustmentDetailId" />
+		<result property="adjustmentHeaderId" column="adjustmentHeaderId" />
+		<result property="itemId" column="itemId" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="amountPersonal" column="amountPersonal" />
+		<result property="amountCompany" column="amountCompany" />
+		<result property="monthly" column="monthly" />
+		<result property="accountMonthly" column="accountMonthly" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For Application -->
+		<result property="itemNo" column="itemNo" />
+		<result property="sbSolutionId" column="sbSolutionId" />
+		<result property="contractId" column="contractId" />
+	</resultMap>
+  	
+	<sql id="SBAdjustmentDetailColumns">
+		adjustmentHeaderId, itemId, nameZH, nameEN, amountPersonal, amountCompany, monthly, accountMonthly, description, deleted, status, remark1, 
+		remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="SBAdjustmentDetailColumns-for-join">
+		a.adjustmentHeaderId, a.itemId, a.nameZH, a.nameEN, a.amountPersonal, a.amountCompany, a.monthly, a.accountMonthly, a.description, a.deleted, 
+		a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+	
+	<sql id="SBAdjustmentDetailColumns-for-insert">
+		a.itemId, a.nameZH, a.nameEN, a.amountPersonal, a.amountCompany, a.monthly, a.accountMonthly, a.description, a.deleted, 
+		a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countSBAdjustmentImportDetailVOsByCondition" parameterType="sbAdjustmentImportDetail" resultType="int">
+		SELECT
+			count(1) as count
+		FROM
+			hro_sb_adjustment_detail_temp a
+		LEFT JOIN HRO_MGT_Item b ON a.itemId = b.itemId
+		AND b.deleted = 1
+		WHERE
+			a.deleted = 1
+		AND a.adjustmentHeaderId = #{adjustmentHeaderId}
+	</select>
+
+	<select id="getSBAdjustmentImportDetailVOsByCondition" parameterType="sbAdjustmentImportDetail"  resultMap="result">
+		SELECT
+			a.adjustmentDetailId,<include refid="SBAdjustmentDetailColumns-for-join" />,
+			b.itemNo AS itemNo
+		FROM
+			hro_sb_adjustment_detail_temp a
+		LEFT JOIN HRO_MGT_Item b ON a.itemId = b.itemId
+		AND b.deleted = 1
+		WHERE
+			a.deleted = 1
+		AND a.adjustmentHeaderId = #{adjustmentHeaderId}
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<insert id="insertSBAdjustmentDetailTempToDetail" parameterType="int">
+		INSERT INTO hro_sb_adjustment_detail (
+		<include refid="SBAdjustmentDetailColumns" />
+		)
+		SELECT c.adjustmentHeaderId ,<include refid="SBAdjustmentDetailColumns-for-insert" /> FROM hro_sb_adjustment_detail_temp a
+		INNER JOIN hro_sb_adjustment_header_temp b ON a.adjustmentHeaderId = b.adjustmentHeaderId
+		INNER JOIN hro_sb_adjustment_header c ON c.remark4 = b.adjustmentHeaderId
+		AND b.deleted = 1
+		WHERE
+			a.deleted = 1
+		AND b.batchId = #{batchId}
+  	</insert>
+  	
+  	<delete id="deleteSBAdjustmentImportDetailTempByBatchId" parameterType="int">
+		DELETE b FROM
+		hro_sb_adjustment_header_temp a JOIN
+		hro_sb_adjustment_detail_temp b on
+		a.adjustmentHeaderId=b.adjustmentHeaderId
+		WHERE
+		a.batchId = #{value}
+	</delete>
+	
+	<delete id="deleteSBAdjustmentImportDetailTempRecord">
+		DELETE FROM hro_sb_adjustment_detail_temp
+		WHERE hro_sb_adjustment_detail_temp.adjustmentHeaderId in
+		<foreach collection="array" item="ids"  open="(" separator="," close=")">  
+        	#{ids}
+     	</foreach>  
+	</delete>
+</mapper>

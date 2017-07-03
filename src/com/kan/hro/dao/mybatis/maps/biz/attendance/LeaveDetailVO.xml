@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.attendance.LeaveDetailVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.attendance.LeaveDetailVO">
+		<result property="leaveDetailId" column="leaveDetailId" />
+		<result property="leaveHeaderId" column="leaveHeaderId" />
+		<result property="timesheetId" column="timesheetId" />
+		<result property="itemId" column="itemId" />
+		<result property="estimateStartDate" column="estimateStartDate" />
+		<result property="estimateEndDate" column="estimateEndDate" />
+		<result property="actualStartDate" column="actualStartDate" />
+		<result property="actualEndDate" column="actualEndDate" />
+		<result property="estimateLegalHours" column="estimateLegalHours" />
+		<result property="estimateBenefitHours" column="estimateBenefitHours" />
+		<result property="actualLegalHours" column="actualLegalHours" />
+		<result property="actualBenefitHours" column="actualBenefitHours" />
+		<result property="attachment" column="attachment" />
+		<result property="retrieveStatus" column="retrieveStatus" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />	
+	</resultMap>
+	
+	<sql id="leaveDetailColumns">
+		leaveHeaderId, timesheetId, itemId, estimateStartDate, estimateEndDate, actualStartDate, actualEndDate, estimateLegalHours, estimateBenefitHours, 
+		actualLegalHours, actualBenefitHours, retrieveStatus, description, attachment, deleted, status, 
+		remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<select id="countLeaveDetailVOsByCondition" parameterType="leaveDetail" resultType="int">
+		SELECT COUNT(1)
+		FROM Hro_Biz_Attendance_Leave_Detail
+		WHERE deleted = 1 AND leaveHeaderId = #{leaveHeaderId}
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+	</select>
+
+	<select id="getLeaveDetailVOsByCondition" parameterType="leaveDetail" resultMap="result">
+		SELECT leaveDetailId, <include refid="leaveDetailColumns" />
+		FROM Hro_Biz_Attendance_Leave_Detail
+		WHERE deleted = 1 AND leaveHeaderId = #{leaveHeaderId}
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getLeaveDetailVOByLeaveDetailId" parameterType="int" resultMap="result">
+		SELECT leaveDetailId, <include refid="leaveDetailColumns" />
+		FROM Hro_Biz_Attendance_Leave_Detail 
+		WHERE leaveDetailId = #{value}
+	</select>
+
+	<insert id="insertLeaveDetail" parameterType="leaveDetail" useGeneratedKeys="true" keyProperty="leaveDetailId">
+		INSERT INTO Hro_Biz_Attendance_Leave_Detail( <include refid="leaveDetailColumns" /> )
+		VALUES(#{leaveHeaderId}, #{timesheetId}, #{itemId}, #{estimateStartDate}, #{estimateEndDate}, #{actualStartDate}, #{actualEndDate}, #{estimateLegalHours}, #{estimateBenefitHours}, 
+			   #{actualLegalHours}, #{actualBenefitHours}, #{retrieveStatus}, #{description}, #{attachment}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, 
+			   #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<update id="updateLeaveDetail" parameterType="leaveDetail">
+		UPDATE Hro_Biz_Attendance_Leave_Detail SET
+			leaveHeaderId = #{leaveHeaderId}, timesheetId = #{timesheetId}, itemId = #{itemId}, estimateStartDate = #{estimateStartDate}, estimateEndDate = #{estimateEndDate}, actualStartDate = #{actualStartDate}, 
+			actualEndDate = #{actualEndDate}, estimateLegalHours = #{estimateLegalHours}, estimateBenefitHours = #{estimateBenefitHours}, actualLegalHours = #{actualLegalHours}, 
+			actualBenefitHours = #{actualBenefitHours}, retrieveStatus = #{retrieveStatus}, description = #{description}, attachment = #{attachment}, deleted = #{deleted}, status = #{status}, 
+			remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, 
+			createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE leaveDetailId = #{leaveDetailId}
+  	</update>
+  	
+  	<delete id="deleteLeaveDetail" parameterType="int">
+  		DELETE FROM Hro_Biz_Attendance_Leave_Detail WHERE leaveDetailId = #{value}
+  	</delete>
+  	
+  	<select id="getLeaveDetailVOsByLeaveHeaderId" parameterType="int" resultMap="result">
+  		SELECT leaveDetailId, <include refid="leaveDetailColumns" />
+		FROM Hro_Biz_Attendance_Leave_Detail 
+		WHERE deleted = 1 AND leaveHeaderId = #{value}
+  	</select>
+  	
+  	<select id="sumLeaveHoursByTimesheetId" parameterType="int" resultType="int">
+  		SELECT CASE WHEN ISNULL(timesheetId) THEN 0 ELSE
+			SUM( 
+				CASE 
+					WHEN ISNULL(estimateLegalHours)
+					THEN 0
+					ELSE estimateLegalHours
+				END
+					+
+				CASE 
+					WHEN ISNULL(estimateBenefitHours)
+					THEN 0
+					ELSE estimateBenefitHours
+				END
+			)END AS leaveHours
+		FROM Hro_Biz_Attendance_Leave_Detail 
+		WHERE deleted = 1 AND status = 3 AND timesheetId = #{value}
+  	</select>
+  	
+  	
+  	<insert id="insertLeaveDetailtemp" parameterType="leaveDetail" useGeneratedKeys="true" keyProperty="leaveDetailId">
+		INSERT INTO Hro_Biz_Attendance_Leave_Detail_temp ( <include refid="leaveDetailColumns" /> )
+		VALUES(#{leaveHeaderId}, #{timesheetId}, #{itemId}, #{estimateStartDate}, #{estimateEndDate}, #{actualStartDate}, #{actualEndDate}, #{estimateLegalHours}, #{estimateBenefitHours}, 
+			   #{actualLegalHours}, #{actualBenefitHours}, #{retrieveStatus}, #{description}, #{attachment}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, 
+			   #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+	
+	<select id="getLeaveDetailVOsByTimesheetId" parameterType="int" resultMap="result">
+  		SELECT leaveDetailId, <include refid="leaveDetailColumns" />
+		FROM Hro_Biz_Attendance_Leave_Detail 
+		WHERE deleted = 1 AND timesheetId = #{value}
+  	</select>
+</mapper>

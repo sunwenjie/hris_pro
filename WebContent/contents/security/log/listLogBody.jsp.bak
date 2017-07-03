@@ -1,0 +1,36 @@
+<%@ page pageEncoding="GBK"%>
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
+<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
+<%@ page import="com.kan.base.web.renders.util.ListRender"%>
+<%@ page import="com.kan.base.web.renders.util.SearchRender"%>
+
+<div id="content">
+	<!-- Information Search Form -->
+	<%=SearchRender.generateSearch(request, "HRO_SYS_LOG","logForm")%>
+
+	<!-- Information Search Result -->
+	<%=ListRender.generateList(request, "HRO_SYS_LOG")%>
+</div>
+
+<div id="popupWrapper">
+	<jsp:include page="/popup/formatJson.jsp" flush="true" />
+</div>
+
+<script type="text/javascript">
+	(function($) {
+		// JS of the List
+		<%=ListRender.generateListJS(request, "HRO_SYS_LOG")%>
+	})(jQuery);
+
+	// Reset JS of the Search
+	<%=SearchRender.generateSearchReset(request, "HRO_SYS_LOG")%>
+	
+	function formatJson(id) {
+		$.post("logAction.do?proc=formatJson&id="+id,{},function(html){
+			$("#popupWrapper").html(html);
+			showformatJson();
+			Process();
+		},"text");
+	}
+</script>

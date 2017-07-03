@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.attendance.AttendanceImportHeaderVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.attendance.AttendanceImportHeaderVO">
+		<result property="headerId" column="headerId" />
+		<result property="accountId" column="accountId" />
+		<result property="batchId" column="batchId" />
+		<result property="clientId" column="clientId" />
+		<result property="corpId" column="corpId" />
+		<result property="contractId" column="contractId" />
+		<result property="monthly" column="monthly" />
+		<result property="totalWorkHours" column="totalWorkHours" />
+		<result property="totalWorkDays" column="totalWorkDays" />
+		<result property="totalFullHours" column="totalFullHours" />
+		<result property="totalFullDays" column="totalFullDays" />	
+		<result property="attachment" column="attachment" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- for App -->
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+	</resultMap>	
+
+	<sql id="attendanceImportHeaderColumns">
+		accountId, batchId, clientId, corpId, contractId, monthly, totalWorkHours, totalWorkDays, totalFullHours, totalFullDays, attachment, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, 
+		modifyBy, modifyDate
+	</sql>
+	
+	<sql id="attendanceImportHeaderColumns-for-join">
+		a.accountId, a.batchId, a.clientId, a.corpId, a.contractId, a.monthly, a.totalWorkHours, a.totalWorkDays, a.totalFullHours, a.totalFullDays, a.attachment, a.description, a.deleted, a.status, 
+		a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countAttendanceImportHeaderVOsByCondition" parameterType="attendanceImportHeader" resultType="int">
+		SELECT COUNT(DISTINCT a.headerId)
+		FROM hro_biz_attendance_import_header a
+			LEFT JOIN hro_biz_employee_contract b ON a.contractId = b.contractId
+			LEFT JOIN hro_biz_employee c ON b.employeeId = c.employeeId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId} AND a.batchId = #{batchId}
+		<if test="employeeId != null and employeeId != ''">
+			AND c.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND c.nameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND c.nameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId} 
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or 0 = #{monthly})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getAttendanceImportHeaderVOsByCondition" parameterType="attendanceImportHeader" resultMap="result">
+		SELECT a.headerId, <include refid="attendanceImportHeaderColumns-for-join" />, c.employeeId AS employeeId, c.nameZH AS employeeNameZH, c.nameEN AS employeeNameEN
+		FROM hro_biz_attendance_import_header a 
+			LEFT JOIN hro_biz_employee_contract b ON a.contractId = b.contractId
+			LEFT JOIN hro_biz_employee c ON b.employeeId = c.employeeId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId} AND a.batchId = #{batchId}
+		<if test="employeeId != null and employeeId != ''">
+			AND c.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND c.nameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND c.nameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId} 
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or 0 = #{monthly})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getAttendanceImportHeaderVOByHeaderId" parameterType="int" resultMap="result">
+		SELECT headerId, <include refid="attendanceImportHeaderColumns" />
+		FROM hro_biz_attendance_import_header
+		WHERE headerId = #{value}
+	</select>
+	
+	<insert id="insertAttendanceImportHeader" parameterType="attendanceImportHeader" useGeneratedKeys="true" keyProperty="headerId">
+		INSERT INTO hro_biz_attendance_import_header (<include refid="attendanceImportHeaderColumns" />)
+	    VALUES(#{accountId}, #{batchId}, #{clientId}, #{corpId}, #{contractId}, #{monthly}, #{totalWorkHours}, #{totalWorkDays}, #{totalFullHours}, #{totalFullDays}, #{attachment}, #{description},
+	    1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+	
+	<update id="updateAttendanceImportHeader" parameterType="attendanceImportHeader">
+		UPDATE hro_biz_attendance_import_header SET 
+			contractId = #{contractId}, monthly = #{monthly}, totalWorkHours = #{totalWorkHours}, totalWorkDays = #{totalWorkDays}, totalFullHours = #{totalFullHours}, totalFullDays = #{totalFullDays},
+			attachment = #{attachment}, description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, 
+			remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, 
+			modifyDate = #{modifyDate}
+	    WHERE headerId = #{headerId}       
+	</update>
+	
+	<delete id="deleteAttendanceImportHeader" parameterType="int">
+  		DELETE FROM hro_biz_attendance_import_header WHERE headerId = #{value}
+  	</delete>
+  	
+  	<select id="getAttendanceImportHeaderVOsByBatchId" parameterType="int" resultMap="result">
+		SELECT headerId, <include refid="attendanceImportHeaderColumns" />
+		FROM hro_biz_attendance_import_header
+		WHERE deleted = 1 AND batchId = #{value}
+	</select>
+
+</mapper>

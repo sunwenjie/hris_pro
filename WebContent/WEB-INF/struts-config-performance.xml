@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="selfAssessmentForm" type="com.kan.hro.domain.biz.performance.SelfAssessmentVO"></form-bean>
+		<form-bean name="inviteAssessmentForm" type="com.kan.hro.domain.biz.performance.InviteAssessmentVO"></form-bean>
+		<form-bean name="budgetSettingHeaderForm" type="com.kan.hro.domain.biz.performance.BudgetSettingHeaderVO"></form-bean>
+		<form-bean name="budgetSettingDetailForm" type="com.kan.hro.domain.biz.performance.BudgetSettingDetailVO"></form-bean>
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+	
+		<action parameter="proc" path="/selfAssessmentAction" type="com.kan.hro.web.actions.biz.performance.SelfAssessmentAction"
+			name="selfAssessmentForm" scope="request" validate="false">
+			<forward name="listSelfAssessment" path="/jsp/performance/listSelfAssessment.jsp"></forward>
+			<forward name="listSelfAssessmentTable" path="/contents/performance/table/listSelfAssessmentTable.jsp"></forward>
+			<forward name="manageSelfAssessment" path="/jsp/performance/manageSelfAssessment.jsp"></forward>
+			<forward name="exportSelfAssessment" path="/contents/performance/exportSelfAssessment.jsp"></forward>
+			<forward name="showSelfAssessmentProgessTable" path="/popup/showSelfAssessmentProgessTable.jsp"></forward>
+			<forward name="listGoal" path="/jsp/performance/listGoal.jsp"></forward>
+			<forward name="listGoalTable" path="/contents/performance/table/listGoalTable.jsp"></forward>
+			<forward name="manageGoal" path="/jsp/performance/manageGoal.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />	
+		</action>
+		
+		<action parameter="proc" path="/inviteAssessmentAction" type="com.kan.hro.web.actions.biz.performance.InviteAssessmentAction"
+			name="inviteAssessmentForm" scope="request" validate="false">
+			<forward name="manageInviteAssessmentForMail" path="/jsp/performance/manageInviteAssessmentForMail.jsp" />
+			<forward name="submitAssessmentSuccess" path="/jsp/performance/submitAssessmentSuccess.jsp" />
+			<forward name="notFoundInviteLink" path="/jsp/performance/notFoundInviteLink.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />	
+		</action>
+			
+		<action parameter="proc" path="/budgetSettingHeaderAction" type="com.kan.hro.web.actions.biz.performance.BudgetSettingHeaderAction" name="budgetSettingHeaderForm"
+			scope="request" validate="false">
+			<forward name="listBudgetSettingHeader" path="/jsp/performance/budgetSetting/header/listBudgetSettingHeader.jsp"></forward>
+			<forward name="listBudgetSettingHeaderTable" path="/contents/performance/table/listBudgetSettingHeaderTable.jsp"></forward>
+			<forward name="manageBudgetSettingHeader" path="/jsp/performance/budgetSetting/detail/listBudgetSettingDetail.jsp"></forward>
+			<forward name="listBudgetSettingDetail" path="/jsp/performance/budgetSetting/detail/listBudgetSettingDetail.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/budgetSettingDetailAction" type="com.kan.hro.web.actions.biz.performance.BudgetSettingDetailAction" name="budgetSettingDetailForm"
+			scope="request" validate="false">
+			<forward name="listBudgetSettingDetail" path="/jsp/performance/budgetSetting/detail/listBudgetSettingDetail.jsp"></forward>
+			<forward name="listBudgetSettingDetailTable" path="/contents/performance/table/listBudgetSettingDetailTable.jsp"></forward>
+			<forward name="manageBudgetSettingDetail" path="/contents/performance/form/manageBudgetSettingDetailForm.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+	
+	</action-mappings>
+	
+	<message-resources parameter="MessageResources/Performance/Performance" key="performance"></message-resources>
+
+</struts-config>
+

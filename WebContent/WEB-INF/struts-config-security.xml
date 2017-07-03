@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="userForm" type="com.kan.base.domain.security.UserVO" />	
+		<form-bean name="staffForm" type="com.kan.base.domain.security.StaffVO" />
+		<form-bean name="branchForm" type="com.kan.base.domain.security.BranchVO" />
+		<form-bean name="locationForm" type="com.kan.base.domain.security.LocationVO" />
+		<form-bean name="positionForm" type="com.kan.base.domain.security.PositionVO" />
+		<form-bean name="groupForm" type="com.kan.base.domain.security.GroupVO" />
+		<form-bean name="positionGradeForm" type="com.kan.base.domain.security.PositionGradeVO" />
+		<form-bean name="positionGradeCurrencyForm" type="com.kan.base.domain.security.PositionGradeCurrencyVO" />
+		<form-bean name="entityForm" type="com.kan.base.domain.security.EntityVO"></form-bean>
+		<form-bean name="businessTypeForm" type="com.kan.base.domain.security.BusinessTypeVO"></form-bean>
+		<form-bean name="orgShootForm" type="com.kan.base.domain.security.OrgShootVO"></form-bean>
+		<form-bean name="employeeUserForm" type="com.kan.hro.domain.biz.employee.EmployeeUserVO"></form-bean>
+		<form-bean name="logForm" type="com.kan.base.domain.system.LogVO"></form-bean>
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+
+		<!-- User actions start -->
+		<action parameter="proc" path="/userAction"	type="com.kan.base.web.actions.security.UserAction" name="userForm" scope="request" validate="false">
+			<forward name="listUser" path="/jsp/security/user/listUser.jsp" />
+			<forward name="listUserTable" path="/contents/security/user/table/listUserTable.jsp" />
+			<forward name="manageUser" path="/jsp/security/user/manageUser.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- StaffAction actions start -->
+		<action parameter="proc" path="/staffAction" type="com.kan.base.web.actions.security.StaffAction" name="staffForm" scope="request" validate="false">
+			<forward name="listStaff" path="/jsp/security/staff/listStaff.jsp"></forward>
+			<forward name="listSpecialInfo" path="/contents/security/staff/extend/manageStaffExtend.jsp"></forward>
+			<forward name="manageStaff" path="/jsp/security/staff/manageStaff.jsp"></forward>
+			<forward name="manageStaff_mobile" path="/mobile/manageStaff.jsp"></forward>
+			<forward name="manageStaff_mobile4iclick" path="/mobile/manageStaff4iClick.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- BranchAction actions start -->
+		<action parameter="proc" path="/branchAction" type="com.kan.base.web.actions.security.BranchAction" name="branchForm" scope="request" validate="false">
+			<forward name="listBranch" path="/jsp/security/branch/listBranch.jsp"></forward>
+			<forward name="listBranchTable" path="/contents/security/branch/table/listBranchTable.jsp" />
+			<forward name="treeBranchTable" path="/contents/security/branch/table/treeBranchTable.jsp" />
+			<forward name="manageBranch" path="/jsp/security/branch/manageBranch.jsp"></forward>
+			<forward name="listBranchStaffTable" path="/contents/security/branch/extend/listBranchStaffTable.jsp"></forward>
+			<!-- toCopyBranchOChartPage -->
+			<forward name="toCopyBranchOChartPage" path="/popup/copyBranchO_Chart.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/shootAction" type="com.kan.base.web.actions.security.ShootAction" name="orgShootForm" scope="request" validate="false">
+			<forward name="treeBranchTable" path="/contents/security/branch/table/treeBranchTable.jsp" />
+			<forward name="treePositionTable" path="/contents/security/position/table/treePositionTable.jsp" />
+			<forward name="branch_orgShoot_detail" path="/jsp/security/branch/branch_orgShoot_detail.jsp"></forward>
+			<forward name="position_orgShoot_detail" path="/jsp/security/position/position_orgShoot_detail.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- LocationAction actions start -->
+		<action parameter="proc" path="/secLocationAction" type="com.kan.base.web.actions.security.LocationAction" name="locationForm" scope="request" validate="false">
+			<forward name="listLocation" path="/jsp/security/location/listLocation.jsp"></forward>
+			<forward name="listLocationTable" path="/contents/security/location/table/listLocationTable.jsp" />
+			<forward name="manageLocation" path="/jsp/security/location/manageLocation.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- PositionAction actions start -->
+		<action parameter="proc" path="/positionAction" type="com.kan.base.web.actions.security.PositionAction" name="positionForm" scope="request" validate="false">
+			<forward name="managePosition" path="/jsp/security/position/managePosition.jsp"></forward>
+			<forward name="listPosition" path="/jsp/security/position/listPosition.jsp"></forward>
+			<forward name="listPositionBody" path="/contents/security/position/listPositionBody.jsp"></forward>
+			<forward name="treePositionTable" path="/contents/security/position/table/treePositionTable.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- GroupAction actions start -->
+		<action parameter="proc" path="/groupAction" type="com.kan.base.web.actions.security.GroupAction" name="groupForm"
+				scope="request" validate="false">
+				<forward name="listGroup" path="/jsp/security/group/listGroup.jsp"></forward>
+				<forward name="listGroupTable" path="/contents/security/group/table/listGroupTable.jsp" />
+				<forward name="manageGroup" path="/jsp/security/group/manageGroup.jsp"></forward>
+				<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- PositionGradeAction actions start -->
+		<action parameter="proc" path="/positionGradeAction" type="com.kan.base.web.actions.security.PositionGradeAction" name="positionGradeForm"
+				scope="request" validate="false">
+				<forward name="listPositionGrade" path="/jsp/security/positionGrade/listPositionGrade.jsp"></forward>
+				<forward name="listPositionGradeTable" path="/contents/security/positionGrade/table/listPositionGradeTable.jsp" />
+				<forward name="managePositionGrade" path="/jsp/security/positionGrade/managePositionGrade.jsp"></forward>
+				<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- PositionGradeCurrencyAction actions start -->
+		<action parameter="proc" path="/positionGradeCurrencyAction" type="com.kan.base.web.actions.security.PositionGradeCurrencyAction" name="positionGradeCurrencyForm"
+				scope="request" validate="false">
+				<forward name="listPositionGradeCurrency" path="/contents/security/positionGrade/listPositionGradeCurrency.jsp"></forward>
+				<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Entity actions start -->
+		<action parameter="proc" path="/entityAction"
+			type="com.kan.base.web.actions.security.EntityAction" name="entityForm"
+			scope="request" validate="false">	
+			<forward name="listEntity" path="/jsp/security/entity/listEntity.jsp"></forward>
+			<forward name="listEntityTable" path="/contents/security/entity/table/listEntityTable.jsp"></forward>
+			<forward name="manageEntity" path="/jsp/security/entity/manageEntity.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />			
+		</action>
+		
+		<!-- BusinessType actions start -->
+		<action parameter="proc" path="/businessTypeAction"
+			type="com.kan.base.web.actions.security.BusinessTypeAction" name="businessTypeForm"
+			scope="request" validate="false">	
+			<forward name="listBusinessType" path="/jsp/security/businessType/listBusinessType.jsp"></forward>
+			<forward name="listBusinessTypeTable" path="/contents/security/businessType/table/listBusinessTypeTable.jsp"></forward>
+			<forward name="manageBusinessType" path="/jsp/security/businessType/manageBusinessType.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<!-- log action -->
+		<action parameter="proc" path="/logAction" type="com.kan.base.web.actions.LogAction" name="logForm" scope="request" validate="false">
+			<forward name="listLog" path="/jsp/security/log/listLog.jsp"></forward>
+			<forward name="listLogTable" path="/contents/security/log/listLogTable.jsp"></forward>
+			<forward name="formatJson" path="/popup/formatJson.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+	</action-mappings>
+
+	<message-resources parameter="MessageResources/Security/Security" key="security" />
+	<message-resources parameter="MessageResources/Public/Public" key="public" />
+	<message-resources parameter="MessageResources/WX/wx" key="wx" />
+
+</struts-config>
+

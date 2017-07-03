@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.workflow.WorkflowActualStepsVO">
+
+	<resultMap id="result" type="com.kan.base.domain.workflow.WorkflowActualStepsVO">
+		<result property="stepId" column="stepId"/>
+		<result property="workflowId" column="workflowId"/>
+		<result property="stepType" column="stepType"/>
+		<result property="auditType" column="auditType"/>
+		<result property="auditTargetId" column="auditTargetId"/>
+		<result property="stepIndex" column="stepIndex" />
+		<result property="sendEmail" column="sendEmail" />
+		<result property="sendSMS" column="sendSMS" />
+		<result property="sendInfo" column="sendInfo" />
+		<result property="emailTemplateType" column="emailTemplateType" />
+		<result property="smsTemplateType" column="smsTemplateType" />
+		<result property="infoTemplateType" column="infoTemplateType" />
+		<result property="randomKey" column="randomKey" />
+		<result property="handleDate" column="handleDate" />
+		<result property="description" column="description"/>
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<result property="searchField.workflowNameZH" column="searchField.workflowNameZH"/>
+		<result property="searchField.workflowNameEN" column="searchField.workflowNameEN"/>
+		<result property="searchField.positionTitleEN" column="searchField.positionTitleEN"/>
+		<result property="searchField.positionTitleZH" column="searchField.positionTitleZH"/>
+		<result property="positionTitle" column="positionTitle"/>
+		<result property="positionTitleZH" column="positionTitleZH"/>
+		<result property="positionTitleEN" column="positionTitleEN"/>
+	</resultMap>
+	
+	<resultMap id="resultApprovedChain" type="com.kan.base.domain.workflow.WorkflowApprovedChainVO">
+		<result property="stepIndex" column="stepIndex"/>
+		<result property="approvedChainZH" column="approvedChainZH"/>
+		<result property="approvedChainEN" column="approvedChainEN"/>
+		<result property="handleDate" column="handleDate"/>
+		<result property="description" column="description"/>
+		<result property="status" column="status" />
+	</resultMap>
+  	
+  	<sql id="workflowActualStepses"> 
+  		workflowId,stepType,auditType,auditTargetId,stepIndex,sendEmail,sendSMS, sendInfo,emailTemplateType,smsTemplateType,infoTemplateType,randomKey,handleDate,description,
+  		deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+  	<sql id="workflowActualStepses_for_join"> 
+  		a.workflowId,a.stepType,a.auditType,a.auditTargetId,a.stepIndex,a.sendEmail,a.sendSMS, a.sendInfo,a.emailTemplateType,a.smsTemplateType,a.infoTemplateType,a.randomKey,a.handleDate,a.description,
+		a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+	
+	<select id="countWorkflowActualStepsVOsByCondition" parameterType="workflowActualSteps" resultType="int">
+		select count(0) 
+		from HRO_Workflow_Actual_Steps as a
+		where a.deleted = 1
+		<if test="workflowId != null and workflowId != '' ">
+			AND a.workflowId= #{workflowId}
+		</if>
+		<if test="stepType != null and stepType != '' ">
+			AND a.stepType IN ('${stepType}')
+		</if>
+		<if test="auditType != null and auditType != '' ">
+			AND a.auditType = #{auditType}
+		</if>
+		<if test="auditTargetId != null and auditTargetId != '' ">
+			AND a.auditTargetId = #{auditTargetId}
+		</if>
+		<if test="stepIndex != null and stepIndex != '' ">
+			AND a.stepIndex = #{stepIndex}
+		</if> 
+		<if test="handleDate != null and handleDate != '' ">
+			AND a.handleDate = #{handleDate}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status IN(${status}) or 0 = #{status})
+		</if>
+  	</select>
+  	
+	<select id="getWorkflowActualStepsVOsByCondition" parameterType="workflowActualSteps" resultMap="result">
+		SELECT  a.stepId,<include refid="workflowActualStepses_for_join"/>,
+		<![CDATA[
+			CASE WHEN a.auditType = 1 THEN CONCAT(c.titleEN,'[',(select Group_concat(ss.nameEN)  from hro_sec_staff ss join hro_sec_position_staff_relation sr on sr.staffId = ss.staffId where ss.deleted = 1 AND sr.deleted=1 and sr.positionId =c.positionId ),']') 
+					 WHEN a.auditType = 2 THEN CONCAT(d.titleEN,'[Outer Position]')
+					 WHEN a.auditType = 3 THEN CONCAT(e.nameEN,'[Online Manager<Client Contact>]') 
+					 WHEN a.auditType = 4 THEN CONCAT(s.nameEN,'[Outer Staff]') 
+					 ELSE 'no auduitPerson'
+			END 'searchField.positionTitleEN',
+			CASE WHEN a.auditType = 1 THEN CONCAT(c.titleZH,'[',(select Group_concat(ss.nameZH)  from hro_sec_staff ss join hro_sec_position_staff_relation sr on sr.staffId = ss.staffId where ss.deleted = 1 AND sr.deleted=1 and sr.positionId =c.positionId ),']') 
+					 WHEN a.auditType = 2 THEN CONCAT(d.titleZH,'[职位外部]')
+					 WHEN a.auditType = 3 THEN CONCAT(e.nameZH,'[直线经理<客户联系人>]') 
+					 WHEN a.auditType = 4 THEN CONCAT(s.nameZH,'[内部员工]') 
+					 ELSE '无审核人'
+			END 'searchField.positionTitleZH',
+			CASE WHEN a.auditType = 1 THEN CONCAT(c.titleZH,'[',(select Group_concat(ss.nameZH)  from hro_sec_staff ss join hro_sec_position_staff_relation sr on sr.staffId = ss.staffId where ss.deleted = 1 AND sr.deleted=1 and sr.positionId =c.positionId ),']') 
+					 WHEN a.auditType = 2 THEN CONCAT(d.titleZH,'[职位外部]')
+					 WHEN a.auditType = 3 THEN CONCAT(e.nameZH,'[直线经理<客户联系人>]') 
+					 WHEN a.auditType = 4 THEN CONCAT(s.nameZH,'[内部员工]') 
+					 ELSE '无审核人'
+			END 'positionTitle',
+			CASE WHEN a.auditType = 1 THEN CONCAT(c.titleZH,'[',(select Group_concat(ss.nameZH)  from hro_sec_staff ss join hro_sec_position_staff_relation sr on sr.staffId = ss.staffId where ss.deleted = 1 AND sr.deleted=1 and sr.positionId =c.positionId ),']') 
+					 WHEN a.auditType = 2 THEN CONCAT(d.titleZH,'[职位外部]')
+					 WHEN a.auditType = 3 THEN CONCAT(e.nameZH,'[直线经理<客户联系人>]') 
+					 WHEN a.auditType = 4 THEN CONCAT(s.nameZH,'[内部员工]') 
+					 ELSE '无审核人'
+			END 'positionTitleZH',
+			CASE WHEN a.auditType = 1 THEN CONCAT(c.titleEN,'[',(select Group_concat(ss.nameEN)  from hro_sec_staff ss join hro_sec_position_staff_relation sr on sr.staffId = ss.staffId where ss.deleted = 1 AND sr.deleted=1 and sr.positionId =c.positionId ),']') 
+					 WHEN a.auditType = 2 THEN CONCAT(d.titleEN,'[Outer Position]')
+					 WHEN a.auditType = 3 THEN CONCAT(e.nameEN,'[Online Manager<Client Contact>]') 
+					 WHEN a.auditType = 4 THEN CONCAT(s.nameEN,'[Outer Staff]') 
+					 ELSE 'No auduitPerson'
+			END 'positionTitleEN',
+		]]>
+			b.nameZH 'searchField.workflowNameZH',b.nameEN 'searchField.workflowNameEN'
+		FROM HRO_Workflow_Actual_Steps a
+		LEFT JOIN hro_workflow_actual b ON a.workflowId = b.workflowId 
+		LEFT JOIN hro_sec_position c ON c.positionId = a.auditTargetId 
+		LEFT JOIN hro_mgt_position d ON d.positionId = a.auditTargetId 
+		LEFT JOIN hro_biz_client_contact e ON e.clientContactId = a.auditTargetId 
+		LEFT JOIN hro_sec_staff s ON s.staffId = a.auditTargetId 
+		where a.deleted = 1
+		<if test="workflowId != null and workflowId != '' ">
+			AND a.workflowId= #{workflowId}
+		</if>
+		<if test="stepType != null and stepType != '' ">
+			AND a.stepType IN ('${stepType}')
+		</if>
+		<if test="auditType != null and auditType != '' ">
+			AND a.auditType = #{auditType}
+		</if>
+		<if test="auditTargetId != null and auditTargetId != '' ">
+			AND a.auditTargetId = #{auditTargetId}
+		</if>
+		<if test=" stepIndex!= null and stepIndex != 0 ">
+			AND a.stepIndex = #{stepIndex}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status IN(${status}) or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by  ${sortColumn} ${sortOrder}
+		</if>
+		<if test="sortColumn == null or sortColumn == '' ">
+			order by a.createDate desc
+		</if>
+  	</select>
+  	<select id="getWorkflowApprovedChainByworkflowId" parameterType="int" resultMap="resultApprovedChain">
+  	select 
+			a.stepIndex as stepIndex,
+			CASE WHEN a.auditType = 1 THEN CONCAT(sb.nameEN,'-',c.titleEN,'-[',(select Group_concat(ss.nameEN)  from hro_sec_staff ss join hro_sec_position_staff_relation sr on sr.staffId = ss.staffId where ss.deleted = 1 AND sr.deleted=1 and sr.positionId =c.positionId ),']') 
+					 WHEN a.auditType = 4 THEN CONCAT(sb.nameEN,'-Internal staff','-[',s.nameEN,']') 
+					 ELSE 'no auduitPerson'
+			END 'approvedChainEN',
+			CASE WHEN a.auditType = 1 THEN CONCAT(sb.nameZH,'-',c.titleZH,'-[',(select Group_concat(ss.nameZH)  from hro_sec_staff ss join hro_sec_position_staff_relation sr on sr.staffId = ss.staffId where ss.deleted = 1 AND sr.deleted=1 and sr.positionId =c.positionId ),']') 
+					 WHEN a.auditType = 4 THEN CONCAT(sb.nameZH,'-内部员工','-[',s.nameZH,']') 
+					 ELSE '无审核人'
+			END 'approvedChainZH',
+			a.handleDate as handleDate,
+			a.description as description,
+			a.`status` as status
+		FROM HRO_Workflow_Actual_Steps a
+		LEFT JOIN hro_workflow_actual b ON a.workflowId = b.workflowId 
+		LEFT JOIN hro_sec_position c ON c.positionId = a.auditTargetId 
+		LEFT JOIN hro_mgt_position d ON d.positionId = a.auditTargetId 
+		LEFT JOIN hro_sec_staff s ON s.staffId = a.auditTargetId 
+		LEFT JOIN hro_sec_branch sb on sb.branchId = c.branchId
+		where a.deleted = 1 and a.`status` in (3,4,5,6)
+			AND a.workflowId = #{value}
+			order by a.modifyDate 
+  	</select>
+  	<select id="getWorkflowActualStepsVOByStepId" parameterType="int" resultMap="result">
+		select stepId, <include refid="workflowActualStepses"/>  
+		from HRO_Workflow_Actual_Steps 
+		where stepId = #{value}
+  	</select>
+  	
+  	
+	<update id="updateWorkflowActualSteps" parameterType="workflowActualSteps">
+		update HRO_Workflow_Actual_Steps set stepIndex = #{stepIndex},randomKey=#{randomKey},handleDate = #{handleDate},description = #{description},
+			sendEmail=#{sendEmail},sendSMS=#{sendSMS}, sendInfo=#{sendInfo},emailTemplateType=#{emailTemplateType},smsTemplateType=#{smsTemplateType},infoTemplateType=#{infoTemplateType},
+			deleted = #{deleted}, status = #{status},  remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, 
+			remark5 = #{remark5},  modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where stepId = #{stepId} 
+  	</update>
+  	
+  	<insert id="insertWorkflowActualSteps" parameterType="workflowActualSteps" useGeneratedKeys="true" keyProperty="stepId" >
+		insert into HRO_Workflow_Actual_Steps(<include refid="workflowActualStepses"/>) 
+		values(#{workflowId},#{stepType},#{auditType},#{auditTargetId},#{stepIndex},#{sendEmail},#{sendSMS}, #{sendInfo},
+		#{emailTemplateType},#{smsTemplateType},#{infoTemplateType},#{randomKey},#{handleDate},#{description},
+		1, #{status}, #{remark1},#{remark2},#{remark3}, #{remark4},#{remark5},#{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+  	
+  	<delete id="deleteWorkflowActualSteps" parameterType="int">
+		delete from  HRO_Workflow_Actual_Steps  where stepId = #{stepId}
+  	</delete>
+  	
+  	<select id="getWorkflowActualStepsVOsByWorkflowId" parameterType="int" resultMap="result">
+		select stepId, <include refid="workflowActualStepses"/>  
+		from HRO_Workflow_Actual_Steps 
+		where workflowId = #{value} order by stepIndex asc
+  	</select>
+  	
+  	<select id="getWorkflowActualStepsVOsByWorkflowIdAndStepIndex" parameterType="workflowActualSteps" resultMap="result">
+  		select stepId, <include refid="workflowActualStepses"/>  
+		from HRO_Workflow_Actual_Steps 
+		where workflowId = #{workflowId} and stepIndex = #{stepIndex} and status in(1,6)
+  	</select>
+	
+</mapper>

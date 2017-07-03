@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.HistoryVO">
+
+	<resultMap id="result" type="com.kan.base.domain.HistoryVO">
+		<result property="historyId" column="historyId" />
+		<result property="accountId" column="accountId" />
+		<result property="workflowId" column="workflowId"/>
+		<result property="hisTitle" column="hisTitle" />
+		<result property="hisDescription" column="hisDescription" />
+		<result property="objectId" column="objectId"/>
+		<result property="objectType" column="objectType" />
+		<result property="accessAction" column="accessAction" />
+		<result property="objectClass" column="objectClass" />
+		<result property="serviceBean" column="serviceBean" />
+		<result property="serviceMethod" column="serviceMethod" />
+		<result property="serviceGetObjByIdMethod" column="serviceGetObjByIdMethod" />
+		<result property="passObject" column="passObject" />
+		<result property="failObject" column="failObject" />
+		<result property="tempStatus" column="tempStatus" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+
+  	<sql id="historys"> 
+  		accountId,workflowId,hisTitle,hisDescription,objectId, objectType,accessAction,objectClass,serviceBean,serviceMethod,serviceGetObjByIdMethod,
+  		passObject,failObject, tempStatus,	deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+  	<select id="getHistoryByHistoryId" parameterType="int" resultMap="result">
+		select historyId, <include refid="historys"/>  
+		from HRO_History 
+		where historyId = #{value}
+  	</select>
+  	
+  	<select id="getHistoryByWorkflowId" parameterType="int" resultMap="result" >
+		select historyId, <include refid="historys"/> 
+		from HRO_History 
+		where workflowId = #{workflowId}
+  	</select>
+  	
+	<update id="updateHistory" parameterType="historyVO">
+		update HRO_History set accountId = #{accountId},workflowId = #{workflowId},hisTitle=#{hisTitle},hisDescription=#{hisDescription},
+			objectId = #{objectId}, objectType = #{objectType},accessAction = #{accessAction},objectClass = #{objectClass},serviceBean = #{serviceBean},serviceMethod = #{serviceMethod},serviceGetObjByIdMethod=#{serviceGetObjByIdMethod},
+			tempStatus = #{tempStatus}, passObject=#{passObject},failObject=#{failObject}, deleted = #{deleted}, status = #{status},  remark1 = #{remark1}, remark2 = #{remark2}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where historyId = #{historyId} 
+  	</update>
+  	
+  	<insert id="insertHistory" parameterType="historyVO" useGeneratedKeys="true" keyProperty="historyId">
+		insert into HRO_History(<include refid="historys"/>) 
+		values(#{accountId},#{workflowId},#{hisTitle},#{hisDescription},#{objectId}, #{objectType},#{accessAction},#{objectClass},#{serviceBean},#{serviceMethod},#{serviceGetObjByIdMethod},
+		#{passObject},#{failObject}, #{tempStatus}, 1, 1, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5},#{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+  	
+  	<delete id="deleteHistory" parameterType="int">
+		delete from  HRO_History where historyId = #{historyId}
+  	</delete>
+	
+	
+</mapper>

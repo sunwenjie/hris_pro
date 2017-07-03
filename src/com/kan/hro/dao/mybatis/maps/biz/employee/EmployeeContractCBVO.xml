@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeContractCBVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeContractCBVO">
+		<result property="employeeCBId" column="employeeCBId" />
+		<result property="contractId" column="contractId" />
+		<result property="solutionId" column="solutionId" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="freeShortOfMonth" column="freeShortOfMonth" />
+		<result property="chargeFullMonth" column="chargeFullMonth" />
+		<result property="cbNumber" column="cbNumber" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="contractNameZH" column="contractNameZH" />
+		<result property="contractNameEN" column="contractNameEN" />
+		<result property="contractStartDate" column="contractStartDate" />
+		<result property="contractEndDate" column="contractEndDate" />
+		<result property="owner" column="owner" />
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="department" column="department" />
+		<result property="positionId" column="positionId" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="corpId" column="corpId" />
+	</resultMap>
+
+	<sql id="employeeContractCBColumns">
+		contractId, solutionId, startDate, endDate, freeShortOfMonth, chargeFullMonth, cbNumber, description, deleted, status, remark1, remark2, remark3, remark4, 
+		remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>	
+	
+	<sql id="employeeContractCB-inner-join">
+		e.employeeCBId, e.contractId, e.solutionId, e.startDate, e.endDate, e.freeShortOfMonth, e.chargeFullMonth,e.cbNumber, e.description, e.deleted, e.status, 
+		e.remark1, e.remark2, e.remark3, e.remark4, e.remark5, e.createBy, e.createDate, e.modifyBy, e.modifyDate
+	</sql>	
+		
+	<!-- 解决contractId冲突错误  -->
+	<sql id="employeeContractCB-inner-join-cb">
+		a.solutionId, a.startDate, a.endDate, a.freeShortOfMonth, a.chargeFullMonth,a.cbNumber, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, 
+		a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>	
+	
+	<select id="countEmployeeContractCBVOsByCondition" parameterType="employeeContractCB" resultType="int">
+		SELECT COUNT(1)
+		FROM HRO_BIZ_Employee_Contract_CB e LEFT JOIN HRO_BIZ_Employee_Contract b ON e.contractId = b.contractId 
+		WHERE e.deleted = 1 AND e.contractId = #{contractId}
+		<if test="startDate != null and startDate != ''">
+			
+			<![CDATA[
+				AND e.startDate <= #{startDate}
+			]]>
+		</if>
+		<if test="endDate != null and endDate != ''">
+			<![CDATA[ AND e.endDate >= #{endDate} ]]>
+		</if>
+		<if test="status != null and status != ''">
+			AND (e.status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="countFullEmployeeContractCBVOsByCondition" parameterType="employeeContractCB" resultType="int">
+		SELECT COUNT(1)
+		FROM HRO_BIZ_Employee_Contract_CB a RIGHT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId AND a.deleted = 1
+			LEFT JOIN hro_biz_employee c ON b.employeeId = c.employeeId AND c.deleted = 1
+		WHERE b.deleted = 1 AND b.flag = 2 AND b.accountId = #{accountId}
+		<if test="employeeCBId != null and employeeCBId != ''">
+			AND a.employeeCBId = #{employeeCBId} 
+		</if>
+		<if test="solutionId != null and solutionId != ''">
+			AND (a.solutionId = #{solutionId} or 0 = #{solutionId})
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND b.contractId = #{contractId} 
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (b.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND b.corpId IS NULL 
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND b.orderId = #{orderId} 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND b.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND c.nameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND c.nameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="startDate != null and startDate != ''">
+			<![CDATA[ AND a.startDate <= #{startDate} ]]>
+		</if>
+		<if test="endDate != null and endDate != ''">
+			<![CDATA[ AND a.endDate >= #{endDate} ]]>
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="contractStatus != null and contractStatus != ''">
+			AND ( b.status = #{contractStatus} or 0 = #{contractStatus} )
+		</if>
+			AND b.status != '2'
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR c.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR b.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR c._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR c.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR b.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>	
+		
+	</select>
+	
+	<select id="getEmployeeContractCBVOsByCondition" parameterType="employeeContractCB" resultMap="result">
+		SELECT <include refid="employeeContractCB-inner-join"/>, b.nameZH as contractNameZH, b.nameEN as contractNameEN
+		FROM HRO_BIZ_Employee_Contract_CB e LEFT JOIN HRO_BIZ_Employee_Contract b ON e.contractId = b.contractId 
+		WHERE e.deleted = 1 AND e.contractId = #{contractId}
+		<if test="startDate != null and startDate != ''">
+			<![CDATA[ AND e.startDate <= #{startDate} ]]>
+		</if>
+		<if test="endDate != null and endDate != ''">
+			<![CDATA[ AND e.endDate >= #{endDate} ]]>
+		</if>
+		<if test="status != null and status != ''">
+			AND (e.status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getFullEmployeeContractCBVOsByCondition" parameterType="employeeContractCB" resultMap="result">
+		SELECT a.employeeCBId, <include refid="employeeContractCB-inner-join-cb"/>, b.clientId, b.contractId, b.nameZH AS contractNameZH, b.nameEN AS contractNameEN, 
+			b.corpId AS corpId, b.orderId, b.employeeId, c.nameZH AS employeeNameZH, c.nameEN AS employeeNameEN, b.status AS contractStatus, 
+			d.nameZH AS clientNameZH, d.nameEN AS clientNameEN
+		FROM HRO_BIZ_Employee_Contract_CB a RIGHT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId AND a.deleted = 1
+			LEFT JOIN hro_biz_employee c ON b.employeeId = c.employeeId AND c.deleted = 1
+			LEFT JOIN hro_biz_client d ON b.clientId = d.clientId AND d.deleted = 1
+		WHERE b.deleted = 1 AND b.flag = 2 AND b.accountId = #{accountId}
+		<if test="employeeCBId != null and employeeCBId != ''">
+			AND a.employeeCBId = #{employeeCBId} 
+		</if>
+		<if test="solutionId != null and solutionId != ''">
+			AND (a.solutionId = #{solutionId} or 0 = #{solutionId})
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND b.contractId = #{contractId} 
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (b.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND b.corpId IS NULL 
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND b.orderId = #{orderId} 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND b.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND c.nameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND c.nameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="startDate != null and startDate != ''">
+			<![CDATA[ AND a.startDate <= #{startDate} ]]>
+		</if>
+		<if test="endDate != null and endDate != ''">
+			<![CDATA[ AND a.endDate >= #{endDate} ]]>
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="contractStatus != null and contractStatus != ''">
+			AND ( b.status = #{contractStatus} or 0 = #{contractStatus} )
+		</if>
+			AND b.status != '2'
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR c.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR b.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR c._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR c.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR b.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>	
+		
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<!-- Modify by xiuvan.xia @2014-07-02 -->
+	<select id="getEmployeeContractCBVOByEmployeeCBId" parameterType="int" resultMap="result">
+		SELECT 
+			<include refid="employeeContractCB-inner-join"/>, b.nameZH as contractNameZH, b.nameEN as contractNameEN,
+			b.owner AS owner, b.employeeId AS employeeId, b.startDate AS contractStartDate, b.endDate AS contractEndDate,
+			CASE WHEN ISNULL(b.corpId) THEN b.department ELSE c._tempBranchIds END AS department,
+			CASE WHEN ISNULL(b.corpId) THEN b.positionId ELSE c._tempPositionIds END AS positionId,
+		    c.nameZH AS employeeNameZH, c.nameEN AS employeeNameEN, c.certificateNumber AS certificateNumber,
+		    MAX(h.workflowId) AS workflowId	
+		FROM HRO_BIZ_Employee_Contract_CB e 
+			LEFT JOIN HRO_BIZ_Employee_Contract b ON e.contractId = b.contractId 
+			LEFT JOIN HRO_BIZ_Employee c ON b.employeeId = c.employeeId	
+			LEFT JOIN hro_history h ON h.accessAction = 'HRO_BIZ_EMPLOYEE_CONTRACT_CB' AND h.objectType = 2 AND e.employeeCBId = h.objectId 
+		WHERE e.deleted = 1 AND e.employeeCBId = #{value}
+	</select>
+	
+	<select id="getFullEmployeeContractCBVOByEmployeeCBId" parameterType="int" resultMap="result">
+		SELECT a.employeeCBId, <include refid="employeeContractCB-inner-join-cb"/>, b.clientId, b.contractId, b.nameZH AS contractNameZH, b.nameEN AS contractNameEN, 
+			b.corpId AS corpId, b.orderId, b.employeeId, c.nameZH AS employeeNameZH, c.nameEN AS employeeNameEN, b.status AS contractStatus, 
+			d.nameZH AS clientNameZH, d.nameEN AS clientNameEN
+		FROM HRO_BIZ_Employee_Contract_CB a RIGHT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId AND a.deleted = 1
+			LEFT JOIN hro_biz_employee c ON b.employeeId = c.employeeId AND c.deleted = 1
+			LEFT JOIN hro_biz_client d ON b.clientId = d.clientId AND d.deleted = 1
+		WHERE b.deleted = 1 AND a.employeeCBId = #{value}
+	</select>
+	
+	<select id="getEmployeeContractCBVOsByContractId" parameterType="int"  resultMap="result">
+		SELECT <include refid="employeeContractCB-inner-join"/>, b.nameZH as contractNameZH, b.nameEN as contractNameEN
+		FROM HRO_BIZ_Employee_Contract_CB e LEFT JOIN HRO_BIZ_Employee_Contract b ON e.contractId = b.contractId 
+		WHERE e.deleted = 1 AND e.contractId = #{value}
+		ORDER BY e.employeeCBId
+	</select>
+	
+	<insert id="insertEmployeeContractCB" parameterType="employeeContractCB" useGeneratedKeys="true" keyProperty="employeeCBId">
+		INSERT INTO HRO_BIZ_Employee_Contract_CB( <include refid="employeeContractCBColumns" /> )
+		VALUES(#{contractId}, #{solutionId}, #{startDate}, #{endDate}, #{freeShortOfMonth}, #{chargeFullMonth},#{cbNumber}, #{description}, 1, #{status}, #{remark1}, 
+			#{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<update id="updateEmployeeContractCB" parameterType="employeeContractCB">
+		UPDATE HRO_BIZ_Employee_Contract_CB SET contractId = #{contractId}, solutionId = #{solutionId}, startDate = #{startDate}, endDate = #{endDate}, 
+			freeShortOfMonth = #{freeShortOfMonth}, chargeFullMonth = #{chargeFullMonth},cbNumber=#{cbNumber}, description = #{description}, deleted = #{deleted},
+			status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5},
+			createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE employeeCBId = #{employeeCBId} 
+	</update>	
+	
+	<delete id="deleteEmployeeContractCB" parameterType="int">
+		DELETE FROM HRO_BIZ_Employee_Contract_CB where employeeCBId = #{value}
+  	</delete>	
+  
+  <select id="getEmployeeContractCBVOsBySolutionNameZH" parameterType="employeeContractCB" resultMap="result">
+		SELECT a.employeeCBId, <include refid="employeeContractCB-inner-join-cb"/>
+		FROM HRO_BIZ_Employee_Contract_CB a  
+		join HRO_MGT_Commercial_Benefit_Solution_Header b on b.headerId = a.solutionId 
+		WHERE a.deleted = 1 AND b.accountId = #{accountId}
+		<if test="solutionNameZH != null and solutionNameZH != ''">
+			AND b.nameZH =  #{solutionNameZH}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId =  #{contractId}
+		</if>
+	
+	</select>	
+  	
+</mapper>

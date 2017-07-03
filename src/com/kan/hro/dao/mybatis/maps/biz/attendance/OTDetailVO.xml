@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.attendance.OTDetailVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.attendance.OTDetailVO">
+		<result property="otDetailId" column="otDetailId" />
+		<result property="otHeaderId" column="otHeaderId" />
+		<result property="timesheetId" column="timesheetId" />
+		<result property="itemId" column="itemId" />
+		<result property="estimateStartDate" column="estimateStartDate" />
+		<result property="estimateEndDate" column="estimateEndDate" />
+		<result property="actualStartDate" column="actualStartDate" />
+		<result property="actualEndDate" column="actualEndDate" />
+		<result property="estimateHours" column="estimateHours" />
+		<result property="actualHours" column="actualHours" />
+		<result property="actualHours" column="actualStartDate" />
+		<result property="actualEndDate" column="actualEndDate" />
+		<result property="estimateHours" column="estimateHours" />
+		<result property="actualHours" column="actualHours" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />	
+	</resultMap>
+	
+	<sql id="otDetailColumns">
+		otHeaderId, timesheetId, itemId, estimateStartDate, estimateEndDate, actualStartDate, actualEndDate, estimateHours, 
+		actualHours, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<sql id="otDetailColumns-for-join">
+		a.otHeaderId, a.timesheetId, a.itemId, a.estimateStartDate, a.estimateEndDate, a.actualStartDate, a.actualEndDate, a.estimateHours, 
+		a.actualHours, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countOTDetailVOsByCondition" parameterType="otDetail" resultType="int">
+		SELECT COUNT(1)
+		FROM Hro_Biz_Attendance_OT_Detail
+		WHERE deleted = 1 AND otHeaderId = #{otHeaderId}
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+	</select>
+
+	<select id="getOTDetailVOsByCondition" parameterType="otDetail" resultMap="result">
+		SELECT otDetailId, <include refid="otDetailColumns" />
+		FROM Hro_Biz_Attendance_OT_Detail
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getOTDetailVOByOTDetailId" parameterType="int" resultMap="result">
+		SELECT otDetailId, <include refid="otDetailColumns" /> FROM Hro_Biz_Attendance_OT_Detail
+		WHERE otDetailId = #{value}
+	</select>
+
+	<insert id="insertOTDetail" parameterType="otDetail" useGeneratedKeys="true" keyProperty="otDetailId">
+		INSERT INTO Hro_Biz_Attendance_OT_Detail( <include refid="otDetailColumns" /> )
+		VALUES(#{otHeaderId}, #{timesheetId}, #{itemId}, #{estimateStartDate}, #{estimateEndDate}, #{actualStartDate}, #{actualEndDate}, #{estimateHours}, #{actualHours}, 
+			   #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+	
+		<insert id="insertOTImportDetail" parameterType="otDetail" useGeneratedKeys="true" keyProperty="otDetailId">
+		INSERT INTO Hro_Biz_Attendance_OT_Detail_temp ( <include refid="otDetailColumns" /> )
+		VALUES(#{otHeaderId}, #{timesheetId}, #{itemId}, #{estimateStartDate}, #{estimateEndDate}, #{actualStartDate}, #{actualEndDate}, #{estimateHours}, #{actualHours}, 
+			   #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+	
+	<update id="updateOTDetail" parameterType="otDetail">
+		UPDATE Hro_Biz_Attendance_OT_Detail SET
+		    otHeaderId = #{otHeaderId}, timesheetId = #{timesheetId}, itemId = #{itemId}, estimateStartDate = #{estimateStartDate}, estimateEndDate = #{estimateEndDate}, actualStartDate = #{actualStartDate}, 
+			actualEndDate = #{actualEndDate}, estimateHours = #{estimateHours}, actualHours = #{actualHours}, description = #{description}, 
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, 
+			remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE otDetailId = #{otDetailId}
+  	</update>
+  	
+  	<delete id="deleteOTDetail" parameterType="int">
+  		DELETE FROM Hro_Biz_Attendance_OT_Detail WHERE otDetailId = #{value}
+  	</delete>
+  	
+  	<select id="getOTDetailVOsByOTHeaderId" parameterType="int" resultMap="result">
+  		SELECT otDetailId, <include refid="otDetailColumns" />
+		FROM Hro_Biz_Attendance_OT_Detail
+		WHERE deleted = 1 AND otHeaderId = #{value}
+  	</select>
+  	
+  	<select id="getOTDetailVOsByContractId" parameterType="int" resultMap="result">
+  		SELECT otDetailId, <include refid="otDetailColumns-for-join" />
+  		FROM Hro_Biz_Attendance_OT_Detail a LEFT JOIN Hro_Biz_Attendance_OT_Header b
+  		ON a.otHeaderId = b.otHeaderId 
+  		WHERE a.deleted = 1 AND b.deleted = 1 AND b.contractId = #{value} AND a.status IN (2,3,4,5,7) ORDER BY a.estimateStartDate ASC
+	</select>
+	
+  	<select id="getOTDetailVOsByTimesheetId" parameterType="int" resultMap="result">
+  		SELECT otDetailId, <include refid="otDetailColumns" />
+		FROM Hro_Biz_Attendance_OT_Detail
+		WHERE deleted = 1 AND timesheetId = #{value}
+  	</select>
+</mapper>

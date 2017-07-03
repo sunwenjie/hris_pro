@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.management.CommercialBenefitSolutionHeaderVO">
+
+	<resultMap id="result" type="com.kan.base.domain.management.CommercialBenefitSolutionHeaderVO">
+		<result property="headerId" column="headerId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="validFrom" column="validFrom" />
+		<result property="validEnd" column="validEnd" />
+		<result property="attachment" column="attachment" />
+		<result property="calculateType" column="calculateType" />
+		<result property="accuracy" column="accuracy" />
+		<result property="round" column="round" />
+		<result property="freeShortOfMonth" column="freeShortOfMonth" />
+		<result property="chargeFullMonth" column="chargeFullMonth" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For Application -->
+		<result property="extended" column="extended" />
+	</resultMap>
+  	
+  	<sql id="commercialBenefitSolutionHeaderColumns"> 
+  		accountId,corpId, nameZH, nameEN, validFrom, validEnd, attachment, calculateType, accuracy, round, freeShortOfMonth, chargeFullMonth, description, deleted, status, remark1, remark2, remark3, 
+  		remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<sql id="commercialBenefitSolutionHeaderColumns-for-join"> 
+  		a.accountId, a.corpId, a.nameZH, a.nameEN, a.validFrom, a.validEnd, a.attachment, a.calculateType, a.accuracy, a.round, a.freeShortOfMonth, a.chargeFullMonth, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, 
+  		a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countCommercialBenefitSolutionHeaderVOsByCondition" parameterType="commercialBenefitSolutionHeader" resultType="int">
+		select count(1) 
+		from HRO_MGT_Commercial_Benefit_Solution_Header
+		where deleted = 1 AND ( accountId = #{accountId} OR 1 = accountId )
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 1 = accountId)
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+  	
+	<select id="getCommercialBenefitSolutionHeaderVOsByCondition" parameterType="commercialBenefitSolutionHeader" resultMap="result">
+		SELECT
+			DISTINCT( a.headerId ), <include refid="commercialBenefitSolutionHeaderColumns-for-join"/>,
+			CASE
+				WHEN ( ISNULL(b.solutionId) AND ISNULL(c.cbSolutionId) ) 
+				THEN 2
+				ELSE 1	
+			END AS `extended`		
+		FROM HRO_MGT_Commercial_Benefit_Solution_Header a
+			LEFT JOIN hro_biz_employee_contract_cb b
+				ON a.headerId = b.solutionId AND b.deleted = 1
+			LEFT JOIN hro_biz_client_order_cb c
+				ON a.headerId = c.cbSolutionId AND c.deleted = 1
+		WHERE a.deleted = 1 AND ( a.accountId = #{accountId} OR 1 = a.accountId )				
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 1 = a.accountId)
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+  	
+  	<select id="getCommercialBenefitSolutionHeaderVOByHeaderId" parameterType="int" resultMap="result">
+		SELECT headerId, <include refid="commercialBenefitSolutionHeaderColumns"/>  
+		FROM HRO_MGT_Commercial_Benefit_Solution_Header 
+		WHERE headerId = #{value}
+  	</select>
+  	
+  	<insert id="insertCommercialBenefitSolutionHeader" parameterType="commercialBenefitSolutionHeader" useGeneratedKeys="true" keyProperty="headerId">
+		INSERT into HRO_MGT_Commercial_Benefit_Solution_Header(<include refid="commercialBenefitSolutionHeaderColumns"/>) 
+		VALUES(#{accountId},#{corpId}, #{nameZH}, #{nameEN}, #{validFrom}, #{validEnd}, #{attachment}, #{calculateType}, #{accuracy}, #{round}, #{freeShortOfMonth}, #{chargeFullMonth}, #{description}, 1, 
+			   #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+
+	<update id="updateCommercialBenefitSolutionHeader" parameterType="commercialBenefitSolutionHeader">
+		UPDATE HRO_MGT_Commercial_Benefit_Solution_Header set 
+			nameZH = #{nameZH}, nameEN = #{nameEN}, validFrom = #{validFrom}, validEnd = #{validEnd}, attachment = #{attachment}, 
+			calculateType = #{calculateType}, accuracy = #{accuracy}, round = #{round}, freeShortOfMonth = #{freeShortOfMonth}, chargeFullMonth = #{chargeFullMonth}, description = #{description}, deleted = #{deleted}, 
+			status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, 
+			modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE headerId = #{headerId} 
+  	</update>
+  	
+  	<delete id="deleteCommercialBenefitSolutionHeader" parameterType="int">
+		delete form HRO_MGT_Commercial_Benefit_Solution_Header where headerId = #{value}
+  	</delete>
+  	
+  	<select id="getCommercialBenefitSolutionHeaderVOsAccountId" parameterType="int" resultMap="result">
+		SELECT headerId, <include refid="commercialBenefitSolutionHeaderColumns"/>  
+		FROM HRO_MGT_Commercial_Benefit_Solution_Header 
+		WHERE deleted = 1 AND status = 1 AND accountId = #{value}
+  	</select>
+  	
+</mapper>

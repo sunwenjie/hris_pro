@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.security.OrgShootVO">
+	<resultMap id="result" type="com.kan.base.domain.security.OrgShootVO">
+		<result property="shootId" column="shootId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="shootType" column="shootType" />
+		<result property="shootData" column="shootData" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+	
+  	<sql id="orgShootColumns">
+  		accountId,corpId , nameZH, nameEN,shootType,shootData, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+  	<select id="getOrgShootVOsByCond" parameterType="orgShoot" resultMap="result">
+		SELECT shootId, <include refid="orgShootColumns"/>  
+		FROM HRO_SEC_Org_Shoot
+		WHERE accountId = #{accountId}
+		AND deleted = 1
+		AND shootType = #{shootType}
+		<if test="corpId != null and corpId != ''">
+			AND ( corpId = #{corpId} or 0 = #{corpId} )
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId  IS NULL
+		</if>
+		ORDER BY createDate DESC
+  	</select>
+  	
+	<update id="updateOrgShoot" parameterType="orgShoot">
+		UPDATE HRO_SEC_Org_Shoot set nameZH = #{nameZH}, nameEN = #{nameEN},
+			description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, 
+			remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE shootId = #{shootId} 
+  	</update>
+  	
+  	<insert id="insertOrgShoot" parameterType="orgShoot" useGeneratedKeys="true" keyProperty="shootId">
+		INSERT INTO HRO_SEC_Org_Shoot(<include refid="orgShootColumns"/>) 
+		VALUES (#{accountId},#{corpId} , #{nameZH}, #{nameEN},#{shootType},#{shootData}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, 
+			#{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+  	
+  	<delete id="deleteOrgShoot" parameterType="orgShoot">
+		UPDATE HRO_SEC_Org_Shoot SET deleted = 2, modifyBy = #{modifyBy}, modifyDate = #{modifyDate} WHERE shootId = #{shootId} 
+  	</delete>
+  	
+  	<select id="getOrgShootVOByShootId" parameterType="int" resultMap="result">
+		SELECT shootId, <include refid="orgShootColumns"/>  
+		FROM HRO_SEC_Org_Shoot
+		WHERE shootId = #{value}
+  	</select>
+  	
+</mapper>

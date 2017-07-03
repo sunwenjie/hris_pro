@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<!-- value="mssql58|mssql12|oracle|mysql|db2" -->
+	<properties>
+		<property name="dialect" value="mysql" />
+	</properties>
+
+	<typeAliases>
+		<!-- System -->
+		<typeAlias alias="account" type="com.kan.base.domain.system.AccountVO" />
+		<typeAlias alias="accountBaseView" type="com.kan.base.domain.system.AccountBaseView" />
+		<typeAlias alias="module" type="com.kan.base.domain.system.ModuleVO" />
+		<typeAlias alias="moduleBaseView" type="com.kan.base.domain.system.ModuleBaseView" />
+		<typeAlias alias="right" type="com.kan.base.domain.system.RightVO" />
+		<typeAlias alias="rule" type="com.kan.base.domain.system.RuleVO" />
+		<typeAlias alias="workflowModule" type="com.kan.base.domain.system.WorkflowModuleVO"/>
+		<typeAlias alias="country"  type="com.kan.base.domain.system.CountryVO"/>
+		<typeAlias alias="province" type="com.kan.base.domain.system.ProvinceVO"/>
+		<typeAlias alias="city" type="com.kan.base.domain.system.CityVO"/>
+		<typeAlias alias="smsConfig" type="com.kan.base.domain.system.SMSConfigVO" />
+		<typeAlias alias="accountModuleRelation" type="com.kan.base.domain.system.AccountModuleRelationVO"/>
+		<typeAlias alias="socialBenefitHeader" type="com.kan.base.domain.system.SocialBenefitHeaderVO"/>
+		<typeAlias alias="socialBenefitDetail" type="com.kan.base.domain.system.SocialBenefitDetailVO"/>
+		<typeAlias alias="constant" type="com.kan.base.domain.system.ConstantVO" />
+		<typeAlias alias="incomeTaxBase" type="com.kan.base.domain.system.IncomeTaxBaseVO" />
+		<typeAlias alias="incomeTaxRangeHeader" type="com.kan.base.domain.system.IncomeTaxRangeHeaderVO"/>
+		<typeAlias alias="incomeTaxRangeDetail" type="com.kan.base.domain.system.IncomeTaxRangeDetailVO"/>
+		<typeAlias alias="log_" type="com.kan.base.domain.system.LogVO"/>
+		 
+		<!-- Security -->
+		<typeAlias alias="user" type="com.kan.base.domain.security.UserVO" />
+		<typeAlias alias="staff" type="com.kan.base.domain.security.StaffVO"/>
+		<typeAlias alias="staffBaseView" type="com.kan.base.domain.security.StaffBaseView"/>
+		<typeAlias alias="branch" type="com.kan.base.domain.security.BranchVO"/>
+		<typeAlias alias="location" type="com.kan.base.domain.security.LocationVO"/>
+		<typeAlias alias="moduleRightRelation" type="com.kan.base.domain.security.ModuleRightRelationVO"/>
+		<typeAlias alias="moduleRuleRelation" type="com.kan.base.domain.security.ModuleRuleRelationVO"/>
+		<typeAlias alias="position" type="com.kan.base.domain.security.PositionVO"/>
+		<typeAlias alias="positionBaseView" type="com.kan.base.domain.security.PositionBaseView"/>
+		<typeAlias alias="positionGrade" type="com.kan.base.domain.security.PositionGradeVO"/>
+		<typeAlias alias="positionGradeCurrency" type="com.kan.base.domain.security.PositionGradeCurrencyVO"/>
+		<typeAlias alias="positionGroupRelation" type="com.kan.base.domain.security.PositionGroupRelationVO"/>
+		<typeAlias alias="positionStaffRelation" type="com.kan.base.domain.security.PositionStaffRelationVO"/>
+		<typeAlias alias="positionModuleRuleRelation" type="com.kan.base.domain.security.PositionModuleRuleRelationVO"/>
+		<typeAlias alias="positionModuleRightRelation" type="com.kan.base.domain.security.PositionModuleRightRelationVO"/>
+		<typeAlias alias="positionColumnRightRelation" type="com.kan.base.domain.security.PositionColumnRightRelationVO"/>
+		<typeAlias alias="group" type="com.kan.base.domain.security.GroupVO"/>
+		<typeAlias alias="groupBaseView" type="com.kan.base.domain.security.GroupBaseView"/>
+		<typeAlias alias="groupModuleRuleRelation" type="com.kan.base.domain.security.GroupModuleRuleRelationVO"/>
+		<typeAlias alias="groupModuleRightRelation" type="com.kan.base.domain.security.GroupModuleRightRelationVO"/>
+		<typeAlias alias="groupColumnRightRelation" type="com.kan.base.domain.security.GroupColumnRightRelationVO"/>
+		<typeAlias alias="entity" type="com.kan.base.domain.security.EntityVO"/> 
+		<typeAlias alias="entityBaseView" type="com.kan.base.domain.security.EntityBaseView"/>
+		<typeAlias alias="businessType" type="com.kan.base.domain.security.BusinessTypeVO"/>
+		<typeAlias alias="businessTypeBaseView" type="com.kan.base.domain.security.BusinessTypeBaseView"/>
+		<typeAlias alias="orgShoot" type="com.kan.base.domain.security.OrgShootVO"/>
+		
+		<!-- Management -->
+		<typeAlias alias="options" type="com.kan.base.domain.management.OptionsVO" />
+		<typeAlias alias="emailConfiguration" type="com.kan.base.domain.management.EmailConfigurationVO" />
+		<typeAlias alias="shareFolderConfiguration" type="com.kan.base.domain.management.ShareFolderConfigurationVO" />
+		<typeAlias alias="mgtPosition" type="com.kan.base.domain.management.PositionVO" />
+		<typeAlias alias="mgtPositionBaseView" type="com.kan.base.domain.management.PositionBaseView" />
+		<typeAlias alias="mgtPositionGrade" type="com.kan.base.domain.management.PositionGradeVO" />
+		<typeAlias alias="mgtPositionGradeCurrency" type="com.kan.base.domain.management.PositionGradeCurrencyVO" />
+		<typeAlias alias="employeeStatus" type="com.kan.base.domain.management.EmployeeStatusVO" />
+		<typeAlias alias="education" type="com.kan.base.domain.management.EducationVO"/>
+		<typeAlias alias="language" type="com.kan.base.domain.management.LanguageVO"/>
+		<typeAlias alias="skill" type="com.kan.base.domain.management.SkillVO"/>
+		<typeAlias alias="skillBaseView" type="com.kan.base.domain.management.SkillBaseView"/>
+		<typeAlias alias="contractType" type="com.kan.base.domain.management.ContractTypeVO"/>
+		<typeAlias alias="item" type="com.kan.base.domain.management.ItemVO"/>
+		<typeAlias alias="itemBaseView" type="com.kan.base.domain.management.ItemBaseView"/>
+		<typeAlias alias="itemGroup" type="com.kan.base.domain.management.ItemGroupVO"/>
+		<typeAlias alias="itemGroupRelation" type="com.kan.base.domain.management.ItemGroupRelationVO"/>
+		<typeAlias alias="itemMapping" type="com.kan.base.domain.management.ItemMappingVO"/>
+		<typeAlias alias="tax" type="com.kan.base.domain.management.TaxVO"/>
+		<typeAlias alias="socialBenefitSolutionHeader" type="com.kan.base.domain.management.SocialBenefitSolutionHeaderVO"/>
+		<typeAlias alias="socialBenefitSolutionDetail" type="com.kan.base.domain.management.SocialBenefitSolutionDetailVO"/>
+		<typeAlias alias="certification" type="com.kan.base.domain.management.CertificationVO"/>
+		<typeAlias alias="membership" type="com.kan.base.domain.management.MembershipVO"/>
+		<typeAlias alias="businessContractTemplate" type="com.kan.base.domain.management.BusinessContractTemplateVO"/>
+		<typeAlias alias="laborContractTemplate" type="com.kan.base.domain.management.LaborContractTemplateVO"/>
+		<typeAlias alias="industryType" type="com.kan.base.domain.management.IndustryTypeVO"/>
+		<typeAlias alias="calendarHeader" type="com.kan.base.domain.management.CalendarHeaderVO" />
+		<typeAlias alias="calendarDetail" type="com.kan.base.domain.management.CalendarDetailVO" />
+		<typeAlias alias="shiftHeader" type="com.kan.base.domain.management.ShiftHeaderVO" />
+		<typeAlias alias="shiftDetail" type="com.kan.base.domain.management.ShiftDetailVO" />
+		<typeAlias alias="shiftException" type="com.kan.base.domain.management.ShiftExceptionVO" />
+		<typeAlias alias="sickLeaveSalaryHeader" type="com.kan.base.domain.management.SickLeaveSalaryHeaderVO" />
+		<typeAlias alias="sickLeaveSalaryDetail" type="com.kan.base.domain.management.SickLeaveSalaryDetailVO" />
+		<typeAlias alias="commercialBenefitSolutionHeader" type="com.kan.base.domain.management.CommercialBenefitSolutionHeaderVO"/>
+		<typeAlias alias="commercialBenefitSolutionDetail" type="com.kan.base.domain.management.CommercialBenefitSolutionDetailVO"/>
+		<typeAlias alias="bank" type="com.kan.base.domain.management.BankVO"/>
+		<typeAlias alias="setting" type="com.kan.base.domain.management.SettingVO"/>
+		<typeAlias alias="resignTemplate" type="com.kan.base.domain.management.ResignTemplateVO"/>
+		<typeAlias alias="annualLeaveRuleHeader" type="com.kan.base.domain.management.AnnualLeaveRuleHeaderVO" />
+		<typeAlias alias="annualLeaveRuleDetail" type="com.kan.base.domain.management.AnnualLeaveRuleDetailVO" />
+		<typeAlias alias="exchangeRate" type="com.kan.base.domain.management.ExchangeRateVO" />
+		<typeAlias alias="yerrRule" type="com.kan.base.domain.management.YERRRuleVO" />
+		
+		<!-- define -->
+		<typeAlias alias="table" type="com.kan.base.domain.define.TableVO"/>
+		<typeAlias alias="tableRelation" type="com.kan.base.domain.define.TableRelationVO"/>
+		<typeAlias alias="reportRelation" type="com.kan.base.domain.define.ReportRelationVO"/>
+		<typeAlias alias="column" type="com.kan.base.domain.define.ColumnVO"/>
+		<typeAlias alias="columnGroup" type="com.kan.base.domain.define.ColumnGroupVO"/>
+		<typeAlias alias="optionHeader" type="com.kan.base.domain.define.OptionHeaderVO"/>
+		<typeAlias alias="optionDetail" type="com.kan.base.domain.define.OptionDetailVO"/>
+		<typeAlias alias="searchHeader" type="com.kan.base.domain.define.SearchHeaderVO"/>
+		<typeAlias alias="searchDetail" type="com.kan.base.domain.define.SearchDetailVO"/>
+		<typeAlias alias="listHeader" type="com.kan.base.domain.define.ListHeaderVO"/>
+		<typeAlias alias="listDetail" type="com.kan.base.domain.define.ListDetailVO"/>
+		<typeAlias alias="reportHeader" type="com.kan.base.domain.define.ReportHeaderVO"/>
+		<typeAlias alias="reportDetail" type="com.kan.base.domain.define.ReportDetailVO"/>
+		<typeAlias alias="reportSearchDetail" type="com.kan.base.domain.define.ReportSearchDetailVO"/>
+		<typeAlias alias="importHeader" type="com.kan.base.domain.define.ImportHeaderVO"/>
+		<typeAlias alias="importDetail" type="com.kan.base.domain.define.ImportDetailVO"/>
+		<typeAlias alias="managerHeader" type="com.kan.base.domain.define.ManagerHeaderVO"/>
+		<typeAlias alias="managerDetail" type="com.kan.base.domain.define.ManagerDetailVO"/>
+		<typeAlias alias="mappingHeader" type="com.kan.base.domain.define.MappingHeaderVO"/>
+		<typeAlias alias="mappingDetail" type="com.kan.base.domain.define.MappingDetailVO"/>
+		<typeAlias alias="bankTemplateHeader" type="com.kan.base.domain.define.BankTemplateHeaderVO"/>
+		<typeAlias alias="bankTemplateDetail" type="com.kan.base.domain.define.BankTemplateDetailVO"/>
+		<typeAlias alias="taxTemplateHeader" type="com.kan.base.domain.define.TaxTemplateHeaderVO"/>
+		<typeAlias alias="taxTemplateDetail" type="com.kan.base.domain.define.TaxTemplateDetailVO"/>
+		
+		<!-- message -->
+		<typeAlias alias="messageMail" type="com.kan.base.domain.message.MessageMailVO"/>
+		<typeAlias alias="messageSms" type="com.kan.base.domain.message.MessageSmsVO"/>
+		<typeAlias alias="messageInfo" type="com.kan.base.domain.message.MessageInfoVO"/>
+		<typeAlias alias="messageTemplate" type="com.kan.base.domain.message.MessageTemplateVO" />
+		<typeAlias alias="messageRegular" type="com.kan.base.domain.message.MessageRegularVO"/>
+		
+		<!-- Business -->
+		<typeAlias alias="vendorInfo" type="com.kan.hro.domain.biz.vendor.VendorVO"/>
+		<typeAlias alias="vendorUser" type="com.kan.hro.domain.biz.vendor.VendorUserVO"/>
+		<typeAlias alias="vendorBaseView" type="com.kan.hro.domain.biz.vendor.VendorBaseView"/>
+		<typeAlias alias="vendorContact" type="com.kan.hro.domain.biz.vendor.VendorContactVO"/>
+		<typeAlias alias="vendorContactBaseView" type="com.kan.hro.domain.biz.vendor.VendorContactBaseView"/>
+		<typeAlias alias="vendorService" type="com.kan.hro.domain.biz.vendor.VendorServiceVO"/>	
+		<typeAlias alias="client" type="com.kan.hro.domain.biz.client.ClientVO"/>
+		<typeAlias alias="clientBaseView" type="com.kan.hro.domain.biz.client.ClientBaseView"/>
+		<typeAlias alias="clientFullView" type="com.kan.hro.domain.biz.client.ClientFullView"/>
+		<typeAlias alias="clientGroup" type="com.kan.hro.domain.biz.client.ClientGroupVO"/>
+		<typeAlias alias="clientGroupBaseView" type="com.kan.hro.domain.biz.client.ClientGroupBaseView"/>
+		<typeAlias alias="clientContact" type="com.kan.hro.domain.biz.client.ClientContactVO"/>
+		<typeAlias alias="clientContactUser" type="com.kan.hro.domain.biz.client.ClientUserVO"/>
+		<typeAlias alias="clientContract" type="com.kan.hro.domain.biz.client.ClientContractVO"/>
+		<typeAlias alias="clientContractProperty" type="com.kan.hro.domain.biz.client.ClientContractPropertyVO"/>
+		<typeAlias alias="clientContractBaseView" type="com.kan.hro.domain.biz.client.ClientContractBaseView"/>
+		<typeAlias alias="clientContactBaseView" type="com.kan.hro.domain.biz.client.ClientContactBaseView"/>
+		<typeAlias alias="clientInvoice" type="com.kan.hro.domain.biz.client.ClientInvoiceVO"/>
+		<typeAlias alias="clientInvoiceBaseView" type="com.kan.hro.domain.biz.client.ClientInvoiceBaseView"/>
+		<typeAlias alias="clientOrderHeader" type="com.kan.hro.domain.biz.client.ClientOrderHeaderVO"/>
+		<typeAlias alias="clientOrderHeaderBaseView" type="com.kan.hro.domain.biz.client.ClientOrderHeaderBaseView"/>
+		<typeAlias alias="clientOrderHeaderRule" type="com.kan.hro.domain.biz.client.ClientOrderHeaderRuleVO"/>
+		<typeAlias alias="clientOrderDetail" type="com.kan.hro.domain.biz.client.ClientOrderDetailVO"/>
+		<typeAlias alias="clientOrderDetailRule" type="com.kan.hro.domain.biz.client.ClientOrderDetailRuleVO"/>
+		<typeAlias alias="clientOrderDetailSBRule" type="com.kan.hro.domain.biz.client.ClientOrderDetailSBRuleVO"/>
+		<typeAlias alias="clientOrderSB" type="com.kan.hro.domain.biz.client.ClientOrderSBVO"/>
+		<typeAlias alias="clientOrderCB" type="com.kan.hro.domain.biz.client.ClientOrderCBVO"/>
+		<typeAlias alias="clientOrderOT" type="com.kan.hro.domain.biz.client.ClientOrderOTVO"/>
+		<typeAlias alias="clientOrderOther" type="com.kan.hro.domain.biz.client.ClientOrderOtherVO"/>
+		<typeAlias alias="employeeContractSettlement" type="com.kan.hro.domain.biz.employee.EmployeeContractSettlementVO"/>
+		<typeAlias alias="clientOrderLeave" type="com.kan.hro.domain.biz.client.ClientOrderLeaveVO"/>
+		<typeAlias alias="employee" type="com.kan.hro.domain.biz.employee.EmployeeVO"/>
+		<typeAlias alias="employeeAddSubtract" type="com.kan.hro.domain.biz.employee.EmployeeAddSubtract"/>
+		<typeAlias alias="employeeBaseView" type="com.kan.hro.domain.biz.employee.EmployeeBaseView"/>
+		<typeAlias alias="employeeEmergency" type="com.kan.hro.domain.biz.employee.EmployeeEmergencyVO"/>
+		<typeAlias alias="employeeEducation" type="com.kan.hro.domain.biz.employee.EmployeeEducationVO"/>
+		<typeAlias alias="employeeWork" type="com.kan.hro.domain.biz.employee.EmployeeWorkVO"/>
+		<typeAlias alias="employeeLanguage" type="com.kan.hro.domain.biz.employee.EmployeeLanguageVO"/>
+		<typeAlias alias="employeeSkill" type="com.kan.hro.domain.biz.employee.EmployeeSkillVO"/>
+		<typeAlias alias="employeeCertification" type="com.kan.hro.domain.biz.employee.EmployeeCertificationVO"/>
+		<typeAlias alias="employeeMembership" type="com.kan.hro.domain.biz.employee.EmployeeMembershipVO"/>
+		<typeAlias alias="employeeContract" type="com.kan.hro.domain.biz.employee.EmployeeContractVO"/>
+		<typeAlias alias="employeeContractBaseView" type="com.kan.hro.domain.biz.employee.EmployeeContractBaseView"/>
+		<typeAlias alias="employeeContractProperty" type="com.kan.hro.domain.biz.employee.EmployeeContractPropertyVO"/>
+		<typeAlias alias="employeeContractSB" type="com.kan.hro.domain.biz.employee.EmployeeContractSBVO"/>
+		<typeAlias alias="employeeContractSBDetail" type="com.kan.hro.domain.biz.employee.EmployeeContractSBDetailVO"/>
+		<typeAlias alias="employeeContractCB" type="com.kan.hro.domain.biz.employee.EmployeeContractCBVO"/>
+		<typeAlias alias="employeeContractSalary" type="com.kan.hro.domain.biz.employee.EmployeeContractSalaryVO"/>
+		<typeAlias alias="employeeContractOT" type="com.kan.hro.domain.biz.employee.EmployeeContractOTVO"/>
+		<typeAlias alias="employeeContractLeave" type="com.kan.hro.domain.biz.employee.EmployeeContractLeaveVO"/>
+		<typeAlias alias="employeeContractOther" type="com.kan.hro.domain.biz.employee.EmployeeContractOtherVO"/>
+		<typeAlias alias="employeeContractImportBatch" type="com.kan.hro.domain.biz.employee.EmployeeContractImportBatchVO"/>
+		<typeAlias alias="employeeContractResign" type="com.kan.hro.domain.biz.employee.EmployeeContractResignVO"/>
+		<typeAlias alias="employeeUser" type="com.kan.hro.domain.biz.employee.EmployeeUserVO"/>
+		<typeAlias alias="employeeLog" type="com.kan.hro.domain.biz.employee.EmployeeLogVO"/>
+		<typeAlias alias="employeeReport" type="com.kan.hro.domain.biz.employee.EmployeeReportVO"/>
+		<typeAlias alias="iClickEmployeeReport" type="com.kan.hro.domain.biz.employee.IClickEmployeeReportView"/>
+		<typeAlias alias="employeePositionChange" type="com.kan.hro.domain.biz.employee.EmployeePositionChangeVO"/>
+		<typeAlias alias="employeeSalaryAdjustment" type="com.kan.hro.domain.biz.employee.EmployeeSalaryAdjustmentVO"/>
+		<typeAlias alias="leaveHeader" type="com.kan.hro.domain.biz.attendance.LeaveHeaderVO"/>
+		<typeAlias alias="leaveDetail" type="com.kan.hro.domain.biz.attendance.LeaveDetailVO"/>
+		<typeAlias alias="leaveImportHeader" type="com.kan.hro.domain.biz.attendance.LeaveImportHeaderVO"/>
+		<typeAlias alias="otHeader" type="com.kan.hro.domain.biz.attendance.OTHeaderVO"/>
+		<typeAlias alias="otDetail" type="com.kan.hro.domain.biz.attendance.OTDetailVO"/>
+		<typeAlias alias="timesheetBatch" type="com.kan.hro.domain.biz.attendance.TimesheetBatchVO"/>
+		<typeAlias alias="timesheetHeader" type="com.kan.hro.domain.biz.attendance.TimesheetHeaderVO"/>
+		<typeAlias alias="timesheetDetail" type="com.kan.hro.domain.biz.attendance.TimesheetDetailVO"/>
+		<typeAlias alias="timesheetAllowance" type="com.kan.hro.domain.biz.attendance.TimesheetAllowanceVO"/>
+		<typeAlias alias="attendanceImportHeader" type="com.kan.hro.domain.biz.attendance.AttendanceImportHeaderVO"/>
+		<typeAlias alias="attendanceImportDetail" type="com.kan.hro.domain.biz.attendance.AttendanceImportDetailVO"/>
+		<typeAlias alias="otImportHeader" type="com.kan.hro.domain.biz.attendance.OTImportHeaderVO"/>
+		<typeAlias alias="record" type="com.kan.hro.domain.biz.attendance.RecordVO"/>
+		<typeAlias alias="employeeContractTemp" type="com.kan.hro.domain.biz.employee.EmployeeContractTempVO"/>
+		<typeAlias alias="employeeInsuranceNoImportBatchVO" type="com.kan.hro.domain.biz.employee.EmployeeInsuranceNoImportBatchVO"/>
+		<typeAlias alias="employeeInsuranceNoImportHeaderVO" type="com.kan.hro.domain.biz.employee.EmployeeInsuranceNoImportHeaderVO"/>
+		<typeAlias alias="travel" type="com.kan.hro.domain.biz.travel.TravelVO"/>
+		<typeAlias alias="employeeSalaryAdjustmentBatch" type="com.kan.hro.domain.biz.employee.EmployeeSalaryAdjustmentBatchVO"/>
+		<typeAlias alias="employeeSalaryAdjustmentTemp" type="com.kan.hro.domain.biz.employee.EmployeeSalaryAdjustmentTempVO"/>
+		<typeAlias alias="employeePositionChangeBatch" type="com.kan.hro.domain.biz.employee.EmployeePositionChangeBatchVO"/>
+		<typeAlias alias="employeePositionChangeTemp" type="com.kan.hro.domain.biz.employee.EmployeePositionChangeTempVO"/>
+		<typeAlias alias="leaveReport" type="com.kan.hro.domain.biz.employee.EmployeeContractLeaveReportVO"/>
+		
+		
+		<!-- settlement -->
+		<typeAlias alias="settlementBatch" type="com.kan.hro.domain.biz.settlement.BatchVO"/>
+		<typeAlias alias="settlementBatchTemp" type="com.kan.hro.domain.biz.settlement.BatchTempVO"/>
+		<typeAlias alias="settlementOrderDetail" type="com.kan.hro.domain.biz.settlement.OrderDetailVO"/>
+		<typeAlias alias="settlementOrderDetailTemp" type="com.kan.hro.domain.biz.settlement.OrderDetailTempVO"/>
+		<typeAlias alias="settlementOrderHeader" type="com.kan.hro.domain.biz.settlement.OrderHeaderVO"/>
+		<typeAlias alias="settlementOrderHeaderTemp" type="com.kan.hro.domain.biz.settlement.OrderHeaderTempVO"/>
+		<typeAlias alias="settlementServiceContract" type="com.kan.hro.domain.biz.settlement.ServiceContractVO"/>
+		<typeAlias alias="settlementServiceContractTemp" type="com.kan.hro.domain.biz.settlement.ServiceContractTempVO"/>
+		<typeAlias alias="adjustmentHeader" type="com.kan.hro.domain.biz.settlement.AdjustmentHeaderVO"/>
+		<typeAlias alias="adjustmentDetail" type="com.kan.hro.domain.biz.settlement.AdjustmentDetailVO"/>
+		<typeAlias alias="orderBillHeaderView" type="com.kan.hro.domain.biz.settlement.OrderBillHeaderView"/>
+		<typeAlias alias="settlementAdjustmentImportBatch" type="com.kan.hro.domain.biz.settlement.SettlementAdjustmentImportBatchVO"/>
+		<typeAlias alias="settlementAdjustmentImportHeader" type="com.kan.hro.domain.biz.settlement.SettlementAdjustmentImportHeaderVO"/>
+		<typeAlias alias="settlementAdjustmentImportDetail" type="com.kan.hro.domain.biz.settlement.SettlementAdjustmentImportDetailVO"/>
+		
+		
+		<!-- social benefit -->
+		<typeAlias alias="sbBatch" type="com.kan.hro.domain.biz.sb.SBBatchVO"/>
+		<typeAlias alias="sbHeader" type="com.kan.hro.domain.biz.sb.SBHeaderVO"/>
+		<typeAlias alias="sbDetail" type="com.kan.hro.domain.biz.sb.SBDetailVO"/>
+		<typeAlias alias="sbHeaderTemp" type="com.kan.hro.domain.biz.sb.SBHeaderTempVO"/>
+		<typeAlias alias="sbDetailTemp" type="com.kan.hro.domain.biz.sb.SBDetailTempVO"/>
+		<typeAlias alias="sbAdjustmentHeader" type="com.kan.hro.domain.biz.sb.SBAdjustmentHeaderVO"/>
+		<typeAlias alias="sbAdjustmentDetail" type="com.kan.hro.domain.biz.sb.SBAdjustmentDetailVO"/>
+		<typeAlias alias="sbBillView" type="com.kan.hro.domain.biz.sb.SBBillDetailView"/>
+ 		<typeAlias alias="sbAdjustmentImportBatch" type="com.kan.hro.domain.biz.sb.SBAdjustmentImportBatchVO"/>
+ 		<typeAlias alias="sbAdjustmentImportHeader" type="com.kan.hro.domain.biz.sb.SBAdjustmentImportHeaderVO"/>
+ 		<typeAlias alias="sbAdjustmentImportDetail" type="com.kan.hro.domain.biz.sb.SBAdjustmentImportDetailVO"/>
+		
+		<!-- commercial benefit -->
+		<typeAlias alias="cbBatch" type="com.kan.hro.domain.biz.cb.CBBatchVO"/>
+		<typeAlias alias="cbHeader" type="com.kan.hro.domain.biz.cb.CBHeaderVO"/>
+		<typeAlias alias="cbDetail" type="com.kan.hro.domain.biz.cb.CBDetailVO"/>
+		<typeAlias alias="cbBill" type="com.kan.hro.domain.biz.cb.CBBillVO"/>
+		
+		<!-- workflow -->
+		<typeAlias alias="workflowDefine" type="com.kan.base.domain.workflow.WorkflowDefineVO"/>
+		<typeAlias alias="workflowDefineSteps" type="com.kan.base.domain.workflow.WorkflowDefineStepsVO"/>
+		<typeAlias alias="workflowRequirements" type="com.kan.base.domain.workflow.WorkflowDefineRequirementsVO"/>
+		<typeAlias alias="workflowActual" type="com.kan.base.domain.workflow.WorkflowActualVO"/>
+		<typeAlias alias="workflowActualSteps" type="com.kan.base.domain.workflow.WorkflowActualStepsVO"/>
+		
+		<!-- finance -->
+		<typeAlias alias="systemInvoiceBatch" type="com.kan.hro.domain.biz.finance.SystemInvoiceBatchVO"/>
+		<typeAlias alias="systemInvoiceHeader" type="com.kan.hro.domain.biz.finance.SystemInvoiceHeaderVO"/>
+		<typeAlias alias="systemInvoiceDetail" type="com.kan.hro.domain.biz.finance.SystemInvoiceDetailVO"/>
+		
+		<!-- payment -->
+		<typeAlias alias="paymentAdjustmentDetail" type="com.kan.hro.domain.biz.payment.PaymentAdjustmentDetailVO"/>
+		<typeAlias alias="paymentAdjustmentHeader" type="com.kan.hro.domain.biz.payment.PaymentAdjustmentHeaderVO"/>
+		<typeAlias alias="paymentBatch" type="com.kan.hro.domain.biz.payment.PaymentBatchVO"/>
+		<typeAlias alias="paymentHeader" type="com.kan.hro.domain.biz.payment.PaymentHeaderVO"/>
+		<typeAlias alias="paymentDetail" type="com.kan.hro.domain.biz.payment.PaymentDetailVO"/>
+		<typeAlias alias="payslipHeaderView" type="com.kan.hro.domain.biz.payment.PayslipHeaderView"/>
+		<typeAlias alias="payslipDetailView" type="com.kan.hro.domain.biz.payment.PayslipDetailView"/>
+		<typeAlias alias="salaryHeader" type="com.kan.hro.domain.biz.payment.SalaryHeaderVO"/>
+		<typeAlias alias="salaryDetail" type="com.kan.hro.domain.biz.payment.SalaryDetailVO"/>
+		<typeAlias alias="salaryBatch" type="com.kan.hro.domain.biz.payment.CommonBatchVO"/>
+		<typeAlias alias="incomeTaxYearView" type="com.kan.hro.domain.biz.payment.IncomeTaxYearView"/>
+		<typeAlias alias="paymentAdjustmentImportBatch" type="com.kan.hro.domain.biz.payment.PaymentAdjustmentImportBatchVO"/>
+		<typeAlias alias="paymentAdjustmentImportHeader" type="com.kan.hro.domain.biz.payment.PaymentAdjustmentImportHeaderVO"/>
+		<typeAlias alias="paymentAdjustmentImportDetail" type="com.kan.hro.domain.biz.payment.PaymentAdjustmentImportDetailVO"/>
+		<typeAlias alias="paymentReport" type="com.kan.hro.domain.biz.payment.PaymentReportVO"/>
+		
+		<!-- performance -->
+		<typeAlias alias="performance" type="com.kan.hro.domain.biz.performance.PerformanceVO"/>
+		<typeAlias alias="selfAssessment" type="com.kan.hro.domain.biz.performance.SelfAssessmentVO"/>
+		<typeAlias alias="inviteAssessment" type="com.kan.hro.domain.biz.performance.InviteAssessmentVO"/>
+		<typeAlias alias="budgetSettingHeader" type="com.kan.hro.domain.biz.performance.BudgetSettingHeaderVO"/>
+		<typeAlias alias="budgetSettingDetail" type="com.kan.hro.domain.biz.performance.BudgetSettingDetailVO"/>
+		
+		<!-- log -->
+		<typeAlias alias="syslog" type="com.kan.base.domain.system.LogVO"/>
+		
+		<!-- WX -->
+		<typeAlias alias="questionHeader" type="com.kan.wx.domain.QuestionHeaderVO"/>
+		<typeAlias alias="questionDetail" type="com.kan.wx.domain.QuestionDetailVO"/>
+		<typeAlias alias="answer" type="com.kan.wx.domain.AnswerVO"/>
+		
+		<typeAlias alias="commonBatch" type="com.kan.base.domain.common.CommonBatchVO"/>
+		<typeAlias alias="historyVO" type="com.kan.base.domain.HistoryVO"/>
+	</typeAliases>
+
+	<plugins>
+		<plugin interceptor="com.kan.hro.interceptor.DataAuthorityInterceptor" />
+		<plugin interceptor="com.gian.commons.dialect.PaginationInterceptor" />
+	</plugins>
+
+	<mappers>
+		<!-- System -->
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/AccountVO.xml" />
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/LogVO.xml" />
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/ModuleVO.xml" />
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/RightVO.xml" />
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/RuleVO.xml" />
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/WorkflowModuleVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/CountryVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/ProvinceVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/CityVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/SMSConfigVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/AccountModuleRelationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/SocialBenefitHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/SocialBenefitDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/ConstantVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/IncomeTaxBaseVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/IncomeTaxRangeHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/IncomeTaxRangeDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/common/CommonBatchVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/system/LogVO.xml"/>
+		
+		<!-- Security -->
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/UserVO.xml" />
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/StaffVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/BranchVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/LocationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/ModuleRightRelationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/ModuleRuleRelationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/PositionVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/PositionGradeVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/PositionGradeCurrencyVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/GroupVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/PositionGroupRelationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/PositionStaffRelationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/PositionModuleRuleRelationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/PositionModuleRightRelationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/PositionColumnRightRelationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/GroupModuleRuleRelationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/GroupModuleRightRelationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/GroupColumnRightRelationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/EntityVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/BusinessTypeVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/security/OrgShootVO.xml"/> 
+		
+		<!-- Management -->
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/OptionsVO.xml" />
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/EmailConfigurationVO.xml" />
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/ShareFolderConfigurationVO.xml" />
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/PositionVO.xml" />
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/PositionGradeVO.xml" />	
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/PositionGradeCurrencyVO.xml" />	
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/EmployeeStatusVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/EducationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/LanguageVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/SkillVO.xml" />
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/ContractTypeVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/ItemVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/ItemGroupVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/ItemGroupRelationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/ItemMappingVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/TaxVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/SocialBenefitSolutionHeaderVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/SocialBenefitSolutionDetailVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/CertificationVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/MembershipVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/BusinessContractTemplateVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/LaborContractTemplateVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/IndustryTypeVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/CalendarHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/CalendarDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/ShiftHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/ShiftDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/ShiftExceptionVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/SickLeaveSalaryDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/SickLeaveSalaryHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/CommercialBenefitSolutionHeaderVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/CommercialBenefitSolutionDetailVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/BankVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/SettingVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/ResignTemplateVO.xml"/> 
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/AnnualLeaveRuleHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/AnnualLeaveRuleDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/ExchangeRateVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/management/YERRRuleVO.xml"/>
+		
+		
+		<!-- define -->
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/TableVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/TableRelationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/ReportRelationVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/ColumnVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/DBColumnUtilVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/ColumnGroupVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/OptionHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/OptionDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/SearchHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/SearchDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/ListHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/ListDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/ReportHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/ReportDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/ReportSearchDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/ImportHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/ImportDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/ManagerHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/ManagerDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/MappingHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/MappingDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/BankTemplateHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/BankTemplateDetailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/TaxTemplateHeaderVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/define/TaxTemplateDetailVO.xml"/>
+		
+		<!-- message -->
+		<mapper resource="com/kan/base/dao/mybatis/maps/message/MessageMailVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/message/MessageSmsVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/message/MessageInfoVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/message/MessageTemplateVO.xml" />
+		<mapper resource="com/kan/base/dao/mybatis/maps/message/MessageRegularVO.xml"/>
+		
+		<!-- Business -->
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/vendor/VendorVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/vendor/VendorUserVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/vendor/VendorContactVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/vendor/VendorServiceVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientGroupVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientContactVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientUserVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientContractVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientContractPropertyVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientInvoiceVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientOrderHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientOrderHeaderRuleVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientOrderDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientOrderDetailRuleVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientOrderDetailSBRuleVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientOrderSBVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientOrderCBVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientOrderOTVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientOrderOtherVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/client/ClientOrderLeaveVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeAddSubtract.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeEmergencyVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeEducationVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeWorkVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeLanguageVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeSkillVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeCertificationVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeMembershipVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractPropertyVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractSBVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractSBDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractCBVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractSalaryVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractOTVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractLeaveVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractOtherVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractSettlementVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractImportBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/LeaveHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/LeaveDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/LeaveImportBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/LeaveImportHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/OTHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/OTDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/OTImportBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/OTImportHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/TimesheetBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/TimesheetAllowanceBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/TimesheetHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/TimesheetAllowanceHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/TimesheetDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/TimesheetAllowanceVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/AttendanceImportHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/AttendanceImportDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/attendance/RecordVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/dashboard/DashboardVO.xml"/> 
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractSalaryTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractSBTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractCBTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractLeaveTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractOTTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractOtherTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractResignVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeInsuranceNoImportBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeInsuranceNoImportHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeUserVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeLogVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeReportVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/IClickEmployeeReportView.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/travel/TravelVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeePositionChangeVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeSalaryAdjustmentVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeSalaryAdjustmentBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeSalaryAdjustmentTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeePositionChangeBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeePositionChangeTempVO.xml"/>
+		<!-- <mapper resource="com/kan/hro/dao/mybatis/maps/biz/employee/EmployeeContractLeaveVO.xml" /> -->
+		
+		<!-- settlement -->
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/BatchTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/BatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/OrderDetailTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/OrderDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/OrderHeaderTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/OrderHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/ServiceContractTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/ServiceContractVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/AdjustmentHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/AdjustmentDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/OrderBillHeaderView.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/AdjustmentHeaderTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/SettlementAdjustmentImportBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/SettlementAdjustmentImportHeaderVO.xml"/>
+ 		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/settlement/SettlementAdjustmentImportDetailVO.xml"/>
+		<!-- finance -->
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/finance/SystemInvoiceBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/finance/SystemInvoiceHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/finance/SystemInvoiceDetailVO.xml"/>
+				
+		<!-- social benefit -->
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/sb/SBBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/sb/SBHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/sb/SBDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/sb/SBHeaderTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/sb/SBDetailTempVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/sb/SBAdjustmentHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/sb/SBAdjustmentDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/sb/SBBillView.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/sb/SBAdjustmentImportBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/sb/SBAdjustmentImportHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/sb/SBAdjustmentImportDetailVO.xml"/>
+		
+		<!-- commercial benefit -->
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/cb/CBBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/cb/CBHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/cb/CBDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/cb/CBBillVO.xml"/>
+		
+		<!-- workflow -->
+		<mapper resource="com/kan/base/dao/mybatis/maps/workflow/WorkflowDefineVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/workflow/WorkflowDefineStepsVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/workflow/WorkflowDefineRequirementsVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/workflow/WorkflowActualVO.xml"/>
+		<mapper resource="com/kan/base/dao/mybatis/maps/workflow/WorkflowActualStepsVO.xml"/>
+		
+		<mapper resource="com/kan/base/dao/mybatis/maps/HistoryVO.xml"/>
+		
+		<!-- payment -->
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/PaymentBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/PaymentDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/PaymentAdjustmentHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/PaymentAdjustmentDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/PaymentHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/SalaryHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/SalaryDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/PayslipHeaderView.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/PayslipDetailView.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/CommonBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/IncomeTaxYearView.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/PaymentAdjustmentImportBatchVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/PaymentAdjustmentImportHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/PaymentAdjustmentImportDetailVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/payment/PaymentReportVO.xml"/>
+		
+		<!-- performance -->
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/performance/PerformanceVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/performance/SelfAssessmentVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/performance/InviteAssessmentVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/performance/BudgetSettingHeaderVO.xml"/>
+		<mapper resource="com/kan/hro/dao/mybatis/maps/biz/performance/BudgetSettingDetailVO.xml"/>
+		
+		<!-- WX -->
+		<mapper resource="com/kan/wx/dao/mybatis/maps/QuestionHeaderVO.xml"/>
+		<mapper resource="com/kan/wx/dao/mybatis/maps/QuestionDetailVO.xml"/>
+		<mapper resource="com/kan/wx/dao/mybatis/maps/AnswerVO.xml"/>
+	</mappers>
+
+</configuration> 

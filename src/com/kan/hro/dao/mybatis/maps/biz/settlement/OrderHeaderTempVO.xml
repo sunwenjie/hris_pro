@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.settlement.OrderHeaderTempVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.settlement.OrderHeaderTempVO">
+		<result property="orderHeaderId" column="orderHeaderId" />
+		<result property="accountId" column="accountId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="batchId" column="batchId" />
+		<result property="clientId" column="clientId" />
+		<result property="corpId" column="corpId" />
+		<result property="orderId" column="orderId" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="taxId" column="taxId" />
+		<result property="taxNameZH" column="taxNameZH" />
+		<result property="taxNameEN" column="taxNameEN" />
+		<result property="taxRemark" column="taxRemark" />
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+		<result property="orderAmount" column="orderAmount" />
+		<result property="branch" column="branch" />
+		<result property="owner" column="owner" />
+		<result property="monthly" column="monthly" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="countContractId" column="countContractId" />
+		<result property="countItemId" column="countItemId" />
+	</resultMap>
+  	
+	<sql id="orderHeaderTempColumns">
+		accountId, entityId, businessTypeId, batchId, clientId, corpId, orderId, startDate, endDate, taxId, taxNameZH, taxNameEN, taxRemark, billAmountPersonal,
+		billAmountCompany, costAmountPersonal, costAmountCompany, orderAmount, branch, owner, monthly, description, deleted, status, remark1, remark2, remark3, remark4, 
+		remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="orderHeaderTempColumns-for-join">
+		a.accountId, a.entityId, a.businessTypeId, a.batchId, a.clientId, a.corpId, a.orderId, a.startDate, a.endDate, a.taxId, a.taxNameZH, a.taxNameEN, a.taxRemark, a.billAmountPersonal,
+		a.billAmountCompany, a.costAmountPersonal, a.costAmountCompany, a.orderAmount, a.branch, a.owner, a.monthly, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4,
+		a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countOrderHeaderTempVOsByCondition" parameterType="settlementOrderHeaderTemp" resultType="int">
+		SELECT COUNT(DISTINCT a.orderHeaderId)
+		FROM hro_settle_order_header_temp a LEFT JOIN hro_settle_order_batch_temp b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_contract_temp c ON a.orderHeaderId = c.orderHeaderId AND c.deleted = 1
+			LEFT JOIN hro_settle_order_detail_temp d ON c.contractId = d.contractId
+			LEFT JOIN hro_biz_client e ON a.clientId = e.clientId AND e.deleted = 1
+		WHERE a.batchId = #{batchId} AND a.deleted = 1
+		<if test="hasIn != null and hasIn != ''">
+			AND a.owner IN 
+			 <foreach collection="inList" index="index" item="item" open="(" separator="," close=")" >  
+           	 #{item}  
+      		 </foreach>  
+		</if>
+			<if test="notIn != null and notIn != ''">
+			AND a.owner NOT IN 
+			 <foreach collection="notInList" index="index" item="item" open="(" separator="," close=")" >  
+           	 #{item}  
+      		 </foreach>  
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (a.orderId = #{orderId} or '0' = #{orderId})
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND e.nameZH like CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND  e.nameEN like CONCAT('%', '${clientNameEN}', '%')
+		</if>
+	</select>
+
+	<select id="getOrderHeaderTempVOsByCondition" parameterType="settlementOrderHeaderTemp" resultMap="result">
+		SELECT a.orderHeaderId, <include refid="orderHeaderTempColumns-for-join"/>, COUNT(DISTINCT c.contractId) AS countContractId, 
+			COUNT(1) AS countItemId, e.nameZH AS clientNameZH, e.nameEN AS clientNameEN
+		FROM hro_settle_order_header_temp a LEFT JOIN hro_settle_order_batch_temp b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_contract_temp c ON a.orderHeaderId = c.orderHeaderId AND c.deleted = 1
+			LEFT JOIN hro_settle_order_detail_temp d ON c.contractId = d.contractId
+			LEFT JOIN hro_biz_client e ON a.clientId = e.clientId AND e.deleted = 1
+		WHERE a.batchId = #{batchId} AND a.deleted = 1
+		<if test="hasIn != null and hasIn != ''">
+			AND a.owner IN 
+			 <foreach collection="inList" index="index" item="item" open="(" separator="," close=")" >  
+           	 #{item}  
+      		 </foreach>  
+		</if>
+			<if test="notIn != null and notIn != ''">
+			AND a.owner NOT IN 
+			 <foreach collection="notInList" index="index" item="item" open="(" separator="," close=")" >  
+           	 #{item}  
+      		 </foreach>  
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (a.orderId = #{orderId} or '0' = #{orderId})
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND e.nameZH like CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND  e.nameEN like CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		GROUP BY a.orderHeaderId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getOrderHeaderTempVOByOrderHeaderId" parameterType="int" resultMap="result">
+		SELECT a.orderHeaderId, <include refid="orderHeaderTempColumns-for-join"/>, COUNT(DISTINCT c.contractId) AS countContractId, 
+			COUNT(1) AS countItemId, e.nameZH AS clientNameZH, e.nameEN AS clientNameEN
+		FROM hro_settle_order_header_temp a LEFT JOIN hro_settle_order_batch_temp b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_contract_temp c ON a.orderHeaderId = c.orderHeaderId AND c.deleted = 1
+			LEFT JOIN hro_settle_order_detail_temp d ON c.contractId = d.contractId
+			LEFT JOIN hro_biz_client e ON a.clientId = e.clientId AND e.deleted = 1
+	 	WHERE a.orderHeaderId = #{value}
+	 	GROUP BY a.orderHeaderId
+	</select>
+
+	<select id="getOrderHeaderTempVOsByBatchId" parameterType="int" resultMap="result">
+		SELECT a.orderHeaderId, <include refid="orderHeaderTempColumns-for-join"/>, COUNT(DISTINCT c.contractId) AS countContractId, 
+			COUNT(1) AS countItemId, e.nameZH AS clientNameZH, e.nameEN AS clientNameEN
+		FROM hro_settle_order_header_temp a LEFT JOIN hro_settle_order_batch_temp b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_contract_temp c ON a.orderHeaderId = c.orderHeaderId AND c.deleted = 1
+			LEFT JOIN hro_settle_order_detail_temp d ON c.contractId = d.contractId
+			LEFT JOIN hro_biz_client e ON a.clientId = e.clientId AND e.deleted = 1
+	 	WHERE a.batchId = #{value} AND a.deleted = 1
+	 	GROUP BY a.orderHeaderId
+	</select>
+
+	<update id="updateOrderHeaderTemp" parameterType="settlementOrderHeaderTemp">
+		update hro_settle_order_header_temp set accountId = #{accountId}, entityId = #{entityId}, businessTypeId = #{businessTypeId}, batchId= #{batchId}, 
+			clientId = #{clientId}, corpId = #{corpId}, orderId = #{orderId}, startDate = #{startDate}, endDate = #{endDate}, taxId = #{taxId}, taxNameZH = #{taxNameZH}, 
+			taxNameEN = #{taxNameEN}, taxRemark = #{taxRemark}, billAmountPersonal = #{billAmountPersonal}, billAmountCompany = #{billAmountCompany}, 
+			costAmountPersonal = #{costAmountPersonal}, costAmountCompany = #{costAmountCompany}, orderAmount = #{orderAmount}, branch = #{branch}, owner = #{owner}, 
+			monthly = #{monthly}, description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, 
+			remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where orderHeaderId = #{orderHeaderId} 
+  	</update>
+
+	<insert id="insertOrderHeaderTemp" parameterType="settlementOrderHeaderTemp" useGeneratedKeys="true" keyProperty="orderHeaderId">
+		insert into hro_settle_order_header_temp( <include refid="orderHeaderTempColumns" /> )
+		values (#{accountId}, #{entityId}, #{businessTypeId}, #{batchId}, #{clientId}, #{corpId}, #{orderId}, #{startDate}, #{endDate}, #{taxId}, #{taxNameZH}, 
+			#{taxNameEN}, #{taxRemark}, #{billAmountPersonal}, #{billAmountCompany}, #{costAmountPersonal}, #{costAmountCompany}, #{orderAmount}, #{branch}, #{owner}, 
+			#{monthly}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, 
+			#{modifyDate})
+	</insert>
+
+	<delete id="deleteOrderHeaderTemp" parameterType="int">
+		delete from hro_settle_order_header_temp where orderHeaderId = #{value}
+  	</delete>
+
+</mapper>

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeContractTempVO">
+	
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeContractTempVO">
+		<result property="batchId" column="batchId"/>
+		<result property="contractId" column="contractId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="clientId" column="clientId" />
+		<result property="orderId" column="orderId" />
+		<result property="department" column="department" />
+		<result property="positionId" column="positionId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="templateId" column="templateId" />
+		<result property="contractNo" column="contractNo" />
+		<result property="masterContractId" column="masterContractId" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="content" column="content" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="applyOTFirst" column="applyOTFirst" />
+		<result property="otLimitByDay" column="otLimitByDay" />
+		<result property="otLimitByMonth" column="otLimitByMonth" />
+		<result property="workdayOTItemId" column="workdayOTItemId" />
+		<result property="weekendOTItemId" column="weekendOTItemId" />
+		<result property="holidayOTItemId" column="holidayOTItemId" />
+		<result property="attendanceCheckType" column="attendanceCheckType" />
+		<result property="resignDate" column="resignDate" />
+		<result property="employStatus" column="employStatus" />
+		<result property="calendarId" column="calendarId" />
+		<result property="shiftId" column="shiftId" />
+		<result property="sickLeaveSalaryId" column="sickLeaveSalaryId" />
+		<result property="flag" column="flag" />
+		<result property="attachment" column="attachment" />
+		<result property="branch" column="branch" />
+		<result property="owner" column="owner" />
+		<result property="settlementBranch" column="settlementBranch" />
+		<result property="locked" column="locked" />
+		<result property="description" column="description" />
+		<result property="incomeTaxBaseId" column="incomeTaxBaseId" />
+		<result property="incomeTaxRangeHeaderId" column="incomeTaxRangeHeaderId" />
+		<result property="isRetained" column="isRetained" />
+		<result property="isContinued" column="isContinued" />
+		<result property="continueNeeded" column="continueNeeded" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="tempStatus" column="tempStatus" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For Application -->
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="employeeNo" column="employeeNo" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="monthly" column="monthly" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="clientName" column="clientName" />
+		<result property="extended" column="extended" />
+		<result property="contractNameZH" column="contractNameZH" />
+		<result property="contractNameEN" column="contractNameEN" />
+		<result property="bizEmail" column="bizEmail" />
+		<result property="personalEmail" column="personalEmail" />
+		<result property="probationMonth" column="probationMonth" />
+	</resultMap>
+	
+	<sql id="employeeContractColumns">
+		accountId, corpId, employeeId, clientId, orderId, department, positionId, entityId, businessTypeId, templateId,lineManagerId,approveType, contractNo, masterContractId, nameZH, nameEN, 
+		content, startDate, endDate, period, applyOTFirst, otLimitByDay, otLimitByMonth, workdayOTItemId, weekendOTItemId, holidayOTItemId, attendanceCheckType, resignDate, employStatus, 
+		calendarId, shiftId, sickLeaveSalaryId, flag, attachment, branch, owner, settlementBranch, locked, description, incomeTaxBaseId, incomeTaxRangeHeaderId, isRetained, isContinued, continueNeeded, deleted, 
+		status,tempStatus, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="employeeContractColumns-for-join">
+		a.accountId,a.corpId, a.employeeId, a.clientId, a.orderId, a.department, a.positionId, a.entityId, a.businessTypeId, a.templateId,a.lineManagerId,a.approveType, a.contractNo, a.masterContractId, 
+		a.nameZH, a.nameEN, a.content, a.startDate, a.endDate, a.period, a.applyOTFirst, a.otLimitByDay, a.otLimitByMonth, a.workdayOTItemId, a.weekendOTItemId, a.holidayOTItemId, a.attendanceCheckType, 
+		a.resignDate, a.employStatus, a.calendarId, a.shiftId, a.sickLeaveSalaryId, a.flag, a.attachment, a.branch, a.owner, a.settlementBranch, a.locked, a.description, a.incomeTaxBaseId, a.incomeTaxRangeHeaderId, 
+		a.isRetained, a.isContinued, a.continueNeeded, a.deleted, a.status,a.tempStatus, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+  	<select id="countEmployeeContractTempVOsByCondition" parameterType="employeeContractTemp" resultType="int">
+		SELECT COUNT(0)
+		FROM HRO_BIZ_Employee_Contract_temp a LEFT JOIN HRO_BIZ_Employee b ON a.employeeId = b.employeeId
+		LEFT JOIN HRO_Biz_Client c ON a.clientId = c.clientId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId} 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId} 
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN LIKE CONCAT('%', '${nameEN}', '%')
+		</if>
+		<if test="contractNo != null and contractNo != ''">
+			AND a.contractNo LIKE CONCAT('%',  '${contractNo}','%')
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND ( a.clientId = #{clientId} or 0 = #{clientId} )
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND c.nameZH LIKE CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND c.nameEN LIKE CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId} 
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId}) 
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId}) 
+		</if>
+		<if test="positionId != null and positionId != ''">
+			AND a.positionId = #{positionId} 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND b.nameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND b.nameEN LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND b.employeeNo LIKE CONCAT('%', '${employeeNo}', '%')
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber LIKE CONCAT('%', '${certificateNumber}', '%')
+		</if>
+		<if test="startDateFrom != null and startDateFrom != ''">
+			<![CDATA[
+				AND (a.startDate >= #{startDateFrom})
+			]]>
+		</if>
+		<if test="startDateTo != null and startDateTo != ''">
+			<![CDATA[
+				AND (a.startDate <= #{startDateTo})
+			]]>
+		</if>
+		<if test="endDateFrom != null and endDateFrom != ''">
+			<![CDATA[
+				AND (a.endDate >= #{endDateFrom})
+			]]>
+		</if>
+		<if test="endDateTo != null and endDateTo != ''">
+			<![CDATA[
+				AND (a.endDate <= #{endDateTo})
+			]]>
+		</if>
+		<if test="branch != null and branch != ''">
+		   AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+		<if test="tempStatus != null and tempStatus != ''">
+		   AND (a.tempStatus = #{tempStatus} or 0 = #{tempStatus})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) or '0' = '${status}')
+		</if>
+		<if test="flag != null and flag != ''">
+			AND a.flag = #{flag} 
+		</if>
+	</select>
+
+	<select id="getEmployeeContractTempVOsByCondition" parameterType="employeeContract" resultMap="result">
+		SELECT a.batchId ,a.contractId, <include refid="employeeContractColumns-for-join"/>, b.nameZH AS employeeNameZH, b.nameEN AS employeeNameEN, b.employeeNo, 
+			b.certificateNumber, CONCAT(b.nameZH, ' - ', b.nameEN) AS employeeName,CONCAT(c.nameZH,' - ',c.nameEN) AS clientName
+		FROM HRO_BIZ_Employee_Contract_temp a LEFT JOIN  HRO_BIZ_Employee b on a.employeeId = b.employeeId
+		LEFT JOIN HRO_Biz_Client c ON a.clientId = c.clientId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId} 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId} 
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN LIKE CONCAT('%', '${nameEN}', '%')
+		</if>
+		<if test="contractNo != null and contractNo != ''">
+			AND a.contractNo LIKE CONCAT('%',  '${contractNo}','%')
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND ( a.clientId = #{clientId} or 0 = #{clientId} )
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND c.nameZH LIKE CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND c.nameEN LIKE CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId} 
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId}) 
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId}) 
+		</if>
+		<if test="positionId != null and positionId != ''">
+			AND a.positionId = #{positionId} 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND b.nameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND b.nameEN LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND b.employeeNo LIKE CONCAT('%', '${employeeNo}', '%')
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber LIKE CONCAT('%', '${certificateNumber}', '%')
+		</if>
+		<if test="startDateFrom != null and startDateFrom != ''">
+			<![CDATA[
+				AND (a.startDate >= #{startDateFrom})
+			]]>
+		</if>
+		<if test="startDateTo != null and startDateTo != ''">
+			<![CDATA[
+				AND (a.startDate <= #{startDateTo})
+			]]>
+		</if>
+		<if test="endDateFrom != null and endDateFrom != ''">
+			<![CDATA[
+				AND (a.endDate >= #{endDateFrom})
+			]]>
+		</if>
+		<if test="endDateTo != null and endDateTo != ''">
+			<![CDATA[
+				AND (a.endDate <= #{endDateTo})
+			]]>
+		</if>
+		<if test="branch != null and branch != ''">
+		   AND (branch = #{branch} or 0 = #{branch})
+		</if>
+		<if test="tempStatus != null and tempStatus != ''">
+		   AND (a.tempStatus = #{tempStatus} or 0 = #{tempStatus})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) or '0' = '${status}')
+		</if>
+		<if test="flag != null and flag != ''">
+			AND a.flag = #{flag} 
+		</if>
+		group by a.contractId
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getEmployeeContractTempVOsByBatchId" parameterType="string" resultMap="result">
+		SELECT a.batchId ,a.contractId, <include refid="employeeContractColumns-for-join"/>
+		FROM HRO_BIZ_Employee_Contract_temp a 
+		WHERE a.deleted = 1 AND a.batchId = #{batchId} 
+	</select>
+	
+	<select id="getEmployeeContractTempVOByContractId" parameterType="int" resultMap="result">
+		SELECT a.batchId, a.contractId,  <include refid="employeeContractColumns-for-join"/>, 
+			CONCAT(b.nameZH, ' - ', b.nameEN, ' (', b.employeeId, '/', b.employeeNo, ')') AS employeeName,
+			b.nameZH AS employeeNameZH,
+			b.nameEN AS employeeNameEN,
+			c.nameZH AS clientNameZH,
+			c.nameEN AS clientNameEN,
+			h.workflowId
+		FROM HRO_BIZ_Employee_Contract_Temp a LEFT JOIN  HRO_BIZ_Employee b ON a.employeeId = b.employeeId
+		LEFT JOIN HRO_BIZ_Client c ON a.clientId = c.clientId
+		LEFT JOIN hro_history h ON ( (a.clientId IS null AND h.accessAction = 'HRO_BIZ_EMPLOYEE_SERVICE_CONTRACT') OR (a.clientId IS not null AND h.accessAction = 'HRO_BIZ_EMPLOYEE_SERVICE_CONTRACT_IN_HOUSE') ) 
+			AND h.objectType = 2 AND a.contractId = h.objectId
+		WHERE a.deleted = 1 AND a.contractId = #{value}
+	</select>
+	
+	<update id="updateEmployeeContractTemp" parameterType="employeeContract">
+		UPDATE HRO_BIZ_Employee_Contract_Temp set accountId = #{accountId}, employeeId = #{employeeId}, clientId = #{clientId}, corpId = #{corpId}, orderId = #{orderId}, department = #{department}, 
+			positionId = #{positionId}, entityId = #{entityId}, businessTypeId = #{businessTypeId}, templateId = #{templateId}, lineManagerId = #{lineManagerId}, approveType = #{approveType}, 
+			contractNo = #{contractNo}, contractNo = #{contractNo}, masterContractId = #{masterContractId}, nameZH = #{nameZH}, nameEN = #{nameEN}, content = #{content}, startDate = #{startDate}, 
+			endDate = #{endDate}, period = #{period}, applyOTFirst = #{applyOTFirst}, otLimitByDay = #{otLimitByDay}, otLimitByMonth = #{otLimitByMonth}, workdayOTItemId = #{workdayOTItemId}, 
+			weekendOTItemId = #{weekendOTItemId}, holidayOTItemId = #{holidayOTItemId}, attendanceCheckType = #{attendanceCheckType}, resignDate = #{resignDate}, employStatus = #{employStatus}, 
+			calendarId = #{calendarId}, shiftId = #{shiftId}, sickLeaveSalaryId = #{sickLeaveSalaryId}, flag = #{flag}, attachment = #{attachment}, branch = #{branch}, owner = #{owner}, settlementBranch = #{settlementBranch}, locked = #{locked}, 
+			description = #{description}, incomeTaxBaseId = #{incomeTaxBaseId}, incomeTaxRangeHeaderId = #{incomeTaxRangeHeaderId}, isRetained = #{isRetained}, isContinued = #{isContinued}, 
+			continueNeeded = #{continueNeeded}, deleted = #{deleted}, status = #{status}, tempStatus = #{tempStatus}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, 
+			remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate} 
+		WHERE contractId = #{contractId}
+	</update>
+	<update id="updateEmployeeContractClientIdFromOrderIdByBatchId" parameterType="int">
+		update hro_biz_employee_contract_temp a LEFT JOIN hro_biz_client_order_header b ON a.orderId = b.orderHeaderId 
+		SET a.clientId = b.clientId
+		WHERE a.batchId = #{value}
+	</update>
+	
+	<insert id="insertEmployeeContractTemp" parameterType="employeeContract" useGeneratedKeys="true" keyProperty="contractId">
+		INSERT INTO HRO_BIZ_Employee_Contract_Temp(batchId,<include refid="employeeContractColumns" />)
+		VALUES (#{batchId},#{accountId},#{corpId}, #{employeeId}, #{clientId}, #{orderId}, #{department}, #{positionId}, #{entityId}, #{businessTypeId}, #{templateId}, #{lineManagerId}, 
+			#{approveType}, #{contractNo}, #{masterContractId}, #{nameZH}, #{nameEN}, #{content}, #{startDate}, #{endDate}, #{period}, #{applyOTFirst}, #{otLimitByDay}, #{otLimitByMonth}, 
+			#{workdayOTItemId}, #{weekendOTItemId}, #{holidayOTItemId}, #{attendanceCheckType}, #{resignDate}, #{employStatus}, #{calendarId}, #{shiftId}, #{sickLeaveSalaryId}, #{flag}, #{attachment}, 
+			#{branch}, #{owner}, #{settlementBranch}, 2, #{description},#{incomeTaxBaseId},#{incomeTaxRangeHeaderId}, 2, 2, 1, 1, #{status}, #{tempStatus}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, 
+			#{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteEmployeeContractTemp" parameterType="int">
+		DELETE FROM HRO_BIZ_Employee_Contract_Temp WHERE contractId = #{value}
+  	</delete>
+</mapper>

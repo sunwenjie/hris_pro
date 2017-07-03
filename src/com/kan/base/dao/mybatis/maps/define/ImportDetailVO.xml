@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.define.ImportDetailVO">
+
+	<resultMap id="result" type="com.kan.base.domain.define.ImportDetailVO">
+		<result property="importDetailId" column="importDetailId"/>
+		<result property="importHeaderId" column="importHeaderId"/>
+		<result property="columnId" column="columnId"/>
+		<result property="nameZH" column="nameZH"/>
+		<result property="nameEN" column="nameEN"/>
+		<result property="isPrimaryKey" column="isPrimaryKey"/>
+		<result property="isForeignKey" column="isForeignKey"/>
+		<result property="columnWidth" column="columnWidth"/>
+		<result property="columnIndex" column="columnIndex"/>
+		<result property="fontSize" column="fontSize"/>
+		<result property="specialField" column="specialField"/>
+		<result property="tempValue" column="tempValue"/>
+		<result property="isDecoded" column="isDecoded"/>
+		<result property="isIgnoreDefaultValidate" column="isIgnoreDefaultValidate"/>
+		<result property="datetimeFormat" column="datetimeFormat"/>	
+		<result property="accuracy" column="accuracy"/>	
+		<result property="round" column="round"/>
+		<result property="align" column="align"/>
+		<result property="description" column="description"/>
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />		
+	</resultMap>
+	
+	<sql id="importDetailColumns">
+		importHeaderId, columnId ,nameZH ,nameEN,isPrimaryKey,isForeignKey, columnWidth, columnIndex, fontSize,specialField,tempValue, isDecoded,isIgnoreDefaultValidate,
+		datetimeFormat, accuracy, round,  align, description, deleted, status, remark1, remark2, remark3, remark4, 
+		remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	<sql id="importDetailColumns-for-join">
+		a.importHeaderId, a.columnId ,a.nameZH ,a.nameEN,a.isPrimaryKey,a.isForeignKey, a.columnWidth, a.columnIndex, a.fontSize,a.specialField,a.tempValue, a.isDecoded,a.isIgnoreDefaultValidate,
+		a.datetimeFormat, a.accuracy, a.round,  a.align, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, 
+		a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countImportDetailVOsByCondition" parameterType="importDetail" resultType="int">
+		SELECT count(*)
+		FROM Hro_Def_Import_Detail a, hro_def_column b
+		WHERE a.deleted = 1 AND a.columnId = b.columnId  AND b.deleted = 1 AND b.`status` = 1 
+		AND a.importHeaderId = #{importHeaderId}
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>			
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getImportDetailVOsByCondition" parameterType="importDetail" resultMap="result">
+		SELECT a.importDetailId, <include refid="importDetailColumns-for-join" />
+		FROM Hro_Def_Import_Detail a, hro_def_column b
+		WHERE a.deleted = 1 AND a.columnId = b.columnId  AND b.deleted = 1 AND b.`status` = 1
+		AND a.importHeaderId = #{importHeaderId}
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>			
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getImportDetailVOByImportDetailId" parameterType="int" resultMap="result">
+		SELECT importDetailId, <include refid="importDetailColumns" />
+		FROM Hro_Def_Import_Detail
+		WHERE importDetailId = #{value}
+	</select>
+	
+	<insert id="insertImportDetail" parameterType="importDetail" useGeneratedKeys="true" keyProperty="importDetailId">
+		INSERT INTO Hro_Def_Import_Detail(<include refid="importDetailColumns" />)
+		VALUES(#{importHeaderId}, #{columnId}, #{nameZH}, #{nameEN}, #{isPrimaryKey},#{isForeignKey}, #{columnWidth}, #{columnIndex}, #{fontSize},#{specialField},#{tempValue}, #{isDecoded},#{isIgnoreDefaultValidate}, 
+			#{datetimeFormat}, #{accuracy},  #{round}, #{align},
+			#{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, 
+			#{modifyBy}, #{modifyDate})
+	</insert>
+	
+	<update id="updateImportDetail" parameterType="importDetail">
+		UPDATE Hro_Def_Import_Detail set importHeaderId = #{importHeaderId}, columnId = ${columnId}, nameZH = #{nameZH}, nameEN = #{nameEN}, 
+			isPrimaryKey=#{isPrimaryKey},isForeignKey=#{isForeignKey}, columnWidth = #{columnWidth}, columnIndex = #{columnIndex}, fontSize = #{fontSize}, specialField=#{specialField}, tempValue=#{tempValue}, isDecoded = #{isDecoded},isIgnoreDefaultValidate=#{isIgnoreDefaultValidate}, 
+			datetimeFormat = #{datetimeFormat}, accuracy = #{accuracy}, round = #{round}, align = #{align}, 
+			description = #{description}, deleted = #{deleted}, status = #{status}, 
+			remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, 
+			createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE importDetailId = #{importDetailId} 		
+  	</update>
+	
+	<delete id="deleteImportDetail" parameterType="int">
+		DELETE FROM Hro_Def_Import_Detail WHERE  deleted = 1 AND  importDetailId = #{value}
+  	</delete>
+  	
+  	<select id="getImportDetailVOsByImportHeaderId" parameterType="int" resultMap="result">
+		SELECT a.importDetailId, <include refid="importDetailColumns-for-join" />
+		FROM Hro_Def_Import_Detail a,hro_def_column b
+		WHERE a.deleted = 1 AND a.columnId = b.columnId  AND b.deleted = 1 AND b.`status` = 1
+		AND a.importHeaderId = #{value} 
+		ORDER BY columnIndex
+	</select>
+	
+</mapper>

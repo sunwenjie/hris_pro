@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.vendor.VendorVO">
+
+<resultMap id="result" type="com.kan.hro.domain.biz.vendor.VendorVO">
+		<result property="vendorId" column="vendorId" />
+		<result property="accountId" column="accountId" /> 
+		<result property="corpId" column="corpId" /> 
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="cityId" column="cityId" />
+		<result property="contractStartDate" column="contractStartDate" />
+		<result property="contractEndDate" column="contractEndDate" />
+		<result property="charterNumber" column="charterNumber" />
+		<result property="bankId" column="bankId" />
+		<result property="bankName" column="bankName" />
+		<result property="bankAccount" column="bankAccount" />
+		<result property="bankAccountName" column="bankAccountName" />
+		<result property="type" column="type" />
+		<result property="attachment" column="attachment" />
+		<result property="description" column="description" />
+		<result property="legalEntity" column="legalEntity" />
+		<result property="branch" column="branch" />
+		<result property="owner" column="owner" />
+		<result property="address" column="address" />
+		<result property="postcode" column="postcode" />
+		<result property="mainContact" column="mainContact" />
+		<result property="phone" column="phone" />
+		<result property="fax" column="fax" />
+		<result property="email" column="email" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />	
+		<!-- For Application -->	
+		<result property="contactNameZH" column="contactNameZH" />
+		<result property="contactNameEN" column="contactNameEN" />
+		<result property="extended" column="extended" />
+	</resultMap>
+
+	<resultMap id="vendorBaseView" type="com.kan.hro.domain.biz.vendor.VendorBaseView">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="vendorId" column="vendorId" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+	</resultMap>
+	
+	<select id="getVendorBaseViewsByAccountId" resultType="vendorBaseView">
+		SELECT
+			 a.vendorId AS id, CONCAT(a.nameZH, ' - ', a.nameEN) AS name, a.nameZH, a.nameEN  
+  		FROM HRO_Biz_Vendor a 
+  			LEFT OUTER JOIN HRO_Biz_Vendor_Contact b ON a.vendorId = b.vendorId AND b.deleted = 1 
+  		WHERE a.deleted = 1 AND  a.accountId = #{accountId}
+  		GROUP BY a.vendorId 
+  		ORDER BY name
+  	</select>
+
+	<sql id="vendorColumns">
+		accountId, corpId, nameZH, nameEN, cityId, contractStartDate, contractEndDate, charterNumber, bankId, bankName, bankAccount, bankAccountName, type, attachment, 
+		description, legalEntity, branch, owner, address, postcode, mainContact, phone, fax, email, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<sql id="vendorColumns-for-join">
+		a.accountId, a.corpId, a.nameZH, a.nameEN, a.cityId, a.contractStartDate, a.contractEndDate, a.charterNumber, a.bankId, a.bankName, a.bankAccount, a.bankAccountName, 
+		a.type, a.attachment, a.description, a.legalEntity, a.branch, a.owner, a.address, a.postcode, a.mainContact, a.phone, a.fax, a.email, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, 
+		a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countVendorVOsByCondition" parameterType="vendorInfo" resultType="int">
+		SELECT COUNT(0) FROM
+		(
+		SELECT 0
+		FROM HRO_BIZ_Vendor a 
+			LEFT JOIN HRO_BIZ_EMPLOYEE_CONTRACT_SB b 
+				ON a.vendorId = b.vendorId AND b.deleted = 1 
+			LEFT JOIN HRO_BIZ_CLIENT_ORDER_SB c 
+				ON a.vendorId = c.vendorId AND c.deleted = 1
+			LEFT JOIN hro_history h 
+				ON ( (a.corpId IS null AND h.accessAction = 'HRO_BIZ_VENDOR') OR (a.corpId IS not null AND h.accessAction = 'HRO_BIZ_VENDOR') ) 
+					AND h.objectType = 2 AND a.vendorId = h.objectId 
+			LEFT JOIN HRO_BIZ_Vendor_Contact d
+				ON a.mainContact = d.vendorContactId  AND d.deleted = 1 AND d.`status` = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="vendorId != null and vendorId != ''">
+			AND a.vendorId = #{vendorId} 
+		</if> 
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if> 
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if> 
+		<if test="cityId != null and cityId != ''">
+			AND (a.cityId = #{cityId} or 0 = #{cityId})
+		</if>
+		<if test="legalEntity != null and legalEntity != ''">
+			AND (a.legalEntity = #{legalEntity} or 0 = #{legalEntity})
+		</if>
+		<if test="type != null and type != ''">
+			AND (a.type = #{type} or 0 = #{type})
+		</if>
+		<if test="branch != null and branch != ''">
+			AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+		<if test="owner != null and owner != ''">
+			AND (a.owner = #{owner} or 0 = #{owner})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		GROUP BY a.vendorId
+		) t
+	</select>
+
+	<select id="getVendorVOsByCondition" parameterType="vendorInfo" resultMap="result">
+		SELECT 
+			a.vendorId, <include refid="vendorColumns-for-join" />, d.nameZH AS contactNameZH, d.nameEN AS contactNameEN,
+			MIN(
+			CASE WHEN (ISNULL(b.vendorId) AND ISNULL(c.vendorId)) AND (a.`status` = 1 OR a.`status` = 4)
+				THEN 2
+				ELSE 1
+			END) AS `extended`, MAX(h.workflowId) AS workflowId
+		FROM HRO_BIZ_Vendor a 
+			LEFT JOIN HRO_BIZ_EMPLOYEE_CONTRACT_SB b 
+				ON a.vendorId = b.vendorId AND b.deleted = 1 
+			LEFT JOIN HRO_BIZ_CLIENT_ORDER_SB c 
+				ON a.vendorId = c.vendorId AND c.deleted = 1
+			LEFT JOIN hro_history h 
+				ON ( (a.corpId IS null AND h.accessAction = 'HRO_BIZ_VENDOR') OR (a.corpId IS not null AND h.accessAction = 'HRO_BIZ_VENDOR') ) 
+					AND h.objectType = 2 AND a.vendorId = h.objectId 
+			LEFT JOIN HRO_BIZ_Vendor_Contact d
+				ON a.mainContact = d.vendorContactId  AND d.deleted = 1 AND d.`status` = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="vendorId != null and vendorId != ''">
+			AND a.vendorId = #{vendorId} 
+		</if> 
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if> 
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if> 
+		<if test="cityId != null and cityId != ''">
+			AND (a.cityId = #{cityId} or 0 = #{cityId})
+		</if>
+		<if test="legalEntity != null and legalEntity != ''">
+			AND (a.legalEntity = #{legalEntity} or 0 = #{legalEntity})
+		</if>
+		<if test="type != null and type != ''">
+			AND (a.type = #{type} or 0 = #{type})
+		</if>
+		<if test="branch != null and branch != ''">
+			AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+		<if test="owner != null and owner != ''">
+			AND (a.owner = #{owner} or 0 = #{owner})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		GROUP BY a.vendorId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getVendorVOByVendorId" parameterType="int" resultMap="result">
+		SELECT a.vendorId, <include refid="vendorColumns-for-join" />, MAX(h.workflowId) AS workflowId
+		FROM HRO_BIZ_Vendor a
+			LEFT JOIN hro_history h 
+				ON ( (a.corpId IS null AND h.accessAction = 'HRO_BIZ_VENDOR') OR (a.corpId IS not null AND h.accessAction = 'HRO_BIZ_VENDOR') ) 
+					AND h.objectType = 2 AND a.vendorId = h.objectId 
+		WHERE vendorId = #{value}
+		GROUP BY a.vendorId
+	</select>
+	
+	<select id="getVendorVOsBySBHeaderId" parameterType="int" resultMap="result">
+  		SELECT DISTINCT a.vendorId, <include refid="vendorColumns-for-join" />
+  		FROM hro_biz_vendor a LEFT JOIN HRO_BIZ_Vendor_Service b ON a.vendorId = b.vendorId AND b.deleted = 1 
+  		WHERE a.deleted = 1 AND a.status = 3 AND b.sbHeaderId = #{value}
+  	</select>
+
+	<insert id="insertVendor" parameterType="vendorInfo" useGeneratedKeys="true" keyProperty="vendorId">
+		INSERT INTO HRO_BIZ_Vendor(<include refid="vendorColumns" />)
+		VALUES(#{accountId}, #{corpId}, #{nameZH}, #{nameEN}, #{cityId}, #{contractStartDate}, #{contractEndDate}, #{charterNumber}, #{bankId}, #{bankName}, #{bankAccount}, 
+			#{bankAccountName}, #{type}, #{attachment}, #{description}, #{legalEntity}, #{branch}, #{owner}, #{address}, #{postcode}, #{mainContact}, #{phone}, #{fax}, #{email},
+			1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<update id="updateVendor" parameterType="vendorInfo">
+		UPDATE HRO_BIZ_Vendor SET  nameZH = #{nameZH}, nameEN = #{nameEN}, cityId = #{cityId}, contractStartDate = #{contractStartDate}, 
+			contractEndDate = #{contractEndDate}, charterNumber = #{charterNumber}, bankId = #{bankId}, bankName = #{bankName}, bankAccount = #{bankAccount}, 
+			bankAccountName = #{bankAccountName}, type = #{type}, attachment = #{attachment}, description = #{description}, legalEntity = #{legalEntity}, 
+			branch = #{branch}, owner = #{owner}, address = #{address}, postcode = #{postcode}, mainContact = #{mainContact}, phone = #{phone}, fax = #{fax}, email = #{email},
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5},
+			createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE vendorId = #{vendorId}
+  	</update>
+  	
+  	<delete id="deleteVendor" parameterType="int">
+  		DELETE FROM HRO_BIZ_Vendor WHERE vendorId = #{value}
+  	</delete>
+  	
+  	<!-- 根据社保方案获取供应商 -->
+  	<select id="getVendorVOsBySBSolutionHeaderVO" parameterType="socialBenefitSolutionHeader" resultMap="result">
+  		SELECT d.orderHeaderId, a.vendorId, <include refid="vendorColumns-for-join" />
+  		FROM hro_biz_vendor a LEFT JOIN hro_biz_vendor_service b on b.vendorId = a.vendorId
+			LEFT JOIN hro_mgt_social_benefit_solution_header c on c.headerId = b.sbHeaderId
+			LEFT JOIN hro_biz_client_order_sb d on d.sbSolutionId = c.headerId
+		WHERE a.accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="headerIds != null and headerIds.size > 0">
+			AND c.headerId IN
+			<foreach collection="headerIds" index="index" item="item" open="(" separator="," close=")" >  
+	            #{item}  
+	        </foreach>  
+        </if> 
+		<if test="serviceIds != null and serviceIds != ''">
+			AND b.serviceIds like CONCAT('%', '${serviceIds}', '%') 
+		</if> 	
+		GROUP BY a.vendorId
+  	</select>
+  	
+</mapper>

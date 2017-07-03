@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.finance.SystemInvoiceHeaderVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.finance.SystemInvoiceHeaderVO">
+		<result property="accountId" column="accountId" />
+		<result property="extendInvoiceId" column="extendInvoiceId" />
+		<result property="parentInvoiceId" column="parentInvoiceId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="batchId" column="batchId" />
+		<result property="clientId" column="clientId" />
+		<result property="corpId" column="corpId" />
+		<result property="orderId" column="orderId" />
+		<result property="clientOrderId" column="clientOrderId"/>
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+		<result property="taxAmount" column="taxAmount" />
+		<result property="branch" column="branch" />
+		<result property="owner" column="owner" />
+		<result property="monthly" column="monthly" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="countItemId" column="countItemId" />
+	</resultMap>
+  	
+	<sql id="systemInvoiceHeaderColumns">
+		accountId,extendInvoiceId, parentInvoiceId,entityId, businessTypeId, batchId, clientId, corpId, orderId,clientOrderId,  
+		billAmountCompany,costAmountCompany, taxAmount, branch, owner, monthly, description, deleted, status, remark1, 
+		remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="systemInvoiceHeaderColumns-for-join">
+		a.accountId,a.extendInvoiceId,a.parentInvoiceId, a.entityId, a.businessTypeId, a.batchId, a.clientId, a.corpId, a.orderId,a.clientOrderId, 
+		 a.branch, a.owner, a.monthly, 
+		a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countSystemInvoiceVOsByCondition" parameterType="systemInvoiceHeader" resultType="int">
+		select count(0) from (SELECT DISTINCT a.invoiceId
+		FROM hro_finance_system_invoice_header a LEFT JOIN hro_finance_system_invoice_batch b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_biz_client e ON a.clientId = e.clientId AND e.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId}
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or 0 = #{monthly})
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND e.nameEN  like CONCAT('%', '${clientNameEN}', '%') 
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND e.nameZH like CONCAT('%', '${clientNameZH}', '%') 
+		</if>
+		GROUP BY a.extendInvoiceId,parentInvoiceId) t
+	</select>
+
+	<select id="getSystemInvoiceVOsByCondition" parameterType="systemInvoiceHeader" resultMap="result">
+		SELECT a.invoiceId, <include refid="systemInvoiceHeaderColumns-for-join"/>,SUM(a.billAmountCompany) as billAmountCompany,
+		SUM(a.costAmountCompany) as costAmountCompany,SUM(a.taxAmount) as taxAmount,
+			e.nameZH AS clientNameZH, e.nameEN AS clientNameEN,
+			CASE
+				WHEN ( (select count(0) from hro_finance_system_invoice_header where parentInvoiceId=a.invoiceId)>0 ) 
+				THEN 1
+				ELSE 2	
+			END AS `extended`
+		FROM hro_finance_system_invoice_header a LEFT JOIN hro_finance_system_invoice_batch b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_biz_client e ON a.clientId = e.clientId AND e.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId}
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or 0 = #{monthly})
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND e.nameEN  like CONCAT('%', '${clientNameEN}', '%') 
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND e.nameZH like CONCAT('%', '${clientNameZH}', '%') 
+		</if>
+		GROUP BY a.extendInvoiceId,parentInvoiceId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<!-- 被拆分数据-->
+	<select id="getSystemInvoiceHeaderByInvoiceId" parameterType="systemInvoiceHeader" resultMap="result">
+		SELECT a.invoiceId, <include refid="systemInvoiceHeaderColumns-for-join"/>,SUM(a.billAmountCompany) as billAmountCompany,
+		SUM(a.costAmountCompany) as costAmountCompany,SUM(a.taxAmount) as taxAmount,
+			e.nameZH AS clientNameZH, e.nameEN AS clientNameEN
+		FROM hro_finance_system_invoice_header a LEFT JOIN hro_finance_system_invoice_batch b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_biz_client e ON a.clientId = e.clientId AND e.deleted = 1
+		WHERE a.deleted = 1 
+		GROUP BY a.extendInvoiceId,parentInvoiceId
+		<if test="invoiceId != null and invoiceId != ''">
+			having a.invoiceId=#{invoiceId}
+		</if>
+	</select>
+	
+	
+	<!-- 拆分查询分页 -->
+	<select id="getSubSystemInvoiceHeaderByHeaderId" parameterType="systemInvoiceHeader" resultMap="result">
+		SELECT a.invoiceId, <include refid="systemInvoiceHeaderColumns-for-join"/>, SUM(a.billAmountCompany) as billAmountCompany,
+		SUM(a.costAmountCompany) as costAmountCompany,SUM(a.taxAmount) as taxAmount,
+			e.nameZH AS clientNameZH, e.nameEN AS clientNameEN
+		FROM hro_finance_system_invoice_header a LEFT JOIN hro_finance_system_invoice_batch b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_biz_client e ON a.clientId = e.clientId AND e.deleted = 1
+	 	WHERE a.deleted = 1 AND a.accountId = #{accountId} and parentInvoiceId is not null
+	 	<if test="parentInvoiceId != null and parentInvoiceId != ''">
+			AND  a.parentInvoiceId =#{parentInvoiceId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId}
+		</if>
+		GROUP BY invoiceId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<!-- 拆分列表记录条数  -->
+	<select id="countSubSystemInvoiceHeaderByHeaderId" parameterType="systemInvoiceHeader" resultType="int">
+		SELECT COUNT(DISTINCT a.invoiceId)
+		FROM hro_finance_system_invoice_header a LEFT JOIN hro_finance_system_invoice_batch b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_biz_client e ON a.clientId = e.clientId AND e.deleted = 1
+	 	WHERE a.deleted = 1 AND a.accountId = #{accountId} and parentInvoiceId is not null
+	 	<if test="parentInvoiceId != null and parentInvoiceId != ''">
+			AND  a.parentInvoiceId =#{parentInvoiceId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId}
+		</if>
+	</select>
+	
+		
+	<!-- 合并根据invoiceId查询分页 -->
+	<select id="getComSystemInvoiceHeaderById" parameterType="systemInvoiceHeader" resultMap="result">
+		SELECT a.invoiceId, <include refid="systemInvoiceHeaderColumns-for-join"/>,SUM(a.billAmountCompany) as billAmountCompany,
+		SUM(a.costAmountCompany) as costAmountCompany,SUM(a.taxAmount) as taxAmount,
+			e.nameZH AS clientNameZH, e.nameEN AS clientNameEN
+		FROM hro_finance_system_invoice_header a LEFT JOIN hro_finance_system_invoice_batch b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_biz_client e ON a.clientId = e.clientId AND e.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+	 	GROUP BY a.extendInvoiceId,parentInvoiceId
+	 	<if test="invoiceId != null and invoiceId != ''">
+	 		having  a.invoiceId in (${invoiceId} )
+	 	</if>
+	 	<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<!-- 合并列表记录条数 -->
+	<select id="countComSystemInvoiceHeaderById" parameterType="systemInvoiceHeader" resultType="int">
+		SELECT COUNT(DISTINCT a.invoiceId)
+			FROM hro_finance_system_invoice_header a LEFT JOIN hro_finance_system_invoice_batch b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_biz_client e ON a.clientId = e.clientId AND e.deleted = 1
+	 	WHERE  a.deleted = 1 AND a.accountId = #{accountId}
+	 	<if test="invoiceId != null and invoiceId != ''">
+			AND a.invoiceId in (${invoiceId} )
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+	</select>
+
+	<!--合并数据和  -->
+	<select id="getSystemInvoiceHeaderById" parameterType="systemInvoiceHeader" resultMap="result">
+<!-- 		SELECT a.invoiceId, <include refid="systemInvoiceHeaderColumns-for-join"/>,SUM(a.billAmountCompany) as billAmountCompany, -->
+<!-- 		SUM(a.costAmountCompany) as costAmountCompany,SUM(a.taxAmount) as taxAmount, -->
+<!-- 			e.nameZH AS clientNameZH, e.nameEN AS clientNameEN -->
+<!-- 		FROM hro_finance_system_invoice_header a LEFT JOIN hro_finance_system_invoice_batch b ON a.batchId = b.batchId AND b.deleted = 1 -->
+<!-- 			LEFT JOIN hro_biz_client e ON a.clientId = e.clientId AND e.deleted = 1 -->
+<!-- 		WHERE a.deleted = 1 AND a.accountId = #{accountId} -->
+<!-- 	 	<if test="invoiceId != null and invoiceId != ''"> -->
+<!-- 			AND a.extendInvoiceId in (${invoiceId} ) -->
+<!-- 		</if> -->
+<!-- 		<if test="corpId != null and corpId != ''"> -->
+<!-- 			AND (a.corpId = #{corpId} OR 0 = #{corpId}) -->
+<!-- 		</if> -->
+<!-- 		<if test="corpId == null or corpId == ''"> -->
+<!-- 			AND a.corpId IS NULL -->
+<!-- 		</if> -->
+<!-- 	 	GROUP BY e.nameZH, e.nameEN -->
+
+			select sum(billAmountCompany) as billAmountCompany,SUM(costAmountCompany) as costAmountCompany,SUM(taxAmount) as  taxAmount,batchId,monthly from (
+			select SUM(x.billAmountCompany) as billAmountCompany,x.batchId,x.monthly,
+				SUM(x.costAmountCompany) as costAmountCompany, SUM(x.taxAmount) as taxAmount 
+			from hro_finance_system_invoice_header x 
+			where parentInvoiceId is null and x.deleted = 1 AND x.accountId = #{accountId}
+			<if test="invoiceId != null and invoiceId != ''"> 
+				AND extendInvoiceId in  (${invoiceId} )
+			</if>
+			UNION 
+			select SUM(x.billAmountCompany) as billAmountCompany,x.batchId,x.monthly,
+				SUM(x.costAmountCompany) as costAmountCompany, SUM(x.taxAmount) as taxAmount 
+			from hro_finance_system_invoice_header x 
+			where parentInvoiceId is not null and x.deleted = 1 AND x.accountId = #{accountId}
+			<if test="invoiceId != null and invoiceId != ''"> 
+				AND invoiceId in  (${invoiceId} )
+			</if>
+			)t
+	</select>
+
+	<update id="updateSystemInvoiceHeader" parameterType="systemInvoiceHeader">
+		update hro_finance_system_invoice_header set extendInvoiceId = #{extendInvoiceId}, accountId = #{accountId}, accountId = #{accountId}, entityId = #{entityId}, 
+			businessTypeId = #{businessTypeId}, batchId= #{batchId}, clientId = #{clientId}, parentInvoiceId = #{parentInvoiceId}, orderId = #{orderId},
+			 billAmountCompany = #{billAmountCompany},
+			costAmountCompany = #{costAmountCompany}, taxAmount = #{taxAmount}, branch = #{branch}, owner = #{owner}, monthly = #{monthly}, description = #{description}, 
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, 
+			remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where invoiceId = #{invoiceId} 
+  	</update>
+
+	<insert id="insertSystemInvoiceHeader" parameterType="systemInvoiceHeader" useGeneratedKeys="true" keyProperty="orderHeaderId">
+		insert into hro_finance_system_invoice_header(invoiceId, <include refid="systemInvoiceHeaderColumns" /> )
+		values (#{invoiceId},#{accountId},#{extendInvoiceId},#{parentInvoiceId}, #{entityId}, #{businessTypeId}, #{batchId}, #{clientId}, #{corpId}, #{orderId},#{clientOrderId},
+			#{billAmountCompany},#{costAmountCompany}, #{taxAmount}, #{branch}, 
+			#{owner}, #{monthly}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, 
+			#{modifyBy}, #{modifyDate})
+	</insert>
+	
+	<select id="getMaxInvoiceId" resultType="int">
+		select max(invoiceId) from hro_finance_system_invoice_header
+	</select>
+	
+	<delete id="deleteSystemInvoiceHeader" parameterType="int">
+		delete from hro_finance_system_invoice_header where invoiceId = #{value}
+  	</delete>
+
+</mapper>

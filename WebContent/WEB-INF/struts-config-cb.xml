@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+
+	<form-beans>
+		<form-bean name="cbBatchForm" type="com.kan.hro.domain.biz.cb.CBBatchVO"></form-bean>
+		<form-bean name="cbHeaderForm" type="com.kan.hro.domain.biz.cb.CBHeaderVO"></form-bean>
+		<form-bean name="cbDetailForm" type="com.kan.hro.domain.biz.cb.CBDetailVO"></form-bean>
+		<form-bean name="cbBillForm" type="com.kan.hro.domain.biz.cb.CBBillVO"></form-bean>
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+
+		<!-- Table actions start -->
+		<action parameter="proc" path="/cbAction" type="com.kan.hro.web.actions.biz.cb.CBAction" name="cbBatchForm"
+			scope="request" validate="false">
+			<forward name="listCBBatchPreview" path="/jsp/cb/listCBBatchPreview.jsp"></forward>
+			<forward name="listCBBatchConfirm" path="/jsp/cb/listCBBatchConfirm.jsp"></forward>
+			<forward name="listCBBatchSubmit" path="/jsp/cb/listCBBatchSubmit.jsp"></forward>
+			<forward name="listCBBatchTablePreview" path="/contents/cb/table/listCBBatchTablePreview.jsp"></forward>
+			<forward name="listCBBatchTableConfirm" path="/contents/cb/table/listCBBatchTableConfirm.jsp"></forward>
+			<forward name="listCBBatchTableSubmit" path="/contents/cb/table/listCBBatchTableSubmit.jsp"></forward>
+			<forward name="manageCB" path="/jsp/cb/manageCB.jsp"></forward>
+			<forward name="listHeader" path="/jsp/cb/listHeader.jsp"></forward>
+			<forward name="listHeaderTable" path="/contents/cb/table/listHeaderTable.jsp"></forward>
+			<forward name="listDetail" path="/jsp/cb/listDetail.jsp"></forward>
+			<forward name="listDetailTable" path="/contents/cb/table/listDetailTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Table actions start -->
+		<action parameter="proc" path="/cbHeaderAction" type="com.kan.hro.web.actions.biz.cb.CBHeaderAction" name="cbHeaderForm"
+			scope="request" validate="false">
+			<forward name="listCBBatchPreview" path="/jsp/cb/listCBBatchPreview.jsp"></forward>
+			<forward name="listCBBatchConfirm" path="/jsp/cb/listCBBatchConfirm.jsp"></forward>
+			<forward name="listCBBatchSubmit" path="/jsp/cb/listCBBatchSubmit.jsp"></forward>
+			<forward name="listCBBatchTablePreview" path="/contents/cb/table/listCBBatchTablePreview.jsp"></forward>
+			<forward name="listCBBatchTableConfirm" path="/contents/cb/table/listCBBatchTableConfirm.jsp"></forward>
+			<forward name="listCBBatchTableSubmit" path="/contents/cb/table/listCBBatchTableSubmit.jsp"></forward>
+			<forward name="manageCB" path="/jsp/cb/manageCB.jsp"></forward>
+			<forward name="listHeader" path="/jsp/cb/listHeader.jsp"></forward>
+			<forward name="listHeaderTable" path="/contents/cb/table/listHeaderTable.jsp"></forward>
+			<forward name="listDetail" path="/jsp/cb/listDetail.jsp"></forward>
+			<forward name="listDetailTable" path="/contents/cb/table/listDetailTable.jsp"></forward>
+			<forward name="listCBBill" path="/jsp/cb/listCBBill.jsp"></forward>
+			<forward name="listCBBillTable" path="/contents/cb/table/listCBBillTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Table actions start -->
+		<action parameter="proc" path="/cbBillViewAction" type="com.kan.hro.web.actions.biz.cb.CBBillViewAction" name="cbBillForm"
+			scope="request" validate="false">
+			<forward name="listCBBill" path="/jsp/cb/listCBBill.jsp"></forward>
+			<forward name="listCBBillTable" path="/contents/cb/table/listCBBillTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+	</action-mappings>
+	
+	<message-resources parameter="MessageResources/CB/CB" key="cb" />
+
+</struts-config>
+

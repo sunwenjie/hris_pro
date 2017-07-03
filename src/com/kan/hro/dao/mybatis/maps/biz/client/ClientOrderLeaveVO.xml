@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.client.ClientOrderLeaveVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.client.ClientOrderLeaveVO">
+		<result property="orderLeaveId" column="orderLeaveId" />
+		<result property="orderHeaderId" column="orderHeaderId" />
+		<result property="itemId" column="itemId" />
+		<result property="annualLeaveRuleId" column="annualLeaveRuleId" />
+		<result property="legalQuantity" column="legalQuantity" />
+		<result property="benefitQuantity" column="benefitQuantity" />
+		<result property="cycle" column="cycle" />
+		<result property="year" column="year" />
+		<result property="probationUsing" column="probationUsing" />
+		<result property="delayUsing" column="delayUsing" />
+		<result property="legalQuantityDelayMonth" column="legalQuantityDelayMonth" />
+		<result property="benefitQuantityDelayMonth" column="benefitQuantityDelayMonth" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="orderHeaderNameZH" column="orderHeaderNameZH" />
+		<result property="orderHeaderNameEN" column="orderHeaderNameEN" />
+		<result property="itemNameZH" column="itemNameZH" />
+		<result property="itemNameEN" column="itemNameEN" />
+	</resultMap>
+  	
+	<sql id="clientOrderLeaveColumns">
+		orderHeaderId, itemId, annualLeaveRuleId, legalQuantity, benefitQuantity, cycle, year, probationUsing, delayUsing, legalQuantityDelayMonth, benefitQuantityDelayMonth, 
+		description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="clientOrderLeaveColumns-for-join">
+		a.orderHeaderId, a.itemId, a.annualLeaveRuleId, a.legalQuantity, a.benefitQuantity, a.cycle, a.year, a.probationUsing, a.delayUsing, a.legalQuantityDelayMonth, 
+		a.benefitQuantityDelayMonth, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, 
+		a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countClientOrderLeaveVOsByCondition" parameterType="staff" resultType="int">
+		select count(*) 
+		from HRO_BIZ_Client_Order_Leave
+		where deleted = 1 AND orderHeaderId = #{orderHeaderId}
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+  	
+	<select id="getClientOrderLeaveVOsByCondition" parameterType="clientOrderLeave" resultMap="result">
+		select orderLeaveId, <include refid="clientOrderLeaveColumns" />
+		FROM HRO_BIZ_Client_Order_Leave
+		where deleted = 1 AND orderHeaderId = #{orderHeaderId}
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getClientOrderLeaveVOByOrderLeaveId" parameterType="int" resultMap="result">
+		SELECT a.orderLeaveId, <include refid="clientOrderLeaveColumns-for-join" />, b.nameZH as orderHeaderNameZH, b.nameEN as orderHeaderNameEN, 
+			 c.nameZH as itemNameZH, c.nameEN as itemNameEN
+		FROM HRO_BIZ_Client_Order_Leave a LEFT OUTER JOIN HRO_BIZ_Client_Order_Header b ON a.orderHeaderId = b.orderHeaderId AND b.deleted = 1 
+			LEFT JOIN HRO_MGT_Item c ON a.itemId = c.itemId
+	 	WHERE a.orderLeaveId = #{value}
+	</select>
+
+	<update id="updateClientOrderLeave" parameterType="clientOrderLeave">
+		update HRO_BIZ_Client_Order_Leave set orderHeaderId = #{orderHeaderId}, itemId = #{itemId}, annualLeaveRuleId = #{annualLeaveRuleId}, legalQuantity = #{legalQuantity}, 
+			benefitQuantity = #{benefitQuantity}, cycle = #{cycle}, year = #{year}, probationUsing = #{probationUsing}, delayUsing = #{delayUsing}, 
+			legalQuantityDelayMonth = #{legalQuantityDelayMonth}, benefitQuantityDelayMonth = #{benefitQuantityDelayMonth}, description = #{description}, 
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, 
+			remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where orderLeaveId = #{orderLeaveId}
+	</update>
+
+	<insert id="insertClientOrderLeave" parameterType="clientOrderLeave" useGeneratedKeys="true" keyProperty="orderLeaveId">
+		insert into HRO_BIZ_Client_Order_Leave( <include refid="clientOrderLeaveColumns" /> )
+		values(#{orderHeaderId}, #{itemId}, #{annualLeaveRuleId}, #{legalQuantity}, #{benefitQuantity}, #{cycle}, #{year}, #{probationUsing}, #{delayUsing}, #{legalQuantityDelayMonth}, 
+			#{benefitQuantityDelayMonth}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, 
+			#{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteClientOrderLeave" parameterType="int">
+		delete from HRO_BIZ_Client_Order_Leave where orderLeaveId = #{orderLeaveId}
+  	</delete>
+  	
+	<select id="getClientOrderLeaveVOsByOrderHeaderId" parameterType="int" resultMap="result">
+		SELECT a.orderLeaveId, <include refid="clientOrderLeaveColumns-for-join" />, b.nameZH as orderHeaderNameZH, b.nameEN as orderHeaderNameEN, 
+			 c.nameZH as itemNameZH, c.nameEN as itemNameEN
+		FROM HRO_BIZ_Client_Order_Leave a LEFT OUTER JOIN HRO_BIZ_Client_Order_Header b ON a.orderHeaderId = b.orderHeaderId AND b.deleted = 1 
+			LEFT JOIN HRO_MGT_Item c ON a.itemId = c.itemId
+	 	WHERE a.deleted = 1 AND a.orderHeaderId = #{value} 
+	</select>
+  	
+</mapper>

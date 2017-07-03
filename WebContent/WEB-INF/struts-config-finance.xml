@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>									  
+		<form-bean name="systemInvoiceBatchForm" type="com.kan.hro.domain.biz.finance.SystemInvoiceBatchVO"></form-bean>
+		<form-bean name="systemInvoiceHeaderForm" type="com.kan.hro.domain.biz.finance.SystemInvoiceHeaderVO"></form-bean>
+		<form-bean name="systemInvoiceDetailForm" type="com.kan.hro.domain.biz.finance.SystemInvoiceDetailVO"></form-bean>
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+		<action parameter="proc" path="/systemInvoiceAction" type="com.kan.hro.web.actions.biz.finance.SystemInvoiceAction" name="systemInvoiceBatchForm"
+			scope="request" validate="false">
+			<forward name="listBatch" path="/jsp/finance/listBatch.jsp"></forward>
+			<forward name="listBatchTable" path="/contents/finance/invoice/table/listInvoiceBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/systemInvoiceHeaderAction" type="com.kan.hro.web.actions.biz.finance.SystemInvoiceHeaderAction" name="systemInvoiceHeaderForm"
+			scope="request" validate="false">
+			<forward name="listHeader" path="/jsp/finance/listHeader.jsp"></forward>
+			<forward name="listHeaderTable" path="/contents/finance/invoice/table/listInvoiceHeaderTable.jsp"></forward>
+			<forward name="listSubInvoice" path="/jsp/finance/listSubInvoice.jsp"></forward>
+			<forward name="listCompound" path="/jsp/finance/listMageInvoice.jsp"></forward>
+			<forward name="listMagerHeaderTable" path="/contents/finance/invoice/table/listCompoundInvoiceTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+
+		<action parameter="proc" path="/systemInvoiceDetailAction" type="com.kan.hro.web.actions.biz.finance.SystemInvoiceDetailAction" name="systemInvoiceDetailForm"
+			scope="request" validate="false">
+			<forward name="listDetail" path="/jsp/finance/listDetail.jsp"></forward>
+			<forward name="listDetailTable" path="/contents/finance/invoice/table/listInvoiceDetailTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+	</action-mappings>
+</struts-config>
+

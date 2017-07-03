@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+           http://www.springframework.org/schema/aop   
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
+           http://www.springframework.org/schema/tx  
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- Dao Initialization -->
+	<bean id="selfAssessmentDao" class="com.kan.hro.dao.mybatis.impl.biz.performance.SelfAssessmentDaoImpl" >
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="inviteAssessmentDao" class="com.kan.hro.dao.mybatis.impl.biz.performance.InviteAssessmentDaoImpl" >
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="budgetSettingHeaderDao" class="com.kan.hro.dao.mybatis.impl.biz.performance.BudgetSettingHeaderDaoImpl" >
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="budgetSettingDetailDao" class="com.kan.hro.dao.mybatis.impl.biz.performance.BudgetSettingDetailDaoImpl" >
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<!-- Service Initialization -->
+	<bean id="selfAssessmentService" class="com.kan.hro.service.impl.biz.performance.SelfAssessmentServiceImpl">
+		<property name="dao" ref="selfAssessmentDao" />
+		<property name="performanceDao" ref="performanceDao" />
+		<property name="performanceService" ref="performanceService" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="inviteAssessmentService" class="com.kan.hro.service.impl.biz.performance.InviteAssessmentServiceImpl">
+		<property name="dao" ref="inviteAssessmentDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="budgetSettingHeaderService" class="com.kan.hro.service.impl.biz.performance.BudgetSettingHeaderServiceImpl">
+		<property name="dao" ref="budgetSettingHeaderDao" />
+		<property name="budgetSettingDetailDao" ref="budgetSettingDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="budgetSettingDetailService" class="com.kan.hro.service.impl.biz.performance.BudgetSettingDetailServiceImpl">
+		<property name="dao" ref="budgetSettingDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+</beans>  

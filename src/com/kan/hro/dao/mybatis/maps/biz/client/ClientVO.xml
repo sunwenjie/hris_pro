@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.client.ClientVO">
+
+	<resultMap id="clientBaseView" type="com.kan.hro.domain.biz.client.ClientBaseView">
+		<result property="id" column="id" />
+		<result property="groupId" column="groupId" />
+		<result property="accountId" column="accountId" />
+		<result property="name" column="name" />
+		<result property="logoFile" column="logoFile" />
+		<result property="logoFileSize" column="logoFileSize" />
+		<result property="mobileModuleRightIds" column="mobileModuleRightIds" />
+	</resultMap>
+	
+	<resultMap id="clientFullView" type="com.kan.hro.domain.biz.client.ClientFullView">
+		<result property="id" column="id" />
+		<result property="groupId" column="groupId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="contactNameZH" column="contactNameZH" />
+		<result property="contactNameEN" column="contactNameEN" />
+		<result property="orderBindContract" column="orderBindContract" />
+		<result property="department" column="department" />
+		<result property="position" column="position" />
+		<result property="salutation" column="salutation" />
+		<result property="cityId" column="cityId" />
+		<result property="address" column="address" />
+		<result property="postcode" column="postcode" />
+		<result property="email" column="email" />
+		<result property="phone" column="phone" />
+		<result property="mobile" column="mobile" />
+	</resultMap>
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.client.ClientVO">
+		<result property="clientId" column="clientId" />
+		<result property="groupId" column="groupId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="number" column="number" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="titleZH" column="titleZH" />
+		<result property="titleEN" column="titleEN" />
+		<result property="cityId" column="cityId" />
+		<result property="address" column="address" />
+		<result property="postcode" column="postcode" />
+		<result property="mainContact" column="mainContact" />
+		<result property="phone" column="phone" />
+		<result property="mobile" column="mobile" />
+		<result property="fax" column="fax" />
+		<result property="email" column="email" />
+		<result property="im1Type" column="im1Type" />
+		<result property="im1" column="im1" />
+		<result property="im2Type" column="im2Type" />
+		<result property="im2" column="im2" />
+		<result property="website" column="website" />
+		<result property="invoiceDate" column="invoiceDate" />
+		<result property="paymentTerms" column="paymentTerms" />
+		<result property="industry" column="industry" />
+		<result property="type" column="type" />
+		<result property="size" column="size" />
+		<result property="description" column="description" />
+		<result property="recommendPerson" column="recommendPerson" />
+		<result property="recommendBranch" column="recommendBranch" />
+		<result property="recommendPosition" column="recommendPosition" />
+		<result property="legalEntity" column="legalEntity" />
+		<result property="branch" column="branch" />
+		<result property="owner" column="owner" />
+		<result property="orderBindContract" column="orderBindContract" />
+		<result property="logoFile" column="logoFile" />
+		<result property="logoFileSize" column="logoFileSize" />
+		<result property="imageFile" column="imageFile" />
+		<result property="mobileModuleRightIds" column="mobileModuleRightIds" />
+		<result property="sbGenerateCondition" column="sbGenerateCondition" />
+		<result property="cbGenerateCondition" column="cbGenerateCondition" />
+		<result property="settlementCondition" column="settlementCondition" />
+		<result property="sbGenerateConditionSC" column="sbGenerateConditionSC" />
+		<result property="cbGenerateConditionSC" column="cbGenerateConditionSC" />
+		<result property="settlementConditionSC" column="settlementConditionSC" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="groupNameZH" column="groupNameZH" />
+		<result property="groupNameEN" column="groupNameEN" />
+		<result property="groupNameForSearch" column="groupNameForSearch" />
+		<result property="groupNumber" column="groupNumber" />
+		<result property="extended" column="extended" />
+		<!-- For pdf -->
+		<result property="clientContactNameZH" column="clientContactNameZH" />
+		<result property="clientContactNameEN" column="clientContactNameEN" />
+		<result property="contactPosition" column="contactPosition" />
+		<result property="contactWay" column="contactWay" />
+	</resultMap>
+  	
+  	<select id="getClientBaseViews" parameterType='String' resultType="clientBaseView" >
+  		SELECT clientId as id, CONCAT(nameZH, ' - ', nameEN, ' (', clientId, '/', number, ')') as name, groupId, accountId
+  		FROM hro_biz_client
+  		WHERE deleted = 1 and accountId = ${value}
+  		ORDER BY name
+  	</select>
+  	
+  	<select id="getClientBaseViewsByCondition" parameterType='clientBaseView' resultType="clientBaseView" >
+  		SELECT clientId as id, CONCAT(nameZH , ' - ', nameEN, ' (', clientId, '/', number, ')') as name, groupId, accountId
+  		FROM hro_biz_client
+  		WHERE deleted = 1 and accountId = ${accountId}
+  		<if test="groupId != null and groupId != ''">
+			AND groupId = ${groupId}
+		</if>
+		<if test="name != null and name != ''">
+			AND name like CONCAT('%', '${name}', '%')
+		</if>
+  		ORDER BY name
+  	</select>
+  	
+  	<select id="getClientFullViews" parameterType='String' resultType="clientFullView" >
+  		SELECT a.clientId as id, a.orderBindContract, CONCAT(a.nameZH , ' - ', a.nameEN, ' (', a.clientId, '/', a.number, ')') as name,
+  			a.groupId, a.accountId, a.invoiceDate, a.paymentTerms, a.nameZH AS clientNameZH, a.nameEN AS clientNameEN,
+			CASE WHEN a.mainContact != 0 THEN b.nameZH ELSE NULL END AS contactNameZH,
+			CASE WHEN a.mainContact != 0 THEN b.nameEN ELSE NULL END AS contactNameEN,
+			CASE WHEN a.mainContact != 0 THEN b.department ELSE NULL END AS department,
+			CASE WHEN a.mainContact != 0 THEN b.title ELSE a.phone END AS position,
+			CASE WHEN a.mainContact != 0 THEN b.salutation ELSE a.phone END AS salutation,
+			CASE WHEN a.mainContact != 0 THEN b.cityId ELSE a.cityId END AS cityId,
+			CASE WHEN a.mainContact != 0 THEN b.address ELSE a.address END AS address,
+			CASE WHEN a.mainContact != 0 THEN b.postcode ELSE a.postcode END AS postcode,
+			CASE WHEN a.mainContact != 0 THEN b.bizEmail ELSE a.email END AS email,
+			CASE WHEN a.mainContact != 0 THEN b.bizPhone ELSE a.phone END AS phone,
+			CASE WHEN a.mainContact != 0 THEN b.bizMobile ELSE a.mobile END AS mobile
+		FROM hro_biz_client a
+		LEFT OUTER JOIN hro_biz_client_contact b ON a.mainContact = b.clientContactId AND b.deleted = 1
+		WHERE a.deleted = 1 and a.accountId = #{value}
+  	</select>
+  	
+	<sql id="ClientColumns">
+		groupId, accountId,corpId, number, nameZH, nameEN, titleZH,titleEN,cityId, address, postcode, mainContact, phone, mobile, fax, email, im1Type,
+		im1, im2Type, im2, website, invoiceDate, paymentTerms, industry, type, size, description, recommendPerson, recommendBranch, recommendPosition,
+		legalEntity, branch, owner, orderBindContract,logoFile,logoFileSize,imageFile, mobileModuleRightIds,sbGenerateCondition, cbGenerateCondition, settlementCondition, sbGenerateConditionSC, cbGenerateConditionSC, 
+		settlementConditionSC, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="ClientColumns-for-join">
+		a.groupId, a.accountId,a.corpId, a.number, a.nameZH, a.nameEN, a.titleZH,a.titleEN,a.cityId, a.address, a.postcode, a.mainContact, a.phone, a.mobile, a.fax, a.email, a.im1Type,
+		a.im1, a.im2Type, a.im2, a.website, a.invoiceDate, a.paymentTerms, a.industry, a.type, a.size, a.description, a.recommendPerson, a.recommendBranch,
+		a.recommendPosition, a.legalEntity, a.branch, a.owner, a.orderBindContract,a.logoFile,a.logoFileSize,a.imageFile,a.mobileModuleRightIds, a.sbGenerateCondition, a.cbGenerateCondition, a.settlementCondition,
+		a.sbGenerateConditionSC, a.cbGenerateConditionSC, a.settlementConditionSC, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4,
+		a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countClientVOsByCondition" parameterType="client" resultType="int">
+		SELECT COUNT(1) 
+		FROM hro_biz_client a LEFT OUTER JOIN hro_biz_client_group b ON a.groupId = b.clientGroupId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="number != null and number != ''">
+			AND a.number like CONCAT('%', '${number}', '%')
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%')
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%')
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="industry != null and industry != ''">
+			AND (a.industry = #{industry} or 0 = #{industry})
+		</if>
+		<if test="size != null and size != ''">
+			AND (a.size = #{size} or 0 = #{size})
+		</if>
+		<if test="legalEntity != null and legalEntity != ''">
+			AND (a.legalEntity = #{legalEntity} or 0 = #{legalEntity})
+		</if>
+		<if test="branch != null and branch!= ''">
+			AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+		<if test="owner != null and owner != ''">
+			AND (a.owner = #{owner} or 0 = #{owner})
+		</if>
+		<if test="sbGenerateCondition != null and sbGenerateCondition != ''">
+			AND (a.sbGenerateCondition = #{sbGenerateCondition} or 0 = #{sbGenerateCondition})
+		</if>
+		<if test="cbGenerateCondition != null and cbGenerateCondition != ''">
+			AND (a.cbGenerateCondition = #{cbGenerateCondition} or 0 = #{cbGenerateCondition})
+		</if>
+		<if test="settlementCondition != null and settlementCondition != ''">
+			AND (a.settlementCondition = #{settlementCondition} or 0 = #{settlementCondition})
+		</if>
+		<if test="groupNameZH != null and groupNameZH != ''">
+			AND b.nameZH like CONCAT('%', '${groupNameZH}', '%')
+		</if>
+		<if test="groupNameEN != null and groupNameEN != ''">
+			AND b.nameEN like CONCAT('%', '${groupNameEN}', '%')
+		</if>
+		<if test="groupNameForSearch != null and groupNameForSearch != ''">
+			AND (b.nameZH like CONCAT('%', '${groupNameForSearch}', '%') OR b.nameEN like CONCAT('%', '${groupNameForSearch}', '%'))
+		</if>
+		<if test="groupNumber != null and groupNumber != ''">
+			AND b.number like CONCAT('%', '${groupNumber}', '%') 
+		</if>
+		<if test="cityId != null and cityId != ''">
+			AND (a.cityId = #{cityId} or 0 = #{cityId})
+		</if>
+		<if test="branch != null and branch != ''">
+			AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+	</select>
+	
+	<select id="getClientVOsByCondition" parameterType="client" resultMap="result">
+		SELECT CASE WHEN ( (COUNT(c.contractId) != 0) OR (COUNT(d.orderHeaderId) != 0) OR a.`status` != 1) THEN 1 ELSE 2 END AS `extended`, a.clientId, <include refid="ClientColumns-for-join" />, b.nameZH AS groupNameZH, b.nameEN AS groupNameEN, b.number as groupNumber
+		FROM hro_biz_client a LEFT JOIN hro_biz_client_group b ON a.groupId = b.clientGroupId AND b.deleted = 1
+		LEFT JOIN hro_biz_client_contract c ON a.clientId = c.clientId AND c.deleted = 1
+		LEFT JOIN hro_biz_client_order_header d ON a.clientId = d.clientId AND d.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="number != null and number != ''">
+			AND a.number like CONCAT('%', '${number}', '%')
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%')
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%')
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="industry != null and industry != ''">
+			AND (a.industry = #{industry} or 0 = #{industry})
+		</if>
+		<if test="size != null and size != ''">
+			AND (a.size = #{size} or 0 = #{size})
+		</if>
+		<if test="legalEntity != null and legalEntity != ''">
+			AND (a.legalEntity = #{legalEntity} or 0 = #{legalEntity})
+		</if>
+		<if test="branch != null and branch!= ''">
+			AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+		<if test="owner != null and owner != ''">
+			AND (a.owner = #{owner} or 0 = #{owner})
+		</if>
+		<if test="sbGenerateCondition != null and sbGenerateCondition != ''">
+			AND (a.sbGenerateCondition = #{sbGenerateCondition} or 0 = #{sbGenerateCondition})
+		</if>
+		<if test="cbGenerateCondition != null and cbGenerateCondition != ''">
+			AND (a.cbGenerateCondition = #{cbGenerateCondition} or 0 = #{cbGenerateCondition})
+		</if>
+		<if test="settlementCondition != null and settlementCondition != ''">
+			AND (a.settlementCondition = #{settlementCondition} or 0 = #{settlementCondition})
+		</if>
+		<if test="sbGenerateConditionSC != null and sbGenerateConditionSC != ''">
+			AND (a.sbGenerateConditionSC = #{sbGenerateConditionSC} or 0 = #{sbGenerateConditionSC})
+		</if>
+		<if test="cbGenerateConditionSC != null and cbGenerateConditionSC != ''">
+			AND (a.cbGenerateConditionSC = #{cbGenerateConditionSC} or 0 = #{cbGenerateConditionSC})
+		</if>
+		<if test="settlementConditionSC != null and settlementConditionSC != ''">
+			AND (a.settlementConditionSC = #{settlementConditionSC} or 0 = #{settlementConditionSC})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="groupNameZH != null and groupNameZH != ''">
+			AND (b.nameZH like CONCAT('%', '${groupNameZH}', '%')
+		</if>
+		<if test="groupNameEN != null and groupNameEN != ''">
+			AND (b.nameEN like CONCAT('%', '${groupNameEN}', '%')
+		</if>
+		<if test="groupNameForSearch != null and groupNameForSearch != ''">
+			AND (b.nameZH like CONCAT('%', '${groupNameForSearch}', '%') OR b.nameEN like CONCAT('%', '${groupNameForSearch}', '%'))
+		</if>
+		<if test="groupNumber != null and groupNumber != ''">
+			AND b.number like CONCAT('%', '${groupNumber}', '%') 
+		</if>
+		<if test="cityId != null and cityId != ''">
+			AND (a.cityId = #{cityId} or 0 = #{cityId})
+		</if>
+		<if test="branch != null and branch != ''">
+			AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+		GROUP BY a.clientId
+		<if
+			test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getClientVOByClientId" parameterType="int" resultMap="result">
+		SELECT a.clientId, <include refid="ClientColumns-for-join" />, b.nameZH AS groupNameZH, b.nameEN AS groupNameEN, b.number as groupNumber
+		FROM hro_biz_client a LEFT JOIN hro_biz_client_group b ON a.groupId = b.clientGroupId AND b.deleted = 1
+		WHERE a.clientId = #{value}
+	</select>
+	
+	<select id="getClientVOByCorpId" parameterType="int" resultMap="result">
+		SELECT a.clientId, <include refid="ClientColumns-for-join" />, b.nameZH AS groupNameZH, b.nameEN AS groupNameEN, b.number as groupNumber
+		FROM hro_biz_client a LEFT JOIN hro_biz_client_group b ON a.groupId = b.clientGroupId AND b.deleted = 1
+		WHERE a.corpId = #{value}
+	</select>
+
+	<update id="updateClient" parameterType="client">
+		UPDATE hro_biz_client SET groupId = #{groupId}, number = #{number}, nameZH = #{nameZH}, nameEN = #{nameEN},
+			cityId = #{cityId}, address = #{address}, postcode = #{postcode}, mainContact = #{mainContact}, phone = #{phone},
+			mobile = #{mobile}, fax = #{fax}, email = #{email}, im1Type = #{im1Type}, im1 = #{im1}, im2Type = #{im2Type}, im2 = #{im2}, website = #{website},
+			invoiceDate = #{invoiceDate}, paymentTerms = #{paymentTerms}, industry = #{industry}, type = #{type}, size = #{size}, description = #{description},
+			recommendPerson = #{recommendPerson}, recommendBranch = #{recommendBranch}, recommendPosition = #{recommendPosition}, legalEntity = #{legalEntity},
+			branch = #{branch}, owner = #{owner}, orderBindContract = #{orderBindContract},logoFile=#{logoFile},logoFileSize=#{logoFileSize},imageFile=#{imageFile},mobileModuleRightIds=#{mobileModuleRightIds}, sbGenerateCondition = #{sbGenerateCondition}, 
+			cbGenerateCondition = #{cbGenerateCondition}, settlementCondition = #{settlementCondition}, sbGenerateConditionSC = #{sbGenerateConditionSC},
+			cbGenerateConditionSC = #{cbGenerateConditionSC}, settlementConditionSC = #{settlementConditionSC}, deleted = #{deleted}, status = #{status},
+			remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE clientId = #{clientId}
+	</update>
+
+	<insert id="insertClient" parameterType="client" useGeneratedKeys="true" keyProperty="clientId">
+		INSERT INTO hro_biz_client( <include refid="ClientColumns" /> )
+		VALUES (#{groupId}, #{accountId},#{corpId} ,#{number}, #{nameZH}, #{nameEN}, #{titleZH},#{titleEN},#{cityId}, #{address}, #{postcode}, #{mainContact}, #{phone},
+			#{mobile}, #{fax}, #{email}, #{im1Type}, #{im1}, #{im2Type}, #{im2}, #{website}, #{invoiceDate}, #{paymentTerms},
+			#{industry}, #{type}, #{size}, #{description}, #{recommendPerson}, #{recommendBranch},
+			#{recommendPosition}, #{legalEntity}, #{branch}, #{owner}, #{orderBindContract},#{logoFile},#{logoFileSize},#{imageFile},#{mobileModuleRightIds}, #{sbGenerateCondition}, 
+			#{cbGenerateCondition}, #{settlementCondition}, #{sbGenerateConditionSC}, #{cbGenerateConditionSC}, #{settlementConditionSC}, 1,
+			#{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteClient" parameterType="int">
+		DELETE FROM hro_biz_client WHERE clientId = #{clientId}
+  	</delete>
+  	
+  	<update id="delClientAndGroupRelationByGroupId" parameterType="client">
+  		UPDATE hro_biz_client SET groupId = null, modifyBy = #{modifyBy}, modifyDate = #{modifyDate} WHERE
+		groupId = #{groupId}
+  	</update>
+  	
+  	<update id="delClientAndGroupRelationByClientId" parameterType="client">
+  		UPDATE hro_biz_client SET groupId = null, modifyBy = #{modifyBy}, modifyDate = #{modifyDate} WHERE
+		clientId = #{clientId}
+  	</update>
+  	
+  	<!-- Reviewed by Kevin Jin at 2013-11-25 -->
+  	<select id="getClientVOsByEmployeeId" parameterType="int" resultMap="result">
+  		SELECT a.clientId, <include refid="ClientColumns-for-join" />
+  		FROM hro_biz_client a LEFT JOIN hro_biz_employee_contract b ON a.clientId = b.clientId AND b.deleted = 1 
+  		WHERE a.deleted = 1 AND a.status = 3 AND b.status in ('3', '5', '6') AND b.employeeId = #{value}
+  	</select>
+  	
+    <select id="getClientByAccountId" parameterType='String' resultMap="clientBaseView">
+  		select clientId as id ,CONCAT(nameZH, ' - ', nameEN) as name 
+  		from hro_biz_client where status=3 
+  		and deleted = 1
+  		and accountid = #{value}
+  	</select>
+  	
+  	<select id="getClientNameById" parameterType="int" resultMap="clientBaseView">
+		select clientId as id ,CONCAT(nameZH, ' - ', nameEN) as name 
+  		from hro_biz_client 
+  		where clientId = #{value}
+	</select>
+	
+	<select id="getClientBaseViewsByAccountId4LogoFile" parameterType='String' resultMap="clientBaseView">
+  		SELECT corpId AS id, logoFile, logoFileSize,mobileModuleRightIds
+  		FROM hro_biz_client 
+  		WHERE status = 3 AND deleted = 1 AND corpId is not null AND accountid = #{value}
+  	</select>
+  	
+  	<select id="getClientVOByTitle" parameterType="String" resultMap="result">
+		SELECT a.clientId, <include refid="ClientColumns-for-join" />, b.nameZH AS groupNameZH, b.nameEN AS groupNameEN, b.number as groupNumber
+		FROM hro_biz_client a LEFT JOIN hro_biz_client_group b ON a.groupId = b.clientGroupId AND b.deleted = 1
+		WHERE a.deleted = 1 and a.titleZH = #{value} OR a.titleEN = #{value}
+	</select>
+	
+	<select id="getClientVOByName" parameterType="String" resultMap="result">
+		SELECT a.clientId, <include refid="ClientColumns-for-join" />, b.nameZH AS groupNameZH, b.nameEN AS groupNameEN, b.number as groupNumber
+		FROM hro_biz_client a LEFT JOIN hro_biz_client_group b ON a.groupId = b.clientGroupId AND b.deleted = 1
+		WHERE a.deleted = 1 AND (a.nameZH = #{value} OR a.nameEN = #{value} OR a.titleZH = #{value} OR a.titleEN = #{value})
+	</select>
+  	
+  	<select id="getClientVOByClientIdForPdf" parameterType="int" resultMap="result">
+		SELECT a.clientId, <include refid="ClientColumns-for-join" />, 
+		c.nameZH  AS clientContactNameZH,c.nameZH  AS clientContactNameEN,c.title AS contactPosition,c.bizPhone AS contactWay
+		FROM hro_biz_client a 
+		LEFT JOIN hro_biz_client_contact c ON a.clientId = c.clientId AND c.deleted = 1
+		AND CASE WHEN a.mainContact='' THEN true WHEN a.mainContact = 0 THEN true ELSE c.clientContactId = a.mainContact END
+		WHERE a.clientId = #{value}
+		ORDER BY c.modifyDate desc LIMIT 0,1
+	</select>
+</mapper>

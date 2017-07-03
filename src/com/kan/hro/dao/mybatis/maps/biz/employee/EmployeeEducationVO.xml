@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeEducationVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeEducationVO">
+		<result property="employeeEducationId" column="employeeEducationId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="schoolName" column="schoolName" />
+		<result property="name" column="name" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="major" column="major" />
+		<result property="educationId" column="educationId" />
+		<result property="schoolingLength" column="schoolingLength" />
+		<result property="studyType" column="studyType" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+
+	<sql id="employeeEducationColumns">
+		employeeId, schoolName, startDate,endDate,major,educationId,schoolingLength,studyType,description, 
+		deleted, status, remark1, remark2, remark3, remark4, remark5, createBy,
+		createDate, modifyBy, modifyDate
+	</sql>	
+	
+	<select id="countEmployeeEducationVOsByCondition" parameterType="employeeEducation" resultType="int">
+		SELECT COUNT(*)
+		FROM HRO_BIZ_Employee_Education 
+		WHERE deleted = 1
+		<if test="employeeId != null and employeeId != ''">
+			AND (employeeId = #{employeeId} OR 0 = #{employeeId})
+		</if>
+		<if test="schoolName != null and schoolName != ''">
+			AND (schoolName = #{schoolName} OR 0 = #{schoolName})
+		</if>
+		
+		<if test="status != null and status != ''">
+			AND (status = #{status} OR 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getEmployeeEducationVOsByCondition" parameterType="employeeEducation" resultMap="result">
+		SELECT employeeEducationId,<include refid="employeeEducationColumns" />
+		FROM HRO_BIZ_Employee_Education
+		WHERE deleted = 1 
+		<if test="employeeId != null and employeeId != ''">
+			AND (employeeId = #{employeeId} OR 0 = #{employeeId})
+		</if>
+		<if test="schoolName != null and schoolName != ''">
+			AND (schoolName = #{schoolName} OR 0 = #{schoolName})
+		</if>
+		
+		<if test="status != null and status != ''">
+			AND (status = #{status} OR 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY  ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getEmployeeEducationVOByEmployeeEducationId" parameterType="int" resultMap="result">
+		SELECT employeeEducationId,<include refid="employeeEducationColumns" />
+		FROM HRO_BIZ_Employee_Education
+		WHERE deleted = 1 
+		AND deleted = 1 AND employeeEducationId = #{value} ORDER BY endDate desc
+	</select>
+	
+	<select id="getSchoolNameBySchoolName" parameterType="String"  resultType="map">
+		SELECT DISTINCT schoolName
+		FROM HRO_BIZ_Employee_Education
+		WHERE deleted = 1 AND schoolName like CONCAT('%', '${value}', '%')
+	</select>
+	
+	<select id="getMajorByMajor" parameterType="String"  resultType="map">
+		SELECT DISTINCT major name
+		FROM HRO_BIZ_Employee_Education
+		WHERE major LIKE CONCAT('%', '${value}', '%')
+		
+	</select>
+	
+	<select id="getEmployeeEducationVOsByEmployeeId" parameterType="int"  resultMap="result">
+		SELECT employeeEducationId,<include refid="employeeEducationColumns" />
+		FROM HRO_BIZ_Employee_Education
+		WHERE deleted = 1 AND employeeId = #{value}
+		ORDER BY endDate DESC
+	</select>
+	
+	<insert id="insertEmployeeEducation" parameterType="employeeEducation" useGeneratedKeys="true" keyProperty="employeeEducationId">
+		INSERT INTO HRO_BIZ_Employee_Education(<include refid="employeeEducationColumns" />)
+		VALUES(#{employeeId}, #{schoolName},#{startDate},#{endDate},#{major},#{educationId},#{schoolingLength},#{studyType},#{description}, 
+			   1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, 
+		       #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<update id="updateEmployeeEducation" parameterType="employeeEducation">
+		UPDATE HRO_BIZ_Employee_Education SET employeeId=#{employeeId}, schoolName=#{schoolName}, startDate=#{startDate},endDate=#{endDate},major=#{major},educationId=#{educationId}, description = #{description}, deleted = #{deleted},
+			schoolingLength=#{schoolingLength},studyType=#{studyType},status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5},
+			createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE employeeEducationId = #{employeeEducationId} 
+	</update>	
+	
+	<delete id="deleteEmployeeEducation" parameterType="int">
+		DELETE FROM HRO_BIZ_Employee_Education WHERE employeeEducationId = #{value}
+  	</delete>	
+</mapper>

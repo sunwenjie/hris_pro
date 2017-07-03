@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.cb.CBDetailVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.cb.CBDetailVO">
+		<result property="detailId" column="detailId" />
+		<result property="headerId" column="headerId" />
+		<result property="itemId" column="itemId" />
+		<result property="itemNo" column="itemNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="amountPurchaseCost" column="amountPurchaseCost" />
+		<result property="amountSalesCost" column="amountSalesCost" />
+		<result property="amountSalesPrice" column="amountSalesPrice" />
+		<result property="monthly" column="monthly" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="itemType" column="itemType" />
+	</resultMap>
+  	
+	<sql id="CBDetailColumns">
+		headerId, itemId, itemNo, nameZH, nameEN, amountPurchaseCost, amountSalesCost, amountSalesPrice, monthly, description, deleted, status, remark1, 
+		remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+  	
+	<sql id="CBDetailColumns-for-base">
+		a.headerId, a.itemId, a.itemNo, a.nameZH, a.nameEN, a.amountPurchaseCost, a.amountSalesCost, a.amountSalesPrice, a.monthly, a.description, a.deleted, a.status, a.remark1,
+		a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+  	
+	<sql id="CBDetailColumns-for-join">
+		a.headerId, a.itemId, a.itemNo, a.nameZH, a.nameEN, a.amountPurchaseCost, a.amountSalesCost, a.amountSalesPrice,
+		<![CDATA[ CASE WHEN LENGTH(a.monthly) < 7 THEN CONCAT(LEFT(a.monthly, 5), LPAD(RIGHT(a.monthly, 1), 2, '0')) ELSE a.monthly END ]]> as monthly, 
+		a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+	
+	<select id="countCBDetailVOsByCondition" parameterType="cbDetail" resultType="int">
+		select count(*)
+		from hro_cb_detail
+		where deleted = 1
+		<if test="headerId != null and headerId != ''">
+			AND headerId = #{headerId} 
+		</if>
+		<if test="detailId != null and detailId != ''">
+			AND detailId = #{detailId} 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status in (${status}) or 0 = #{status})
+		</if>
+	</select>
+
+	<select id="getCBDetailVOsByCondition" parameterType="cbDetail" resultMap="result">
+		SELECT a.detailId, <include refid="CBDetailColumns-for-base"/>, b.itemType
+		FROM hro_cb_detail a
+		LEFT JOIN hro_mgt_item b ON a.itemId = b.itemId AND b.deleted = 1
+		WHERE a.deleted = 1
+		<if test="headerId != null and headerId != ''">
+			AND a.headerId = #{headerId} 
+		</if>
+		<if test="detailId != null and detailId != ''">
+			AND a.detailId = #{detailId} 
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getCBDetailVOByDetailId" parameterType="int" resultMap="result">
+		SELECT a.detailId, <include refid="CBDetailColumns-for-base"/>, b.itemType
+		FROM hro_cb_detail a
+		LEFT JOIN hro_mgt_item b ON a.itemId = b.itemId AND b.deleted = 1
+	 	WHERE a.detailId = #{value}
+	</select>
+
+	<select id="getCBDetailVOsByHeaderId" parameterType="int" resultMap="result">
+		SELECT a.detailId, <include refid="CBDetailColumns-for-join"/>, b.itemType
+		FROM hro_cb_detail a 
+		LEFT JOIN hro_mgt_item b ON a.itemId = b.itemId AND b.deleted = 1
+	 	WHERE a.deleted = 1 AND a.headerId = #{value} 
+	</select>
+
+	<select id="getCBDetailVOsByContractId" parameterType="int" resultMap="result">
+		SELECT a.detailId, <include refid="CBDetailColumns-for-join"/>, c.itemType
+		FROM hro_cb_detail a 
+		LEFT JOIN hro_cb_header b ON a.headerId = b.headerId AND b.deleted = 1
+		LEFT JOIN hro_mgt_item c ON a.itemId = c.itemId AND c.deleted = 1
+	 	WHERE a.deleted = 1 AND b.contractId = #{value} 
+	</select>
+
+
+<resultMap id="batchResult" type="com.kan.hro.domain.biz.cb.CBDetailVO">
+		<result property="detailId" column="detailId" />
+		<result property="headerId" column="headerId" />
+		<result property="itemId" column="itemId" />
+		<result property="itemNo" column="itemNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="amountPurchaseCost" column="amountPurchaseCost" />
+		<result property="amountSalesCost" column="amountSalesCost" />
+		<result property="amountSalesPrice" column="amountSalesPrice" />
+		<result property="monthly" column="monthly" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="itemType" column="itemType" />
+		
+		<!-- add by jack sun 解决商报申报慢-->
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		
+	</resultMap>
+	<select id="getCBDetailVOsByBatchId" parameterType="int" resultMap="batchResult">
+		SELECT a.detailId, <include refid="CBDetailColumns-for-join"/>, d.itemType, b.employeeId, b.employeeNameZH, b.employeeNameEN
+		FROM hro_cb_detail a 
+			LEFT JOIN hro_cb_header b ON a.headerId = b.headerId AND b.deleted = 1
+			LEFT JOIN hro_cb_batch c ON b.batchId = c.batchId AND c.deleted = 1
+			LEFT JOIN hro_mgt_item d ON a.itemId = d.itemId AND d.deleted = 1
+	 	WHERE a.deleted = 1 AND c.batchId = #{value} 
+	</select>
+
+	<update id="updateCBDetail" parameterType="cbDetail" >
+		UPDATE hro_cb_detail SET headerId = #{headerId}, itemId = #{itemId}, itemNo = #{itemNo}, nameZH = #{nameZH}, nameEN = #{nameEN}, 
+			amountPurchaseCost = #{amountPurchaseCost}, amountSalesCost = #{amountSalesCost}, amountSalesPrice = #{amountSalesPrice}, 
+			monthly = #{monthly}, description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, 
+			remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE detailId = #{detailId} 
+  	</update>
+
+	<insert id="insertCBDetail" parameterType="cbDetail" useGeneratedKeys="true" keyProperty="detailId">
+		INSERT into hro_cb_detail( <include refid="CBDetailColumns" /> )
+		VALUES (#{headerId}, #{itemId}, #{itemNo}, #{nameZH}, #{nameEN}, #{amountPurchaseCost}, #{amountSalesCost}, #{amountSalesPrice}, #{monthly}, 
+			#{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, 
+			#{modifyDate})
+	</insert>
+
+	<delete id="deleteCBDetail" parameterType="int">
+		DELETE FROM hro_cb_detail WHERE detailId = #{value}
+  	</delete>
+</mapper>

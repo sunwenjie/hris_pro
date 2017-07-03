@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.management.EducationVO">
+
+	<resultMap id="result" type="com.kan.base.domain.management.EducationVO" >
+		<result property="educationId" column="educationId"/>
+		<result property="accountId" column="accountId"/>
+		<result property="corpId" column="corpId"/>
+		<result property="nameZH" column="nameZH"/>
+		<result property="nameEN" column="nameEN"/>
+		<result property="description" column="description"/>
+		<result property="deleted" column="deleted"/>
+		<result property="status" column="status"/>
+		<result property="remark1" column="remark1"/>
+		<result property="remark2" column="remark2"/>
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+	
+	<sql id="educationColumns">
+		accountId,corpId, nameZH, nameEN, description, deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	  	 	
+	<sql id="educationColumns-for-join">
+		edu.accountId,edu.corpId, edu.nameZH, edu.nameEN, edu.description, edu.deleted, edu.status, edu.remark1, edu.remark2, 
+		edu.createBy, edu.createDate, edu.modifyBy, edu.modifyDate
+	</sql>  	 	
+	
+	<select id="countEducationVOsByCondition" parameterType="education" resultType="int">
+		select count(*) 
+		from HRO_MGT_Education
+		where deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId =='' ">
+   			AND corpId IS NULL
+  		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+	
+	<select id="getEducationVOsByCondition" parameterType="education" resultMap="result">
+		select edu.educationId, <include refid="educationColumns-for-join"/>,
+		CASE WHEN COUNT(emp.employeeId) !=0 THEN 1 ELSE 2 END AS extended  
+		from HRO_MGT_Education edu LEFT JOIN hro_biz_employee emp on emp.highestEducation = edu.educationId and emp.deleted = 1 
+		where edu.deleted = 1 AND edu.accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (edu.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId =='' ">
+   			AND edu.corpId IS NULL
+  		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND edu.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND edu.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (edu.status = #{status} or 0 = #{status})
+		</if>
+		GROUP BY edu.educationId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+  	
+  	<select id="getEducationVOByEducationId" parameterType="int" resultMap="result">
+  		select educationId, <include refid="educationColumns"/>
+  		from HRO_MGT_Education
+  		where educationId = #{value}
+  	</select>
+  	
+  	<insert id="insertEducation" parameterType="education" useGeneratedKeys="true" keyProperty="educationId">
+  		insert into HRO_MGT_Education(<include refid="educationColumns"/>)
+  		values(#{accountId},#{corpId}, #{nameZH}, #{nameEN}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, 
+  			#{modifyDate}) 	
+  	</insert>
+  	
+  	<update id="updateEducation" parameterType="education">
+  		update HRO_MGT_Education set nameZH = #{nameZH}, nameEN = #{nameEN}, description = #{description}, deleted = #{deleted}, status = #{status}, 
+  			remark1 = #{remark1}, remark2 = #{remark2}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, 
+  			modifyDate = #{modifyDate}
+  		where educationId = #{educationId}
+  	</update>
+  	
+  	<delete id="deleteEducation" parameterType="int">
+  		delete from HRO_MGT_Education where educationId = #{value}
+  	</delete>
+  	
+  	<select id="getEducationVOsByAccountId" parameterType="int" resultMap="result">
+  		select educationId, <include refid="educationColumns"/>
+  		from HRO_MGT_Education
+  		where deleted = 1 AND status = 1 AND accountId = #{value}
+  	</select>
+  	
+</mapper>

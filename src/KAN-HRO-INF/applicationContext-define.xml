@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+           http://www.springframework.org/schema/aop   
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
+           http://www.springframework.org/schema/tx  
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- Dao initialization -->
+	<bean id="tableDao" class="com.kan.base.dao.mybatis.impl.define.TableDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="columnDao" class="com.kan.base.dao.mybatis.impl.define.ColumnDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="dbColumnUtilDao" class="com.kan.base.dao.mybatis.impl.define.DBColumnUtilDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="columnGroupDao" class="com.kan.base.dao.mybatis.impl.define.ColumnGroupDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="optionHeaderDao" class="com.kan.base.dao.mybatis.impl.define.OptionHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="optionDetailDao" class="com.kan.base.dao.mybatis.impl.define.OptionDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="searchHeaderDao" class="com.kan.base.dao.mybatis.impl.define.SearchHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="searchDetailDao" class="com.kan.base.dao.mybatis.impl.define.SearchDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="listHeaderDao" class="com.kan.base.dao.mybatis.impl.define.ListHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="listDetailDao" class="com.kan.base.dao.mybatis.impl.define.ListDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="reportHeaderDao" class="com.kan.base.dao.mybatis.impl.define.ReportHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="reportDetailDao" class="com.kan.base.dao.mybatis.impl.define.ReportDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="reportSearchDetailDao" class="com.kan.base.dao.mybatis.impl.define.ReportSearchDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="importHeaderDao" class="com.kan.base.dao.mybatis.impl.define.ImportHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="importDetailDao" class="com.kan.base.dao.mybatis.impl.define.ImportDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="managerHeaderDao" class="com.kan.base.dao.mybatis.impl.define.ManagerHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="managerDetailDao" class="com.kan.base.dao.mybatis.impl.define.ManagerDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="mappingHeaderDao" class="com.kan.base.dao.mybatis.impl.define.MappingHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="mappingDetailDao" class="com.kan.base.dao.mybatis.impl.define.MappingDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="bankTemplateHeaderDao" class="com.kan.base.dao.mybatis.impl.define.BankTemplateHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="bankTemplateDetailDao" class="com.kan.base.dao.mybatis.impl.define.BankTemplateDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="taxTemplateHeaderDao" class="com.kan.base.dao.mybatis.impl.define.TaxTemplateHeaderDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="taxTemplateDetailDao" class="com.kan.base.dao.mybatis.impl.define.TaxTemplateDetailDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<bean id="tableRelationDao" class="com.kan.base.dao.mybatis.impl.define.TableRelationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<bean id="reportRelationDao" class="com.kan.base.dao.mybatis.impl.define.ReportRelationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<!-- Service initialization -->
+	<bean id="tableService" class="com.kan.base.service.impl.define.TableServiceImpl">
+		<property name="dao" ref="tableDao"/>
+		<property name="columnDao" ref="columnDao"/>
+		<property name="columnGroupDao" ref="columnGroupDao"/>
+		<property name="searchHeaderDao" ref="searchHeaderDao"/>
+		<property name="searchDetailDao" ref="searchDetailDao"/>
+		<property name="listHeaderDao" ref="listHeaderDao"/>
+		<property name="listDetailDao" ref="listDetailDao"/>
+		<property name="reportHeaderDao" ref="reportHeaderDao"/>
+		<property name="reportDetailDao" ref="reportDetailDao"/>
+		<property name="tableRelationDao" ref="tableRelationDao"/>
+		<property name="reportRelationDao" ref="reportRelationDao"/>
+		<property name="reportSearchDetailDao" ref="reportSearchDetailDao"/>
+		<property name="managerHeaderService" ref="managerHeaderService"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="tableRelationService" class="com.kan.base.service.impl.define.TableRelationServiceImpl">
+		<property name="dao" ref="tableRelationDao" />
+		<property name="tableDao" ref="tableDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="columnService" class="com.kan.base.service.impl.define.ColumnServiceImpl">
+		<property name="dao" ref="columnDao"/>
+		<property name="searchDetailDao" ref="searchDetailDao"/>
+		<property name="listDetailDao" ref="listDetailDao"/>
+		<property name="reportDetailDao" ref="reportDetailDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="dbColumnUtilService" class="com.kan.base.service.impl.define.DBColumnUtilServiceImpl">
+		<property name="dao" ref="dbColumnUtilDao"/>
+	</bean>
+	
+	<bean id="columnGroupService" class="com.kan.base.service.impl.define.ColumnGroupServiceImpl">
+		<property name="dao" ref="columnGroupDao"/>
+		<property name="columnDao" ref="columnDao"/>
+		<property name="searchDetailDao" ref="searchDetailDao"/>
+		<property name="listDetailDao" ref="listDetailDao"/>
+		<property name="reportDetailDao" ref="reportDetailDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="optionHeaderService" class="com.kan.base.service.impl.define.OptionHeaderServiceImpl">
+		<property name="dao" ref="optionHeaderDao"/>
+		<property name="optionDetailDao" ref="optionDetailDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="optionDetailService" class="com.kan.base.service.impl.define.OptionDetailServiceImpl">
+		<property name="dao" ref="optionDetailDao"/>
+	</bean>
+	
+	<bean id="searchHeaderService" class="com.kan.base.service.impl.define.SearchHeaderServiceImpl">
+		<property name="dao" ref="searchHeaderDao"/>
+		<property name="searchDetailDao" ref="searchDetailDao"/>
+		<property name="listHeaderDao" ref="listHeaderDao"/>
+		<property name="listDetailDao" ref="listDetailDao"/>
+		<property name="reportHeaderDao" ref="reportHeaderDao"/>
+		<property name="reportDetailDao" ref="reportDetailDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="searchDetailService" class="com.kan.base.service.impl.define.SearchDetailServiceImpl">
+		<property name="dao" ref="searchDetailDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="listHeaderService" class="com.kan.base.service.impl.define.ListHeaderServiceImpl">
+		<property name="dao" ref="listHeaderDao"/>
+		<property name="listDetailDao" ref="listDetailDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="listDetailService" class="com.kan.base.service.impl.define.ListDetailServiceImpl">
+		<property name="dao" ref="listDetailDao"/>
+	</bean>
+	
+	<bean id="reportHeaderService" class="com.kan.base.service.impl.define.ReportHeaderServiceImpl">
+		<property name="dao" ref="reportHeaderDao"/>
+		<property name="reportDetailDao" ref="reportDetailDao"/>
+		<property name="reportSearchDetailDao" ref="reportSearchDetailDao"/>
+		<property name="reportRelationDao" ref="reportRelationDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="reportDetailService" class="com.kan.base.service.impl.define.ReportDetailServiceImpl">
+		<property name="dao" ref="reportDetailDao"/>
+		<property name="reportHeaderDao" ref="reportHeaderDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="reportSearchDetailService" class="com.kan.base.service.impl.define.ReportSearchDetailServiceImpl">
+		<property name="dao" ref="reportSearchDetailDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="importHeaderService" class="com.kan.base.service.impl.define.ImportHeaderServiceImpl">
+		<property name="dao" ref="importHeaderDao"/>
+		<property name="importDetailDao" ref="importDetailDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="importDetailService" class="com.kan.base.service.impl.define.ImportDetailServiceImpl">
+		<property name="dao" ref="importDetailDao"/>
+	</bean>
+	
+	<bean id="managerHeaderService" class="com.kan.base.service.impl.define.ManagerHeaderServiceImpl">
+		<property name="dao" ref="managerHeaderDao"/>
+		<property name="managerDetailDao" ref="managerDetailDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="managerDetailService" class="com.kan.base.service.impl.define.ManagerDetailServiceImpl">
+		<property name="dao" ref="managerDetailDao"/>
+	</bean>
+	
+	<bean id="mappingHeaderService" class="com.kan.base.service.impl.define.MappingHeaderServiceImpl">
+		<property name="dao" ref="mappingHeaderDao"/>
+		<property name="mappingDetailDao" ref="mappingDetailDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="mappingDetailService" class="com.kan.base.service.impl.define.MappingDetailServiceImpl">
+		<property name="dao" ref="mappingDetailDao"/>
+	</bean>
+	
+	<bean id="bankTemplateHeaderService" class="com.kan.base.service.impl.define.BankTemplateHeaderServiceImpl">
+		<property name="dao" ref="bankTemplateHeaderDao"/>
+		<property name="bankTemplateDetailDao" ref="bankTemplateDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="bankTemplateDetailService" class="com.kan.base.service.impl.define.BankTemplateDetailServiceImpl">
+		<property name="dao" ref="bankTemplateDetailDao" />
+	</bean>
+	
+	<bean id="taxTemplateHeaderService" class="com.kan.base.service.impl.define.TaxTemplateHeaderServiceImpl">
+		<property name="dao" ref="taxTemplateHeaderDao"/>
+		<property name="taxTemplateDetailDao" ref="taxTemplateDetailDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="taxTemplateDetailService" class="com.kan.base.service.impl.define.TaxTemplateDetailServiceImpl">
+		<property name="dao" ref="taxTemplateDetailDao" />
+	</bean>
+</beans>  

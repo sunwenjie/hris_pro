@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.message.MessageMailVO">
+
+	<resultMap id="result" type="com.kan.base.domain.message.MessageMailVO">
+		<result property="mailId" column="mailId" />
+		<result property="systemId" column="systemId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="regularId" column="regularId" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="reception" column="reception" />
+		<result property="contentType" column="contentType" />
+		<result property="templateId" column="templateId" />
+		<result property="showName" column="showName" />
+		<result property="sentAs" column="sentAs" />
+		<result property="smtpHost" column="smtpHost" />
+		<result property="smtpPort" column="smtpPort" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="smtpAuthType" column="smtpAuthType" />
+		<result property="lastSendingTime" column="lastSendingTime" />
+		<result property="sendingTimes" column="sendingTimes" />
+		<result property="sentTime" column="sentTime" />
+		<result property="sendType" column="sendType" />
+		<result property="toSendTime" column="toSendTime" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- for app -->
+		<result property="startDateTime" column="startDateTime" />
+		<result property="endDateTime" column="endDateTime" />
+		<result property="repeatType" column="repeatType" />
+		<result property="period" column="period" />
+		<result property="additionalPeriod" column="additionalPeriod" />
+		<result property="weekPeriod" column="weekPeriod" />
+	</resultMap>
+  	
+  	<sql id="messageMailColumns"> 
+  		systemId,accountId,corpId,regularId,title, content, contentType,templateId, reception, showName, sentAs, smtpHost, smtpPort, username, password, smtpAuthType, lastSendingTime, 
+  		sendingTimes,sentTime,sendType,toSendTime,deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+  	<sql id="messageMailColumns-for-join"> 
+  		m.systemId,m.accountId,m.corpId,m.regularId,m.title, m.content, m.contentType,m.templateId, m.reception, m.showName, m.sentAs, m.smtpHost, m.smtpPort, 
+  		m.username, m.password, m.smtpAuthType, m.lastSendingTime, m.sendingTimes,m.sentTime,m.sendType,m.toSendTime,m.deleted, m.status, m.remark1, 
+  		m.remark2, m.createBy, m.createDate, m.modifyBy, m.modifyDate,r.startDateTime,r.endDateTime,r.repeatType,r.period,r.additionalPeriod,r.weekPeriod
+	</sql>
+	
+	<select id="countMessageMailVOsByCondition" parameterType="messageMail" resultType="int">
+		select count(0) 
+		from HRO_Message_Mail
+		where deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != '' ">
+			AND corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == '' ">
+			AND corpId is null
+		</if>
+		<if test="title != null and title != ''">
+			AND title like CONCAT('%', '${title}', '%') 
+		</if>
+		<if test="contentType != null and contentType != ''">
+			AND (contentType = #{contentType} or 0 = #{contentType}) 
+		</if>
+		<if test="templateId != null and templateId != ''">
+			AND (templateId = #{templateId} or 0 = #{templateId}) 
+		</if>
+		<if test="reception != null and reception != ''">
+			AND reception like CONCAT('%', '${reception}', '%') 
+		</if>
+		<if test="showName != null and showName != ''">
+			AND showName like CONCAT('%', '${showName}', '%') 
+		</if>
+		<if test="sentAs != null and sentAs != ''">
+			AND sentAs like CONCAT('%', '${sentAs}', '%') 
+		</if>
+		<if test="smtpHost != null and smtpHost != ''">
+			AND (smtpHost = #{smtpHost} or 0 = #{smtpHost}) 
+		</if>
+		<if test="smtpPort != null and smtpPort != ''">
+			AND (smtpPort = #{smtpPort} or 0 = #{smtpPort}) 
+		</if>
+		<if test="username != null and username != ''">
+			AND (username = #{username} or 0 = #{username}) 
+		</if>
+		<if test="smtpAuthType != null and smtpAuthType != ''">
+			AND (smtpAuthType = #{smtpAuthType} or 0 = #{smtpAuthType}) 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sendType != null and sendType != ''">
+			AND (status = #{sendType} or 0 = #{sendType})
+		</if>
+		<if test="beforeCreateDate != null and beforeCreateDate != ''">
+			<![CDATA[
+				AND createDate <= #{beforeCreateDate}
+			]]>
+		</if>
+		<if test="afterCreateDate != null and afterCreateDate != ''">
+			<![CDATA[
+				AND createDate >= #{afterCreateDate}
+			]]>
+		</if>
+  	</select>
+  	
+	<select id="getMessageMailVOsByCondition" parameterType="messageMail" resultMap="result">
+		select mailId, <include refid="messageMailColumns"/>  
+		from HRO_Message_Mail 
+		where deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != '' ">
+			AND corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == '' ">
+			AND corpId is null
+		</if>
+		<if test="title != null and title != '' ">
+			AND title like CONCAT('%', '${title}', '%') 
+		</if>
+		<if test="contentType != null and contentType != ''">
+			AND (contentType = #{contentType} or 0 = #{contentType}) 
+		</if>
+		<if test="templateId != null and templateId != ''">
+			AND (templateId = #{templateId} or 0 = #{templateId}) 
+		</if>
+		<if test="reception != null and reception != ''">
+			AND reception like CONCAT('%', '${reception}', '%') 
+		</if>
+		<if test="showName != null and showName != ''">
+			AND showName like CONCAT('%', '${showName}', '%') 
+		</if>
+		<if test="sentAs != null and sentAs != ''">
+			AND sentAs like CONCAT('%', '${sentAs}', '%') 
+		</if>
+		<if test="smtpHost != null and smtpHost != ''">
+			AND (smtpHost = #{smtpHost} or 0 = #{smtpHost}) 
+		</if>
+		<if test="smtpPort != null and smtpPort != ''">
+			AND (smtpPort = #{smtpPort} or 0 = #{smtpPort}) 
+		</if>
+		<if test="username != null and username != ''">
+			AND (username = #{username} or 0 = #{username}) 
+		</if>
+		<if test="smtpAuthType != null and smtpAuthType != ''">
+			AND (smtpAuthType = #{smtpAuthType} or 0 = #{smtpAuthType}) 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sendType != null and sendType != ''">
+			AND (status = #{sendType} or 0 = #{sendType})
+		</if>
+		<if test="beforeCreateDate != null and beforeCreateDate != ''">
+			<![CDATA[
+				AND createDate <= #{beforeCreateDate}
+			]]>
+		</if>
+		<if test="afterCreateDate != null and afterCreateDate != ''">
+			<![CDATA[
+				AND createDate >= #{afterCreateDate}
+			]]>
+		</if>
+		ORDER BY createDate DESC
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			, ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+	
+  	<select id="getMessageMailVOByMailId" parameterType="int" resultMap="result">
+		select m.mailId, <include refid="messageMailColumns-for-join"/>  
+		from HRO_Message_Mail m LEFT JOIN hro_message_regular r on m.regularId = r.regularId and r.deleted = 1
+		where mailId = #{value}
+  	</select>
+  	
+  	<select id="getNotSendMessageMailVO" parameterType="int" resultMap="result">
+		select mailId, <include refid="messageMailColumns"/>  
+		from HRO_Message_Mail 
+		where (status = 1 or status = -1) and deleted = 1
+		ORDER BY status desc , mailId desc
+		LIMIT 0,#{value}
+  	</select>
+  	
+	<update id="updateBatchMailToSending" parameterType="list">  
+        update HRO_Message_Mail   set   
+            status=2
+        where mailId in   
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")" >  
+            #{item}  
+        </foreach>  
+	</update>  
+  	
+	<update id="updateMessageMail" parameterType="messageMail">
+		update HRO_Message_Mail set regularId=#{regularId}, title = #{title}, content = #{content}, contentType = #{contentType},templateId = #{templateId},
+			reception = #{reception},showName = #{showName}, sentAs = #{sentAs}, smtpHost = #{smtpHost}, smtpPort = #{smtpPort}, username = #{username}, password = #{password}, smtpAuthType = #{smtpAuthType}, 
+			smtpAuthType = #{smtpAuthType},lastSendingTime = #{lastSendingTime},sendingTimes = #{sendingTimes},sentTime = #{sentTime},sendType=#{sendType},
+			toSendTime=#{toSendTime},deleted = #{deleted}, status = #{status},  remark1 = #{remark1}, remark2 = #{remark2}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where mailId = #{mailId} 
+  	</update>
+  	
+  	<insert id="insertMessageMail" parameterType="messageMail" useGeneratedKeys="true" keyProperty="mailId">
+		insert into HRO_Message_Mail(<include refid="messageMailColumns"/>) 
+		values(#{systemId},#{accountId}, #{corpId},#{regularId},#{title}, #{content}, #{contentType},#{templateId}, #{reception}, #{showName}, #{sentAs}, #{smtpHost}, #{smtpPort}, #{username}, #{password}, #{smtpAuthType}, #{lastSendingTime}, 
+  		#{sendingTimes},#{sentTime},#{sendType},#{toSendTime},1, 1, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+  	
+  	<delete id="deleteMessageMail" parameterType="int">
+		delete from  HRO_Message_Mail  where mailId = #{mailId}
+  	</delete>
+  	
+  	<select id="getDraftBoxMessageMail" parameterType="int" resultMap="result">
+		SELECT m.mailId, <include refid="messageMailColumns-for-join"/>  
+			FROM HRO_Message_Mail m LEFT JOIN hro_message_regular r on m.regularId = r.regularId and r.deleted = 1
+		WHERE m.deleted = 1 
+			AND m.status = 5
+			<![CDATA[
+			AND m.toSendTime < NOW()
+			]]>
+			LIMIT 0,#{value}
+  	</select>
+  	
+  	<update id="updateBatchMail2ToSend" parameterType="list">  
+        update HRO_Message_Mail   set   
+            status=1
+        where mailId in   
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")" >  
+            #{item}  
+        </foreach>  
+	</update>
+	
+	<insert id="insertDraftBoxMessageMail" parameterType="messageMail" useGeneratedKeys="true" keyProperty="configurationId">
+		insert into HRO_Message_Mail(<include refid="messageMailColumns"/>) 
+		values(#{systemId},#{accountId}, #{corpId},#{regularId},#{title}, #{content}, #{contentType},#{templateId}, #{reception}, #{showName}, #{sentAs}, #{smtpHost}, #{smtpPort}, #{username}, #{password}, #{smtpAuthType}, #{lastSendingTime}, 
+  		#{sendingTimes},#{sentTime},#{sendType},#{toSendTime},1, 5, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+	
+</mapper>

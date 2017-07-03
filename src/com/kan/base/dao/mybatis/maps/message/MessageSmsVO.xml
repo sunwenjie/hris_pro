@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.message.MessageSmsVO">
+
+	<resultMap id="result" type="com.kan.base.domain.message.MessageSmsVO">
+		<result property="smsId" column="smsId" />
+		<result property="systemId" column="systemId"/>
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="reception" column="reception" />
+		<result property="templateId" column="templateId" />
+		<result property="content" column="content" />
+		<result property="lastSendingTime" column="lastSendingTime" />
+		<result property="sendingTimes" column="sendingTimes" />
+		<result property="sentTime" column="sentTime" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+  	
+  	<sql id="messageSmsColumns"> 
+  		systemId,accountId,corpId, reception,templateId, content,  lastSendingTime, 
+  		sendingTimes,sentTime,deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<select id="countMessageSmsVOsByCondition" parameterType="messageSms" resultType="int">
+		select count(0) 
+		from HRO_Message_Sms
+		where deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != '' ">
+			AND corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == '' ">
+			AND corpId is null
+		</if>
+		<if test="reception != null and reception != ''">
+			AND reception like CONCAT('%', '${reception}', '%') 
+		</if>
+		<if test="content != null and content != ''">
+			AND content like CONCAT('%', '${content}', '%') 
+		</if>
+		<if test="beforeCreateDate != null and beforeCreateDate != ''">
+			<![CDATA[
+				AND createDate <= #{beforeCreateDate}
+			]]>
+		</if>
+		<if test="afterCreateDate != null and afterCreateDate != ''">
+			<![CDATA[
+				AND createDate >= #{afterCreateDate}
+			]]>
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+  	
+	<select id="getMessageSmsVOsByCondition" parameterType="messageSms" resultMap="result">
+		select smsId, systemId,accountId, reception, CASE WHEN  LENGTH(content)>20 THEN CONCAT(SUBSTRING( content,1,20),'...') ELSE content END content, 
+		lastSendingTime, sendingTimes,sentTime,deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate 
+		from HRO_Message_Sms 
+		where deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != '' ">
+			AND corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == '' ">
+			AND corpId is null
+		</if>
+		<if test="reception != null and reception != ''">
+			AND reception like CONCAT('%', '${reception}', '%') 
+		</if>
+		<if test="content != null and content != ''">
+			AND content like CONCAT('%', '${content}', '%') 
+		</if>
+		<if test="beforeCreateDate != null and beforeCreateDate != ''">
+			<![CDATA[
+				AND createDate <= #{beforeCreateDate}
+			]]>
+		</if>
+		<if test="afterCreateDate != null and afterCreateDate != ''">
+			<![CDATA[
+				AND createDate >= #{afterCreateDate}
+			]]>
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		ORDER BY createDate DESC 
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			,${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+	
+  	<select id="getMessageSmsVOBySmsId" parameterType="int" resultMap="result">
+		select smsId, <include refid="messageSmsColumns"/>  
+		from HRO_Message_Sms 
+		where smsId = #{value}
+  	</select>
+  	
+  	<select id="getNotSendMessageSmsVO" parameterType="int" resultMap="result">
+		select smsId, <include refid="messageSmsColumns"/>  
+		from HRO_Message_Sms 
+		where status = 1 and deleted = 1 LIMIT 0,#{value}
+  	</select>
+  	
+	<update id="updateBatchSmsToSending" parameterType="list">  
+        update HRO_Message_Sms   set   
+            status=2
+        where smsId in   
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")" >  
+            #{item}  
+        </foreach>  
+	</update> 
+  	
+	<update id="updateMessageSms" parameterType="messageSms">
+		update HRO_Message_Sms set  reception = #{reception}, templateId=#{templateId},content = #{content}, 
+			lastSendingTime = #{lastSendingTime},sendingTimes = #{sendingTimes},sentTime = #{sentTime},
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where smsId = #{smsId} 
+  	</update>
+  	
+  	<insert id="insertMessageSms" parameterType="messageSms" useGeneratedKeys="true" keyProperty="smsId">
+		insert into HRO_Message_Sms(<include refid="messageSmsColumns"/>) 
+		values(#{systemId},#{accountId},#{corpId}, #{reception},#{templateId}, #{content}, #{lastSendingTime}, 
+  		#{sendingTimes},#{sentTime},1, 1, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+  	
+  	<delete id="deleteMessageSms" parameterType="int">
+		delete from  HRO_Message_Sms set  where smsId = #{value}
+  	</delete>
+	
+</mapper>

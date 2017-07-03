@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.attendance.OTHeaderVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.attendance.OTHeaderVO">
+		<result property="otHeaderId" column="otHeaderId" />
+		<result property="accountId" column="accountId" />
+		<result property="clientId" column="clientId" />
+		<result property="corpId" column="corpId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="contractId" column="contractId" />
+		<result property="itemId" column="itemId" />
+		<result property="estimateStartDate" column="estimateStartDate" />
+		<result property="estimateEndDate" column="estimateEndDate" />
+		<result property="actualStartDate" column="actualStartDate" />
+		<result property="actualEndDate" column="actualEndDate" />
+		<result property="estimateHours" column="estimateHours" />
+		<result property="actualHours" column="actualHours" />
+		<result property="unread" column="unread" />
+		<result property="dataFrom" column="dataFrom" />
+		<result property="specialOT" column="specialOT" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />	
+		<!-- 雇员和客户信息 -->
+		<result property="employeeNo" column="employeeNo" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="certificateNumber" column="certificateNumber" />	
+		<result property="number" column="number" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />		
+	</resultMap>
+	
+	<sql id="otHeaderColumns">
+		accountId,clientId, corpId, employeeId, contractId, itemId, estimateStartDate, estimateEndDate, actualStartDate, actualEndDate, estimateHours, 
+		actualHours, unread, dataFrom,specialOT,description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<sql id="otHeaderColumns-for-join">
+		a.accountId,a.clientId, a.corpId, a.employeeId, a.contractId, a.itemId, a.estimateStartDate, a.estimateEndDate, a.actualStartDate, a.actualEndDate, 
+		a.estimateHours, a.actualHours, a.unread, a.dataFrom,a.specialOT, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, 
+		a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countOTHeaderVOsByCondition" parameterType="otHeader" resultType="int">
+		SELECT COUNT(1)
+		FROM Hro_Biz_Attendance_OT_Header a 
+			LEFT JOIN Hro_Biz_Employee b ON a.employeeId = b.employeeId
+			LEFT JOIN hro_biz_employee_contract hbizemp ON a.contractId = hbizemp.contractId and hbizemp.deleted = 1
+			LEFT JOIN Hro_Biz_Client c ON a.clientId = c.clientId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="employeeId != null and employeeId != '' and createBy != null and createBy != '' and modifyBy != null and modifyBy != ''">
+			AND (a.employeeId = #{employeeId} OR a.createBy = #{createBy} OR a.modifyBy = #{modifyBy})
+		</if>
+		<if test="employeeId != null and employeeId != '' and (createBy == null or createBy == '') and (modifyBy == null or modifyBy == '')">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND b.employeeNo like CONCAT('%', '${employeeNo}', '%') 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND b.nameZH like CONCAT('%', '${employeeNameZH}', '%') 
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND b.nameEN like CONCAT('%', '${employeeNameEN}', '%') 
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber like CONCAT('%', '${certificateNumber}', '%') 
+		</if>
+		<if test="itemId != null and itemId != ''">
+			AND (a.itemId = #{itemId} or 0 = #{itemId})
+		</if>
+		<if test="number != null and number != ''">
+			AND c.number like CONCAT('%', '${number}', '%') 
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND c.nameZH like CONCAT('%', '${clientNameZH}', '%') 
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND c.nameEN like CONCAT('%', '${clientNameEN}', '%') 
+		</if>
+		<if test="actualStartDate != null and actualStartDate != '' and actualEndDate != null and actualEndDate != ''">
+			AND ( ( a.actualStartDate between date_format('${actualStartDate}', '%Y-%m-%d %T') AND date_format('${actualEndDate}', '%Y-%m-%d %T') ) 
+				OR ( a.actualEndDate between date_format('${actualStartDate}', '%Y-%m-%d %T') AND date_format('${actualEndDate}', '%Y-%m-%d %T') ) )
+		</if>
+		<if test="estimateStartDate != null and estimateStartDate != '' and estimateEndDate != null and estimateEndDate != ''">
+			AND ( ( a.estimateStartDate between date_format('${estimateStartDate}', '%Y-%m-%d %T') AND date_format('${estimateEndDate}', '%Y-%m-%d %T') ) 
+				OR ( a.estimateEndDate between date_format('${estimateStartDate}', '%Y-%m-%d %T') AND date_format('${estimateEndDate}', '%Y-%m-%d %T') ) )
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="specialOT != null and specialOT != ''">
+			AND (a.specialOT = #{specialOT} or 0 = #{specialOT}
+			<if test="specialOT == 2">
+			or a.specialOT is null
+			</if>
+			)
+		</if>
+		
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR b._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR b.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+	</select>
+
+	<select id="getOTHeaderVOsByCondition" parameterType="otHeader" resultMap="result">
+		SELECT a.otHeaderId, <include refid="otHeaderColumns-for-join" />, b.nameZH AS employeeNameZH, b.nameEN AS employeeNameEN, b.certificateNumber,
+			c.nameZH AS clientNameZH, c.nameEN AS clientNameEN, MAX(h.workflowId) AS workflowId
+		FROM Hro_Biz_Attendance_OT_Header a LEFT JOIN Hro_Biz_Employee b ON a.employeeId = b.employeeId
+			LEFT JOIN hro_biz_employee_contract hbizemp ON a.contractId = hbizemp.contractId and hbizemp.deleted = 1
+			LEFT JOIN Hro_Biz_Client c ON a.clientId = c.clientId
+			LEFT JOIN hro_history h ON ( (a.clientId IS null AND h.accessAction = 'HRO_BIZ_ATTENDANCE_OT_HEADER') OR (a.clientId IS not null AND h.accessAction = 'HRO_BIZ_ATTENDANCE_OT_HEADER') ) 
+			AND h.objectType = 2 AND a.otHeaderId = h.objectId 
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="employeeId != null and employeeId != '' and createBy != null and createBy != '' and modifyBy != null and modifyBy != ''">
+			AND (a.employeeId = #{employeeId} OR a.createBy = #{createBy} OR a.modifyBy = #{modifyBy})
+		</if>
+		<if test="employeeId != null and employeeId != '' and (createBy == null or createBy == '') and (modifyBy == null or modifyBy == '')">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND b.employeeNo like CONCAT('%', '${employeeNo}', '%') 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND b.nameZH like CONCAT('%', '${employeeNameZH}', '%') 
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND b.nameEN like CONCAT('%', '${employeeNameEN}', '%') 
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber like CONCAT('%', '${certificateNumber}', '%') 
+		</if>
+		<if test="itemId != null and itemId != ''">
+			AND (a.itemId = #{itemId} or 0 = #{itemId})
+		</if>
+		<if test="number != null and number != ''">
+			AND c.number like CONCAT('%', '${number}', '%') 
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND c.nameZH like CONCAT('%', '${clientNameZH}', '%') 
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND c.nameEN like CONCAT('%', '${clientNameEN}', '%') 
+		</if>
+		<if test="actualStartDate != null and actualStartDate != '' and actualEndDate != null and actualEndDate != ''">
+			AND ( ( a.actualStartDate between date_format('${actualStartDate}', '%Y-%m-%d %T') AND date_format('${actualEndDate}', '%Y-%m-%d %T') ) 
+				OR ( a.actualEndDate between date_format('${actualStartDate}', '%Y-%m-%d %T') AND date_format('${actualEndDate}', '%Y-%m-%d %T') ) )
+		</if>
+		<if test="estimateStartDate != null and estimateStartDate != '' and estimateEndDate != null and estimateEndDate != ''">
+			AND ( ( a.estimateStartDate between date_format('${estimateStartDate}', '%Y-%m-%d %T') AND date_format('${estimateEndDate}', '%Y-%m-%d %T') ) 
+				OR ( a.estimateEndDate between date_format('${estimateStartDate}', '%Y-%m-%d %T') AND date_format('${estimateEndDate}', '%Y-%m-%d %T') ) )
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		
+		<if test="specialOT != null and specialOT != ''">
+			AND (a.specialOT = #{specialOT} or 0 = #{specialOT}
+			<if test="specialOT == 2">
+			or a.specialOT is null
+			</if>
+			)
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR b._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR b.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		GROUP BY a.otHeaderId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<!-- 导出OTDetail Add by siuvan@2014-09-12 -->
+	<select id="exportOTDetailByCondition" parameterType="otHeader" resultMap="result">
+		SELECT 
+			d.otHeaderId AS otHeaderId, d.itemId AS itemId,
+			d.estimateStartDate AS estimateStartDate, d.estimateEndDate AS estimateEndDate,
+			d.actualStartDate AS actualStartDate, d.actualEndDate AS actualEndDate,
+			d.estimateHours AS estimateHours, d.actualHours AS actualHours,
+			h.employeeId AS employeeId, h.contractId AS contractId,
+			e.employeeNo AS employeeNo, e.nameZH AS employeeNameZH,
+			e.nameEN AS employeeNameEN, e.certificateNumber AS certificateNumber,
+			c.number as number, c.nameZH AS clientNameZH, c.nameEN AS clientNameEN,
+			d.status as status, h.modifyBy, h.modifyDate,h.specialOT  
+		FROM hro_biz_attendance_ot_detail d
+			LEFT JOIN hro_biz_attendance_ot_header h ON d.otHeaderId = h.otHeaderId
+			LEFT JOIN hro_biz_employee e ON h.employeeId = e.employeeId
+			LEFT JOIN hro_biz_client c ON h.clientId = c.clientId 
+			LEFT JOIN HRO_BIZ_Employee_Contract hbec on hbec.contractId = h.contractId AND hbec.deleted = 1
+		WHERE h.deleted = 1 AND h.accountId = #{accountId}
+		<if test="employeeId != null and employeeId != '' and createBy != null and createBy != '' and modifyBy != null and modifyBy != ''">
+			AND (h.employeeId = #{employeeId} OR h.createBy = #{createBy} OR h.modifyBy = #{modifyBy})
+		</if>
+		<if test="employeeId != null and employeeId != '' and (createBy == null or createBy == '') and (modifyBy == null or modifyBy == '')">
+			AND h.employeeId = #{employeeId} 
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (h.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND h.corpId IS NULL
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND h.clientId = #{clientId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND h.contractId = #{contractId}
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND e.employeeNo like CONCAT('%', '${employeeNo}', '%') 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND e.nameZH like CONCAT('%', '${employeeNameZH}', '%') 
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND e.nameEN like CONCAT('%', '${employeeNameEN}', '%') 
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND e.certificateNumber like CONCAT('%', '${certificateNumber}', '%') 
+		</if>
+		<if test="itemId != null and itemId != ''">
+			AND (d.itemId = #{itemId} or 0 = #{itemId})
+		</if>
+		<if test="number != null and number != ''">
+			AND c.number like CONCAT('%', '${number}', '%') 
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND c.nameZH like CONCAT('%', '${clientNameZH}', '%') 
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND c.nameEN like CONCAT('%', '${clientNameEN}', '%') 
+		</if>
+		<if test="actualStartDate != null and actualStartDate != '' and actualEndDate != null and actualEndDate != ''">
+			AND ( ( h.actualStartDate between date_format('${actualStartDate}', '%Y-%m-%d %T') AND date_format('${actualEndDate}', '%Y-%m-%d %T') ) 
+				OR ( h.actualEndDate between date_format('${actualStartDate}', '%Y-%m-%d %T') AND date_format('${actualEndDate}', '%Y-%m-%d %T') ) )
+		</if>
+		<if test="estimateStartDate != null and estimateStartDate != '' and estimateEndDate != null and estimateEndDate != ''">
+			AND ( ( h.estimateStartDate between date_format('${estimateStartDate}', '%Y-%m-%d %T') AND date_format('${estimateEndDate}', '%Y-%m-%d %T') ) 
+				OR ( h.estimateEndDate between date_format('${estimateStartDate}', '%Y-%m-%d %T') AND date_format('${estimateEndDate}', '%Y-%m-%d %T') ) )
+		</if>
+		<if test="status != null and status != ''">
+			AND (h.status = #{status} or 0 = #{status})
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbec.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbec.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR e._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR e.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbec.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getOTHeaderVOByOTHeaderId" parameterType="int" resultMap="result">
+		SELECT a.otHeaderId, <include refid="otHeaderColumns-for-join" />, b.nameZH as employeeNameZH, b.nameEN as employeeNameEN, b.employeeNo, b.certificateNumber, MAX(h.workflowId) AS workflowId
+		FROM Hro_Biz_Attendance_OT_Header a LEFT JOIN HRO_BIZ_Employee b on a.employeeId = b.employeeId
+		LEFT JOIN hro_history h ON ( (a.clientId IS null AND h.accessAction = 'HRO_BIZ_ATTENDANCE_OT_HEADER') OR (a.clientId IS not null AND h.accessAction = 'HRO_BIZ_ATTENDANCE_OT_HEADER') ) 
+			AND h.objectType = 2 AND a.otHeaderId = h.objectId 
+		WHERE a.otHeaderId = #{value}
+		GROUP BY a.otHeaderId
+	</select>
+
+	<insert id="insertOTHeader" parameterType="otHeader" useGeneratedKeys="true" keyProperty="otHeaderId">
+		INSERT INTO Hro_Biz_Attendance_OT_Header( <include refid="otHeaderColumns" /> )
+		VALUES(#{accountId},#{clientId},  #{corpId}, #{employeeId}, #{contractId}, #{itemId}, #{estimateStartDate}, #{estimateEndDate}, #{actualStartDate}, 
+			#{actualEndDate}, #{estimateHours}, #{actualHours}, #{unread}, #{dataFrom},#{specialOT}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, 
+			#{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+	
+	<update id="updateOTHeader" parameterType="otHeader">
+		UPDATE Hro_Biz_Attendance_OT_Header SET clientId = #{clientId}, employeeId = #{employeeId}, contractId = #{contractId}, itemId = #{itemId}, 
+			estimateStartDate = #{estimateStartDate}, estimateEndDate = #{estimateEndDate}, actualStartDate = #{actualStartDate}, 
+			actualEndDate = #{actualEndDate}, estimateHours = #{estimateHours}, actualHours = #{actualHours},unread = #{unread}, dataFrom = #{dataFrom}, specialOT=#{specialOT},description = #{description}, 
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, 
+			remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE otHeaderId = #{otHeaderId}
+  	</update>
+  	
+  	<delete id="deleteOTHeader" parameterType="int">
+  		DELETE FROM Hro_Biz_Attendance_OT_Header WHERE otHeaderId = #{value}
+  	</delete>
+  	
+  	<select id="count_OTUnread" parameterType="otHeader" resultType="int">
+  		SELECT count(0)
+  		FROM Hro_Biz_Attendance_OT_Header 
+  		WHERE deleted = 1  AND accountId = #{accountId}
+  		AND createBy = #{createBy}
+  		AND unread = 1
+  	</select>
+  	
+  	<select id="read_OT" parameterType="otHeader" resultType="int">
+  		update Hro_Biz_Attendance_OT_Header SET unread = 2 
+  		WHERE deleted = 1 AND unread = 1
+  		AND accountId = #{accountId} AND createBy = #{createBy}
+  	</select>
+  	
+  	<select id="getOTHeaderVOByOTImportHeaderId" parameterType="int" resultMap="result">
+		SELECT otHeaderId, <include refid="otHeaderColumns" />
+		FROM Hro_Biz_Attendance_OT_Header
+		WHERE remark4 = #{value}
+	</select>
+</mapper>

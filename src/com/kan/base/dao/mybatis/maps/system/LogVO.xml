@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.system.LogVO">
+	<resultMap id="result" type="com.kan.base.domain.system.LogVO">
+		<result property="id" column="id" />
+		<result property="type" column="type" />
+		<result property="module" column="module" />
+		<result property="content" column="content" />
+		<result property="ip" column="ip" />
+		<result property="operateTime" column="operateTime" />
+		<result property="operateBy" column="operateBy" />
+		<result property="pKey" column="pKey" />
+		<result property="remark" column="remark" />
+		<result property="employeeId" column="employeeId" />
+		<result property="changeType" column="changeType" />
+		<result property="changeReason" column="changeReason" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+	</resultMap>
+	
+	<sql id="logColumns"> 
+  		type, module, content, ip, operateTime, operateBy, pKey, remark, employeeId, changeType, changeReason, employeeNameZH, employeeNameEN
+	</sql>
+	
+	<sql id="logColumns-for_join"> 
+  		a.type, a.module, a.content, a.ip, a.operateTime, a.operateBy, a.pKey, a.remark, a.employeeId, a.changeType, a.changeReason, a.employeeNameZH, a.employeeNameEN
+	</sql>
+	
+  	<insert id="insertLog" parameterType="com.kan.base.domain.system.LogVO" useGeneratedKeys="true" keyProperty="id">
+		
+		INSERT INTO `hro_sys_log`
+					(`type`,
+					`module`,
+					`content`,
+					`ip`,
+					`operateTime`,
+					`operateBy`,
+					`pKey`,
+					`remark`,
+					`employeeId`,
+					`changeType`,
+					`changeReason`,
+					`employeeNameZH`,
+					`employeeNameEN`
+					)
+					VALUES
+					(#{type},
+					#{module},
+					#{content},
+					#{ip},
+					#{operateTime},
+					#{operateBy},
+					#{pKey},
+					#{remark},
+					#{employeeId},
+					#{changeType},
+					#{changeReason},
+					#{employeeNameZH},
+					#{employeeNameEN})
+			
+  	</insert>
+  	<select id="countLogVOsByCondition" parameterType="syslog" resultType="int">
+		SELECT COUNT( DISTINCT a.id) 
+		FROM hro_sys_log a 
+			LEFT JOIN hro_biz_employee b ON a.employeeId = b.employeeId AND b.deleted = 1
+			LEFT JOIN hro_biz_employee_contract c ON b.employeeId = c.employeeId AND c.deleted = 1
+		WHERE 1 = 1
+		<if test="operateTimeBegin != null and operateTimeBegin != '' and operateTimeEnd != null and operateTimeEnd != ''">
+			AND a.operateTime between #{operateTimeBegin} and #{operateTimeEnd}
+		</if>
+		<if test="operateTimeBegin != null and operateTimeBegin != '' and (operateTimeEnd == null or operateTimeEnd == '')">
+			<![CDATA[
+				AND  a.operateTime > #{operateTimeBegin}
+			]]>
+		</if>
+		<if test="(operateTimeBegin == null or operateTimeBegin == '') and operateTimeEnd != null and operateTimeEnd != ''">
+			<![CDATA[
+				AND  a.operateTime <= #{operateTimeEnd}
+			]]>
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND  a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND  a.employeeNameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND  a.employeeNameEN LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="changeReason != null and changeReason != '' and changeReason != 0">
+			AND  a.changeReason = #{changeReason}
+		</if>
+		<if test="typeArray != null and typeArray != ''">
+			AND  a.type in (${typeArray}) 
+		</if>
+		<if test="type != null and type != ''">
+			AND ( a.type = #{type} or 0 = #{type})
+		</if>
+		<if test="module != null and module != ''">
+			AND ( a.module = #{module} or '0' = #{module})
+		</if>
+		<if test="ip != null and ip != ''">
+			AND  a.ip = #{ip}
+		</if>
+		<if test="operateBy != null and operateBy != ''">
+			AND  a.operateBy LIKE CONCAT('%', '${operateBy}', '%')
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR a.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR b.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR b._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR b.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR c.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+  	</select>
+  	
+  	<select id="getLogVOsByCondition" parameterType="syslog" resultMap="result">
+		SELECT DISTINCT id,<include refid="logColumns-for_join"/>
+		FROM hro_sys_log a
+			LEFT JOIN hro_biz_employee b ON a.employeeId = b.employeeId AND b.deleted = 1
+			LEFT JOIN hro_biz_employee_contract c ON b.employeeId = c.employeeId AND c.deleted = 1
+		WHERE 1 = 1
+		<if test="operateTimeBegin != null and operateTimeBegin != '' and operateTimeEnd != null and operateTimeEnd != ''">
+			AND a.operateTime between #{operateTimeBegin} and #{operateTimeEnd}
+		</if>
+		<if test="operateTimeBegin != null and operateTimeBegin != '' and (operateTimeEnd == null or operateTimeEnd == '')">
+			<![CDATA[
+				AND  a.operateTime > #{operateTimeBegin}
+			]]>
+		</if>
+		<if test="(operateTimeBegin == null or operateTimeBegin == '') and operateTimeEnd != null and operateTimeEnd != ''">
+			<![CDATA[
+				AND  a.operateTime <= #{operateTimeEnd}
+			]]>
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND  a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND  a.employeeNameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND  a.employeeNameEN LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="changeReason != null and changeReason != '' and changeReason != 0">
+			AND  a.changeReason = #{changeReason}
+		</if>
+		<if test="typeArray != null and typeArray != ''">
+			AND  a.type in (${typeArray}) 
+		</if>
+		<if test="type != null and type != ''">
+			AND ( a.type = #{type} or 0 = #{type})
+		</if>
+		<if test="module != null and module != ''">
+			AND ( a.module = #{module} or '0' = #{module})
+		</if>
+		<if test="ip != null and ip != ''">
+			AND  a.ip = #{ip}
+		</if>
+		<if test="operateBy != null and operateBy != ''">
+			AND  a.operateBy LIKE CONCAT('%', '${operateBy}', '%')
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR a.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR b.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR b._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR b.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR c.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+  	
+  	<select id="getLogVOById" parameterType="syslog" resultMap="result">
+		SELECT id,<include refid="logColumns"/>
+		FROM hro_sys_log
+		WHERE id = #{value}
+  	</select>
+  	
+  	<select id="getLogModules" parameterType="int" resultMap="result">
+		SELECT distinct(module)
+		FROM hro_sys_log
+  	</select>
+  	
+  	<select id="getPreLog" parameterType="syslog" resultMap="result">
+		SELECT id,<include refid="logColumns"/>
+		FROM hro_sys_log
+		WHERE module=#{module} and pKey=#{pKey} 
+		<![CDATA[
+			and id <#{id}
+		]]>
+		ORDER BY id desc
+  	</select>
+  	
+	
+</mapper>

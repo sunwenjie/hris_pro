@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.management.EmployeeStatusVO">
+
+	<resultMap id="result" type="com.kan.base.domain.management.EmployeeStatusVO" >
+		<result property="employeeStatusId" column="employeeStatusId"/>
+		<result property="accountId" column="accountId"/>
+		<result property="corpId" column="corpId"/>
+		<result property="nameZH" column="nameZH"/>
+		<result property="nameEN" column="nameEN"/>
+		<result property="defaults" column="defaults"/>
+		<result property="description" column="description"/>
+		<result property="deleted" column="deleted"/>
+		<result property="status" column="status"/>
+		<result property="remark1" column="remark1"/>
+		<result property="remark2" column="remark2"/>
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+	
+	<sql id="employeeStatusColumns">
+		accountId,corpId, nameZH, nameEN,defaults, description, deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate
+	</sql>  	 	
+	
+	<select id="countEmployeeStatusVOsByCondition" parameterType="employeeStatus" resultType="int">
+		select count(*) 
+		from HRO_MGT_Employee_Status
+		where deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND corpId = #{corpId} 
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="defaults != null and defaults != ''">
+			AND defaults = #{defaults} 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+	
+	<select id="getEmployeeStatusVOsByCondition" parameterType="employeeStatus" resultMap="result">
+		select employeeStatusId, <include refid="employeeStatusColumns"/>  
+		from HRO_MGT_Employee_Status 
+		where deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND corpId = #{corpId} 
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="defaults != null and defaults != ''">
+			AND defaults = #{defaults} 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+  	
+  	<select id="getEmployeeStatusVOByEmployeeStatusId" parameterType="int" resultMap="result">
+  		select employeeStatusId, <include refid="employeeStatusColumns"/>
+  		from HRO_MGT_Employee_Status
+  		where employeeStatusId = #{value}
+  	</select>
+  	
+  	<insert id="insertEmployeeStatus" parameterType="employeeStatus" useGeneratedKeys="true" keyProperty="employeeStatusId">
+  		insert into HRO_MGT_Employee_Status(<include refid="employeeStatusColumns"/>)
+  		values(#{accountId},#{corpId}, #{nameZH}, #{nameEN},#{defaults}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, 
+  			#{modifyDate}) 	
+  	</insert>
+  	
+  	<update id="updateEmployeeStatus" parameterType="employeeStatus">
+  		update HRO_MGT_Employee_Status set nameZH = #{nameZH}, nameEN = #{nameEN},defaults = #{defaults}, description = #{description}, deleted = #{deleted}, status = #{status}, 
+  			remark1 = #{remark1}, remark2 = #{remark2}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, 
+  			modifyDate = #{modifyDate}
+  		where employeeStatusId = #{employeeStatusId}
+  	</update>
+  	
+  	<delete id="deleteEmployeeStatus" parameterType="int">
+  		delete from HRO_MGT_Employee_Status where employeeStatusId = #{value}
+  	</delete>
+  	
+  	<select id="getEmployeeStatusVOsByAccountId" parameterType="int" resultMap="result">
+  		select employeeStatusId, <include refid="employeeStatusColumns"/>
+  		from HRO_MGT_Employee_Status
+  		where deleted = 1 AND status = 1 AND accountId = #{value}
+  	</select>
+  	
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.define.ManagerHeaderVO">
+
+	<resultMap id="result" type="com.kan.base.domain.define.ManagerHeaderVO">
+		<result property="managerHeaderId" column="managerHeaderId"/>
+		<result property="accountId" column="accountId"/>
+		<result property="corpId" column="corpId"/>
+		<result property="tableId" column="tableId"/>
+		<result property="nameZH" column="nameZH"/>		
+		<result property="nameEN" column="nameEN"/>
+		<result property="comments" column="comments"/>
+		<result property="description" column="description"/>
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />	
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />		
+	</resultMap>
+	
+	<sql id="managerHeaderColumns">
+		accountId,corpId, tableId, nameZH, nameEN, comments, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<select id="countManagerHeaderVOsByCondition" parameterType="managerHeader" resultType="int">
+		SELECT count(1)
+		FROM Hro_Def_Manager_Header
+		WHERE deleted = 1 AND accountId = #{accountId}
+		<if test="tableId != null and tableId != ''">
+			AND (tableId = #{tableId} or 0 = #{tableId})
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND corpId = #{corpId} 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>	
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getManagerHeaderVOsByCondition" parameterType="managerHeader" resultMap="result">
+		SELECT managerHeaderId, <include refid="managerHeaderColumns" />
+		FROM Hro_Def_Manager_Header
+		WHERE deleted = 1 AND accountId = #{accountId}
+		<if test="tableId != null and tableId != ''">
+			AND (tableId = #{tableId} or 0 = #{tableId})
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND corpId = #{corpId} 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>	
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getAccountManagerHeaderVOsByCondition" parameterType="managerHeader" resultMap="result">
+		SELECT managerHeaderId, <include refid="managerHeaderColumns" />
+		FROM Hro_Def_Manager_Header
+		WHERE deleted = 1 AND accountId = #{accountId}
+		<if test="tableId != null and tableId != ''">
+			AND (tableId = #{tableId} or 0 = #{tableId})
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getManagerHeaderVOByManagerHeaderId" parameterType="int" resultMap="result">
+		SELECT managerHeaderId, <include refid="managerHeaderColumns" />
+		FROM Hro_Def_Manager_Header
+		WHERE managerHeaderId = #{value}
+	</select>
+	
+	<insert id="insertManagerHeader" parameterType="managerHeader" useGeneratedKeys="true" keyProperty="managerHeaderId">
+		INSERT INTO Hro_Def_Manager_Header(<include refid="managerHeaderColumns" />)
+		VALUES(#{accountId},#{corpId}, #{tableId}, #{nameZH}, #{nameEN}, #{comments}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+	
+  	<update id="updateManagerHeader" parameterType="managerHeader">
+		UPDATE Hro_Def_Manager_Header set corpId = #{corpId}, tableId = #{tableId}, nameZH = #{nameZH}, nameEN = #{nameEN}, comments = #{comments}, 
+			description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, 
+			remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, 
+		    modifyDate = #{modifyDate}
+		WHERE managerHeaderId = #{managerHeaderId} 		
+  	</update>
+  	
+  	<delete id="deleteManagerHeader" parameterType="int">
+		DELETE from Hro_Def_Manager_Header WHERE managerHeaderId = #{value}
+  	</delete>
+  	
+  	<select id="getManagerHeaderVOsByAccountId" parameterType="int" resultMap="result">
+		SELECT managerHeaderId, <include refid="managerHeaderColumns" />
+		FROM Hro_Def_Manager_Header
+		WHERE deleted = 1 AND status = 1 AND accountId = #{value}
+	</select>
+	
+</mapper>

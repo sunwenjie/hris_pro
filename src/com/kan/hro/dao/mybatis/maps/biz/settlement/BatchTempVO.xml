@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.settlement.BatchTempVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.settlement.BatchTempVO">
+		<result property="batchId" column="batchId" />
+		<result property="accountId" column="accountId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="corpId" column="corpId" />
+		<result property="orderId" column="orderId" />
+		<result property="contractId" column="contractId" />
+		<result property="monthly" column="monthly" />
+		<result property="weekly" column="weekly" />
+		<result property="containSalary" column="containSalary" />
+		<result property="containSB" column="containSB" />
+		<result property="containCB" column="containCB" />
+		<result property="containServiceFee" column="containServiceFee" />
+		<result property="containOther" column="containOther" />
+		<result property="accountPeriod" column="accountPeriod" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="countClientId" column="countClientId" />
+		<result property="clientNumber" column="clientNumber" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="countOrderId" column="countOrderId" />
+		<result property="countContractId" column="countContractId" />
+		<result property="countItemId" column="countItemId" />
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+	</resultMap>
+  	
+	<sql id="batchTempColumns">
+		accountId, entityId, businessTypeId, corpId, orderId, contractId, monthly, weekly, containSalary, containSB, containCB, containServiceFee, 
+		containOther, accountPeriod, startDate, endDate, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, 
+		modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="batchTempColumns-for-join">
+		a.accountId, a.entityId, a.businessTypeId, a.corpId, a.orderId, a.contractId, 
+		<![CDATA[ CASE WHEN LENGTH(a.monthly) < 7 THEN CONCAT(LEFT(a.monthly, 5), LPAD(RIGHT(a.monthly, 1), 2, '0')) ELSE a.monthly END ]]> as monthly, 
+		a.weekly, a.containSalary, a.containSB, a.containCB, a.containServiceFee, a.containOther, a.accountPeriod, a.startDate, a.endDate, a.description, 
+		a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countBatchTempVOsByCondition" parameterType="settlementBatchTemp" resultType="int">
+		SELECT COUNT(DISTINCT a.batchId)
+		FROM hro_settle_order_batch_temp a LEFT JOIN hro_settle_order_header_temp b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_contract_temp c ON b.orderHeaderId = c.orderHeaderId AND c.deleted = 1
+			LEFT JOIN hro_settle_order_detail_temp d ON c.contractId = d.contractId AND d.deleted = 1
+			LEFT JOIN hro_biz_client e ON b.clientId = e.clientId AND e.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="hasIn != null and hasIn != ''">
+			AND b.owner IN 
+			 <foreach collection="inList" index="index" item="item" open="(" separator="," close=")" >  
+           	 #{item}  
+      		 </foreach>  
+		</if>
+			<if test="notIn != null and notIn != ''">
+			AND b.owner NOT IN 
+			 <foreach collection="notInList" index="index" item="item" open="(" separator="," close=")" >  
+           	 #{item}  
+      		 </foreach>  
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId}
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (c.entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (c.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND c.clientId = #{clientId}
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND c.orderId = #{orderId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND c.contractId = #{contractId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (c.monthly = #{monthly} or 0 = #{monthly})
+		</if>
+		<if test="weekly != null and weekly != ''">
+			AND (a.weekly = #{weekly} or 0 = #{weekly})
+		</if>
+		<if test="containSalary != null and containSalary != ''">
+			AND a.containSalary = #{containSalary} 
+		</if>
+		<if test="containSB != null and containSB != ''">
+			AND a.containSB = #{containSB} 
+		</if>
+		<if test="containCB != null and containCB != ''">
+			AND a.containCB = #{containCB} 
+		</if>
+		<if test="containServiceFee != null and containServiceFee != ''">
+			AND a.containServiceFee = #{containServiceFee} 
+		</if>
+		<if test="containOther != null and containOther != ''">
+			AND a.containOther = #{containOther} 
+		</if>
+		<if test="clientNumber != null and clientNumber != ''">
+			AND e.number = #{clientNumber}
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND e.nameEN  like CONCAT('%', '${clientNameEN}', '%') 
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND e.nameZH like CONCAT('%', '${clientNameZH}', '%') 
+		</if>
+	</select>
+
+	<select id="getBatchTempVOsByCondition" parameterType="settlementBatchTemp" resultMap="result">
+		SELECT a.batchId, <include refid="batchTempColumns-for-join"/>, COUNT(DISTINCT c.clientId) AS countClientId, 
+			COUNT(DISTINCT c.orderId) AS countOrderId, COUNT(DISTINCT c.contractId) AS countContractId, COUNT(1) AS countItemId, 
+			SUM(d.billAmountCompany) AS billAmountCompany, SUM(d.billAmountPersonal) AS billAmountPersonal, SUM(d.costAmountCompany) AS costAmountCompany,
+			SUM(d.costAmountPersonal) AS costAmountPersonal
+		FROM hro_settle_order_batch_temp a LEFT JOIN hro_settle_order_header_temp b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_contract_temp c ON b.orderHeaderId = c.orderHeaderId AND c.deleted = 1
+			LEFT JOIN hro_settle_order_detail_temp d ON c.contractId = d.contractId AND d.deleted = 1
+			LEFT JOIN hro_biz_client e ON b.clientId = e.clientId AND e.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="hasIn != null and hasIn != ''">
+			AND b.owner IN 
+			 <foreach collection="inList" index="index" item="item" open="(" separator="," close=")" >  
+           	 #{item}  
+      		 </foreach>  
+		</if>
+			<if test="notIn != null and notIn != ''">
+			AND b.owner NOT IN 
+			 <foreach collection="notInList" index="index" item="item" open="(" separator="," close=")" >  
+           	 #{item}  
+      		 </foreach>  
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId}
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (c.entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (c.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND c.clientId = #{clientId}
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND c.orderId = #{orderId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND c.contractId = #{contractId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (c.monthly = #{monthly} or 0 = #{monthly})
+		</if>
+		<if test="weekly != null and weekly != ''">
+			AND (a.weekly = #{weekly} or 0 = #{weekly})
+		</if>
+		<if test="containSalary != null and containSalary != ''">
+			AND a.containSalary = #{containSalary} 
+		</if>
+		<if test="containSB != null and containSB != ''">
+			AND a.containSB = #{containSB} 
+		</if>
+		<if test="containCB != null and containCB != ''">
+			AND a.containCB = #{containCB} 
+		</if>
+		<if test="containServiceFee != null and containServiceFee != ''">
+			AND a.containServiceFee = #{containServiceFee} 
+		</if>
+		<if test="containOther != null and containOther != ''">
+			AND a.containOther = #{containOther} 
+		</if>
+		<if test="clientNumber != null and clientNumber != ''">
+			AND e.number = #{clientNumber}
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND e.nameEN  like CONCAT('%', '${clientNameEN}', '%') 
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND e.nameZH like CONCAT('%', '${clientNameZH}', '%') 
+		</if>
+		GROUP BY a.batchId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getBatchTempVOByBatchId" parameterType="int" resultMap="result">
+		SELECT a.batchId, <include refid="batchTempColumns-for-join"/>, COUNT(DISTINCT b.corpId) AS countClientId, 
+			COUNT(DISTINCT b.orderId) AS countOrderId, COUNT(DISTINCT c.contractId) AS countContractId, COUNT(1) AS countItemId,
+			SUM(d.billAmountCompany) AS billAmountCompany, SUM(d.billAmountPersonal) AS billAmountPersonal, SUM(d.costAmountCompany) AS costAmountCompany,
+			SUM(d.costAmountPersonal) AS costAmountPersonal
+		FROM hro_settle_order_batch_temp a LEFT JOIN hro_settle_order_header_temp b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_contract_temp c ON b.orderHeaderId = c.orderHeaderId AND c.deleted = 1
+			LEFT JOIN hro_settle_order_detail_temp d ON c.contractId = d.contractId AND d.deleted = 1
+			LEFT JOIN hro_biz_client e ON b.corpId = e.corpId AND e.deleted = 1
+		WHERE a.batchId = #{value}
+		GROUP BY a.batchId
+	</select>
+
+	<update id="updateBatchTemp" parameterType="settlementBatchTemp">
+		update hro_settle_order_batch_temp set accountId = #{accountId}, entityId = #{entityId}, businessTypeId = #{businessTypeId}, 
+			orderId = #{orderId}, contractId = #{contractId}, monthly = #{monthly}, weekly = #{weekly}, 
+			containSalary = #{containSalary}, containSB = #{containSB}, containCB = #{containCB}, containServiceFee = #{containServiceFee}, 
+			containOther = #{containOther}, accountPeriod = #{accountPeriod}, startDate = #{startDate}, endDate = #{endDate}, 
+			description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, 
+			remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where batchId = #{batchId} 
+  	</update>
+
+	<insert id="insertBatchTemp" parameterType="settlementBatchTemp" useGeneratedKeys="true" keyProperty="batchId">
+		insert into hro_settle_order_batch_temp( <include refid="batchTempColumns" /> )
+		values(#{accountId}, #{entityId}, #{businessTypeId}, #{corpId}, #{orderId}, #{contractId}, #{monthly}, #{weekly}, #{containSalary}, 
+			#{containSB}, #{containCB}, #{containServiceFee}, #{containOther}, #{accountPeriod}, #{startDate}, #{endDate}, #{description}, 1, 1, 
+			#{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteBatchTemp" parameterType="int">
+		delete from hro_settle_order_batch_temp where batchId = #{value}
+  	</delete>
+
+</mapper>

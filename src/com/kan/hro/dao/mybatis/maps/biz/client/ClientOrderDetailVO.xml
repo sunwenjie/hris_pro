@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.client.ClientOrderDetailVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.client.ClientOrderDetailVO">
+		<result property="orderDetailId" column="orderDetailId" />
+		<result property="orderHeaderId" column="orderHeaderId" />
+		<result property="itemId" column="itemId" />
+		<result property="calculateType" column="calculateType" />
+		<result property="packageType" column="packageType" />
+		<result property="divideType" column="divideType" />
+		<result property="cycle" column="cycle" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="base" column="base" />
+		<result property="baseFrom" column="baseFrom" />
+		<result property="percentage" column="percentage" />
+		<result property="fix" column="fix" />
+		<result property="quantity" column="quantity" />
+		<result property="discount" column="discount" />
+		<result property="multiple" column="multiple" />
+		<result property="resultCap" column="resultCap" />
+		<result property="resultFloor" column="resultFloor" />
+		<result property="formularType" column="formularType" />
+		<result property="formular" column="formular" />
+		<result property="onboardNoCharge" column="onboardNoCharge" />
+		<result property="offDutyNoCharge" column="offDutyNoCharge" />
+		<result property="resignNoCharge" column="resignNoCharge" />
+		<result property="probationNoCharge" column="probationNoCharge" />
+		<result property="onboardWithout" column="onboardWithout" />
+		<result property="offDutyWidthout" column="offDutyWidthout" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="orderHeaderName" column="orderHeaderName" />
+	</resultMap>
+  	
+	<sql id="clientOrderDetailColumns">
+		orderHeaderId, itemId, calculateType, baseFrom, percentage, packageType, divideType, cycle, base, startDate, endDate, fix, quantity, discount, 
+		multiple, resultCap, resultFloor, formularType, formular, onboardNoCharge, offDutyNoCharge, resignNoCharge, probationNoCharge, onboardWithout, 
+		offDutyWidthout, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="clientOrderDetailColumns-for-join">
+		a.orderHeaderId, a.itemId, a.calculateType, a.baseFrom, a.percentage, a.packageType, a.divideType, a.cycle, a.base, a.startDate, a.endDate, a.fix, 
+		a.quantity, a.discount, a.multiple, a.resultCap, a.resultFloor, a.formularType, a.formular, a.onboardNoCharge, a.offDutyNoCharge, a.resignNoCharge, 
+		a.probationNoCharge, a.onboardWithout, a.offDutyWidthout, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, 
+		a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countClientOrderDetailVOsByCondition" parameterType="staff" resultType="int">
+		select count(*) 
+		from HRO_BIZ_Client_Order_Detail
+		where deleted = 1 AND orderHeaderId = #{orderHeaderId}
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+  	
+	<select id="getClientOrderDetailVOsByCondition" parameterType="clientOrderDetail" resultMap="result">
+		select orderDetailId, <include refid="clientOrderDetailColumns" />
+		FROM HRO_BIZ_Client_Order_Detail
+		where deleted = 1 AND orderHeaderId = #{orderHeaderId}
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getClientOrderDetailVOsByClientOrderHeaderId" parameterType="int" resultMap="result">
+		SELECT a.orderDetailId, <include refid="clientOrderDetailColumns-for-join" />, CONCAT(b.nameZH , ' - ', b.nameEN) as orderHeaderName
+		FROM HRO_BIZ_Client_Order_Detail a LEFT OUTER JOIN HRO_BIZ_Client_Order_Header b ON b.orderHeaderId = a.orderHeaderId AND b.deleted = 1 
+	 	WHERE a.deleted = 1 AND a.orderHeaderId = #{value} 
+	</select>
+	
+	<select id="getClientOrderDetailVOByOrderDetailId" parameterType="int" resultMap="result">
+		SELECT a.orderDetailId, <include refid="clientOrderDetailColumns-for-join" />, CONCAT(b.nameZH , ' - ', b.nameEN) as orderHeaderName
+		FROM HRO_BIZ_Client_Order_Detail a LEFT OUTER JOIN HRO_BIZ_Client_Order_Header b ON b.orderHeaderId = a.orderHeaderId AND b.deleted = 1
+	 	WHERE a.deleted = 1 AND a.orderDetailId = #{value} 
+	</select>
+
+	<update id="updateClientOrderDetail" parameterType="clientOrderDetail">
+		update HRO_BIZ_Client_Order_Detail set orderHeaderId = #{orderHeaderId}, itemId = #{itemId}, calculateType = #{calculateType}, 
+			baseFrom = #{baseFrom}, percentage = #{percentage}, packageType = #{packageType}, divideType = #{divideType}, cycle = #{cycle}, base = #{base},
+			startDate = #{startDate}, endDate = #{endDate}, fix = #{fix}, quantity = #{quantity}, discount = #{discount}, multiple = #{multiple}, 
+			resultCap = #{resultCap}, resultFloor = #{resultFloor}, formularType = #{formularType}, formular = #{formular}, 
+			onboardNoCharge= #{onboardNoCharge}, offDutyNoCharge =#{offDutyNoCharge}, resignNoCharge = #{resignNoCharge}, 
+			probationNoCharge = #{probationNoCharge}, onboardWithout = #{onboardWithout}, offDutyWidthout =#{offDutyWidthout}, description = #{description}, 
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, 
+			remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+			where orderDetailId = #{orderDetailId}
+	</update>
+
+	<insert id="insertClientOrderDetail" parameterType="clientOrderDetail" useGeneratedKeys="true" keyProperty="orderDetailId">
+		insert into HRO_BIZ_Client_Order_Detail( <include refid="clientOrderDetailColumns" /> )
+		values (#{orderHeaderId}, #{itemId}, #{calculateType}, #{baseFrom}, #{percentage}, #{packageType}, #{divideType}, #{cycle}, #{base}, #{startDate}, 
+			#{endDate}, #{fix}, #{quantity}, #{discount}, #{multiple}, #{resultCap}, #{resultFloor}, #{formularType}, #{formular}, #{onboardNoCharge}, 
+			#{offDutyNoCharge}, #{resignNoCharge}, #{probationNoCharge}, #{onboardWithout}, #{offDutyWidthout}, #{description}, 1, #{status}, #{remark1}, 
+			#{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteClientOrderDetail" parameterType="int">
+		delete from HRO_BIZ_Client_Order_Detail where orderDetailId = #{value}
+  	</delete>
+  	
+</mapper>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.attendance.TimesheetAllowanceHeaderVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.attendance.TimesheetAllowanceHeaderVO">
+		<result property="headerId" column="headerId" />
+		<result property="accountId" column="accountId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="contractId" column="contractId" />
+		<result property="corpId" column="corpId" />
+		<result property="orderId" column="orderId" />
+		<result property="batchId" column="batchId" />
+		<result property="monthly" column="monthly" />
+		<result property="weekly" column="weekly" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="totalWorkHours" column="totalWorkHours" />
+		<result property="totalWorkDays" column="totalWorkDays" />
+		<result property="totalFullHours" column="totalFullHours" />
+		<result property="totalFullDays" column="totalFullDays" />
+		<result property="needAudit" column="needAudit" />
+		<result property="isNormal" column="isNormal" />
+		<result property="attachment" column="attachment" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For Application -->
+		<result property="employeeNo" column="employeeNo" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="employeeName" column="employeeName" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="clientName" column="clientName" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		
+		<result property="allowanceId" column="allowanceId" />
+		<result property="base" column="base" />
+		<result property="itemNo" column="itemNo" />
+		<result property="itemNameZH" column="itemNameZH" />
+		<result property="itemNameEN" column="itemNameEN" />
+	</resultMap>	
+	
+	<sql id="timesheetHeaderColumns">
+		accountId, employeeId, contractId, corpId, orderId, batchId, monthly, weekly, startDate, endDate, totalWorkHours, totalWorkDays, totalFullHours, 
+		totalFullDays, needAudit, isNormal, attachment, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, 
+		modifyBy, modifyDate
+	</sql>
+	
+	<sql id="timesheetHeaderColumns-for-join">
+		a.accountId, a.employeeId, a.contractId, a.corpId, a.orderId, a.batchId, a.monthly, a.weekly, a.startDate, a.endDate, a.totalWorkHours, a.totalWorkDays, 
+		a.totalFullHours, a.totalFullDays, a.needAudit, a.isNormal, a.attachment, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, 
+		a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countTimesheetAllowanceHeaderVOsByCondition" parameterType="timesheetHeader" resultType="int">
+		SELECT COUNT(1)
+		FROM hro_biz_attendance_timesheet_header_temp a 
+			INNER JOIN hro_biz_attendance_timesheet_allowance_temp e ON a.headerId = e.headerId
+			LEFT JOIN hro_biz_employee b ON a.employeeId = b.employeeId 
+			LEFT JOIN hro_biz_client c ON a.corpId = c.corpId 
+			LEFT JOIN hro_history h ON ( (a.corpId IS null AND h.accessAction = 'HRO_BIZ_TIMESHEET_HEADER') OR (a.corpId IS not null AND h.accessAction = 'HRO_BIZ_TIMESHEET_HEADER') ) 
+			AND h.objectType = 2 AND a.headerId = h.objectId 
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND b.employeeNo = #{employeeNo}
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber like CONCAT('%', '${certificateNumber}', '%') 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND b.nameZH like CONCAT('%', '${employeeNameZH}', '%') 
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND b.nameEN like CONCAT('%', '${employeeNameEN}', '%') 
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND a.corpId = #{corpId}
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND c.nameZH like CONCAT('%', '${clientNameZH}', '%') 
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND c.nameEN like CONCAT('%', '${clientNameEN}', '%') 
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		<if test="monthlyLimit != null and monthlyLimit != ''">
+			AND <![CDATA[ CASE WHEN LENGTH(monthly) < 7 THEN CONCAT(LEFT(monthly, 5), LPAD(RIGHT(monthly, 1), 2, '0')) ELSE monthly END <= 
+				CASE WHEN LENGTH(#{monthlyLimit}) < 7 THEN CONCAT(LEFT(#{monthlyLimit}, 5), LPAD(RIGHT(#{monthlyLimit}, 1), 2, '0')) 
+					ELSE #{monthlyLimit} END ]]>
+		</if>
+		<if test="weekly != null and weekly != ''">
+			AND (a.weekly = #{weekly} or '0' = #{weekly})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getTimesheetAllowanceHeaderVOsByCondition" parameterType="timesheetHeader" resultMap="result">
+		SELECT a.headerId, <include refid="timesheetHeaderColumns-for-join" />, b.employeeNo AS employeeNo, b.certificateNumber AS certificateNumber,
+			b.nameZH AS employeeNameZH, b.nameEN AS employeeNameEN, c.nameZH AS clientNameZH, c.nameEN AS clientNameEN , h.workflowId,
+			e.base,f.itemNo AS itemNo, f.nameZH AS itemNameZH, f.nameEN AS itemNameEN,e.allowanceId
+		FROM hro_biz_attendance_timesheet_header_temp a 
+			INNER JOIN hro_biz_attendance_timesheet_allowance_temp e ON a.headerId = e.headerId
+			LEFT JOIN Hro_Mgt_Item f ON e.itemId = f.itemId
+			LEFT JOIN hro_biz_employee b ON a.employeeId = b.employeeId 
+			LEFT JOIN hro_biz_client c ON a.corpId = c.corpId  
+			LEFT JOIN hro_history h ON ( (a.corpId IS null AND h.accessAction = 'HRO_BIZ_TIMESHEET_HEADER') OR (a.corpId IS not null AND h.accessAction = 'HRO_BIZ_TIMESHEET_HEADER') ) 
+			AND h.objectType = 2 AND a.headerId = h.objectId 
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND b.employeeNo = #{employeeNo}
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber like CONCAT('%', '${certificateNumber}', '%') 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND b.nameZH like CONCAT('%', '${employeeNameZH}', '%') 
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND b.nameEN like CONCAT('%', '${employeeNameEN}', '%') 
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND a.corpId = #{corpId}
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND c.nameZH like CONCAT('%', '${clientNameZH}', '%') 
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND c.nameEN like CONCAT('%', '${clientNameEN}', '%') 
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		<if test="monthlyLimit != null and monthlyLimit != ''">
+			AND <![CDATA[ CASE WHEN LENGTH(monthly) < 7 THEN CONCAT(LEFT(monthly, 5), LPAD(RIGHT(monthly, 1), 2, '0')) ELSE monthly END <= 
+				CASE WHEN LENGTH(#{monthlyLimit}) < 7 THEN CONCAT(LEFT(#{monthlyLimit}, 5), LPAD(RIGHT(#{monthlyLimit}, 1), 2, '0')) 
+					ELSE #{monthlyLimit} END ]]>
+		</if>
+		<if test="weekly != null and weekly != ''">
+			AND (a.weekly = #{weekly} or '0' = #{weekly})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	<update id="updateAllowanceBase" parameterType="com.kan.hro.domain.biz.attendance.TimesheetAllowanceHeaderVO" >
+		update hro_biz_attendance_timesheet_allowance_temp set base = #{base} where allowanceId = #{allowanceId}
+	</update>
+	
+	<delete id="deleteAllowanceTempByAllowanceIds">
+  		DELETE FROM hro_biz_attendance_timesheet_allowance_temp 
+  		WHERE allowanceId in 
+  		<foreach collection="list" item="allowanceIds"  open="(" separator="," close=")">  
+        	#{allowanceIds}  
+     	</foreach>  
+  	</delete>
+  	
+  	<delete id="deleteEmptyAllowanceHeaderTempBybatchId" parameterType="java.lang.String">
+  		DELETE
+		FROM
+			hro_biz_attendance_timesheet_header_temp
+		WHERE
+			headerId IN (
+				SELECT
+					*
+				FROM
+					(
+						SELECT
+							h.headerId
+						FROM
+							hro_biz_attendance_timesheet_header_temp h
+						LEFT JOIN hro_biz_attendance_timesheet_allowance_temp d ON h.headerId = d.headerId
+						WHERE
+							h.batchId = #{batchId}  
+						GROUP BY
+							h.headerId
+						HAVING
+							COUNT(d.allowanceId) = 0
+					) t
+			)
+  	</delete>
+  	
+  	<select id="getHeaderCountByBatchId" parameterType="int" resultType="int">
+		SELECT
+		count(1)
+		FROM
+		hro_biz_attendance_timesheet_header_temp
+		WHERE batchId = #{value}
+	</select>
+</mapper>

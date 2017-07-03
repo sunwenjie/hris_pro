@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.attendance.LeaveImportHeaderVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.attendance.LeaveImportHeaderVO">
+		<result property="leaveHeaderId" column="leaveHeaderId" />
+		<result property="batchId" column="batchId" />
+		<result property="accountId" column="accountId" />
+		<result property="clientId" column="clientId" />
+		<result property="corpId" column="corpId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="contractId" column="contractId" />
+		<result property="itemId" column="itemId" />
+		<result property="retrieveId" column="retrieveId" />
+		<result property="estimateStartDate" column="estimateStartDate" />
+		<result property="estimateEndDate" column="estimateEndDate" />
+		<result property="actualStartDate" column="actualStartDate" />
+		<result property="actualEndDate" column="actualEndDate" />
+		<result property="estimateLegalHours" column="estimateLegalHours" />
+		<result property="estimateBenefitHours" column="estimateBenefitHours" />
+		<result property="actualLegalHours" column="actualLegalHours" />
+		<result property="actualBenefitHours" column="actualBenefitHours" />
+		<result property="attachment" column="attachment" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="retrieveStatus" column="retrieveStatus" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- 雇员和客户信息 -->
+		<result property="employeeNo" column="employeeNo" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="number" column="number" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+	</resultMap>
+
+	<sql id="leaveHeaderColumns">
+		accountId, batchId, clientId, corpId, employeeId, contractId, itemId, retrieveId, estimateStartDate, estimateEndDate, actualStartDate, actualEndDate,
+		estimateLegalHours, estimateBenefitHours, actualLegalHours, actualBenefitHours, description, attachment, deleted, retrieveStatus, status,
+		remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<sql id="leaveHeaderColumnsForInsert">
+		accountId, clientId, corpId, employeeId, contractId, itemId, retrieveId, estimateStartDate, estimateEndDate, actualStartDate, actualEndDate, 
+		estimateLegalHours, estimateBenefitHours, actualLegalHours, actualBenefitHours, description, attachment, deleted, retrieveStatus,
+		remark1, remark2, remark3, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+
+	<sql id="leaveHeaderColumns-for-join">
+		a.accountId, a.batchId, a.clientId, a.corpId, a.employeeId,a.contractId, a.itemId, a.retrieveId, a.estimateStartDate, a.estimateEndDate, a.actualStartDate,
+		a.actualEndDate, a.estimateLegalHours, a.estimateBenefitHours, a.actualLegalHours, a.actualBenefitHours, a.description, a.attachment, a.deleted, a.retrieveStatus, a.status, 
+		a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+
+	<select id="countLeaveImportHeaderVOsByCondition" parameterType="leaveHeader" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM Hro_Biz_Attendance_Leave_Header_temp a 
+		LEFT JOIN Hro_Biz_Employee b ON a.employeeId = b.employeeId
+		LEFT JOIN Hro_Biz_Client c ON a.clientId = c.clientId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="employeeId != null and employeeId != '' and createBy != null and createBy != '' and modifyBy != null and modifyBy != ''">
+			AND (a.employeeId = #{employeeId} OR a.createBy = #{createBy} OR a.modifyBy = #{modifyBy})
+		</if>
+		<if test="employeeId != null and employeeId != '' and (createBy == null or createBy == '') and (modifyBy == null or modifyBy == '')">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND b.employeeNo like CONCAT('%', '${employeeNo}', '%')
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND b.nameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND b.nameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber like CONCAT('%', '${certificateNumber}', '%') 
+		</if>
+		<if test="itemId != null and itemId != ''">
+			AND (a.itemId = #{itemId} or 0 = #{itemId})
+		</if>
+		<if test="number != null and number != ''">
+			AND c.number like CONCAT('%', '${number}', '%') 
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND c.nameZH like CONCAT('%', '${clientNameZH}', '%') 
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND c.nameEN like CONCAT('%', '${clientNameEN}', '%') 
+		</if>
+		<if test="actualStartDate != null and actualStartDate != '' and actualEndDate != null and actualEndDate != ''">
+			AND ( ( a.actualStartDate between
+			date_format('${actualStartDate}', '%Y-%m-%d %T') AND
+			date_format('${actualEndDate}', '%Y-%m-%d %T') )
+			OR ( a.actualEndDate
+			between date_format('${actualStartDate}',
+			'%Y-%m-%d %T') AND
+			date_format('${actualEndDate}', '%Y-%m-%d %T') ) )
+		</if>
+		<if test="estimateStartDate != null and estimateStartDate != '' and estimateEndDate != null and estimateEndDate != ''">
+			AND ( ( a.estimateStartDate between
+			date_format('${estimateStartDate}', '%Y-%m-%d %T') AND
+			date_format('${estimateEndDate}', '%Y-%m-%d %T') )
+			OR (
+			a.estimateEndDate between date_format('${estimateStartDate}',
+			'%Y-%m-%d %T') AND date_format('${estimateEndDate}', '%Y-%m-%d %T') )
+			)
+		</if>
+		<if test="retrieveStatus != null and retrieveStatus != ''">
+			AND (a.retrieveStatus = #{retrieveStatus} or 0 =
+			#{retrieveStatus})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId}
+		</if>
+	</select>
+	
+	<select id="countLeaveImportHeaderVOsByBatchId" parameterType="leaveHeader" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM Hro_Biz_Attendance_Leave_Header_temp a
+		LEFT JOIN Hro_Biz_Employee b ON a.employeeId = b.employeeId
+		LEFT JOIN hro_biz_employee_contract hbizemp ON a.contractId = hbizemp.contractId
+		WHERE a.deleted = 1
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId}
+		</if>
+		<if test="batchId == null or batchId == ''">
+			AND a.batchId is NULL
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR b._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR b.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+	</select>
+
+	<select id="getLeaveImportHeaderVOsByCondition" parameterType="leaveHeader" resultMap="result">
+		SELECT 
+			a.leaveHeaderId, <include refid="leaveHeaderColumns-for-join" />, 
+			b.employeeNo, b.nameZH AS employeeNameZH, b.nameEN AS employeeNameEN, b.certificateNumber, 
+			c.number as number, c.nameZH AS clientNameZH, c.nameEN AS clientNameEN ,h.workflowId
+		FROM Hro_Biz_Attendance_Leave_Header_temp a
+			LEFT JOIN Hro_Biz_Employee b ON a.employeeId = b.employeeId and b.deleted = 1
+			LEFT JOIN hro_biz_employee_contract hbizemp ON a.contractId = hbizemp.contractId and hbizemp.deleted = 1
+			LEFT JOIN Hro_Biz_Client c ON a.clientId = c.clientId
+			LEFT JOIN hro_history h ON ( (a.clientId IS null AND h.accessAction = 'HRO_BIZ_ATTENDANCE_LEAVE_HEADER') OR (a.clientId IS not null AND h.accessAction = 'HRO_BIZ_ATTENDANCE_LEAVE_HEADER') )
+				AND h.objectType = 2 AND a.leaveHeaderId = h.objectId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="employeeId != null and employeeId != '' and createBy != null and createBy != '' and modifyBy != null and modifyBy != ''">
+			AND (a.employeeId = #{employeeId} OR a.createBy = #{createBy} OR a.modifyBy = #{modifyBy})
+		</if>
+		<if test="employeeId != null and employeeId != '' and (createBy == null or createBy == '') and (modifyBy == null or modifyBy == '')">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND b.employeeNo like CONCAT('%', '${employeeNo}', '%')
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND b.nameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND b.nameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber like CONCAT('%', '${certificateNumber}', '%') 
+		</if>
+		<if test="itemId != null and itemId != ''">
+			AND (a.itemId = #{itemId} or 0 = #{itemId})
+		</if>
+		<if test="number != null and number != ''">
+			AND c.number like CONCAT('%', '${number}', '%') 
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND c.nameZH like CONCAT('%', '${clientNameZH}', '%') 
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND c.nameEN like CONCAT('%', '${clientNameEN}', '%') 
+		</if>
+		<if test="actualStartDate != null and actualStartDate != '' and actualEndDate != null and actualEndDate != ''">
+			AND ( ( a.actualStartDate between
+			date_format('${actualStartDate}', '%Y-%m-%d %T') AND
+			date_format('${actualEndDate}', '%Y-%m-%d %T') )
+			OR ( a.actualEndDate
+			between date_format('${actualStartDate}',
+			'%Y-%m-%d %T') AND
+			date_format('${actualEndDate}', '%Y-%m-%d %T') ) )
+		</if>
+		<if test="estimateStartDate != null and estimateStartDate != '' and estimateEndDate != null and estimateEndDate != ''">
+			AND ( ( a.estimateStartDate between
+			date_format('${estimateStartDate}', '%Y-%m-%d %T') AND
+			date_format('${estimateEndDate}', '%Y-%m-%d %T') )
+			OR (
+			a.estimateEndDate between date_format('${estimateStartDate}',
+			'%Y-%m-%d %T') AND date_format('${estimateEndDate}', '%Y-%m-%d %T') )
+			)
+		</if>
+		<if test="retrieveStatus != null and retrieveStatus != ''">
+			AND (a.retrieveStatus = #{retrieveStatus} or 0 =
+			#{retrieveStatus})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR b._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR b.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		GROUP BY a.leaveHeaderId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getLeaveImportHeaderVOByLeaveImportHeaderId" parameterType="int" resultMap="result">
+		SELECT 
+			a.leaveHeaderId, <include refid="leaveHeaderColumns-for-join" /> , b.employeeNo, b.nameZH AS employeeNameZH, b.nameEN AS employeeNameEN,
+			b.certificateNumber, c.number as number, c.nameZH AS clientNameZH, c.nameEN AS clientNameEN ,h.workflowId
+		FROM Hro_Biz_Attendance_Leave_Header a
+			LEFT JOIN Hro_Biz_Employee b ON a.employeeId = b.employeeId
+			LEFT JOIN Hro_Biz_Client c ON a.clientId = c.clientId
+			LEFT JOIN hro_history h ON ( (a.clientId IS null AND h.accessAction = 'HRO_BIZ_ATTENDANCE_LEAVE_HEADER') OR (a.clientId IS not null AND h.accessAction = 'HRO_BIZ_ATTENDANCE_LEAVE_HEADER') )
+		WHERE a.leaveHeaderId = #{value}
+		GROUP BY a.leaveHeaderId
+	</select>
+
+	<insert id="insertLeaveImportHeader" parameterType="leaveHeader" useGeneratedKeys="true" keyProperty="leaveHeaderId">
+		INSERT INTO HRO_BIZ_Attendance_Leave_Header_temp(<include refid="leaveHeaderColumns" />) VALUES(#{accountId}, #{clientId},#{corpId}, #{employeeId},
+		#{contractId}, #{itemId}, #{retrieveId}, #{estimateStartDate}, #{estimateEndDate}, #{actualStartDate}, #{actualEndDate}, #{estimateLegalHours},
+		#{estimateBenefitHours}, #{actualLegalHours}, #{actualBenefitHours}, #{description}, #{attachment}, 1, 1, #{status}, #{remark1}, #{remark2}, 
+		#{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<insert id="insertLeaveImportHeaderToLeaveHeader"  parameterType="int">
+		INSERT INTO Hro_Biz_Attendance_Leave_Header (<include refid="leaveHeaderColumnsForInsert" /> ,remark4, status )
+		SELECT <include refid="leaveHeaderColumnsForInsert" /> ,leaveHeaderId as remark4, 1 FROM Hro_Biz_Attendance_Leave_Header_temp
+		WHERE deleted = 1 AND batchId = #{batchId}
+	</insert>
+	
+	<update id="updateLeaveImportHeader" parameterType="leaveHeader">
+		UPDATE HRO_BIZ_Attendance_Leave_Header_temp SET 
+			clientId = #{clientId}, employeeId = #{employeeId}, contractId = #{contractId}, itemId = #{itemId}, retrieveId = #{retrieveId}, estimateStartDate = #{estimateStartDate},
+			estimateEndDate = #{estimateEndDate}, actualStartDate = #{actualStartDate}, actualEndDate = #{actualEndDate}, estimateLegalHours = #{estimateLegalHours}, estimateBenefitHours = #{estimateBenefitHours}, 
+			actualLegalHours = #{actualLegalHours}, actualBenefitHours = #{actualBenefitHours}, description = #{description}, attachment = #{attachment}, deleted = #{deleted}, status = #{status},
+			remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE leaveHeaderId = #{leaveHeaderId}
+  	</update>
+
+	<delete id="deleteLeaveImportHeader" parameterType="int">
+		DELETE FROM HRO_BIZ_Attendance_Leave_Header_temp WHERE leaveHeaderId = #{value}
+	</delete>
+
+	<select id="getLeaveImportHeaderVOsByContractId" parameterType="int" resultMap="result">
+		SELECT leaveHeaderId, <include refid="leaveHeaderColumns" />
+		FROM HRO_BIZ_Attendance_Leave_Header_temp
+		WHERE deleted = 1 AND status = 1 AND contractId = #{value}
+	</select>
+
+	<delete id="deleteLeaveImportHeaderTempByHeaderIds" parameterType="leaveHeader">
+		DELETE FROM HRO_BIZ_Attendance_Leave_Header_temp 
+		WHERE leaveHeaderId in
+		<foreach collection="list" item="selectedId" index="index"
+            open="(" close=")" separator=",">
+            #{selectedId}
+        </foreach>
+	</delete>
+
+	<delete id="deleteLeaveImportDetailTempByHeaderIds" parameterType="leaveHeader">
+		DELETE FROM HRO_BIZ_Attendance_Leave_Detail_temp 
+		WHERE leaveHeaderId in
+		<foreach collection="list" item="selectedId" index="index"
+            open="(" close=")" separator=",">
+            #{selectedId}
+        </foreach>
+	</delete>
+	
+	<insert id="insertLeaveDetailtempToLeaveDetail" parameterType="int">
+		INSERT INTO Hro_Biz_Attendance_Leave_Detail (
+		leaveHeaderId, timesheetId, itemId, estimateStartDate, estimateEndDate, actualStartDate, actualEndDate, estimateLegalHours, estimateBenefitHours,
+		actualLegalHours, actualBenefitHours, retrieveStatus, description, attachment, deleted, status, remark1,
+		remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate)
+		
+		SELECT
+			(
+				SELECT 
+					leaveHeaderId 
+				FROM Hro_Biz_Attendance_Leave_Header h 
+				WHERE h.remark4 = dt.LeaveHeaderId
+			) as LeaveHeaderId
+			,timesheetId, itemId, estimateStartDate, estimateEndDate, actualStartDate, actualEndDate, estimateLegalHours,estimateBenefitHours,
+			actualLegalHours, actualBenefitHours, retrieveStatus, description, attachment, deleted, status,
+			remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy,modifyDate
+		FROM Hro_Biz_Attendance_Leave_Detail_temp dt
+		WHERE deleted = 1 
+		AND exists ( select 1 from Hro_Biz_Attendance_Leave_Header_temp ht where ht.deleted = 1 and dt.leaveHeaderId = ht.leaveHeaderId and ht.batchId = #{batchId} )
+  	</insert>
+  	
+  	<select id="getLeaveImportHeaderVOsByBatchId" parameterType="int" resultMap="result">
+		SELECT leaveHeaderId, <include refid="leaveHeaderColumns" />
+		FROM HRO_BIZ_Attendance_Leave_Header_temp
+		WHERE batchId = #{batchId}
+	</select>
+
+</mapper>

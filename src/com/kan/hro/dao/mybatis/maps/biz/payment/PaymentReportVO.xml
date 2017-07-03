@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.payment.PaymentReportVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.payment.PaymentReportVO">
+		<result property="paymentHeaderId" column="paymentHeaderId" />
+		<result property="orderContractId" column="orderContractId" />
+		<result property="accountId" column="accountId" />
+		<result property="clientId" column="clientId" />
+		<result property="corpId" column="corpId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="batchId" column="batchId" ></result>
+		<result property="orderId" column="orderId" />
+		<result property="contractId" column="contractId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="bankId" column="bankId" />
+		<result property="bankNameZH" column="bankNameZH" />
+		<result property="bankNameEN" column="bankNameEN" />
+		<result property="bankAccount" column="bankAccount" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="certificateType" column="certificateType" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+		<result property="taxAmountPersonal" column="taxAmountPersonal" />
+		<result property="addtionalBillAmountPersonal" column="addtionalBillAmountPersonal" />
+		<result property="taxAgentAmountPersonal" column="taxAgentAmountPersonal" />
+		<result property="monthly" column="monthly" />
+		<result property="taxFlag" column="taxFlag" />
+		<result property="vendorId" column="vendorId" />
+		<result property="vendorNameZH" column="vendorNameZH" />
+		<result property="vendorNameEN" column="vendorNameEN" />
+		<result property="vendorServiceIds" column="vendorServiceIds" />
+		<result property="vendorServiceFee" column="vendorServiceFee" />
+		<result property="description" column="description" />
+		<result property="itemGroupId" column="itemGroupId"/>
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- for app -->
+		<result property="afterTaxSalary" column="afterTaxSalary" />
+		<!-- FOR Report -->
+		<result property="monthlyCount" column="monthlyCount" />
+		<result property="avgAmount" column="avgAmount" />
+	</resultMap>
+  	
+	<sql id="paymentHeaderColumns">
+		orderContractId, accountId, clientId, corpId, entityId, businessTypeId, batchId, orderId, contractId, employeeId, employeeNameZH, employeeNameEN, bankId, bankNameZH, bankNameEN, bankAccount, 
+		startDate, endDate, certificateType, certificateNumber, billAmountCompany, billAmountPersonal, costAmountCompany, costAmountPersonal, taxAmountPersonal, addtionalBillAmountPersonal, taxAgentAmountPersonal, 
+		monthly, taxFlag, vendorId, vendorNameZH, vendorNameEN, vendorServiceIds, vendorServiceFee, description, itemGroupId, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, 
+		modifyBy, modifyDate
+	</sql>
+	
+	<select id="countAVGPaymentReportVOsByCondition" parameterType="paymentHeader" resultType="int">
+		SELECT COUNT(1)
+		FROM
+		(
+			SELECT COUNT(1)
+			FROM hro_payment_header 
+			WHERE deleted = 1 AND accountId = #{accountId} AND (monthly Between #{monthlyBegin} AND #{monthlyEnd})
+			<if test="corpId !=null and corpId!=''">
+				AND corpId = #{corpId}
+			</if>
+			<if test="corpId == null or corpId == ''">
+				AND corpId IS NULL
+			</if>
+			GROUP BY contractId
+		) AS TEMP
+	</select>
+	
+	<select id="getAVGPaymentReportVOsByCondition" parameterType="paymentHeader" resultMap="result">
+		SELECT contractId, employeeNameZH, employeeNameEN, COUNT( DISTINCT monthly) AS monthlyCount, AVG(addtionalBillAmountPersonal) AS avgAmount
+		FROM
+		(
+			SELECT 
+				contractId, employeeNameZH, employeeNameEN,  monthly, 
+				SUM(billAmountPersonal) AS billAmountPersonal, 
+				SUM(costAmountPersonal) AS costAmountPersonal, 
+				SUM(taxAmountPersonal) AS taxAmountPersonal,
+				SUM(addtionalBillAmountPersonal) AS addtionalBillAmountPersonal
+			FROM
+			(
+				SELECT contractId, employeeNameZH, employeeNameEN, monthly, 
+				billAmountPersonal - getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE') AS billAmountPersonal, 
+				costAmountPersonal - getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE') AS costAmountPersonal, 
+				taxAmountPersonal - getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE') AS taxAmountPersonal, 
+				addtionalBillAmountPersonal - getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE') AS addtionalBillAmountPersonal
+				FROM hro_payment_header 
+				WHERE deleted = 1 AND accountId = #{accountId} AND (monthly Between #{monthlyBegin} AND #{monthlyEnd})
+				<if test="corpId !=null and corpId!=''">
+					AND corpId = #{corpId}
+				</if>
+				<if test="corpId == null or corpId == ''">
+					AND corpId IS NULL
+				</if>
+				GROUP BY contractId, monthly
+				<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+					ORDER BY ${sortColumn} ${sortOrder}
+				</if>
+				
+				UNION ALL
+				
+				SELECT contractId, employeeNameZH, employeeNameEN, monthly, 
+				billAmountPersonal - getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE') AS billAmountPersonal, 
+				costAmountPersonal - getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE') AS costAmountPersonal, 
+				taxAmountPersonal - getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE') AS taxAmountPersonal, 
+				addtionalBillAmountPersonal - getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE') AS addtionalBillAmountPersonal
+				FROM hro_payment_adjustment_header 
+				WHERE deleted = 1 AND accountId = #{accountId} AND (monthly Between #{monthlyBegin} AND #{monthlyEnd})
+				<if test="corpId !=null and corpId!=''">
+					AND corpId = #{corpId}
+				</if>
+				<if test="corpId == null or corpId == ''">
+					AND corpId IS NULL
+				</if>
+				GROUP BY contractId, monthly
+				<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+					ORDER BY ${sortColumn} ${sortOrder}
+				</if>
+			)AS t1
+			GROUP BY contractId, monthly
+		)AS t2	
+		GROUP BY contractId
+	</select>
+	
+</mapper>	

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.vendor.VendorUserVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.vendor.VendorUserVO">
+		<result property="vendorUserId" column="vendorUserId" />
+		<result property="accountId" column="accountId" />
+		<result property="vendorId" column="vendorId" />
+		<result property="vendorContactId" column="vendorContactId" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="bindIP" column="bindIP" />
+		<result property="lastLogin" column="lastLogin" />
+		<result property="lastLoginIP" column="lastLoginIP" />
+		<result property="superUserId" column="superUserId" />
+		<result property="validatedSuperUser" column="validatedSuperUser" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For -->
+		<result property="corpId" column="corpId" />
+		<result property="vendorNameZH" column="vendorNameZH" />
+		<result property="vendorNameEN" column="vendorNameEN" />
+	</resultMap>
+	
+	<sql id="VendorUserColumns">
+		accountId, vendorId, vendorContactId, username, password, bindIP, lastLogin, lastLoginIP, superUserId, validatedSuperUser, 
+	    deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<sql id="VendorUserColumns-For-Join">
+		a.accountId, a.vendorId, a.vendorContactId, a.username, a.`password`, a.bindIP, a.lastLogin, a.lastLoginIP, a.superUserId, a.validatedSuperUser,
+	    a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countVendorUserVOsByCondition" parameterType="vendorUser" resultType="int">
+		
+	</select>
+
+	<select id="getVendorUserVOsByCondition" parameterType="vendorUser" resultMap="result">
+		
+	</select>
+
+	<select id="getVendorUserVOByVendorUserId" parameterType="int" resultMap="result">
+		SELECT a.vendorUserId, <include refid="VendorUserColumns-For-Join"/>, b.nameEN AS vendorNameEN, b.nameZH AS vendorNameZH
+		FROM hro_biz_vendor_user a
+		LEFT JOIN hro_biz_vendor b ON a.vendorId = b.vendorId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.vendorUserId = #{vendorUserId}
+	</select>
+
+	<insert id="insertVendorUser" parameterType="vendorUser" useGeneratedKeys="true" keyProperty="vendorUserId">
+		INSERT INTO hro_biz_vendor_user(<include refid="VendorUserColumns" />)
+		VALUES(#{accountId}, #{vendorId}, #{vendorContactId}, #{username}, #{password}, #{bindIP}, #{lastLogin}, #{lastLoginIP}, #{superUserId}, #{validatedSuperUser}, 1,
+			   #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+	
+  	<select id="login_inVendor" parameterType="user" resultMap="result">
+  		SELECT a.vendorUserId, <include refid="VendorUserColumns-For-Join"/>, b.nameEN AS vendorNameEN, b.nameZH AS vendorNameZH, b.corpId AS corpId
+		FROM hro_biz_vendor_user a
+		LEFT JOIN hro_biz_vendor b ON a.vendorId = b.vendorId AND b.deleted = 1
+		WHERE a.deleted = 1 AND Upper(a.username) = Upper(#{username}) AND a.vendorId = #{vendorId}
+  	</select>
+
+	<update id="updateVendorUser" parameterType="vendorUser">
+		UPDATE hro_biz_vendor_user SET
+		    vendorContactId = #{vendorContactId}, username = #{username}, password = #{password}, bindIP = #{bindIP}, lastLogin = #{lastLogin},
+		    lastLoginIP = #{lastLoginIP}, superUserId = #{superUserId}, validatedSuperUser = #{validatedSuperUser}, 
+	        deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4},
+	        remark5 = #{remark5}, createBy = #{createBy},createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE vendorUserId = #{vendorUserId}
+  	</update>
+  	
+  	<delete id="deleteVendorUser" parameterType="int">
+  		DELETE FROM hro_biz_vendor_user WHERE vendorUserId = #{value}
+  	</delete>
+  	
+  	<select id="getVendorUserVOByUsername" parameterType="vendorUser" resultMap="result">
+		SELECT a.vendorUserId, <include refid="VendorUserColumns-For-Join"/>, b.nameEN AS vendorNameEN, b.nameZH AS vendorNameZH
+		FROM hro_biz_vendor_user a
+		LEFT JOIN hro_biz_vendor b ON a.vendorId = b.vendorId AND b.deleted = 1
+		WHERE Upper(a.username) = Upper(#{username}) AND (a.accountId = #{accountId} OR Upper(a.username) = Upper('super'))
+  	</select>
+</mapper>

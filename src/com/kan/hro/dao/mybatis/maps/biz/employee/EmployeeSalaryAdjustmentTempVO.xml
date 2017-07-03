@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeSalaryAdjustmentTempVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeSalaryAdjustmentTempVO">
+		<result property="salaryAdjustmentId" column="salaryAdjustmentId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="batchId" column="batchId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="contractId" column="contractId" />
+		<result property="employeeSalaryId" column="employeeSalaryId" />
+		<result property="oldBase" column="oldBase" />
+		<result property="oldStartDate" column="oldStartDate" />
+		<result property="oldEndDate" column="oldEndDate" />
+		<result property="newBase" column="newBase" />
+		<result property="newStartDate" column="newStartDate" />
+		<result property="newEndDate" column="newEndDate" />
+		<result property="effectiveDate" column="effectiveDate" />
+		<result property="positionStatus" column="positionStatus" />
+		<result property="status" column="status" />
+		<result property="submitFlag" column="submitFlag" />
+		<result property="description" column="description" />
+		<result property="remark1" column="remark1"/>
+		<result property="remark2" column="remark2"/>
+		<result property="remark3" column="remark3"/>
+		<result property="remark4" column="remark4"/>
+		<result property="remark5" column="remark5"/>
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		
+		<result property="employeeContractNameZH" column="employeeContractNameZH" />
+		<result property="employeeContractNameEN" column="employeeContractNameEN" />
+		<result property="employeeContractStartDate" column="employeeContractStartDate" />
+		<result property="employeeContractEndDate" column="employeeContractEndDate" />
+		
+		<result property="employeeNo" column="employeeNo" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="employeeCertificateNumber" column="employeeCertificateNumber" />
+		<result property="itemId" column="itemId" />
+		<result property="itemNameZH" column="itemNameZH" />
+		<result property="itemNameEN" column="itemNameEN" />
+	</resultMap>
+
+	<sql id="salaryAdjustmentTempColumns">
+		accountId, corpId, batchId, employeeId, contractId, employeeSalaryId, oldBase, oldStartDate, oldEndDate,
+		newBase, newStartDate, newEndDate, effectiveDate, deleted, status, itemId,itemNameZH,itemNameEN, description, remark1, remark2, remark3, remark4, remark5,
+		createBy, createDate, modifyBy, modifyDate
+	</sql>	
+	
+	<sql id="salaryAdjustmentTempColumns-for-join">
+		a.salaryAdjustmentId, a.accountId, a.corpId, a.batchId, a.employeeId, a.contractId, a.employeeSalaryId,
+		a.oldBase-getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') as oldBase, a.oldStartDate, a.oldEndDate,
+		a.newBase-getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') as newBase, a.newStartDate, a.newEndDate,
+		a.effectiveDate, a.deleted, a.status, a.itemId,a.itemNameZH,a.itemNameEN, a.description, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5,
+		a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countEmployeeSalaryAdjustmentTempVOsByCondition" parameterType="employeeSalaryAdjustmentTemp" resultType="int">
+		SELECT 
+			COUNT(0) 
+		FROM hro_biz_employee_salary_adjustment_temp a
+			LEFT JOIN hro_biz_employee b ON a.employeeId = b.employeeId
+			LEFT JOIN hro_biz_employee_contract c ON a.contractId = c.contractId
+			LEFT JOIN hro_biz_employee_contract_salary d ON a.employeeSalaryId = d.employeeSalaryId AND a.employeeSalaryId = d.employeeSalaryId
+		WHERE a.deleted = 1 AND a.batchId = #{batchId} 
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND b.employeeNo = #{employeeNo} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND b.nameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND b.nameEN LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="employeeCertificateNumber != null and employeeCertificateNumber != ''">
+			AND b.certificateNumber = #{employeeCertificateNumber} 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId} 
+		</if>
+		<if test="employeeContractNameZH != null and employeeContractNameZH != ''">
+			AND c.nameZH LIKE CONCAT('%', '${employeeContractNameZH}', '%')
+		</if>
+		<if test="employeeContractNameEN != null and employeeContractNameEN != ''">
+			AND c.nameEN LIKE CONCAT('%', '${employeeContractNameEN}', '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getEmployeeSalaryAdjustmentTempVOsByCondition" parameterType="employeeSalaryAdjustmentTemp" resultMap="result">
+		SELECT 
+			DISTINCT <include refid="salaryAdjustmentTempColumns-for-join" />,
+			b.employeeNo AS employeeNo, b.nameZH AS employeeNameZH, b.nameEN AS employeeNameEN, b.certificateNumber AS employeeCertificateNumber,
+		  	c.nameZH AS employeeContractNameZH, c.nameEN AS employeeContractNameEN, c.startDate AS employeeContractStartDate, c.endDate AS employeeContractEndDate,
+			d.itemId AS itemId
+		FROM hro_biz_employee_salary_adjustment_temp a
+			LEFT JOIN hro_biz_employee b ON a.employeeId = b.employeeId
+			LEFT JOIN hro_biz_employee_contract c ON a.contractId = c.contractId
+			LEFT JOIN hro_biz_employee_contract_salary d ON a.employeeSalaryId = d.employeeSalaryId AND a.employeeSalaryId = d.employeeSalaryId
+		WHERE a.deleted = 1 AND a.batchId = #{batchId} 
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND b.employeeNo = #{employeeNo} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND b.nameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND b.nameEN LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="employeeCertificateNumber != null and employeeCertificateNumber != ''">
+			AND b.certificateNumber = #{employeeCertificateNumber} 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId} 
+		</if>
+		<if test="employeeContractNameZH != null and employeeContractNameZH != ''">
+			AND c.nameZH LIKE CONCAT('%', '${employeeContractNameZH}', '%')
+		</if>
+		<if test="employeeContractNameEN != null and employeeContractNameEN != ''">
+			AND c.nameEN LIKE CONCAT('%', '${employeeContractNameEN}', '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		
+		GROUP BY a.salaryAdjustmentId
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getEmployeeSalaryAdjustmentTempVOBySalaryAdjustmentId" parameterType="int" resultMap="result">
+		SELECT <include refid="salaryAdjustmentTempColumns-for-join" /> FROM hro_biz_employee_salary_adjustment_temp a
+		WHERE a.salaryAdjustmentId = #{salaryAdjustmentId}
+	</select>
+	
+	<insert id="insertEmployeeSalaryAdjustmentTemp" parameterType="employeeSalaryAdjustmentTemp" useGeneratedKeys="true" keyProperty="salaryAdjustmentId">
+		INSERT INTO hro_biz_employee_salary_adjustment_temp(<include refid="salaryAdjustmentTempColumns" />)
+		VALUES( #{accountId}, #{corpId}, #{batchId}, #{employeeId}, #{contractId}, #{employeeSalaryId},
+				#{oldBase}, #{oldStartDate}, #{oldEndDate}, #{newBase}, #{newStartDate}, #{newEndDate}, 
+			   	#{effectiveDate}, 1, #{status}, #{itemId},#{itemNameZH},#{itemNameEN},#{description}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5},
+		       	#{createBy}, #{createDate}, #{modifyBy}, #{modifyDate} )
+	</insert>
+
+	<update id="updateEmployeeSalaryAdjustmentTemp" parameterType="employeeSalaryAdjustmentTemp">
+		UPDATE hro_biz_employee_salary_adjustment_temp SET 
+			employeeId = #{employeeId}, contractId = #{contractId}, employeeSalaryId = #{employeeSalaryId}, oldBase = #{oldBase},
+			oldStartDate = #{oldStartDate}, oldEndDate = #{oldEndDate}, newBase = #{newBase}, newStartDate=#{newStartDate}, newEndDate = #{newEndDate},
+			effectiveDate = #{effectiveDate}, deleted = #{deleted}, status = #{status},	itemId = #{itemId},
+			itemNameZH = #{itemNameZH}, itemNameEN = #{itemNameEN}, description = #{description},
+			remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5},
+			createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE salaryAdjustmentId = #{salaryAdjustmentId} 
+	</update>	
+	
+	<delete id="deleteEmployeeSalaryAdjustmentTemp" parameterType="employeeSalaryAdjustmentTemp">
+		DELETE FROM hro_biz_employee_salary_adjustment_temp WHERE salaryAdjustmentId = #{salaryAdjustmentId}
+  	</delete>
+  	
+  	<select id="getEmployeeSalaryAdjustmentTempVOsByBatchId" parameterType="int" resultMap="result">
+  		SELECT a.salaryAdjustmentId, <include refid="salaryAdjustmentTempColumns-for-join" /> FROM hro_biz_employee_salary_adjustment_temp a
+		WHERE a.batchId = #{value} AND a.deleted = 1 AND a.status = 1
+  	</select>
+  	
+</mapper>

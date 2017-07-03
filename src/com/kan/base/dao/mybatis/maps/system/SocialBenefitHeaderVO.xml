@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.system.SocialBenefitHeaderVO">
+
+	<resultMap id="result" type="com.kan.base.domain.system.SocialBenefitHeaderVO">
+		<result property="headerId" column="headerId" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="cityId" column="cityId" />
+		<result property="termMonth" column="termMonth" />
+		<result property="residency" column="residency" />
+		<result property="adjustMonth" column="adjustMonth" />
+		<result property="attribute" column="attribute" />
+		<result property="effective" column="effective" />
+		<result property="startDateLimit" column="startDateLimit" />
+		<result property="endDateLimit" column="endDateLimit" />
+		<result property="startRule" column="startRule" />
+		<result property="startRuleRemark" column="startRuleRemark" />
+		<result property="endRule" column="endRule" />
+		<result property="endRuleRemark" column="endRuleRemark" />
+		<result property="makeup" column="makeup" />
+		<result property="makeupMonth" column="makeupMonth" />
+		<result property="makeupCrossYear" column="makeupCrossYear" />
+		<result property="attachment" column="attachment" />
+		<result property="companyAccuracy" column="companyAccuracy" />
+		<result property="personalAccuracy" column="personalAccuracy" />
+		<result property="round" column="round" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+  	
+  	<sql id="socialBenefitHeaderColumns"> 
+  		nameZH, nameEN, cityId, termMonth, residency, adjustMonth, attribute, effective, startDateLimit, endDateLimit, 
+  		startRule, startRuleRemark, endRule, endRuleRemark, makeup, makeupMonth, makeupCrossYear, attachment, companyAccuracy,personalAccuracy, round, 
+  		description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<select id="countSocialBenefitHeaderVOsByCondition" parameterType="socialBenefitHeader" resultType="int">
+		select count(1) 
+		from HRO_SYS_Social_Benefit_Header
+		where deleted = 1
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="cityId != null and cityId != ''">
+			AND (cityId = #{cityId} or 0 = #{cityId})
+		</if>
+		<if test="residency != null and residency != ''">
+			AND (residency = #{residency} or 0 = #{residency})
+		</if>
+		<if test="adjustMonth != null and adjustMonth != ''">
+			AND (adjustMonth = #{adjustMonth} or 0 = #{adjustMonth})
+		</if>
+		<if test="makeup != null and makeup != ''">
+			AND (makeup = #{makeup} or 0 = #{makeup})
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+  	
+	<select id="getSocialBenefitHeaderVOsByCondition" parameterType="socialBenefitHeader" resultMap="result">
+		select headerId, <include refid="socialBenefitHeaderColumns"/>  
+		from HRO_SYS_Social_Benefit_Header 
+		where deleted = 1
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="cityId != null and cityId != ''">
+			AND (cityId = #{cityId} or 0 = #{cityId})
+		</if>
+		<if test="residency != null and residency != ''">
+			AND (residency = #{residency} or 0 = #{residency})
+		</if>
+		<if test="adjustMonth != null and adjustMonth != ''">
+			AND (adjustMonth = #{adjustMonth} or 0 = #{adjustMonth})
+		</if>
+		<if test="makeup != null and makeup != ''">
+			AND (makeup = #{makeup} or 0 = #{makeup})
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+  	
+  	<select id="getSocialBenefitHeaderVOByHeaderId" parameterType="int" resultMap="result">
+		select headerId, <include refid="socialBenefitHeaderColumns"/>  
+		from HRO_SYS_Social_Benefit_Header 
+		where headerId = #{value}
+  	</select>
+  	
+  	<insert id="insertSocialBenefitHeader" parameterType="socialBenefitHeader" useGeneratedKeys="true" keyProperty="headerId">
+		insert into HRO_SYS_Social_Benefit_Header(<include refid="socialBenefitHeaderColumns"/>) 
+		values(#{nameZH}, #{nameEN}, #{cityId}, #{termMonth}, #{residency}, #{adjustMonth}, #{attribute}, #{effective}, #{startDateLimit}, #{endDateLimit}, 
+			   #{startRule}, #{startRuleRemark}, #{endRule}, #{endRuleRemark}, #{makeup}, #{makeupMonth}, #{makeupCrossYear}, #{attachment}, #{companyAccuracy},#{personalAccuracy}, #{round}, #{description}, 1, 
+			   #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+
+	<update id="updateSocialBenefitHeader" parameterType="socialBenefitHeader">
+		update HRO_SYS_Social_Benefit_Header set 
+			nameZH = #{nameZH}, nameEN = #{nameEN}, cityId = #{cityId}, termMonth = #{termMonth}, residency = #{residency}, adjustMonth = #{adjustMonth}, 
+			attribute = #{attribute}, effective = #{effective}, startDateLimit = #{startDateLimit}, endDateLimit = #{endDateLimit}, startRule = #{startRule}, 
+			startRuleRemark = #{startRuleRemark}, endRule = #{endRule}, endRuleRemark = #{endRuleRemark}, makeup = #{makeup}, makeupMonth = #{makeupMonth}, 
+			makeupCrossYear = #{makeupCrossYear}, attachment = #{attachment},companyAccuracy = #{companyAccuracy},personalAccuracy = #{personalAccuracy}, round = #{round}, description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1},
+		    remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where headerId = #{headerId} 
+  	</update>
+  	
+  	<delete id="deleteSocialBenefitHeader" parameterType="int">
+		delete from HRO_SYS_Social_Benefit_Header where headerId = #{value}
+  	</delete>
+	
+	<select id="getSocialBenefitHeaderVOsByCityId" parameterType="int" resultMap="result">
+		select headerId, <include refid="socialBenefitHeaderColumns"/>  
+		from HRO_SYS_Social_Benefit_Header 
+		where deleted = 1 AND status = 1 AND cityId = #{value}
+	</select>
+</mapper>

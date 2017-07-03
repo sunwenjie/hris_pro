@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="batchTempForm" type="com.kan.hro.domain.biz.settlement.BatchTempVO"></form-bean>
+		<form-bean name="batchForm" type="com.kan.hro.domain.biz.settlement.BatchVO"></form-bean>
+		<form-bean name="orderHeaderForm" type="com.kan.hro.domain.biz.settlement.OrderHeaderVO"></form-bean>
+		<form-bean name="orderHeaderTempForm" type="com.kan.hro.domain.biz.settlement.OrderHeaderTempVO"></form-bean>
+		<form-bean name="serviceContractForm" type="com.kan.hro.domain.biz.settlement.ServiceContractVO"></form-bean>
+		<form-bean name="serviceContractTempForm" type="com.kan.hro.domain.biz.settlement.ServiceContractTempVO"></form-bean>
+		<form-bean name="adjustmentHeaderForm" type="com.kan.hro.domain.biz.settlement.AdjustmentHeaderVO"></form-bean>
+		<form-bean name="adjustmentDetailForm" type="com.kan.hro.domain.biz.settlement.AdjustmentDetailVO"></form-bean>
+		<form-bean name="orderBillHeaderViewForm" type="com.kan.hro.domain.biz.settlement.OrderBillHeaderView"></form-bean>
+		
+		<form-bean name="settlementAdjustmentImportBatchForm" type="com.kan.hro.domain.biz.settlement.SettlementAdjustmentImportBatchVO"></form-bean>
+		<form-bean name="settlementAdjustmentImportHeaderForm" type="com.kan.hro.domain.biz.settlement.SettlementAdjustmentImportHeaderVO"></form-bean>
+		<form-bean name="settlementAdjustmentImportDetailForm" type="com.kan.hro.domain.biz.settlement.SettlementAdjustmentImportDetailVO"></form-bean>
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+
+		<!-- Table actions start -->
+		<action parameter="proc" path="/settlementTempAction" type="com.kan.hro.web.actions.biz.settlement.SettlementTempAction" name="batchTempForm" scope="request" validate="false">
+			<forward name="listBatchTemp" path="/jsp/settlement/temp/listBatchTemp.jsp"></forward>
+			<forward name="listBatchTempTable" path="/contents/settlement/temp/table/listBatchTempTable.jsp"></forward>
+			<forward name="manageBatchTemp" path="/jsp/settlement/temp/manageBatchTemp.jsp"></forward>
+			<forward name="listHeaderTemp" path="/jsp/settlement/temp/listHeaderTemp.jsp"></forward>
+			<forward name="listHeaderTempTable" path="/contents/settlement/temp/table/listHeaderTempTable.jsp"></forward>
+			<forward name="listContractTemp" path="/jsp/settlement/temp/listContractTemp.jsp"></forward>
+			<forward name="listContractTempTable" path="/contents/settlement/temp/table/listContractTempTable.jsp"></forward>
+			<forward name="listDetailTemp" path="/jsp/settlement/temp/listDetailTemp.jsp"></forward>
+			<forward name="listDetailTempTable" path="/contents/settlement/temp/table/listDetailTempTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/settlementAction" type="com.kan.hro.web.actions.biz.settlement.SettlementAction" name="batchForm" scope="request" validate="false">
+			<forward name="listBatch" path="/jsp/settlement/listBatch.jsp"></forward>
+			<forward name="listBatchTable" path="/contents/settlement/table/listBatchTable.jsp"></forward>
+			<forward name="listHeader" path="/jsp/settlement/listHeader.jsp"></forward>
+			<forward name="listHeaderTable" path="/contents/settlement/table/listHeaderTable.jsp"></forward>
+			<forward name="listContract" path="/jsp/settlement/listContract.jsp"></forward>
+			<forward name="listContractTable" path="/contents/settlement/table/listContractTable.jsp"></forward>
+			<forward name="listDetail" path="/jsp/settlement/listDetail.jsp"></forward>
+			<forward name="listDetailTable" path="/contents/settlement/table/listDetailTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/settlementHeaderAction" type="com.kan.hro.web.actions.biz.settlement.SettlementHeaderAction" name="orderHeaderForm" scope="request" validate="false">
+			<forward name="listHeader" path="/jsp/settlement/listHeader.jsp"></forward>
+			<forward name="listHeaderTable" path="/contents/settlement/table/listHeaderTable.jsp"></forward>
+			<forward name="listBatch" path="/jsp/settlement/listBatch.jsp"></forward>
+			<forward name="listBatchTable" path="/contents/settlement/table/listBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/settlementContractAction" type="com.kan.hro.web.actions.biz.settlement.SettlementContractAction" name="serviceContractForm" scope="request" validate="false">
+			<forward name="listContract" path="/jsp/settlement/listContract.jsp"></forward>
+			<forward name="listContractTable" path="/contents/settlement/table/listContractTable.jsp"></forward>
+			<forward name="listBatch" path="/jsp/settlement/listBatch.jsp"></forward>
+			<forward name="listBatchTable" path="/contents/settlement/table/listBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/settlementContractTempAction" type="com.kan.hro.web.actions.biz.settlement.SettlementContractTempAction" name="serviceContractTempForm" scope="request" validate="false">
+			<forward name="listContractTemp" path="/jsp/settlement/temp/listContractTemp.jsp"></forward>
+			<forward name="listContractTempTable" path="/contents/settlement/temp/table/listContractTempTable.jsp"></forward>
+			<forward name="listBatchTemp" path="/jsp/settlement/temp/listBatchTemp.jsp"></forward>
+			<forward name="listBatchTempTable" path="/contents/settlement/temp/table/listBatchTempTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/settlementHeaderTempAction" type="com.kan.hro.web.actions.biz.settlement.SettlementHeaderTempAction" name="orderHeaderTempForm" scope="request" validate="false">
+			<forward name="listHeaderTemp" path="/jsp/settlement/temp/listHeaderTemp.jsp"></forward>
+			<forward name="listHeaderTempTable" path="/contents/settlement/temp/table/listHeaderTempTable.jsp"></forward>
+			<forward name="listBatchTemp" path="/jsp/settlement/temp/listBatchTemp.jsp"></forward>
+			<forward name="listBatchTempTable" path="/contents/settlement/temp/table/listBatchTempTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- AdjustmentHeader Action -->
+		<action parameter="proc" path="/adjustmentHeaderAction" type="com.kan.hro.web.actions.biz.settlement.AdjustmentHeaderAction" name="adjustmentHeaderForm"
+			scope="request" validate="false">
+			<forward name="listAdjustmentHeader" path="/jsp/settlement/adjustment/header/listAdjustmentHeader.jsp"></forward>
+			<forward name="listAdjustmentHeaderTable" path="/contents/settlement/adjustment/header/table/listAdjustmentHeaderTable.jsp"></forward>
+			<forward name="listAdjustmentHeaderConfirm" path="/jsp/settlement/adjustment/header/listAdjustmentHeaderConfirm.jsp"></forward>
+			<forward name="listAdjustmentHeaderConfirmTable" path="/contents/settlement/adjustment/header/table/listAdjustmentHeaderConfirmTable.jsp"></forward>
+			<forward name="manageAdjustmentHeader" path="/jsp/settlement/adjustment/detail/listAdjustmentDetail.jsp"></forward>
+			<forward name="listAdjustmentDetail" path="/jsp/settlement/adjustment/detail/listAdjustmentDetail.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- AdjustmentDetail Action -->
+		<action parameter="proc" path="/adjustmentDetailAction" type="com.kan.hro.web.actions.biz.settlement.AdjustmentDetailAction" name="adjustmentDetailForm"
+			scope="request" validate="false">
+			<forward name="listAdjustmentDetail" path="/jsp/settlement/adjustment/detail/listAdjustmentDetail.jsp"></forward>
+			<forward name="listAdjustmentDetailConfrim" path="/jsp/settlement/adjustment/detail/listAdjustmentDetailConfirm.jsp"></forward>
+			<forward name="listAdjustmentDetailTable" path="/contents/settlement/adjustment/detail/table/listAdjustmentDetailTable.jsp"></forward>
+			<forward name="manageAdjustmentDetailForm" path="/contents/settlement/adjustment/detail/form/manageAdjustmentDetailForm.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- settlementCostView Action -->
+		<action parameter="proc" path="/orderBillHeaderViewAction" type="com.kan.hro.web.actions.biz.settlement.OrderBillHeaderViewAction" name="orderBillHeaderViewForm"
+			scope="request" validate="false">
+			<forward name="listOrderBillHeaderView" path="/jsp/settlement/listOrderBillHeaderView.jsp" />
+			<forward name="listOrderBillDetailView" path="/jsp/settlement/listOrderBillDetailView.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/settlementAdjustmentImportBatchAction" type="com.kan.hro.web.actions.biz.settlement.SettlementAdjustmentImportBatchAction" name="settlementAdjustmentImportBatchForm" scope="request" validate="false">
+			<forward name="listSettlementAdjustmentImportBatch" path="/jsp/settlement/adjustment/batch/listSettlementAdjustmentImportBatch.jsp"></forward>
+			<forward name="listSettlementAdjustmentImportBatchTable" path="/contents/settlement/adjustment/batch/table/listSettlementAdjustmentImportBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/settlementAdjustmentImportHeaderAction" type="com.kan.hro.web.actions.biz.settlement.SettlementAdjustmentImportHeaderAction" name="settlementAdjustmentImportHeaderForm"
+			scope="request" validate="false">
+			<forward name="listSettlementAdjustmentImportBatch" path="/jsp/settlement/adjustment/batch/listSettlementAdjustmentImportBatch.jsp"></forward>
+			<forward name="listSettlementAdjustmentImportHeader" path="/jsp/settlement/adjustment/header/listSettlementAdjustmentImportHeader.jsp"></forward>
+			<forward name="listSettlementAdjustmentImportHeaderTable" path="/contents/settlement/adjustment/header/table/listSettlementAdjustmentImportHeaderTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/settlementAdjustmentImportDetailAction" type="com.kan.hro.web.actions.biz.settlement.SettlementAdjustmentImportDetailAction" name="settlementAdjustmentImportDetailForm"
+			scope="request" validate="false">
+			
+			<forward name="listSettlementAdjustmentImportDetail" path="/jsp/settlement/adjustment/detail/listSettlementAdjustmentImportDetail.jsp"></forward>
+			<forward name="listSettlementAdjustmentImportDetailTable" path="/contents/settlement/adjustment/detail/table/listSettlementAdjustmentImportDetailTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>
+

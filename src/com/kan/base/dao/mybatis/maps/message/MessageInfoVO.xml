@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.message.MessageInfoVO">
+
+	<resultMap id="result" type="com.kan.base.domain.message.MessageInfoVO">
+		<result property="infoId" column="infoId" />
+		<result property="systemId" column="systemId"/>
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="title" column="title"/>
+		<result property="reception" column="reception" />
+		<result property="templateId" column="templateId" />
+		<result property="content" column="content" />
+		<result property="reception" column="reception" />
+		<result property="expiredTime" column="expiredTime" />
+		<result property="readTime" column="readTime" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="employeeName" column="employeeName" />
+		<result property="receptionStatus" column="receptionStatus"/>
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+  	
+  	<sql id="messageInfoColumns"> 
+  		systemId,accountId,corpId, title,reception, templateId,content, expiredTime,readTime, 
+  		deleted, status,role,receptionStatus, remark1, remark2, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+  	<sql id="messageInfoColumns-for-join"> 
+  		m.systemId,m.accountId,m.corpId, m.title,m.reception, m.templateId,m.content, m.expiredTime,m.readTime, 
+  		m.deleted, m.status,m.receptionStatus, m.remark1, m.remark2, m.createBy, m.createDate, m.modifyBy, m.modifyDate 
+	</sql>
+	
+	<select id="countMessageInfoVOsByCondition" parameterType="messageInfo" resultType="int">
+	SELECT COUNT(0) FROM
+	(
+		select 0
+		from HRO_Message_Info m left join HRO_SEC_USER u on u.userId = m.reception and m.deleted = 1
+		left join HRO_SEC_STAFF s on s.staffId = u.staffId and s.deleted = 1
+		where m.deleted = 1 AND m.accountId = #{accountId}
+		<if test="corpId != null and corpId != '' ">
+			AND m.corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == '' ">
+			AND m.corpId is null
+		</if>
+		<if test="reception != null and reception != ''">
+			AND m.reception = #{reception} 
+		</if>
+		<if test="staffName != null and staffName != ''">
+			AND s.nameZH like CONCAT('%', '${staffName}', '%') 
+		</if>
+		<if test="title != null and title != ''">
+			AND m.title like CONCAT('%', '${title}', '%') 
+		</if>
+		<if test="content != null and content != ''">
+			AND m.content like CONCAT('%', '${content}', '%') 
+		</if>
+		<!-- 暂时修改，后续完善 -->
+		<if test="role == 5 ">
+			AND m.role = 5 
+		</if>
+		<if test="role == null or role == '' or role != 5 ">
+			AND m.role is null
+		</if>
+		<if test="beforeCreateDate != null and beforeCreateDate != ''">
+			<![CDATA[
+				AND m.createDate <= #{beforeCreateDate}
+			]]>
+		</if>
+		<if test="afterCreateDate != null and afterCreateDate != ''">
+			<![CDATA[
+				AND m.createDate >= #{afterCreateDate}
+			]]>
+		</if>
+		<if test="receptionStatus != null and receptionStatus != ''">
+			AND (m.receptionStatus = #{receptionStatus} or 0 = #{receptionStatus})
+		</if>
+			GROUP BY m.infoId
+	) t
+  	</select>
+  	
+	<select id="getMessageInfoVOsByCondition" parameterType="messageInfo" resultMap="result">
+		select m.infoId, m.systemId,m.accountId,m.title,m.receptionStatus, m.reception,m.templateId,
+		 CASE WHEN  LENGTH(m.content)>20 THEN CONCAT(SUBSTRING( m.content,1,20),'...') ELSE m.content END content, 
+		m.expiredTime,m.readTime, m.deleted, m.status, m.remark1, m.remark2, m.createBy, m.createDate, 
+		m.modifyBy, m.modifyDate ,CONCAT(s.nameZH,' - ',s.nameEN) as staffName 
+		from HRO_Message_Info m left join HRO_SEC_USER u on u.userId = m.reception and m.deleted = 1
+		left join HRO_SEC_STAFF s on s.staffId = u.staffId and s.deleted = 1
+		where m.deleted = 1 AND m.accountId = #{accountId}
+		<if test="corpId != null and corpId != '' ">
+			AND m.corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == '' ">
+			AND m.corpId is null
+		</if>
+		<if test="reception != null and reception != ''">
+			AND m.reception = #{reception} 
+		</if>
+		<if test="staffName != null and staffName != ''">
+			AND s.nameZH like CONCAT('%', '${staffName}', '%') 
+		</if>
+		<if test="title != null and title != ''">
+			AND m.title like CONCAT('%', '${title}', '%') 
+		</if>
+		<if test="content != null and content != ''">
+			AND m.content like CONCAT('%', '${content}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (m.status = #{status} or 0 = #{status})
+		</if>
+		<!-- 暂时修改，后续完善 -->
+		<if test="role == 5 ">
+			AND (m.role = 5 )
+		</if>
+		<if test="role == null or role == '' or role != 5 ">
+			AND m.role is null
+		</if>
+		<if test="beforeCreateDate != null and beforeCreateDate != ''">
+			<![CDATA[
+				AND m.createDate <= #{beforeCreateDate}
+			]]>
+		</if>
+		<if test="afterCreateDate != null and afterCreateDate != ''">
+			<![CDATA[
+				AND m.createDate >= #{afterCreateDate}
+			]]>
+		</if>
+		<if test="receptionStatus != null and receptionStatus != ''">
+			AND (m.receptionStatus = #{receptionStatus} or 0 = #{receptionStatus})
+		</if>
+			GROUP BY m.infoId
+			ORDER BY createDate DESC , receptionStatus 
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			, ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+	
+  	<select id="getMessageInfoVOByInfoId" parameterType="int" resultMap="result">
+		select m.infoId, <include refid="messageInfoColumns-for-join"/> ,CONCAT(s.nameZH,' - ',s.nameEN) as staffName ,CONCAT(e.nameZH,' - ',e.nameEN) as employeeName
+		from HRO_Message_Info m left join HRO_SEC_USER u on u.userId = m.reception and u.deleted = 1 and m.role is null
+		left join HRO_SEC_STAFF s on u.staffId = s.staffId and s.deleted = 1
+		left join hro_biz_employee e on e.employeeId = m.reception and m.role = 5
+		where m.infoId = #{value}
+  	</select>
+  	
+	<update id="updateMessageInfo" parameterType="messageInfo">
+		update HRO_Message_Info set title = #{title} ,reception = #{reception},templateId=#{templateId}, content = #{content}, 
+			expiredTime = #{expiredTime},readTime = #{readTime},
+			deleted = #{deleted}, status = #{status}, receptionStatus = #{receptionStatus}, remark1 = #{remark1}, remark2 = #{remark2}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where infoId = #{infoId} 
+  	</update>
+  	
+  	<insert id="insertMessageInfo" parameterType="messageInfo" useGeneratedKeys="true" keyProperty="infoId">
+		insert into HRO_Message_Info(<include refid="messageInfoColumns"/>) 
+		values(#{systemId},#{accountId},#{corpId},#{title} , #{reception},#{templateId}, #{content}, #{expiredTime},#{readTime},
+  		1, #{status},#{role},#{receptionStatus},#{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+  	
+  	<delete id="deleteMessageInfo" parameterType="int">
+		delete from  HRO_Message_Info  where infoId = #{infoId}
+  	</delete>
+	
+	<select id="getNotReadCount" parameterType="messageInfo" resultType="int">
+		select COUNT(0) from hro_message_info 
+		where accountId = #{accountId} 
+		and reception = #{reception} 
+		and receptionStatus = 2 and deleted = 1
+		<if test="corpId != null and corpId != '' ">
+			AND corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == '' ">
+			AND corpId is null
+		</if>
+		<if test="role == 5 ">
+			AND role = 5 
+		</if>
+		<if test="role == null or role == '' or role != 5 ">
+			AND role is null
+		</if>
+	</select>
+		
+	<select id="getAllCount" parameterType="messageInfo" resultType="int">
+		select COUNT(0) from hro_message_info 
+		where accountId = #{accountId} 
+		and reception = #{reception}  and deleted = 1
+		<if test="corpId != null and corpId != '' ">
+			AND corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == '' ">
+			AND corpId is null
+		</if>
+		<if test="role == 5 ">
+			AND role = 5 
+		</if>
+		<if test="role == null or role == '' or role != 5 ">
+			AND role is null
+		</if>
+	</select>	
+	
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.management.ShiftHeaderVO">
+
+	<resultMap id="result" type="com.kan.base.domain.management.ShiftHeaderVO" >
+		<result property="headerId" column="headerId"/>
+		<result property="accountId" column="accountId"/>
+		<result property="corpId" column="corpId"/>
+		<result property="nameZH" column="nameZH"/>
+		<result property="nameEN" column="nameEN"/>
+		<result property="shiftType" column="shiftType"/>
+		<result property="shiftIndex" column="shiftIndex"/>
+		<result property="startDate" column="startDate"/>
+		<result property="description" column="description"/>
+		<result property="deleted" column="deleted"/>
+		<result property="status" column="status"/>
+		<result property="remark1" column="remark1"/>
+		<result property="remark2" column="remark2"/>
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For Application -->
+		<result property="extended" column="extended" />
+	</resultMap>
+	
+	<sql id="shiftHeaderColumns">
+		 accountId, corpId, nameZH, nameEN, shiftType, shiftIndex, startDate, description, deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate
+	</sql>  	
+	
+	<sql id="shiftHeaderColumns-for-join">
+		 a.accountId, a.corpId, a.nameZH, a.nameEN, a.shiftType, a.shiftIndex, a.startDate, a.description, a.deleted, a.status, a.remark1, a.remark2, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>  	
+	
+	<select id="countShiftHeaderVOsByCondition" parameterType="shiftHeader" resultType="int">
+		select count(1) 
+		from HRO_MGT_Shift_Header
+		where deleted = 1 AND ( accountId = #{accountId} OR 1 = accountId )
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 1 = accountId)
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="shiftType != null and shiftType != ''">
+			AND (shiftType = #{shiftType} or 0 = #{shiftType})
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+
+	<select id="getShiftHeaderVOsByCondition" parameterType="shiftHeader" resultMap="result">
+		SELECT	a.headerId, <include refid="shiftHeaderColumns-for-join"/>, 
+			CASE WHEN ISNULL( b.shiftId ) THEN 2 ELSE 1 END as `extended`
+		FROM hro_mgt_shift_header a LEFT JOIN
+			(
+				SELECT shiftId FROM hro_biz_employee_contract
+				WHERE deleted = 1 AND accountId = #{accountId}
+				GROUP BY shiftId
+				
+				UNION ALL
+				
+				SELECT shiftId FROM hro_biz_client_order_header
+				WHERE deleted = 1 AND accountId = #{accountId}
+				GROUP BY shiftId
+			) b ON a.headerId = b.shiftId
+		WHERE a.deleted = 1 AND ( a.accountId = #{accountId} OR 1 = a.accountId )	
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 1 = a.accountId)
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="shiftType != null and shiftType != ''">
+			AND (a.shiftType = #{shiftType} or 0 = #{shiftType})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		GROUP BY a.headerId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>			
+  	</select>
+  	
+  	<select id="getShiftHeaderVOByHeaderId" parameterType="int" resultMap="result">
+  		select headerId, <include refid="shiftHeaderColumns"/>
+  		from HRO_MGT_Shift_Header
+  		where headerId = #{value}
+  	</select>
+  	
+  	<insert id="insertShiftHeader" parameterType="shiftHeader" useGeneratedKeys="true" keyProperty="headerId">
+  		insert into HRO_MGT_Shift_Header(<include refid="shiftHeaderColumns"/>)		
+  		values( #{accountId}, #{corpId}, #{nameZH}, #{nameEN}, #{shiftType}, #{shiftIndex}, #{startDate}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate}) 	
+  	</insert>
+  	
+  	<update id="updateShiftHeader" parameterType="shiftHeader">  							
+  		update HRO_MGT_Shift_Header set nameZH = #{nameZH}, nameEN = #{nameEN}, shiftType = #{shiftType}, shiftIndex = #{shiftIndex}, startDate = #{startDate},
+  			description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, 
+  			createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+  		where headerId = #{headerId}  		
+  	</update>  	
+  	
+  	<delete id="deleteShiftHeader" parameterType="int">
+  		delete from HRO_MGT_Shift_Header where headerId = #{value} 
+  	</delete>
+  	
+  	<select id="getShiftHeaderVOsByAccountId" parameterType="int" resultMap="result">
+  		select headerId, <include refid="shiftHeaderColumns"/>
+  		from HRO_MGT_Shift_Header
+  		where deleted = 1 AND status = 1 AND accountId = #{value}
+  	</select>
+  	
+</mapper>	

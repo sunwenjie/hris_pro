@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeWorkVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeWorkVO">
+		<result property="employeeWorkId" column="employeeWorkId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="companyName" column="companyName" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="department" column="department" />
+		<result property="positionId" column="positionId" />
+		<result property="positionName" column="positionName" />
+		<result property="industryId" column="industryId" />
+		<result property="companyType" column="companyType" />
+		<result property="size" column="size" />
+		<result property="contact" column="contact" />
+		<result property="phone" column="phone" />
+		<result property="mobile" column="mobile" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<result property="positionNameZH" column="positionNameZH" />
+		<result property="positionNameEN" column="positionNameEN" />
+	</resultMap>
+
+	<sql id="employeeWorkColumns">
+		employeeId, companyName, startDate, endDate, department, positionId, positionName, industryId, companyType, size, contact, phone, mobile, 
+		description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>	
+	
+	<sql id="employeeWorkColumns-for-join">
+		a.employeeId, a.companyName, a.startDate, a.endDate, a.department, a.positionId, a.positionName, a.industryId, a.companyType, a.size, a.contact, 
+		a.phone, a.mobile, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, 
+		a.modifyDate
+	</sql>	
+	
+	<select id="countEmployeeWorkVOsByCondition" parameterType="employeeWork" resultType="int">
+		SELECT COUNT(0)
+		FROM HRO_BIZ_Employee_Work a LEFT JOIN HRO_MGT_Position b ON a.positionId = b.positionId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.employeeId = #{employeeId}
+		<if test="companyName != null and companyName != ''">
+			AND (a.companyName = #{companyName} or 0 = #{companyName})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getEmployeeWorkVOsByCondition" parameterType="employeeWork" resultMap="result">
+		SELECT a.employeeWorkId, <include refid="employeeWorkColumns-for-join"/>, b.titleZH as positionNameZH, b.titleEN as positionNameEN
+		FROM HRO_BIZ_Employee_Work a LEFT JOIN HRO_MGT_Position b ON a.positionId = b.positionId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.employeeId = #{employeeId}
+		<if test="companyName != null and companyName != ''">
+			AND (a.companyName = #{companyName} or 0 = #{companyName})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getEmployeeWorkVOByEmployeeWorkId" parameterType="int" resultMap="result">
+		SELECT a.employeeWorkId, <include refid="employeeWorkColumns-for-join"/>, b.titleZH as positionNameZH, b.titleEN as positionNameEN
+		FROM HRO_BIZ_Employee_Work a LEFT JOIN HRO_MGT_Position b ON a.positionId = b.positionId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.employeeWorkId = #{value}
+	</select>
+	
+	<select id="getEmployeeWorkVOsByEmployeeId" parameterType="int"  resultMap="result">
+		SELECT a.employeeWorkId, <include refid="employeeWorkColumns-for-join"/>, b.titleZH as positionNameZH, b.titleEN as positionNameEN
+		FROM HRO_BIZ_Employee_Work a LEFT JOIN HRO_MGT_Position b ON a.positionId = b.positionId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.employeeId = #{value}
+		ORDER BY a.startDate desc
+	</select>
+	
+	<select id="getCompanyNameByName" parameterType="String"  resultType="map">
+		SELECT DISTINCT companyName as name
+		FROM HRO_BIZ_Employee_Work
+		WHERE  companyName like CONCAT('%', '${value}', '%')
+	</select>
+	
+	<insert id="insertEmployeeWork" parameterType="employeeWork" useGeneratedKeys="true" keyProperty="employeeWorkId">
+		insert into HRO_BIZ_Employee_Work(<include refid="employeeWorkColumns" />)
+		values(#{employeeId}, #{companyName}, #{startDate}, #{endDate}, #{department}, #{positionId}, #{positionName}, #{industryId}, #{companyType}, 
+			#{size}, #{contact}, #{phone}, #{mobile}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, 
+		    #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<update id="updateEmployeeWork" parameterType="employeeWork">
+		UPDATE HRO_BIZ_Employee_Work SET employeeId = #{employeeId}, companyName = #{companyName}, startDate = #{startDate}, endDate = #{endDate}, 
+			department = #{department}, positionId = #{positionId}, positionName = #{positionName}, industryId = #{industryId}, companyType = #{companyType}, 
+			size = #{size}, contact = #{contact}, phone = #{phone}, mobile = #{mobile}, description = #{description}, deleted = #{deleted},
+			status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5},
+			createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE employeeWorkId = #{employeeWorkId} 
+	</update>	
+	
+	<delete id="deleteEmployeeWork" parameterType="int">
+		DELETE FROM HRO_BIZ_Employee_Work WHERE employeeWorkId = #{value}
+  	</delete>	
+</mapper>

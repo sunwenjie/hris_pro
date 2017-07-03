@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.attendance.TimesheetAllowanceBatchVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.attendance.TimesheetBatchVO">
+		<result property="batchId" column="batchId" />
+		<result property="accountId" column="accountId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="corpId" column="corpId" />
+		<result property="orderId" column="orderId" />
+		<result property="contractId" column="contractId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="monthly" column="monthly" />
+		<result property="weekly" column="weekly" />
+  		<result property="startDate" column="startDate" />
+  		<result property="endDate" column="endDate" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<result property="importExcelName" column="importExcelName" />
+	</resultMap>	
+
+	<sql id="timesheetBatchColumns">
+		accountId, entityId, businessTypeId, corpId, orderId, contractId, employeeId, monthly, weekly, startDate, endDate, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, 
+		modifyBy, modifyDate
+	</sql>
+	
+	<sql id="timesheetBatchColumns-for-join">
+		a.accountId,a.corpId,a.importExcelName,a.description,a.deleted,a.status,a.remark1,a.remark2,
+		a.remark3,a.remark4,a.remark5,a.createBy,a.createDate,a.modifyBy,a.modifyDate
+	</sql>
+	
+	
+	<select id="countTimesheetAllowanceBatchVOsByCondition" parameterType="timesheetBatch" resultType="int">
+		SELECT COUNT(DISTINCT a.batchId) as count
+		FROM hro_Common_batch a JOIN Hro_Biz_Attendance_Timesheet_Header_temp b ON a.batchId = b.batchId AND b.deleted = 1
+		LEFT JOIN hro_biz_employee_contract hbizemp ON b.contractId = hbizemp.contractId and hbizemp.deleted = 1
+		LEFT JOIN Hro_Biz_Employee hbe on hbe.employeeId = b.employeeId and hbe.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId} 
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (b.orderId = #{orderId} or 0 = #{orderId})
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND b.contractId = #{contractId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (b.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND b.employeeId = #{employeeId}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status}) 
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR hbe._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR hbe.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+	</select>
+	
+	<select id="getTimesheetAllowanceBatchVOsByCondition" parameterType="timesheetBatch" resultMap="result">
+		SELECT
+			a.batchId,<include refid="timesheetBatchColumns-for-join" />,
+			group_concat(distinct b.monthly) as monthly,
+			COUNT(DISTINCT b.headerId) AS countHeaderId,
+			COUNT(DISTINCT b.orderId) AS countOrderId,
+			COUNT(DISTINCT b.contractId) AS countContractId,
+			(
+				SELECT
+					sum(d.base)
+				FROM
+					hro_biz_attendance_timesheet_allowance_temp d
+				INNER JOIN Hro_Biz_Attendance_Timesheet_Header_temp e ON d.headerId = e.headerId
+				WHERE
+					e.batchId = a.batchId
+			) AS totalBases
+		FROM
+			hro_common_batch a
+		INNER JOIN Hro_Biz_Attendance_Timesheet_Header_temp b ON a.batchId = b.batchId
+		LEFT JOIN hro_biz_employee_contract hbizemp ON b.contractId = hbizemp.contractId and hbizemp.deleted = 1
+		LEFT JOIN Hro_Biz_Employee hbe on hbe.employeeId = b.employeeId and hbe.deleted = 1
+		AND b.deleted = 1
+		WHERE
+			a.deleted = 1
+		AND a.accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (b.orderId = #{orderId} or 0 = #{orderId})
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND b.contractId = #{contractId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (b.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND b.employeeId = #{employeeId}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status}) 
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR hbe._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR hbe.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		GROUP BY a.batchId, <include refid="timesheetBatchColumns-for-join" />
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getTimesheetAllowanceBatchVOByBatchId" parameterType="int" resultMap="result">
+		SELECT a.batchId, <include refid="timesheetBatchColumns-for-join" />,
+			group_concat( distinct b.monthly) as monthly,
+			COUNT(DISTINCT b.headerId) AS countHeaderId, 
+			COUNT(DISTINCT b.orderId) AS countOrderId,
+		    COUNT(DISTINCT b.contractId) AS countContractId
+		FROM hro_common_batch a
+			INNER JOIN Hro_Biz_Attendance_Timesheet_Header_temp b
+				ON a.batchId = b.batchId AND b.deleted = 1
+		WHERE a.batchId = #{value}
+		GROUP BY a.batchId, <include refid="timesheetBatchColumns-for-join" />
+	</select>
+	
+	
+	
+	<update id="updateAllowanceBaseByBatch" parameterType="timesheetBatch" >
+		UPDATE hro_biz_attendance_timesheet_allowance a
+		JOIN (
+			SELECT
+				tempa.remark4,
+				tempa.base
+			FROM
+				hro_biz_attendance_timesheet_allowance_temp tempa
+			JOIN hro_biz_attendance_timesheet_header_temp tempb ON tempa.headerId = tempb.headerId
+			JOIN hro_common_batch batch ON batch.batchId = tempb.batchId and  batch.status = 1
+			WHERE
+				batch.batchId = #{batchId}
+		)  tt ON tt.remark4 = a.allowanceId
+		JOIN hro_biz_attendance_timesheet_header b ON a.headerId = b.headerId AND b.status not in (3,5)
+		SET a.base = tt.base
+	</update>
+	
+	<update id="updateBathStatus" parameterType="timesheetBatch" >
+		UPDATE hro_common_batch SET status = 2 WHERE batchId = #{batchId}
+	</update>
+	
+	<delete id="deleteAllowanceTempByBatchId" parameterType="int" >
+		DELETE hro_biz_attendance_timesheet_allowance_temp FROM hro_biz_attendance_timesheet_allowance_temp
+		INNER JOIN hro_biz_attendance_timesheet_header_temp 
+		ON hro_biz_attendance_timesheet_allowance_temp.headerId = hro_biz_attendance_timesheet_header_temp.headerId
+		WHERE hro_biz_attendance_timesheet_header_temp.batchId = #{value}
+	</delete>
+	<delete id="deleteTimeSheetHeaderTempByBatchId" parameterType="int" >
+		delete from hro_biz_attendance_timesheet_header_temp where batchId =#{value}
+	</delete>
+	<delete id="deleteCommonBatchById" parameterType="int" >
+		delete from hro_common_batch where batchId = #{value}
+	</delete>
+	
+</mapper>

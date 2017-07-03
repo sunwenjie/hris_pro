@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeVO">
+
+	<resultMap id="employeeBaseView" type="com.kan.hro.domain.biz.employee.EmployeeBaseView">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="employeeNo" column="employeeNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="employeeName" column="employeeName" />
+	</resultMap>
+	
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeVO">
+		<result property="employeeId" column="employeeId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="employeeNo" column="employeeNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="salutation" column="salutation" />
+		<result property="birthday" column="birthday" />
+		<result property="maritalStatus" column="maritalStatus" />
+		<result property="nationNality" column="nationNality" />
+		<result property="birthdayPlace" column="birthdayPlace" />
+		<result property="residencyCityId" column="residencyCityId" />
+		<result property="residencyCity" column="residencyCity" />
+		<result property="residencyAddress" column="residencyAddress" />
+		<result property="personalAddress" column="personalAddress" />
+		<result property="personalPostcode" column="personalPostcode" />
+		<result property="highestEducation" column="highestEducation" />
+		<result property="recordNo" column="recordNo" />
+		<result property="recordAddress" column="recordAddress" />
+		<result property="residencyType" column="residencyType" />
+		<result property="graduationDate" column="graduationDate" />
+		<result property="onboardDate" column="onboardDate" />
+		<result property="startWorkDate" column="startWorkDate" />
+		<result property="hasForeignerWorkLicence" column="hasForeignerWorkLicence" />
+		<result property="foreignerWorkLicenceNo" column="foreignerWorkLicenceNo" />
+		<result property="foreignerWorkLicenceEndDate" column="foreignerWorkLicenceEndDate" />
+		<result property="hasResidenceLicence" column="hasResidenceLicence" />
+		<result property="residenceNo" column="residenceNo" />
+		<result property="residenceStartDate" column="residenceStartDate" />
+		<result property="residenceEndDate" column="residenceEndDate" />
+		<result property="certificateType" column="certificateType" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="certificateStartDate" column="certificateStartDate" />
+		<result property="certificateEndDate" column="certificateEndDate" />
+		<result property="certificateAwardFrom" column="certificateAwardFrom" />
+		<result property="bankId" column="bankId" />
+		<result property="bankBranch" column="bankBranch" />
+		<result property="bankAccount" column="bankAccount" />
+		<result property="phone1" column="phone1" />
+		<result property="mobile1" column="mobile1" />
+		<result property="email1" column="email1" />
+		<result property="website1" column="website1" />
+		<result property="phone2" column="phone2" />
+		<result property="mobile2" column="mobile2" />
+		<result property="email2" column="email2" />
+		<result property="website2" column="website2" />
+		<result property="im1Type" column="im1Type" />
+		<result property="im1" column="im1" />
+		<result property="im2Type" column="im2Type" />
+		<result property="im2" column="im2" />
+		<result property="im3Type" column="im3Type" />
+		<result property="im3" column="im3" />
+		<result property="im4Type" column="im4Type" />
+		<result property="im4" column="im4" />
+		<result property="branch" column="branch" />
+		<result property="owner" column="owner" />
+		<result property="photo" column="photo" />
+		<result property="attachment" column="attachment" />
+		<result property="resumeZH" column="resumeZH" />
+		<result property="resumeEN" column="resumeEN" />
+		<result property="publicCode" column="publicCode" />
+		<result property="_tempPositionIds" column="_tempPositionIds" />
+		<result property="_tempBranchIds" column="_tempBranchIds" />
+		<result property="_tempParentBranchIds" column="_tempParentBranchIds" />
+		<result property="_tempParentPositionIds" column="_tempParentPositionIds" />
+		<result property="_tempParentPositionOwners" column="_tempParentPositionOwners" />
+		<result property="_tempParentPositionBranchIds" column="_tempParentPositionBranchIds" />
+		<result property="_tempPositionLocationIds" column="_tempPositionLocationIds" />
+		<result property="_tempPositionGradeIds" column="_tempPositionGradeIds" />
+		<result property="_tempUsername" column="_tempUsername" />
+		<result property="healthCardNo" column="healthCardNo" />
+		<result property="healthCardStartDate" column="healthCardStartDate" />
+		<result property="hireAgain" column="hireAgain" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For Application -->
+		<result property="numberOfLaborContract" column="numberOfLaborContract" />
+		<result property="numberOfServiceContract" column="numberOfServiceContract" />
+		<result property="extended" column="extended" />
+		<result property="ownerBizEmail" column="ownerBizEmail" />
+		<result property="ownerPersonalEmail" column="ownerPersonalEmail" />
+		<!-- 用于健康证提醒类型1 3个月 2 1个月 3 半个月 4 7天 -->
+		<result property="noticeFlag" column="noticeFlag" />
+	</resultMap>
+  	
+  	<sql id="employeeColumns">
+		accountId, corpId, businessTypeId,employeeNo, nameZH, nameEN, salutation, birthday, maritalStatus ,nationNality, birthdayPlace, residencyCityId, residencyCity,residencyAddress, personalAddress, personalPostcode, 
+		highestEducation, recordNo, recordAddress, residencyType, graduationDate, onboardDate, startWorkDate, hasForeignerWorkLicence, foreignerWorkLicenceNo, foreignerWorkLicenceEndDate, 
+		hasResidenceLicence, residenceNo, residenceStartDate, residenceEndDate, certificateType, certificateNumber, certificateStartDate, certificateEndDate, certificateAwardFrom, bankId, 
+		bankBranch, bankAccount, phone1, mobile1, email1, website1, phone2, mobile2, email2, website2, im1Type, im1, im2Type, im2, im3Type, im3, im4Type, im4, branch, owner, photo, attachment, 
+		resumeZH, resumeEN, publicCode, _tempPositionIds, _tempBranchIds, _tempParentBranchIds, _tempParentPositionIds, _tempParentPositionOwners, _tempParentPositionBranchIds, _tempPositionLocationIds, _tempPositionGradeIds,  _tempUsername,
+		healthCardNo,healthCardStartDate, hireAgain,description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, 
+		createDate, modifyBy, 
+		modifyDate 
+	</sql>
+	
+	<sql id="employeeColumns_for_join">
+		a.accountId, a.corpId, a.businessTypeId,a.employeeNo, a.nameZH, a.nameEN, a.salutation, a.birthday, a.maritalStatus ,a.nationNality, a.birthdayPlace, a.residencyCityId, a.residencyCity,a.residencyAddress, a.personalAddress, 
+		a.personalPostcode, a.highestEducation, a.recordNo, a.recordAddress, a.residencyType, a.graduationDate, a.onboardDate, a.startWorkDate, a.hasForeignerWorkLicence, a.foreignerWorkLicenceNo, 
+		a.foreignerWorkLicenceEndDate, a.hasResidenceLicence, a.residenceNo, a.residenceStartDate, a.residenceEndDate, a.certificateType, a.certificateNumber, a.certificateStartDate, a.certificateEndDate,
+		a.certificateAwardFrom, a.bankId, a.bankBranch, a.bankAccount, a.phone1, a.mobile1, a.email1, a.website1, a.phone2, a.mobile2, a.email2, a.website2, a.im1Type, a.im1, a.im2Type, a.im2, 
+		a.im3Type, a.im3, a.im4Type, a.im4,a.branch, a.owner, a.photo, a.attachment, a.resumeZH, a.resumeEN, a.publicCode, a._tempPositionIds, a._tempBranchIds, a._tempParentBranchIds, a._tempParentPositionIds, a._tempParentPositionOwners, a._tempParentPositionBranchIds, a._tempPositionLocationIds, a._tempPositionGradeIds, a._tempUsername,
+		a.healthCardNo,a.healthCardStartDate,a.hireAgain,a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+  	
+  	<select id="getEmployeeBaseViews" parameterType='String' resultType="employeeBaseView" >
+  		SELECT employeeId AS id ,CONCAT(  nameZH , ' - ', nameEN  ) AS name , nameZH, nameEN
+  		FROM HRO_BIZ_Employee
+  		WHERE deleted = 1 AND status = 1 AND accountId = #{accountId}
+  		ORDER BY name
+  	</select>
+  	
+  	<select id="getEmployeeBaseViewsByName" parameterType='employeeBaseView' resultType="employeeBaseView" >
+  		SELECT employeeId AS id , CONCAT(employeeId , ' - ' ,nameZH, ' - ' ,nameEN )as name, CONCAT(nameZH , ' - ', nameEN)  AS employeeName, employeeNo, certificateNumber
+  		FROM HRO_BIZ_Employee
+  		WHERE deleted = 1 AND status = 1 AND accountId = #{accountId}
+  		ORDER BY name
+  	</select>
+  	
+  	<select id="getEmployeeBaseViewsByEmployeeNo" parameterType='employeeBaseView' resultType="employeeBaseView" >
+  		SELECT employeeId AS id, employeeNo AS name, CONCAT(employeeId,' - ',nameZH, ' - ' ,nameEN ) AS employeeName, employeeNo, nameZH, nameEN, certificateNumber
+  		FROM HRO_BIZ_Employee
+  		WHERE deleted = 1 AND status = 1 AND accountId = #{accountId}
+  		ORDER BY name
+  	</select>
+  	
+  	<select id="getEmployeeBaseViewsByNumber" parameterType='employeeBaseView' resultType="employeeBaseView" >
+  		SELECT employeeId AS id, certificateNumber AS name, CONCAT(employeeId,' - ',nameZH, ' - ' ,nameEN ) AS employeeName,certificateNumber, employeeNo, nameZH, nameEN 
+  		FROM HRO_BIZ_Employee
+  		WHERE deleted = 1 AND status = 1 AND accountId = #{accountId}
+  		ORDER BY name
+  	</select>
+  	
+	<select id="countEmployeeVOsByCondition" parameterType="employee" resultType="int">
+		SELECT COUNT(DISTINCT a.employeeId) 
+		FROM hro_biz_employee a LEFT JOIN hro_biz_employee_contract b ON a.employeeId = b.employeeId AND b.deleted = 1
+			LEFT JOIN hro_biz_client c ON b.clientId = c.clientId  AND c.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="clientId != null and clientId != ''">
+			AND c.clientId = #{clientId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND ( a.corpId = #{corpId} or 0 = #{corpId} )
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId  IS NULL
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND  UPPER(a.employeeNo) LIKE CONCAT('%', '${employeeNo}', '%')
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND UPPER(a.nameEN) LIKE CONCAT('%', '${nameEN}', '%')
+		</if>
+		<if test="recordNo != null and recordNo != ''">
+			AND a.recordNo LIKE CONCAT('%', '${recordNo}', '%')
+		</if>
+		<if test="certificateType != null and certificateType != '' ">
+			AND (a.certificateType = #{certificateType} OR 0 = #{certificateType} )
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND a.certificateNumber LIKE CONCAT('%', '${certificateNumber}', '%')
+		</if>
+		<if test="maritalStatus != null and maritalStatus != ''  ">
+			AND (a.maritalStatus = #{maritalStatus} OR 0 = #{maritalStatus})
+		</if>
+		<if test="contractStartDate != null and contractStartDate  != ''">
+			<![CDATA[
+				AND (b.startDate >= #{contractStartDate}  )
+			]]>
+		</if>
+		<if test="contractEndDate != null and contractEndDate  != ''">
+			<![CDATA[
+				AND (b.endDate <= #{contractEndDate} )
+			]]>
+		</if>
+		<if test="birthdayStart != null and birthdayStart  != ''">
+			<![CDATA[
+				AND a.birthday >= #{birthdayStart}
+			]]>
+		</if>
+		<if test="birthdayEnd != null and birthdayEnd  != ''">
+			<![CDATA[
+				AND a.birthday <= #{birthdayEnd}
+			]]>
+		</if>
+		<if test="startWorkDateStart != null and startWorkDateStart  != ''">
+			<![CDATA[
+				AND a.startWorkDate >= #{startWorkDateStart}
+			]]>
+		</if>
+		<if test="startWorkDateEnd != null and startWorkDateEnd  != ''">
+			<![CDATA[
+				AND a.startWorkDate <= #{startWorkDateEnd}
+			]]>
+		</if>
+		<if test="nationNality != null and nationNality != '' ">
+			AND (a.nationNality = #{nationNality} OR 0 = #{nationNality}) 
+		</if>
+		<if test="residencyType != null and residencyType != ''  ">
+			AND (a.residencyType = #{residencyType} OR 0 = #{residencyType}) 
+		</if>
+		<if test="highestEducation != null and highestEducation != ''  ">
+			AND (a.highestEducation = #{highestEducation} OR 0 = #{highestEducation})
+		</if>
+		<if test="branch != null and branch != ''">
+		   AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+		<if test="status != null and status != '' ">
+			AND (a.status = #{status} OR 0 = #{status}) 
+		</if>
+		
+		<if test="remark1 != null and remark1 != '' ">
+			AND a.remark1 LIKE CONCAT('${remark1}')
+		</if>
+		
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR a.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR a.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR b.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR a._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR a.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR b.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+	</select>
+
+	<select id="getEmployeeVOsByCondition" parameterType="employee" resultMap="result">
+		SELECT a.employeeId, <include refid="employeeColumns_for_join"/>, COUNT(CASE WHEN b.flag = 1 THEN 1 END) numberOfLaborContract, 
+			COUNT(CASE WHEN b.flag = 2 THEN 1 END) numberOfServiceContract, MIN(CASE WHEN ISNULL( b.contractId ) THEN 2 ELSE 1 END) AS extended
+		FROM hro_biz_employee a LEFT JOIN hro_biz_employee_contract b ON a.employeeId = b.employeeId AND b.deleted = 1
+			LEFT JOIN hro_biz_client c ON b.clientId = c.clientId AND c.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="clientId != null and clientId != ''">
+			AND c.clientId = #{clientId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND ( a.corpId = #{corpId} or 0 = #{corpId} )
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND  UPPER(a.employeeNo) LIKE CONCAT('%', '${employeeNo}', '%')
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND UPPER(a.nameEN) LIKE CONCAT('%', '${nameEN}', '%')
+		</if>
+		<if test="recordNo != null and recordNo != ''">
+			AND a.recordNo LIKE CONCAT('%', '${recordNo}', '%')
+		</if>
+		<if test="certificateType != null and certificateType != '' ">
+			AND (a.certificateType = #{certificateType} OR 0 = #{certificateType} )
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND a.certificateNumber LIKE CONCAT('%', '${certificateNumber}', '%')
+		</if>
+		<if test="maritalStatus != null and maritalStatus != ''  ">
+			AND (a.maritalStatus = #{maritalStatus} OR 0 = #{maritalStatus})
+		</if>
+		<if test="contractStartDate != null and contractStartDate  != ''">
+			<![CDATA[
+				AND (b.startDate >= #{contractStartDate}  )
+			]]>
+		</if>
+		<if test="contractEndDate != null and contractEndDate  != ''">
+			<![CDATA[
+				AND (b.endDate <= #{contractEndDate} )
+			]]>
+		</if>
+		<if test="birthdayStart != null and birthdayStart  != ''">
+			<![CDATA[
+				AND a.birthday >= #{birthdayStart}
+			]]>
+		</if>
+		<if test="birthdayEnd != null and birthdayEnd  != ''">
+			<![CDATA[
+				AND a.birthday <= #{birthdayEnd}
+			]]>
+		</if>
+		<if test="startWorkDateStart != null and startWorkDateStart  != ''">
+			<![CDATA[
+				AND a.startWorkDate >= #{startWorkDateStart}
+			]]>
+		</if>
+		<if test="startWorkDateEnd != null and startWorkDateEnd  != ''">
+			<![CDATA[
+				AND a.startWorkDate <= #{startWorkDateEnd}
+			]]>
+		</if>
+		<if test="nationNality != null and nationNality != '' ">
+			AND (a.nationNality = #{nationNality} OR 0 = #{nationNality}) 
+		</if>
+		<if test="residencyType != null and residencyType != ''  ">
+			AND (a.residencyType = #{residencyType} OR 0 = #{residencyType}) 
+		</if>
+		<if test="highestEducation != null and highestEducation != ''  ">
+			AND (a.highestEducation = #{highestEducation} OR 0 = #{highestEducation})
+		</if>
+		<if test="branch != null and branch != ''">
+		   AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+		<if test="status != null and status != '' ">
+			AND (a.status = #{status} OR 0 = #{status}) 
+		</if>
+		
+		<if test="remark1 != null and remark1 != '' ">
+			AND a.remark1 LIKE CONCAT('${remark1}')
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR a.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR a.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR a._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR a.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR b.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		
+		GROUP BY a.employeeId
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	
+	<select id="employeeByLogon" parameterType="employee" resultMap="result">
+		SELECT a.employeeId, <include refid="employeeColumns_for_join"/>
+		FROM hro_biz_employee a LEFT JOIN hro_sys_account b ON a.accountId = b.accountId AND b.deleted = 1
+		WHERE a.deleted = 1 
+		<if test="accountId != null and accountId != ''">
+			and a.accountId = #{accountId}
+		</if>
+		<if test="email1 != null and email1 != '' ">
+			and email1 = #{email1}  
+		</if>
+		<if test="email2 != null and email2 != '' ">
+			or email2 = #{email2}  
+		</if>
+		<if test="mobile1 != null and mobile1 != '' ">
+			or mobile1 = #{mobile1}  
+		</if>
+		<if test="mobile2 != null and mobile2 != '' ">
+			or mobile2 = #{mobile2}
+		</if>
+	</select>
+
+	<select id="getEmployeeVOByEmployeeId" parameterType="int" resultMap="result">
+		SELECT employeeId,<include refid="employeeColumns"/>
+		FROM HRO_BIZ_Employee 
+		WHERE deleted = 1 AND employeeId = #{value}
+	</select>
+	
+	<select id="getEmployeeVOsByPositionId" parameterType="int" resultMap="result">
+		SELECT DISTINCT a.employeeId, <include refid="employeeColumns_for_join"/>
+		FROM hro_biz_employee_contract b INNER JOIN hro_biz_employee a ON a.employeeId = b.employeeId
+		WHERE a.deleted = 1 AND b.deleted = 1 AND b.`status` = 3 AND positionId = #{value}
+	</select>
+
+	<update id="updateEmployee" parameterType="employee">
+		UPDATE HRO_BIZ_Employee SET accountId = #{accountId}, businessTypeId = #{businessTypeId}, employeeNo = #{employeeNo}, nameZH = #{nameZH}, nameEN = #{nameEN}, salutation = #{salutation}, birthday = #{birthday}, 
+			maritalStatus = #{maritalStatus}, nationNality = #{nationNality}, birthdayPlace = #{birthdayPlace}, residencyCityId = #{residencyCityId}, residencyCity=#{residencyCity},residencyAddress = #{residencyAddress}, 
+			personalAddress = #{personalAddress}, personalPostcode = #{personalPostcode}, highestEducation = #{highestEducation}, recordNo = #{recordNo}, recordAddress = #{recordAddress}, 
+			residencyType = #{residencyType}, graduationDate = #{graduationDate}, onboardDate = #{onboardDate}, startWorkDate = #{startWorkDate}, hasForeignerWorkLicence = #{hasForeignerWorkLicence}, 
+			foreignerWorkLicenceNo = #{foreignerWorkLicenceNo}, foreignerWorkLicenceEndDate = #{foreignerWorkLicenceEndDate}, hasResidenceLicence = #{hasResidenceLicence}, residenceNo = #{residenceNo}, 
+			residenceStartDate = #{residenceStartDate}, residenceEndDate = #{residenceEndDate}, certificateType = #{certificateType}, certificateNumber = #{certificateNumber}, 
+			certificateStartDate = #{certificateStartDate}, certificateEndDate = #{certificateEndDate}, certificateAwardFrom = #{certificateAwardFrom}, bankId = #{bankId}, bankBranch = #{bankBranch}, 
+			bankAccount = #{bankAccount}, phone1 = #{phone1}, mobile1 = #{mobile1}, email1 = #{email1}, website1 = #{website1}, phone2 = #{phone2}, mobile2 = #{mobile2}, email2 = #{email2}, 
+			website2 = #{website2}, im1Type = #{im1Type}, im1 = #{im1}, im2Type = #{im2Type}, im2 = #{im2}, im3Type = #{im3Type}, im3 = #{im3}, im4Type = #{im4Type}, im4 = #{im4}, branch = #{branch}, 
+			owner = #{owner}, photo = #{photo}, attachment = #{attachment}, resumeZH = #{resumeZH}, resumeEN = #{resumeEN}, publicCode = #{publicCode}, _tempPositionIds = #{_tempPositionIds}, 
+			_tempBranchIds = #{_tempBranchIds}, _tempParentBranchIds = #{_tempParentBranchIds}, _tempParentPositionIds = #{_tempParentPositionIds}, _tempParentPositionOwners = #{_tempParentPositionOwners}, _tempParentPositionBranchIds = #{_tempParentPositionBranchIds}, _tempPositionLocationIds = #{_tempPositionLocationIds}, _tempPositionGradeIds = #{_tempPositionGradeIds},
+			_tempUsername = #{_tempUsername}, healthCardNo=#{healthCardNo},healthCardStartDate=#{healthCardStartDate},hireAgain=#{hireAgain},description = #{description}, deleted = #{deleted}, status = #{status}, 
+			remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, 
+			modifyDate = #{modifyDate} 
+		WHERE employeeId = #{employeeId}
+	</update>
+	
+	<insert id="insertEmployee" parameterType="employee" useGeneratedKeys="true" keyProperty="employeeId">
+		INSERT INTO HRO_BIZ_Employee( <include refid="employeeColumns" /> )
+		VALUES (#{accountId},#{corpId}, #{businessTypeId}, #{employeeNo}, #{nameZH}, #{nameEN}, #{salutation}, #{birthday}, #{maritalStatus}, #{nationNality}, #{birthdayPlace}, #{residencyCityId},#{residencyCity}, #{residencyAddress}, 
+			#{personalAddress}, #{personalPostcode}, #{highestEducation}, #{recordNo}, #{recordAddress}, #{residencyType}, #{graduationDate}, #{onboardDate}, #{startWorkDate}, #{hasForeignerWorkLicence}, 
+			#{foreignerWorkLicenceNo}, #{foreignerWorkLicenceEndDate}, #{hasResidenceLicence}, #{residenceNo}, #{residenceStartDate}, #{residenceEndDate}, #{certificateType}, #{certificateNumber}, 
+			#{certificateStartDate}, #{certificateEndDate}, #{certificateAwardFrom}, #{bankId}, #{bankBranch}, #{bankAccount}, #{phone1}, #{mobile1}, #{email1}, #{website1}, #{phone2}, #{mobile2}, 
+			#{email2}, #{website2}, #{im1Type}, #{im1}, #{im2Type}, #{im2}, #{im3Type}, #{im3}, #{im4Type}, #{im4}, #{branch}, #{owner}, #{photo}, #{attachment}, #{resumeZH}, #{resumeEN}, #{publicCode}, 
+			#{_tempPositionIds}, #{_tempBranchIds}, #{_tempParentBranchIds}, #{_tempParentPositionIds}, #{_tempParentPositionOwners}, #{_tempParentPositionBranchIds}, #{_tempPositionLocationIds}, #{_tempPositionGradeIds}, #{_tempUsername},
+			#{healthCardNo},#{healthCardStartDate},#{hireAgain}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4},#{remark5}, #{createBy}, #{createDate}, 
+			#{modifyBy}, #{ modifyDate} )
+	</insert>
+
+	<delete id="deleteEmployee" parameterType="int">
+		DELETE FROM HRO_BIZ_Employee WHERE employeeId = #{value}
+  	</delete>
+
+	<select id="getEmployeeNosByEmployeeNoList" parameterType="employee" resultMap="result">
+		SELECT employeeId,<include refid="employeeColumns" />
+		FROM hro_biz_employee WHERE deleted = 1 AND accountId = #{accountId} 
+		<if test="corpId != null and corpId != ''">
+			AND ( corpId = #{corpId} or 0 = #{corpId} )
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		AND employeeNo in 
+		<foreach collection="employeeNoList" index="index" item="item" open="(" separator="," close=")" >  
+            #{item}  
+        </foreach>  
+	</select>
+	
+	<!-- 退休到期提醒  -->
+	<select id="getToNoticeRetireList1" parameterType="int"  resultMap="result">
+  		SELECT e.employeeId,e.nameZH,e.nameEN,e.certificateNumber,c.`owner`,s.bizEmail as ownerBizEmail,s.personalEmail as ownerPersonalEmail,e.accountId
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h on c.orderId = h.orderHeaderId AND h.deleted = 1 
+		LEFT JOIN hro_biz_employee e ON e.employeeId = c.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeRetire LIKE '%1%'
+		AND e.certificateNumber IS NOT NULL
+		AND e.certificateNumber != ''
+		AND length(e.certificateNumber)=18
+		AND( 
+		( left(date_add(now(),interval 3 month),10)=date_add(STR_TO_DATE(substring(e.certificateNumber,7,8),'%Y%m%d'), interval 60 year ) AND substring(e.certificateNumber,17,1)%2!=0 )
+		OR  
+		( left(date_add(now(),interval 3 month),10)=date_add(STR_TO_DATE(substring(e.certificateNumber,7,8),'%Y%m%d'), interval 50 year ) AND substring(e.certificateNumber,17,1)%2=0 )
+		)
+		GROUP BY e.employeeId
+  	</select>
+  	
+  	<select id="getToNoticeRetireList2" parameterType="int"  resultMap="result">
+  		SELECT e.employeeId,e.nameZH,e.nameEN,e.certificateNumber,c.`owner`,s.bizEmail as ownerBizEmail,s.personalEmail as ownerPersonalEmail,e.accountId
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h on c.orderId = h.orderHeaderId AND h.deleted = 1 
+		LEFT JOIN hro_biz_employee e ON e.employeeId = c.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeRetire LIKE '%2%'
+		AND e.certificateNumber IS NOT NULL
+		AND e.certificateNumber != ''
+		AND length(e.certificateNumber)=18
+		AND( 
+		( left(date_add(now(),interval 1 month),10)=date_add(STR_TO_DATE(substring(e.certificateNumber,7,8),'%Y%m%d'), interval 60 year ) AND substring(e.certificateNumber,17,1)%2!=0 )
+		OR  
+		( left(date_add(now(),interval 1 month),10)=date_add(STR_TO_DATE(substring(e.certificateNumber,7,8),'%Y%m%d'), interval 50 year ) AND substring(e.certificateNumber,17,1)%2=0 )
+		)
+		GROUP BY e.employeeId
+  	</select>
+  	
+  	<select id="getToNoticeRetireList3" parameterType="int"  resultMap="result">
+  		SELECT e.employeeId,e.nameZH,e.nameEN,e.certificateNumber,c.`owner`,s.bizEmail as ownerBizEmail,s.personalEmail as ownerPersonalEmail,e.accountId
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h on c.orderId = h.orderHeaderId AND h.deleted = 1 
+		LEFT JOIN hro_biz_employee e ON e.employeeId = c.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeRetire LIKE '%3%'
+		AND e.certificateNumber IS NOT NULL
+		AND e.certificateNumber != ''
+		AND length(e.certificateNumber)=18
+		AND( 
+		( left(date_add(now(),interval 15 day),10)=date_add(STR_TO_DATE(substring(e.certificateNumber,7,8),'%Y%m%d'), interval 60 year ) AND substring(e.certificateNumber,17,1)%2!=0 )
+		OR  
+		( left(date_add(now(),interval 15 day),10)=date_add(STR_TO_DATE(substring(e.certificateNumber,7,8),'%Y%m%d'), interval 50 year ) AND substring(e.certificateNumber,17,1)%2=0 )
+		)
+		GROUP BY e.employeeId
+  	</select>
+  	
+  	<select id="getToNoticeRetireList4" parameterType="int"  resultMap="result">
+  		SELECT e.employeeId,e.nameZH,e.nameEN,e.certificateNumber,c.`owner`,s.bizEmail as ownerBizEmail,s.personalEmail as ownerPersonalEmail,e.accountId
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h on c.orderId = h.orderHeaderId AND h.deleted = 1 
+		LEFT JOIN hro_biz_employee e ON e.employeeId = c.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeRetire LIKE '%4%'
+		AND e.certificateNumber IS NOT NULL
+		AND e.certificateNumber != ''
+		AND length(e.certificateNumber)=18
+		AND( 
+		(
+			<![CDATA[
+				TIMESTAMPDIFF(DAY,NOW(),date_add(STR_TO_DATE(substring(e.certificateNumber,7,8),'%Y%m%d'), interval 60 year  ))<7
+				AND TIMESTAMPDIFF(DAY,NOW(),date_add(STR_TO_DATE(substring(e.certificateNumber,7,8),'%Y%m%d'), interval 60 year  ))>=0
+				AND substring(e.certificateNumber,17,1)%2!=0 
+			]]>
+		)
+		OR  
+		( 
+			<![CDATA[
+				TIMESTAMPDIFF(DAY,NOW(),date_add(STR_TO_DATE(substring(e.certificateNumber,7,8),'%Y%m%d'), interval 50 year  ))<7
+				AND TIMESTAMPDIFF(DAY,NOW(),date_add(STR_TO_DATE(substring(e.certificateNumber,7,8),'%Y%m%d'), interval 50 year  ))>=0
+				AND substring(e.certificateNumber,17,1)%2=0 )
+			]]>
+		)
+		GROUP BY e.employeeId
+  	</select>
+  	
+  	<select id="getToNoticeRetireList5" parameterType="int"  resultMap="result">
+  		SELECT e.employeeId,e.nameZH,e.nameEN,e.certificateNumber,c.`owner`,s.bizEmail as ownerBizEmail,s.personalEmail as ownerPersonalEmail,e.accountId
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h on c.orderId = h.orderHeaderId AND h.deleted = 1 
+		LEFT JOIN hro_biz_employee e ON e.employeeId = c.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeRetire LIKE '%5%'
+		AND e.certificateNumber IS NOT NULL
+		AND e.certificateNumber != ''
+		AND length(e.certificateNumber)=18
+		AND( 
+		( left(date_add(now(),interval 4 month),10)=date_add(STR_TO_DATE(substring(e.certificateNumber,7,8),'%Y%m%d'), interval 60 year ) AND substring(e.certificateNumber,17,1)%2!=0 )
+		OR  
+		( left(date_add(now(),interval 4 month),10)=date_add(STR_TO_DATE(substring(e.certificateNumber,7,8),'%Y%m%d'), interval 50 year ) AND substring(e.certificateNumber,17,1)%2=0 )
+		)
+		GROUP BY e.employeeId
+  	</select>
+  	
+  	<!-- 删除离职的员�?职位-->
+	<update id="updateEmployeePosition" parameterType="int">
+		update hro_sec_position_staff_relation set deleted = 2 WHERE staffId in (
+			select staffId  from hro_biz_employee  e
+			LEFT JOIN hro_sec_staff  s on s.employeeId = e.employeeId AND s.deleted = 1
+			WHERE e.`status` = '3'
+			AND e.deleted = 1
+		)
+	</update>
+	
+	<!-- 根据员工编号获取员工 -->
+	<select id="getEmployeeVOsByAbsEquEmpNo" parameterType="string" resultMap="result">
+		SELECT employeeId,<include refid="employeeColumns"/>
+		FROM HRO_BIZ_Employee 
+		WHERE deleted = 1 AND employeeNo = #{value}
+	</select>
+	
+	<!-- 获取需要提醒健康证到期的员工--> 
+	<select id="getEmployeeVOsByNoticeHealthCardExpire" parameterType="string" resultMap="result">
+		SELECT * from(
+		SELECT *,1 as noticeFlag FROM hro_biz_employee 
+		WHERE left(date_add(healthCardStartDate,interval 1 year),10) = left(date_add(now(),interval 3 month) , 10)
+		union
+		SELECT *,2 as noticeFlag FROM hro_biz_employee
+		WHERE left(date_add(healthCardStartDate,interval 1 year),10) = left(date_add(now(),interval 1 month) , 10)
+		union
+		SELECT *,3 as noticeFlag FROM hro_biz_employee
+		WHERE left(date_add(healthCardStartDate,interval 1 year),10) = left(date_add(now(),interval 15 day) , 10)
+		union
+		SELECT *,4 as noticeFlag FROM hro_biz_employee
+		WHERE left(date_add(healthCardStartDate,interval 1 year),10) 
+				BETWEEN 
+		  			left(date_add(now(),interval 0 day) , 10 )
+				AND left(date_add(now(),interval 7 day) , 10 ) 
+		) t WHERE t.healthCardNo is not null AND t.deleted = 1 
+	</select>
+	
+	<!-- 在员工基本信息中更新职位需先删掉下级职位的上级职位所属人siuvan added -->
+	<select id="getEmployeeVOsByTempParentPositionOwners" parameterType="string" resultMap="result">
+		SELECT employeeId,<include refid="employeeColumns"/>
+		FROM HRO_BIZ_Employee 
+		WHERE deleted = 1 AND FIND_IN_SET(${value},_tempParentPositionOwners) 
+	</select>
+	
+	<!-- 根据公司邮箱获取员工/排除本身 -->
+	<select id="emailIsRegister" parameterType="map" resultMap="result">
+		SELECT employeeId,<include refid="employeeColumns"/>
+		FROM HRO_BIZ_Employee 
+		WHERE accountId = 100017 and deleted = 1 AND email1 = #{email1}
+		<if test="employeeId != null and employeeId != ''">
+			and employeeId != #{employeeId}
+		</if>
+	</select>
+	
+	<!-- 转换HR对接人 -->
+	<update id="transferEmployeeHROwner" parameterType="map">
+        update hro_biz_employee a, hro_sec_position b
+            set a.owner = #{newHROwner}, a.branch = b.branchId
+        where a.deleted = 1
+        <if test="newHROwner != null and newHROwner != ''">
+            and b.positionId = #{newHROwner}
+        </if>
+        <if test="oldHROwner != null and oldHROwner != ''">
+            and a.owner = #{oldHROwner}
+        </if>
+        <if test="entityId != null and entityId != ''">
+            and a.employeeId in
+            (
+                select employeeId from hro_biz_employee_contract
+                where deleted = 1 and entityId = #{entityId}
+                <if test="oldHROwner != null and oldHROwner != ''">
+                    and owner = #{oldHROwner}
+                </if>
+            )
+        </if>
+	</update>
+</mapper>

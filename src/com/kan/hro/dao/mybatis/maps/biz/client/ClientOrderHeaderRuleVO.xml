@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.client.ClientOrderHeaderRuleVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.client.ClientOrderHeaderRuleVO">
+		<result property="orderHeaderRuleId" column="orderHeaderRuleId" />
+		<result property="orderHeaderId" column="orderHeaderId" />
+		<result property="ruleType" column="ruleType" />
+		<result property="ruleValue" column="ruleValue" />
+		<result property="ruleResult" column="ruleResult" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="orderHeaderName" column="orderHeaderName" />
+	</resultMap>
+  	
+	<sql id="ClientOrderHeaderRuleColumns">
+		orderHeaderId, ruleType, ruleValue, ruleResult, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy,
+		createDate, modifyBy, modifyDate 
+	</sql>
+
+	<select id="countClientOrderHeaderRuleVOsByCondition" parameterType="clientOrderHeaderRule"
+		resultType="int">
+		select count(*)
+		from HRO_BIZ_Client_Order_Header_Rule
+		where deleted = 1 AND orderHeaderId = #{orderHeaderId}
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+	</select>
+
+	<select id="getClientOrderHeaderRuleVOsByCondition" parameterType="clientOrderHeaderRule"
+		resultMap="result">
+		select orderHeaderRuleId, <include refid="ClientOrderHeaderRuleColumns"/>  
+		from HRO_BIZ_Client_Order_Header_Rule 
+		where deleted = 1 AND orderHeaderId = #{orderHeaderId}
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getClientOrderHeaderRuleVOByOrderHeaderRuleId" parameterType="int"
+		resultMap="result">
+		SELECT orderHeaderRule.*,
+		CONCAT(orderHeader.nameZH , ' - ', orderHeader.nameEN) as orderHeaderName
+		FROM
+		(SELECT * FROM HRO_BIZ_Client_Order_Header_Rule WHERE orderHeaderRuleId = #{value}
+		)orderHeaderRule
+		LEFT JOIN
+	 	( SELECT * FROM HRO_BIZ_Client_Order_Header WHERE deleted = 1 ) orderHeader ON orderHeader.orderHeaderId = orderHeaderRule.orderHeaderId
+	</select>
+
+	<update id="updateClientOrderHeaderRule" parameterType="clientOrderHeaderRule">
+		update
+		HRO_BIZ_Client_Order_Header_Rule set orderHeaderId = #{orderHeaderId}, ruleValue = #{ruleValue}, ruleResult = #{ruleResult},
+		ruleType = #{ruleType}, description = #{description},
+		deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4},
+		remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where orderHeaderRuleId = #{orderHeaderRuleId} 
+  	</update>
+
+	<insert id="insertClientOrderHeaderRule" parameterType="clientOrderHeaderRule"
+		useGeneratedKeys="true" keyProperty="orderHeaderRuleId">
+		insert into HRO_BIZ_Client_Order_Header_Rule( <include refid="ClientOrderHeaderRuleColumns" /> )
+		values (#{orderHeaderId}, #{ruleType}, #{ruleValue}, #{ruleResult}, #{description},
+		1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteClientOrderHeaderRule" parameterType="int">
+		delete from HRO_BIZ_Client_Order_Header_Rule where orderHeaderRuleId = #{value}
+  	</delete>
+
+	<select id="getClientOrderHeaderRuleVOsByClientOrderHeaderId" parameterType="int"
+		resultMap="result">
+		SELECT orderHeaderRuleId,<include refid="ClientOrderHeaderRuleColumns"/>
+		FROM HRO_BIZ_Client_Order_Header_Rule 
+		where deleted = 1 
+		AND orderHeaderId = #{value}
+	</select>
+
+</mapper>

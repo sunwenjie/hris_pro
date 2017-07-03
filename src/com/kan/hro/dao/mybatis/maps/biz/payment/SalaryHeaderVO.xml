@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.payment.SalaryHeaderVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.payment.SalaryHeaderVO">
+		<result property="salaryHeaderId" column="salaryHeaderId" />
+		<result property="accountId" column="accountId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="batchId" column="batchId" />
+		<result property="clientId" column="clientId" />
+		<result property="corpId" column="corpId" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="orderId" column="orderId" />
+		<result property="contractId" column="contractId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="certificateType" column="certificateType" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="bankId" column="bankId" />
+		<result property="bankNameZH" column="bankNameZH" />
+		<result property="bankNameEN" column="bankNameEN" />
+		<result property="bankAccount" column="bankAccount" />
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+		<result property="taxAmountPersonal" column="taxAmountPersonal" />
+		<result property="addtionalBillAmountPersonal" column="addtionalBillAmountPersonal" />
+		<result property="estimateSalary" column="estimateSalary" />
+		<result property="actualSalary" column="actualSalary" />
+		<result property="monthly" column="monthly" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+  	
+	<sql id="salaryHeaderColumns">
+		accountId, entityId, businessTypeId, batchId, clientId, corpId, clientNameZH, clientNameEN, orderId, contractId, employeeId, employeeNameZH, employeeNameEN, 
+		startDate, endDate, certificateType, certificateNumber, bankId, bankNameZH, bankNameEN, bankAccount, billAmountCompany, billAmountPersonal, costAmountCompany,
+		costAmountPersonal, taxAmountPersonal, addtionalBillAmountPersonal,estimateSalary ,actualSalary, monthly, description, deleted, status, remark1, remark2, remark3, remark4, remark5, 
+		createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<sql id="salaryHeaderColumns-for-join">
+		a.accountId, a.entityId, a.businessTypeId, a.batchId, a.clientId, a.corpId, a.clientNameZH, a.clientNameEN, a.orderId, a.contractId, a.employeeId, 
+		a.employeeNameZH, a.employeeNameEN, a.startDate, a.endDate, a.certificateType, a.certificateNumber, a.bankId, a.bankNameZH, a.bankNameEN, a.bankAccount, 
+		a.billAmountCompany - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS billAmountCompany, 
+		a.billAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS billAmountPersonal, 
+		a.costAmountCompany - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS costAmountCompany, 
+		a.costAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS costAmountPersonal, 
+		a.taxAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS taxAmountPersonal, 
+		a.addtionalBillAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS addtionalBillAmountPersonal, 
+		a.estimateSalary - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS estimateSalary,
+		a.actualSalary - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS actualSalary, 
+		a.monthly, 
+		a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+
+	<select id="countSalaryHeaderVOsByCondition" parameterType="salaryHeader" resultType="int">
+		SELECT COUNT(1)
+		FROM hro_salary_header a left join hro_common_batch b  ON a.batchId = b.batchId 
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}  
+		<if test=" corpId!= null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId} )
+		</if>
+		<if test=" corpId== null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="salaryHeaderId != null and salaryHeaderId != ''">
+			AND (a.salaryHeaderId = #{salaryHeaderId} OR 0 = #{salaryHeaderId})
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} OR 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} OR 0 = #{businessTypeId} )
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND (a.batchId = #{batchId} OR 0 = #{batchId} )
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND (a.clientId = #{clientId} OR 0 = #{clientId} )
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND a.clientNameZH LIKE CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND a.clientNameEN LIKE CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (a.orderId = #{orderId} OR 0 = #{orderId} )
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND (a.contractId = #{contractId} OR 0 = #{contractId} )
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND (a.employeeId = #{employeeId} OR 0 = #{employeeId} )
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameEN LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="startDate != null and startDate  != ''">
+			<![CDATA[ AND (a.startDate >= #{startDate}) ]]>
+		</if>
+		<if test="endDate != null and endDate  != ''">
+			<![CDATA[ AND (a.endDate <= #{endDate}) ]]>
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly =#{monthly} OR 0 = #{monthly})
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND (a.certificateNumber =#{certificateNumber} OR 0 = #{certificateNumber})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status =#{status} OR 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getSalaryHeaderVOsByCondition" parameterType="salaryHeader" resultMap="result">
+		SELECT a.salaryHeaderId, <include refid="salaryHeaderColumns-for-join" />, b.owner
+		FROM hro_salary_header a left join hro_common_batch b on a.batchId = b.batchId 
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}  
+		<if test=" corpId!= null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId} )
+		</if>
+		<if test=" corpId== null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="salaryHeaderId != null and salaryHeaderId != ''">
+			AND (a.salaryHeaderId = #{salaryHeaderId} OR 0 = #{salaryHeaderId})
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} OR 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} OR 0 = #{businessTypeId})
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND (a.batchId = #{batchId} OR 0 = #{batchId})
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND (a.clientId = #{clientId} OR 0 = #{clientId})
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND a.clientNameZH LIKE CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND a.clientNameEN LIKE CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (a.orderId = #{orderId} OR 0 = #{orderId} )
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND (a.contractId = #{contractId} OR 0 = #{contractId} )
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND (a.employeeId = #{employeeId} OR 0 = #{employeeId} )
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameEN LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="startDate != null and startDate != ''">
+			<![CDATA[ AND (a.startDate >= #{startDate}) ]]>
+		</if>
+		<if test="endDate != null and endDate != ''">
+			<![CDATA[ AND (a.endDate <= #{endDate}) ]]>
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly =#{monthly} OR 0 = #{monthly})
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND (a.certificateNumber =#{certificateNumber} OR 0 = #{certificateNumber})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status =#{status} OR 0 = #{status})
+		</if>
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getSalaryHeaderVOByHeaderId" parameterType="int" resultMap="result">
+		SELECT a.salaryHeaderId, <include refid="salaryHeaderColumns-for-join" />, b.owner
+		FROM hro_salary_header a left join hro_common_batch b on a.batchId = b.batchId 
+		WHERE salaryHeaderId = #{value}	
+	</select>
+
+	<update id="updateSalaryHeader" parameterType="salaryHeader">
+		UPDATE hro_salary_header SET entityId = #{entityId}, businessTypeId = #{businessTypeId}, batchId = #{batchId}, clientId = #{clientId}, clientNameZH = #{clientNameZH}, 
+			clientNameEN = #{clientNameEN}, orderId = #{orderId}, contractId = #{contractId}, employeeId = #{employeeId}, employeeNameZH = #{employeeNameZH}, 
+			employeeNameEN = #{employeeNameEN}, startDate = #{startDate}, endDate = #{endDate}, certificateType = #{certificateType}, certificateNumber = #{certificateNumber}, 
+			bankId = #{bankId}, bankNameZH = #{bankNameZH}, bankNameEN = #{bankNameEN}, bankAccount = #{bankAccount}, billAmountCompany = #{billAmountCompany}, 
+			billAmountPersonal = #{billAmountPersonal}, costAmountCompany = #{costAmountCompany}, costAmountPersonal = #{costAmountPersonal}, taxAmountPersonal = #{taxAmountPersonal}, 
+			addtionalBillAmountPersonal = #{addtionalBillAmountPersonal}, estimateSalary=#{estimateSalary},actualSalary = #{actualSalary}, monthly = #{monthly}, description = #{description}, deleted = #{deleted}, 
+			status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, 
+			createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE salaryHeaderId = #{salaryHeaderId} 
+  	</update>
+
+	<insert id="insertSalaryHeader" parameterType="salaryHeader" useGeneratedKeys="true" keyProperty="salaryHeaderId">
+		INSERT INTO hro_salary_header( <include refid="salaryHeaderColumns" /> )
+		VALUES (#{accountId}, #{entityId}, #{businessTypeId}, #{batchId}, #{clientId}, #{corpId}, #{clientNameZH}, #{clientNameEN}, #{orderId}, #{contractId}, #{employeeId}, 
+			employeeNameZH, employeeNameEN, startDate, endDate, certificateType, certificateNumber, bankId, bankNameZH, bankNameEN, bankAccount, billAmountCompany, billAmountPersonal, 
+			costAmountCompany, costAmountPersonal, taxAmountPersonal, addtionalBillAmountPersonal, estimateSalary,actualSalary, monthly, description, deleted, status, remark1, remark2, remark3, 
+			remark4, remark5, createBy, createDate, modifyBy, modifyDate)
+	</insert>
+
+	<delete id="deleteSalaryHeader" parameterType="int">
+		DELETE FROM hro_salary_header WHERE salaryHeaderId = #{value}
+  	</delete>
+  	
+  	<select id="getSalaryHeaderVOsByBatchId" parameterType="int" resultMap="result">
+		SELECT a.salaryHeaderId, <include refid="salaryHeaderColumns-for-join" />
+		FROM hro_salary_header a
+		WHERE a.deleted = 1 AND a.batchId = #{batchId}  
+	</select>
+	
+	<select id="updateSalaryHeaderVOsByBatchId" parameterType="int" resultMap="result">
+		UPDATE hro_salary_header SET deleted = #{deleted}, status = #{status}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE salaryHeaderId = #{salaryHeaderId} 
+	</select>
+	
+	<delete id="deleteSalaryHeaderByHeaderIds" parameterType="int">
+		DELETE FROM hro_salary_header WHERE salaryHeaderId in
+		<foreach collection="list" item="headerIds" index="index" open="(" close=")" separator=",">
+			#{headerIds}
+        </foreach>
+	</delete>
+	
+	<!-- 导入后的加密 -->
+	<update id="updateSalaryHeaderAfterImport" parameterType="int">
+		UPDATE hro_salary_header set
+			billAmountCompany = billAmountCompany+`getIncrement`(`getPublicCode`(employeeId),'PRIVATE_CODE'), 
+			billAmountPersonal = billAmountPersonal+`getIncrement`(`getPublicCode`(employeeId),'PRIVATE_CODE'), 
+			costAmountCompany = costAmountCompany+`getIncrement`(`getPublicCode`(employeeId),'PRIVATE_CODE'), 
+			costAmountPersonal = costAmountPersonal+`getIncrement`(`getPublicCode`(employeeId),'PRIVATE_CODE'), 
+			taxAmountPersonal = taxAmountPersonal+`getIncrement`(`getPublicCode`(employeeId),'PRIVATE_CODE'), 
+			addtionalBillAmountPersonal = addtionalBillAmountPersonal+`getIncrement`(`getPublicCode`(employeeId),'PRIVATE_CODE'), 
+			estimateSalary = estimateSalary+`getIncrement`(`getPublicCode`(employeeId),'PRIVATE_CODE'), 
+			actualSalary = actualSalary+`getIncrement`(`getPublicCode`(employeeId),'PRIVATE_CODE')
+		WHERE  batchId = #{value}
+  	</update>
+</mapper>

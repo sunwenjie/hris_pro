@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+           http://www.springframework.org/schema/aop   
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
+           http://www.springframework.org/schema/tx  
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- Dao initialization -->
+	<bean id="userDao" class="com.kan.base.dao.mybatis.impl.security.UserDaoImpl" >
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="staffDao" class="com.kan.base.dao.mybatis.impl.security.StaffDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="branchDao" class="com.kan.base.dao.mybatis.impl.security.BranchDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="secLocationDao" class="com.kan.base.dao.mybatis.impl.security.LocationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="moduleRuleRelationDao" class="com.kan.base.dao.mybatis.impl.security.ModuleRuleRelationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="moduleRightRelationDao" class="com.kan.base.dao.mybatis.impl.security.ModuleRightRelationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="positionDao" class="com.kan.base.dao.mybatis.impl.security.PositionDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="positionGradeDao" class="com.kan.base.dao.mybatis.impl.security.PositionGradeDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="positionGradeCurrencyDao" class="com.kan.base.dao.mybatis.impl.security.PositionGradeCurrencyDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="groupDao" class="com.kan.base.dao.mybatis.impl.security.GroupDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="positionGroupRelationDao" class="com.kan.base.dao.mybatis.impl.security.PositionGroupRelationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="positionStaffRelationDao" class="com.kan.base.dao.mybatis.impl.security.PositionStaffRelationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="positionColumnRightRelationDao" class="com.kan.base.dao.mybatis.impl.security.PositionColumnRightRelationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="groupColumnRightRelationDao" class="com.kan.base.dao.mybatis.impl.security.GroupColumnRightRelationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="groupModuleRightRelationDao" class="com.kan.base.dao.mybatis.impl.security.GroupModuleRightRelationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="groupModuleRuleRelationDao" class="com.kan.base.dao.mybatis.impl.security.GroupModuleRuleRelationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="positionModuleRightRelationDao" class="com.kan.base.dao.mybatis.impl.security.PositionModuleRightRelationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="positionModuleRuleRelationDao" class="com.kan.base.dao.mybatis.impl.security.PositionModuleRuleRelationDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	
+	<bean id="entityDao" class="com.kan.base.dao.mybatis.impl.security.EntityDaoImpl">
+ 		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+ 	</bean>
+ 	
+ 	<bean id="businessTypeDao" class="com.kan.base.dao.mybatis.impl.security.BusinessTypeDaoImpl">
+ 		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+ 	</bean>
+ 	
+ 	<bean id="orgShootDao" class="com.kan.base.dao.mybatis.impl.security.OrgShootDaoImpl">
+ 		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+ 	</bean>
+	
+	<!-- Service initialization -->
+	<bean id="userService" class="com.kan.base.service.impl.security.UserServiceImpl">
+		<property name="dao" ref="userDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="staffService" class="com.kan.base.service.impl.security.StaffServiceImpl">
+		<property name="dao" ref="staffDao" />
+		<property name="userDao" ref="userDao" />
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="moduleDao" ref="moduleDao" />
+		<property name="positionDao" ref="positionDao" />
+		<property name="positionService" ref="positionService" />
+		<property name="positionStaffRelationDao" ref="positionStaffRelationDao" />
+		<property name="workflowService" ref = "workflowService"></property>
+		<property name="reportHeaderService" ref = "reportHeaderService"></property>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="branchService" class="com.kan.base.service.impl.security.BranchServiceImpl">
+		<property name="dao" ref="branchDao" />
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="employeePositionChangeDao" ref="employeePositionChangeDao" />
+		<property name="logDao" ref="logDao" />
+		<property name="positionDao" ref="positionDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="secLocationService" class="com.kan.base.service.impl.security.LocationServiceImpl">
+		<property name="dao" ref="secLocationDao" />
+		<property name="positionDao" ref="positionDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="positionService" class="com.kan.base.service.impl.security.PositionServiceImpl">
+		<property name="dao" ref="positionDao" />
+		<property name="positionGroupRelationDao" ref="positionGroupRelationDao" />
+		<property name="positionStaffRelationDao" ref="positionStaffRelationDao" />
+		<property name="positionModuleRightRelationDao" ref="positionModuleRightRelationDao" />
+		<property name="positionModuleRuleRelationDao" ref="positionModuleRuleRelationDao" />
+		<property name="moduleDao" ref="moduleDao" />
+		<property name="staffDao" ref="staffDao" />
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="branchDao" ref="branchDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="positionGradeService" class="com.kan.base.service.impl.security.PositionGradeServiceImpl">
+		<property name="dao" ref="positionGradeDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="positionGradeCurrencyService" class="com.kan.base.service.impl.security.PositionGradeCurrencyServiceImpl">
+		<property name="dao" ref="positionGradeCurrencyDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="groupService" class="com.kan.base.service.impl.security.GroupServiceImpl">
+		<property name="dao" ref="groupDao" />
+		<property name="positionGroupRelationDao" ref="positionGroupRelationDao" />
+		<property name="groupModuleRightRelationDao" ref="groupModuleRightRelationDao" />
+		<property name="groupModuleRuleRelationDao" ref="groupModuleRuleRelationDao" />
+		<property name="moduleDao" ref="moduleDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="entityService" class="com.kan.base.service.impl.security.EntityServiceImpl">
+		<property name="dao" ref="entityDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="businessTypeService" class="com.kan.base.service.impl.security.BusinessTypeServiceImpl">
+		<property name="dao" ref="businessTypeDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="orgShootService" class="com.kan.base.service.impl.security.OrgShootServiceImpl">
+		<property name="dao" ref="orgShootDao"/>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+</beans>  

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeInsuranceNoImportHeaderVO">
+
+	<resultMap id="result"
+		type="com.kan.hro.domain.biz.employee.EmployeeInsuranceNoImportHeaderVO">
+		<result property="batchId" column="batchId" />
+		<result property="cardnoId" column="cardnoId" />
+		<result property="accountId" column="accountId" />
+		<result property="contractId" column="contractId" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="medicalNumber" column="medicalNumber" />
+		<result property="sbNumber" column="sbNumber" />
+		<result property="fundNumber" column="fundNumber" />
+		<result property="hsNumber" column="hsNumber" />
+		<result property="solutionId" column="solutionId" />
+		<result property="cbNumber" column="cbNumber" />
+		<result property="solutionIdB" column="solutionIdB" />
+		<result property="cbNumberB" column="cbNumberB" />
+		<result property="employeeId" column="employeeId" />
+		<result property="clientId" column="clientId" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark" column="remark" />
+		<result property="remark1" column="remark1" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<result property="importExcelName" column="importExcelName" />
+		<result property="headerId" column="headerId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="contractNameZH" column="contractNameZH" />
+		<result property="contractNameEN" column="contractNameEN" />
+		<result property="status" column="status" />
+	</resultMap>
+  	
+	<sql id="employeeInsuranceNoImportHeaderColumns">
+		batchId, contractId,certificateNumber, medicalNumber, sbNumber, fundNumber,hsNumber, solutionId, cbNumber,  solutionIdB, cbNumberB,status, deleted, remark1, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="employeeInsuranceNoImportHeaderColumns-for-join">
+		a.batchId, a.contractId, a.certificateNumber,a.medicalNumber, a.sbNumber, a.fundNumber,a.hsNumber, a.solutionId, a.cbNumber, a.solutionIdB, a.cbNumberB, a.status, a.deleted, a.remark1, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countEmployeeInsuranceNoImportHeaderVOsByCondition" parameterType="employeeInsuranceNoImportHeaderVO" resultType="int">
+		SELECT
+			count( DISTINCT a.cardnoId) as count
+		FROM
+			hro_biz_employee_contract_cardno_temp a
+		INNER JOIN hro_common_batch b ON a.batchId = b.batchId
+		LEFT JOIN HRO_BIZ_Employee_Contract c ON a.contractId = c.contractId
+		AND c.deleted = 1
+		LEFT JOIN HRO_BIZ_Employee_Contract_cb d ON a.contractId = d.contractId
+		LEFT JOIN HRO_BIZ_Employee f ON f.employeeId = c.employeeId
+		AND f.deleted = 1
+		WHERE
+			a.deleted = 1
+		AND b.accountId = #{accountId}
+		AND b.batchId = #{batchId}
+		<if test="medicalNumber != null and medicalNumber != ''">
+			AND a.medicalNumber = #{medicalNumber}
+		</if>
+		<if test="sbNumber != null and sbNumber != ''">
+			AND a.sbNumber = #{sbNumber}
+		</if>
+		<if test="fundNumber != null and fundNumber != ''">
+			AND a.fundNumber = #{fundNumber}
+		</if>
+		<if test="solutionId != null and solutionId != ''">
+			AND d.solutionId = #{solutionId}
+		</if>
+		<if test="cbNumber != null and cbNumber != ''">
+			AND d.cbNumber = #{cbNumber}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND f.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND f.nameZH like CONCAT('%', '${employeeNameZH}', '%') 
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND f.nameEN like CONCAT('%', '${employeeNameEN}', '%') 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND c.contractId = #{contractId}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+	</select>
+
+	<!-- Reviewed by Kevin Jin at 2014-04-27 -->
+	<select id="getEmployeeInsuranceNoImportHeaderVOsByCondition" parameterType="employeeInsuranceNoImportHeaderVO" resultMap="result">
+		SELECT DISTINCT
+			cardnoId,<include refid="employeeInsuranceNoImportHeaderColumns-for-join"/>,
+			c.contractId,c.nameZH AS contractNameZH,c.nameEN AS contractNameEN,
+			f.employeeId,f.nameZH AS employeeNameZH,f.nameEN AS employeeNameEN
+		FROM
+			hro_biz_employee_contract_cardno_temp a
+		INNER JOIN hro_common_batch b ON a.batchId = b.batchId
+		LEFT JOIN HRO_BIZ_Employee_Contract c ON a.contractId = c.contractId
+		AND c.deleted = 1
+		LEFT JOIN HRO_BIZ_Employee_Contract_cb d ON a.contractId = d.contractId
+		LEFT JOIN HRO_BIZ_Employee f ON f.employeeId = c.employeeId
+		AND f.deleted = 1
+		WHERE
+			a.deleted = 1
+		AND b.accountId = #{accountId}
+		AND b.batchId = #{batchId}
+		<if test="medicalNumber != null and medicalNumber != ''">
+			AND a.medicalNumber = #{medicalNumber}
+		</if>
+		<if test="sbNumber != null and sbNumber != ''">
+			AND a.sbNumber = #{sbNumber}
+		</if>
+		<if test="fundNumber != null and fundNumber != ''">
+			AND a.fundNumber = #{fundNumber}
+		</if>
+		<if test="solutionId != null and solutionId != ''">
+			AND d.solutionId = #{solutionId}
+		</if>
+		<if test="cbNumber != null and cbNumber != ''">
+			AND d.cbNumber = #{cbNumber}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND f.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND f.nameZH like CONCAT('%', '${employeeNameZH}', '%') 
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND f.nameEN like CONCAT('%', '${employeeNameEN}', '%') 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND c.contractId = #{contractId}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getEmployeeInsuranceNoImportHeaderVOsById" parameterType="java.util.Map" resultMap="result">
+		SELECT
+			cardnoId,<include refid="employeeInsuranceNoImportHeaderColumns"/>
+		FROM
+			hro_biz_employee_contract_cardno_temp
+		WHERE
+			cardnoId = #{cardnoId}
+	</select>
+
+	<select id="getEmployeeInsuranceNoImportHeaderCountByBatchId" parameterType="int" resultType="int">
+		SELECT
+		count(1)
+		FROM
+		hro_biz_employee_contract_cardno_temp
+		WHERE batchId = #{value}
+	</select>
+	
+	<update id="updateEmployeeInsuranceNoImportHeaderStatus" parameterType="employeeInsuranceNoImportHeaderVO">
+		UPDATE
+		hro_biz_employee_contract_cardno_temp SET status = 2 WHERE batchId = #{batchId}
+	</update>
+	
+	<insert id="updateEmployeeContractCarsNumber" parameterType="int">
+		UPDATE HRO_BIZ_Employee_Contract a
+		INNER JOIN hro_biz_employee_contract_cardno_temp b ON a.contractId = b.contractId
+		SET a.medicalNumber = CASE WHEN ISNULL(b.medicalNumber ) THEN a.medicalNumber ELSE b.medicalNumber END,
+		 a.sbNumber =  CASE WHEN ISNULL(b.sbNumber ) THEN a.sbNumber ELSE b.sbNumber END,
+		 a.fundNumber =  CASE WHEN ISNULL(b.fundNumber ) THEN a.fundNumber ELSE b.fundNumber END,
+		 a.hsNumber =  CASE WHEN ISNULL(b.hsNumber ) THEN a.hsNumber ELSE b.hsNumber END
+		WHERE
+			b.batchId = #{batchId}
+		AND b.deleted = 1
+	</insert>
+	
+	<insert id="updateEmployeeContractCBNumber" parameterType="java.util.Map">
+		UPDATE hro_biz_employee_contract_cb a
+		INNER JOIN hro_biz_employee_contract_cardno_temp b ON a.contractId = b.contractId
+		AND a.solutionId = b.solutionId
+		SET a.cbNumber = CASE WHEN ISNULL(b.cbNumber ) THEN a.cbNumber ELSE b.cbNumber END
+		WHERE
+			b.batchId = #{batchId}
+		AND b.deleted = 1
+	</insert>
+	
+	<insert id="updateEmployeeContractCBNumberB" parameterType="java.util.Map">
+		UPDATE hro_biz_employee_contract_cb a
+		INNER JOIN hro_biz_employee_contract_cardno_temp b ON a.contractId = b.contractId
+		AND a.solutionId = b.solutionIdB
+		SET a.cbNumber = CASE WHEN ISNULL(b.cbNumberB ) THEN a.cbNumber ELSE b.cbNumberB END
+		WHERE
+			b.batchId = #{batchId}
+		AND b.deleted = 1
+	</insert>
+	
+	<delete id="deleteEmployeeInsuranceNoImportHeaderTempByBatchId" parameterType="int">
+		delete from hro_biz_employee_contract_cardno_temp where
+		batchId=#{value}
+	</delete>
+	
+	<delete id="deleteEmployeeInsuranceNoImportHeaderTempRecord">
+		delete from hro_biz_employee_contract_cardno_temp where cardnoId in
+		<foreach collection="array" item="ids"  open="(" separator="," close=")">  
+        	#{ids}
+     	</foreach>
+	</delete>
+</mapper>

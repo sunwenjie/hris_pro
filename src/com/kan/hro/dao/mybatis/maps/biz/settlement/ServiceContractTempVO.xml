@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.settlement.ServiceContractTempVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.settlement.ServiceContractTempVO">
+		<result property="contractId" column="contractId" />
+		<result property="orderHeaderId" column="orderHeaderId" />
+		<result property="accountId" column="accountId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="clientId" column="clientId" />
+		<result property="corpId" column="corpId" />
+		<result property="orderId" column="orderId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeContractId" column="employeeContractId" />
+		<result property="timesheetId" column="timesheetId" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+		<result property="branch" column="branch" />
+		<result property="owner" column="owner" />
+		<result property="monthly" column="monthly" />
+		<result property="salaryMonth" column="salaryMonth" />
+		<result property="sbMonth" column="sbMonth" />
+		<result property="cbMonth" column="cbMonth" />
+		<result property="fundMonth" column="fundMonth" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="countItemId" column="countItemId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+	</resultMap>
+  	
+	<sql id="serviceContractTempColumns">
+		orderHeaderId, accountId, entityId, businessTypeId, clientId, corpId, orderId, employeeId, employeeContractId, timesheetId, startDate, endDate, billAmountPersonal, billAmountCompany, 
+		costAmountPersonal, costAmountCompany, branch, owner, monthly, salaryMonth, sbMonth, cbMonth, fundMonth, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, 
+		createDate, modifyBy, modifyDate 
+	</sql>
+  	
+	<sql id="serviceContractTempColumns-for-join">
+		a.orderHeaderId, a.accountId, a.entityId, a.businessTypeId, a.clientId, a.corpId, a.orderId, a.employeeId, a.employeeContractId, a.timesheetId, a.startDate, a.endDate, a.billAmountPersonal, 
+		a.billAmountCompany, a.costAmountPersonal, a.costAmountCompany, a.branch, a.owner, a.monthly, a.salaryMonth, a.sbMonth, a.cbMonth, a.fundMonth, a.description, a.deleted, a.status, a.remark1, 
+		a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countServiceContractTempVOsByCondition" parameterType="settlementServiceContractTemp" resultType="int">
+		SELECT COUNT(DISTINCT a.contractId) 
+		FROM hro_settle_order_contract_temp a LEFT JOIN hro_settle_order_detail_temp b ON a.contractId = b.contractId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_header_temp c ON a.orderHeaderId = c.orderHeaderId AND c.deleted = 1
+			LEFT JOIN hro_settle_order_batch_temp d ON c.batchId = d.batchId AND d.deleted = 1
+			LEFT JOIN hro_biz_employee e ON a.employeeId = e.employeeId AND e.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId} 
+		<if test="orderHeaderId != null and orderHeaderId != ''">
+			AND a.orderHeaderId = #{orderHeaderId}
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND (c.batchId = #{batchId} or 0 = #{batchId})
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeContractId != null and employeeContractId != ''">
+			AND a.employeeContractId = #{employeeContractId} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND e.nameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND  e.nameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+	</select>
+
+	<select id="getServiceContractTempVOsByCondition" parameterType="settlementServiceContractTemp" resultMap="result">
+		SELECT a.contractId, <include refid="serviceContractTempColumns-for-join"/>, COUNT(1) AS countItemId, c.batchId,
+			e.nameZH AS employeeNameZH, e.nameEN AS employeeNameEN
+		FROM hro_settle_order_contract_temp a 
+			LEFT JOIN hro_settle_order_detail_temp b ON a.contractId = b.contractId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_header_temp c ON a.orderHeaderId = c.orderHeaderId AND c.deleted = 1
+			LEFT JOIN hro_settle_order_batch_temp d ON c.batchId = d.batchId AND d.deleted = 1
+			LEFT JOIN hro_biz_employee e ON a.employeeId = e.employeeId AND e.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId} 
+		<if test="orderHeaderId != null and orderHeaderId != ''">
+			AND a.orderHeaderId = #{orderHeaderId}
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND (c.batchId = #{batchId} or 0 = #{batchId})
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeContractId != null and employeeContractId != ''">
+			AND a.employeeContractId = #{employeeContractId} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND e.nameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND  e.nameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		GROUP BY a.contractId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	
+	<!-- add 解决订单结算反应慢 -->
+	<select id="getServiceContractTempVOsForEmployee" parameterType="settlementServiceContractTemp" resultMap="result">
+		SELECT
+			a.employeeId,
+			c.batchId,
+			e.nameZH AS employeeNameZH,
+			e.nameEN AS employeeNameEN
+		FROM
+			hro_settle_order_contract_temp a
+		LEFT JOIN hro_settle_order_header_temp c ON a.orderHeaderId = c.orderHeaderId
+		AND c.deleted = 1
+		LEFT JOIN hro_settle_order_batch_temp d ON c.batchId = d.batchId
+		AND d.deleted = 1
+		LEFT JOIN hro_biz_employee e ON a.employeeId = e.employeeId
+		AND e.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId} 
+		<if test="batchId != null and batchId != ''">
+			AND (c.batchId = #{batchId} or 0 = #{batchId})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getServiceContractTempVOByContractId" parameterType="int" resultMap="result">
+		SELECT a.contractId, <include refid="serviceContractTempColumns-for-join"/>, COUNT(1) AS countItemId, c.batchId,
+		e.nameZH AS employeeNameZH, e.nameEN AS employeeNameEN
+		FROM hro_settle_order_contract_temp a 
+			LEFT JOIN hro_settle_order_detail_temp b ON a.contractId = b.contractId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_header_temp c ON a.orderHeaderId = c.orderHeaderId AND c.deleted = 1
+			LEFT JOIN hro_settle_order_batch_temp d ON c.batchId = d.batchId AND d.deleted = 1
+			LEFT JOIN hro_biz_employee e ON a.employeeId = e.employeeId AND e.deleted = 1
+		WHERE a.contractId = #{value}
+		GROUP BY a.contractId
+	</select>
+
+	<select id="getServiceContractTempVOsByOrderHeaderId" parameterType="int" resultMap="result">
+		SELECT a.contractId, <include refid="serviceContractTempColumns-for-join"/>, COUNT(1) AS countItemId, c.batchId,
+			e.nameZH AS employeeNameZH, e.nameEN AS employeeNameEN
+		FROM hro_settle_order_contract_temp a 
+			LEFT JOIN hro_settle_order_detail_temp b ON a.contractId = b.contractId AND b.deleted = 1
+			LEFT JOIN hro_settle_order_header_temp c ON a.orderHeaderId = c.orderHeaderId AND c.deleted = 1
+			LEFT JOIN hro_settle_order_batch_temp d ON c.batchId = d.batchId AND d.deleted = 1
+			LEFT JOIN hro_biz_employee e ON a.employeeId = e.employeeId AND e.deleted = 1
+		WHERE a.orderHeaderId = #{value} AND a.deleted = 1
+		GROUP BY a.contractId
+	</select>
+
+	<update id="updateServiceContractTemp" parameterType="settlementServiceContractTemp">
+		update hro_settle_order_contract_temp set orderHeaderId= #{orderHeaderId}, accountId = #{accountId}, entityId = #{entityId}, businessTypeId = #{businessTypeId}, clientId = #{clientId}, 
+			corpId = #{corpId}, orderId = #{orderId}, employeeId = #{employeeId}, employeeContractId = #{employeeContractId}, timesheetId = #{timesheetId}, startDate = #{startDate}, endDate = #{endDate}, 
+			billAmountPersonal = #{billAmountPersonal}, billAmountCompany = #{billAmountCompany}, costAmountPersonal = #{costAmountPersonal}, costAmountCompany = #{costAmountCompany}, branch = #{branch}, 
+			owner = #{owner}, monthly = #{monthly}, salaryMonth = #{salaryMonth}, sbMonth = #{sbMonth}, cbMonth = #{cbMonth}, fundMonth = #{fundMonth}, description = #{description}, deleted = #{deleted}, 
+			status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where contractId = #{contractId} 
+  	</update>
+
+	<insert id="insertServiceContractTemp" parameterType="settlementServiceContractTemp" useGeneratedKeys="true" keyProperty="contractId">
+		insert into hro_settle_order_contract_temp( <include refid="serviceContractTempColumns" /> )
+		values(#{orderHeaderId}, #{accountId}, #{entityId}, #{businessTypeId}, #{clientId}, #{corpId}, #{orderId}, #{employeeId}, #{employeeContractId}, #{timesheetId}, #{startDate}, #{endDate}, 
+			#{billAmountPersonal}, #{billAmountCompany}, #{costAmountPersonal}, #{costAmountCompany}, #{branch}, #{owner}, #{monthly}, #{salaryMonth}, #{sbMonth}, #{cbMonth}, #{fundMonth}, #{description}, 
+			1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteServiceContractTemp" parameterType="int">
+		delete from hro_settle_order_contract_temp where contractId = #{value}
+  	</delete>
+
+</mapper>

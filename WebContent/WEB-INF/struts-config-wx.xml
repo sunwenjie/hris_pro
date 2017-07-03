@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="questionHeaderForm" type="com.kan.wx.domain.QuestionHeaderVO"></form-bean>
+		<form-bean name="questionDetailForm" type="com.kan.wx.domain.QuestionDetailVO"></form-bean>
+		<form-bean name="answerForm" type="com.kan.wx.domain.AnswerVO"></form-bean>
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+
+		<action parameter="proc" path="/questionHeaderAction" type="com.kan.wx.web.actions.QuestionHeaderAction" name="questionHeaderForm" scope="request" validate="false">
+			<forward name="listQuestionHeader" path="/jsp/wx/question/listQuestionHeader.jsp"></forward>
+			<forward name="listQuestionHeaderTable" path="/contents/wx/question/table/listQuestionHeaderTable.jsp"></forward>
+			<forward name="managerQuestionHeader" path="/jsp/wx/question/listQuesitionDetail.jsp"></forward>	
+			<forward name="listQuestionDetail" path="/jsp/wx/question/listQuesitionDetail.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+			
+			<forward name="wxtest" path="/wxLocationTest.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/questionDetailAction" type="com.kan.wx.web.actions.QuestionDetailAction" name="questionDetailForm" scope="request" validate="false">
+			<forward name="listQuestionDetail" path="/jsp/wx/question/listQuesitionDetail.jsp"></forward>
+			<forward name="listQuestionDetailTable" path="/contents/wx/question/table/listQuestionDetailTable.jsp"></forward>
+			<forward name="managerQuestionDetail" path="/contents/wx/question/form/manageQuesitonDetailForm.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/answerAction" type="com.kan.wx.web.actions.AnswerAction" name="answerForm" scope="request" validate="false">
+			<forward name="toAnswer" path="/mobile/answer.jsp" />
+			<forward name="submitSuccess" path="/mobile/submitAnswerSuccess.htm" />
+			<forward name="listAnswerTableAjax" path="/popup/table/listAnswerTable.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+
+	</action-mappings>
+
+</struts-config>
+

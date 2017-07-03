@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.settlement.AdjustmentHeaderTempVO">
+	<update id="updateAdjustmentHeaderTempReplenish"  parameterType="int">
+	update HRO_SETTLE_ADJUSTMENT_header_TEMP h 
+	join hro_biz_employee_contract c on h.contractId = c.contractId
+	join hro_biz_employee e on e.employeeId = c.employeeId 
+	join (select sum(billAmountCompany) as billAmountCompany, 
+	 sum(billAmountPersonal) as billAmountPersonal,
+	 sum(costAmountCompany) as costAmountCompany,
+	 sum(costAmountPersonal) as costAmountPersonal,
+	 hro_settle_adjustment_detail_temp.adjustmentHeaderId
+	from hro_settle_adjustment_detail_temp
+	group by adjustmentHeaderId
+	) d on d.adjustmentHeaderId = h.adjustmentHeaderId
+	set 
+	h.orderId =  c.orderId,
+	h.entityId = c.entityId,
+	h.clientId = c.clientId,
+	h.employeeId = c.employeeId,
+	h.employeeNameZH = e.nameZH,
+	h.employeeNameEN = e.nameEN, 
+	h.billAmountCompany = d.billAmountCompany,
+	h.billAmountPersonal = d.billAmountPersonal,
+	h.costAmountCompany = d.costAmountCompany,
+	h.costAmountPersonal = d.costAmountPersonal,
+	h.taxId = 0,
+	h.businessTypeId = c.businessTypeId
+	where h.batchId = #{value}
+		
+  	</update>
+</mapper>

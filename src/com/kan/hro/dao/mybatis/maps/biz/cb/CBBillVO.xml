@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.cb.CBBillVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.cb.CBBillVO">
+		<result property="headerId" column="headerId" />
+		<result property="accountId" column="accountId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="batchId" column="batchId" />
+		<result property="clientId" column="clientId" />
+		<result property="corpId" column="corpId" />
+		<result property="clientNO" column="clientNO" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="orderId" column="orderId" />
+		<result property="contractId" column="contractId" />
+		<result property="contractStartDate" column="contractStartDate" />
+		<result property="contractEndDate" column="contractEndDate" />
+		<result property="contractBranch" column="contractBranch" />
+		<result property="contractOwner" column="contractOwner" />
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="employeeCBId" column="employeeCBId" />
+		<result property="employeeCBNameZH" column="employeeCBNameZH" />
+		<result property="employeeCBNameEN" column="employeeCBNameEN" />
+		<result property="workPlace" column="workPlace" />
+		<result property="gender" column="gender" />
+		<result property="certificateType" column="certificateType" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="residencyType" column="residencyType" />
+		<result property="residencyCityId" column="residencyCityId" />
+		<result property="residencyAddress" column="residencyAddress" />
+		<result property="highestEducation" column="highestEducation" />
+		<result property="maritalStatus" column="maritalStatus" />
+		<result property="employStatus" column="employStatus" />
+		<result property="cbStatus" column="cbStatus" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="onboardDate" column="onboardDate" />
+		<result property="resignDate" column="resignDate" />
+		<result property="monthly" column="monthly" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For Application -->
+		<result property="countHeaderId" column="countHeaderId" />
+		<result property="countItemId" column="countItemId" />
+		<result property="additionalStatus" column="additionalStatus" />
+		<result property="cbId" column="cbId" />
+		<result property="itemId" column="itemId" />
+		<result property="itemNo" column="itemNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="amountPurchaseCost" column="amountPurchaseCost" />
+		<result property="amountSalesCost" column="amountSalesCost" />
+		<result property="amountSalesPrice" column="amountSalesPrice" />
+		<result property="clientNumber" column="clientNumber" />
+		<result property="contractStatus" column="contractStatus" />
+		<result property="cbNumber" column="cbNumber" />
+		<result property="detailId" column="detailId" />
+	</resultMap>
+  	
+	<sql id="CBBillColumns">
+		accountId, entityId, businessTypeId, batchId, clientId,corpId, clientNO, clientNameZH, clientNameEN, orderId, contractId,
+		contractStartDate, contractEndDate, contractBranch, contractOwner, employeeId, employeeNameZH, employeeNameEN,
+		employeeCBId, employeeCBNameZH, employeeCBNameEN, workPlace, gender, certificateType, certificateNumber, residencyType,
+		residencyCityId, residencyAddress, highestEducation, maritalStatus, employStatus, cbStatus, startDate, endDate,
+		onboardDate, resignDate, monthly, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy,
+		createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="CBBillColumns-for-join">
+		a.accountId, a.entityId, a.businessTypeId, a.batchId, a.clientId,a.corpId, a.clientNO, a.clientNameZH, a.clientNameEN, a.orderId,
+		a.contractId, a.contractStartDate, a.contractEndDate, a.contractBranch, a.contractOwner, a.employeeId, a.employeeNameZH, a.employeeNameEN, a.employeeCBId, a.employeeCBNameZH, a.employeeCBNameEN,
+		a.workPlace, a.gender, a.certificateType, a.certificateNumber, a.residencyType, a.residencyCityId, a.residencyAddress, 
+		a.highestEducation, a.maritalStatus, a.employStatus, a.cbStatus, a.startDate, a.endDate, a.onboardDate, a.resignDate, a.monthly,
+		a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<!-- Reviewed by Kevin Jin at 2014-04-27 -->
+	<select id="countCBBillVOsByCondition" parameterType="cbBill" resultType="int">
+		SELECT
+			COUNT(DISTINCT a.headerId)
+		FROM
+			hro_cb_header a
+		LEFT JOIN hro_cb_detail c ON a.headerId = c.headerId AND c.deleted = 1
+		LEFT JOIN hro_biz_employee_contract_cb d ON a.employeeCBId = d.employeeCBId AND d.deleted = 1
+		LEFT JOIN hro_biz_employee e ON a.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_biz_client f ON f.clientId = a.clientId AND f.deleted = 1
+		LEFT JOIN hro_mgt_item g ON c.itemId = g.itemId AND g.deleted = 1
+		WHERE a.deleted = 1
+		AND a.accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL 
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND (a.batchId = #{batchId} or 0 = #{batchId})
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND (a.contractId = #{contractId} or 0 = #{contractId})
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND e.employeeNo = #{employeeNo}
+		</if>
+		<if test="certificateType != null and certificateType != ''">
+			AND a.certificateType = #{certificateType}
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND a.certificateNumber = #{certificateNumber}
+		</if>
+		<if test="residencyType != null and residencyType != ''">
+			AND (a.residencyType = #{residencyType} or '0' = #{residencyType})
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="employeeCBId != null and employeeCBId != ''">
+			AND (a.employeeCBId = #{employeeCBId} or '0' = #{employeeCBId})
+		</if>
+		<if test="cbId != null and cbId != ''">
+			AND (d.solutionId = #{cbId} or '0' = #{cbId})
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		<if test="monthlyLimit != null and monthlyLimit != ''">
+			AND <![CDATA[ a.monthly <= #{monthlyLimit} ]]>
+		</if>
+		<if test="status != null and status != ''">
+			AND (c.status in (${status}) or '0' = '${status}')
+		</if>
+		<if test="cbStatus != null and cbStatus != ''">
+			AND a.cbStatus IN (${cbStatus})
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = ${clientId}
+		</if>
+		<if test="role == 4">
+			AND (c.status in (3,4,5))
+		</if>
+	</select>
+
+	<!-- Reviewed by Kevin Jin at 2014-04-27 -->
+	<select id="getCBBillVOsByCondition" parameterType="cbBill" resultMap="result">
+		SELECT DISTINCT a.headerId, <include refid="CBBillColumns-for-join"/>, 
+		COUNT(1) AS countItemId, 
+		MIN(c.status) as additionalStatus, 
+		d.solutionId AS cbId,
+		f.number AS clientNumber,
+		d.cbNumber AS cbNumber,
+		d.status AS contractStatus,
+		SUM(c.amountSalesCost) AS amountSalesCost,
+		SUM(c.amountSalesPrice) AS amountSalesPrice
+		FROM
+			hro_cb_header a
+		LEFT JOIN hro_cb_detail c ON a.headerId = c.headerId AND c.deleted = 1
+		LEFT JOIN hro_biz_employee_contract_cb d ON a.employeeCBId = d.employeeCBId AND d.deleted = 1
+		LEFT JOIN hro_biz_employee e ON a.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_biz_client f ON f.clientId = a.clientId AND f.deleted = 1
+		LEFT JOIN hro_mgt_item g ON c.itemId = g.itemId AND g.deleted = 1
+		WHERE a.deleted = 1
+		AND a.accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL 
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND (a.batchId = #{batchId} or 0 = #{batchId})
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND (a.contractId = #{contractId} or 0 = #{contractId})
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND e.employeeNo = #{employeeNo}
+		</if>
+		<if test="residencyType != null and residencyType != ''">
+			AND (a.residencyType = #{residencyType} or '0' = #{residencyType})
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND a.certificateNumber = #{certificateNumber}
+		</if>
+	
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="employeeCBId != null and employeeCBId != ''">
+			AND (a.employeeCBId = #{employeeCBId} or '0' = #{employeeCBId})
+		</if>
+		<if test="cbId != null and cbId != ''">
+			AND (d.solutionId = #{cbId} or '0' = #{cbId})
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		<if test="monthlyLimit != null and monthlyLimit != ''">
+			AND <![CDATA[ a.monthly <= #{monthlyLimit} ]]>
+		</if>
+		<if test="status != null and status != ''">
+			AND (c.status in (${status}) or '0' = '${status}')
+		</if>
+		<if test="cbStatus != null and cbStatus != ''">
+			AND a.cbStatus IN (${cbStatus})
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = ${clientId}
+		</if>
+		<if test="role == 4">
+			AND (c.status in (3,4,5))
+		</if>
+		GROUP BY a.headerId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getCBBillDetailByHeaderIds" resultMap="result">
+		SELECT
+			detailId,
+			headerId,
+			itemId,
+			itemNo,
+			nameZH,
+			nameEN,
+			amountPurchaseCost,
+			amountSalesCost,
+			amountSalesPrice,
+			monthly
+		FROM
+			hro_cb_detail
+		where headerId in 
+	<foreach collection="array" item="list"  open="(" separator="," close=")">  
+        #{list}
+    </foreach>
+    	ORDER BY itemId
+	</select>
+</mapper>

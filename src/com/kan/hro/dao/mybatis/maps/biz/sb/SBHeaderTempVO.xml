@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.sb.SBHeaderTempVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.sb.SBHeaderTempVO">
+		<result property="headerId" column="headerId" />
+		<result property="accountId" column="accountId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="batchId" column="batchId" />
+		<result property="clientId" column="clientId" />
+		<result property="corpId" column="corpId" />
+		<result property="clientNo" column="clientNo" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="orderId" column="orderId" />
+		<result property="contractId" column="contractId" />
+		<result property="contractStartDate" column="contractStartDate" />
+		<result property="contractEndDate" column="contractEndDate" />
+		<result property="contractBranch" column="contractBranch" />
+		<result property="contractOwner" column="contractOwner" />
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="sbSolutionId" column="sbSolutionId" />
+		<result property="employeeSBId" column="employeeSBId" />
+		<result property="employeeSBNameZH" column="employeeSBNameZH" />
+		<result property="employeeSBNameEN" column="employeeSBNameEN" />
+		<result property="cityId" column="cityId" />
+		<result property="vendorId" column="vendorId" />
+		<result property="vendorNameZH" column="vendorNameZH" />
+		<result property="vendorNameEN" column="vendorNameEN" />
+		<result property="vendorServiceIds" column="vendorServiceIds" />
+		<result property="vendorServiceFee" column="vendorServiceFee" />
+		<result property="workPlace" column="workPlace" />
+		<result property="gender" column="gender" />
+		<result property="certificateType" column="certificateType" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="needMedicalCard" column="needMedicalCard" />
+		<result property="needSBCard" column="needSBCard" />
+		<result property="medicalNumber" column="medicalNumber" />
+		<result property="sbNumber" column="sbNumber" />
+		<result property="fundNumber" column="fundNumber" />
+		<result property="personalSBBurden" column="personalSBBurden" />
+		<result property="residencyType" column="residencyType" />
+		<result property="residencyCityId" column="residencyCityId" />
+		<result property="residencyAddress" column="residencyAddress" />
+		<result property="highestEducation" column="highestEducation" />
+		<result property="maritalStatus" column="maritalStatus" />
+		<result property="employStatus" column="employStatus" />
+		<result property="sbStatus" column="sbStatus" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="onboardDate" column="onboardDate" />
+		<result property="resignDate" column="resignDate" />
+		<result property="monthly" column="monthly" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="tempStatus" column="tempStatus" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		
+		<!-- For App -->
+		<result property="amountCompany" column="amountCompany" />
+		<result property="amountPersonal" column="amountPersonal" />
+		<result property="countHeaderId" column="countHeaderId" />
+		<result property="countItemId" column="countItemId" />
+		<result property="additionalStatus" column="additionalStatus" />
+		<result property="sbSolutionId" column="sbSolutionId" />
+	</resultMap>
+  	
+	<sql id="SBHeaderTempColumns">
+		accountId, entityId, businessTypeId, batchId, clientId, corpId, clientNo, clientNameZH, clientNameEN, orderId, contractId, contractStartDate, 
+		contractEndDate, contractBranch, contractOwner, employeeId, employeeNameZH, employeeNameEN, sbSolutionId, employeeSBId, employeeSBNameZH, employeeSBNameEN, 
+		cityId, vendorId, vendorNameZH, vendorNameEN, vendorServiceIds, vendorServiceFee, workPlace, gender, certificateType, certificateNumber, 
+		needMedicalCard, needSBCard, medicalNumber, sbNumber, fundNumber, personalSBBurden, residencyType, residencyCityId, residencyAddress, highestEducation, 
+		maritalStatus, employStatus, sbStatus, startDate, endDate, onboardDate, resignDate, monthly, description, deleted, status, tempStatus, remark1, remark2, 
+		remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+  	
+	<sql id="SBHeaderTempColumns-For-Join">
+		a.accountId, a.entityId, a.businessTypeId, a.batchId, a.clientId, a.corpId, a.clientNo, a.clientNameZH, a.clientNameEN, a.orderId, a.contractId, 
+		a.contractStartDate, a.contractEndDate, a.contractBranch, a.contractOwner, a.employeeId, a.employeeNameZH, a.employeeNameEN, a.sbSolutionId, a.employeeSBId, 
+		a.employeeSBNameZH, a.employeeSBNameEN, a.cityId, a.vendorId, a.vendorNameZH, a.vendorNameEN, a.vendorServiceIds, a.vendorServiceFee, 
+		a.workPlace, a.gender, a.certificateType, a.certificateNumber, a.needMedicalCard, a.needSBCard, a.medicalNumber, a.sbNumber, a.fundNumber, a.personalSBBurden, 
+		a.residencyType, a.residencyCityId, a.residencyAddress, a.highestEducation, a.maritalStatus, a.employStatus, a.sbStatus, a.startDate, a.endDate, 
+		a.onboardDate, a.resignDate, a.monthly, a.description, a.deleted, a.status, a.tempStatus, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, 
+		a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countSBHeaderTempVOsByCondition" parameterType="sbHeaderTemp" resultType="int">
+		SELECT COUNT( DISTINCT a.headerId )
+		FROM hro_sb_header_temp a LEFT JOIN hro_common_batch b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_sb_detail_temp c ON a.headerId = c.headerId AND c.deleted = 1
+			LEFT JOIN hro_biz_employee_contract_sb d ON a.employeeSBId = d.employeeSBId AND d.deleted = 1
+			LEFT JOIN hro_biz_employee e ON a.employeeId = e.employeeId AND c.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId} 
+		</if>
+		<if test="headerId != null and headerId != ''">
+			AND a.headerId = #{headerId} 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="vendorId != null and vendorId != ''">
+			AND (a.vendorId = #{vendorId} or '0' = #{vendorId} )
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		<if test="sbSolutionId != null and sbSolutionId != ''">
+			AND (d.sbSolutionId = #{sbSolutionId} or '0' = #{sbSolutionId})
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (a.orderId = #{orderId} or '0' = #{orderId})
+		</if>
+		<if test="employStatus != null and employStatus != ''">
+			AND (a.employStatus = #{employStatus} or '0' = #{employStatus})
+		</if>
+		<if test="sbStatus != null and sbStatus != ''">
+			AND (a.sbStatus = #{sbStatus} or '0' = #{sbStatus})
+		</if>
+		<if test="tempStatus != null and tempStatus != ''">
+			AND (a.tempStatus = #{tempStatus} or '0' = #{tempStatus})
+		</if>
+		<if test="monthlyLimit != null and monthlyLimit != ''">
+			AND <![CDATA[ CASE WHEN LENGTH(b.monthly) < 7 THEN CONCAT(LEFT(b.monthly, 5), LPAD(RIGHT(b.monthly, 1), 2, '0')) ELSE b.monthly END <= 
+				CASE WHEN LENGTH(#{monthlyLimit}) < 7 THEN CONCAT(LEFT(#{monthlyLimit}, 5), LPAD(RIGHT(#{monthlyLimit}, 1), 2, '0')) 
+					ELSE #{monthlyLimit} END ]]>
+		</if>
+		<if test="status != null and status != ''">
+			AND (c.status in (${status}) or '0' = '${status}')
+		</if>
+	</select>
+	
+	<select id="countAmountVendorSBHeaderTempVOsByCondition" parameterType="sbHeaderTemp" resultType="int">
+		SELECT COUNT(1) FROM
+			(SELECT a.vendorId, a.monthly
+			FROM hro_sb_header_temp a
+				LEFT JOIN hro_sb_detail_temp b ON a.headerId = b.headerId AND b.deleted = 1
+			WHERE a.vendorId IS NOT NULL AND a.vendorId != '' AND a.deleted = 1 AND a.accountId = #{accountId}
+			<if test="clientId != null and clientId != ''">
+				AND a.clientId = #{clientId} 
+			</if>
+			<if test="vendorId != null and vendorId != ''">
+				AND (a.vendorId = #{vendorId} or '0' = #{vendorId})
+			</if>
+			<if test="vendorNameZH != null and vendorNameZH != ''">
+				AND a.vendorNameZH like CONCAT('%', '${vendorNameZH}', '%')
+			</if>
+			<if test="vendorNameEN != null and vendorNameEN != ''">
+				AND a.vendorNameEN like CONCAT('%', '${vendorNameEN}', '%')
+			</if>
+			<if test="monthly != null and monthly != ''">
+				AND (a.monthly = #{monthly} or '0' = #{monthly})
+			</if>
+			GROUP BY a.vendorId, a.monthly)c
+	</select>
+	
+	<select id="countVendorSBHeaderTempVOsByCondition" parameterType="sbHeaderTemp" resultType="int">
+		SELECT COUNT(1) FROM
+			(SELECT b.`status`, b.headerId FROM hro_sb_header_temp a
+			RIGHT JOIN hro_sb_detail_temp b ON a.headerId = b.headerId AND a.deleted = 1
+			LEFT JOIN hro_biz_employee_contract_sb c ON a.employeeSBId = c.employeeSBId AND c.deleted = 1
+		WHERE a.vendorId = #{vendorId} AND a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId} 
+		</if>
+		<if test="headerId != null and headerId != ''">
+			AND a.headerId = #{headerId} 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		<if test="sbSolutionId != null and sbSolutionId != ''">
+			AND (c.sbSolutionId = #{sbSolutionId} or '0' = #{sbSolutionId})
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (a.orderId = #{orderId} or '0' = #{orderId})
+		</if>
+		<if test="employStatus != null and employStatus != ''">
+			AND (a.employStatus = #{employStatus} or '0' = #{employStatus})
+		</if>
+		<if test="sbStatus != null and sbStatus != ''">
+			AND (a.sbStatus = #{sbStatus} or '0' = #{sbStatus})
+		</if>
+		<if test="tempStatus != null and tempStatus != ''">
+			AND (a.tempStatus = #{tempStatus} or '0' = #{tempStatus})
+		</if>
+		<if test="monthlyLimit != null and monthlyLimit != ''">
+			AND <![CDATA[ CASE WHEN LENGTH(b.monthly) < 7 THEN CONCAT(LEFT(b.monthly, 5), LPAD(RIGHT(b.monthly, 1), 2, '0')) ELSE b.monthly END <= 
+				CASE WHEN LENGTH(#{monthlyLimit}) < 7 THEN CONCAT(LEFT(#{monthlyLimit}, 5), LPAD(RIGHT(#{monthlyLimit}, 1), 2, '0')) 
+					ELSE #{monthlyLimit} END ]]>
+		</if>
+		<if test="additionalStatus != null and additionalStatus != ''">
+			AND (b.status in (${additionalStatus}) or '0' = '${additionalStatus}')
+		</if>
+		GROUP BY b.`status`, b.headerId)d
+	</select>
+
+	<select id="getSBHeaderTempVOsByCondition" parameterType="sbHeaderTemp" resultMap="result">
+		SELECT a.headerId, <include refid="SBHeaderTempColumns-For-Join"/>, d.sbSolutionId,
+			COUNT(1) AS countItemId, min(c.status) as additionalStatus 
+		FROM hro_sb_header_temp a LEFT JOIN hro_common_batch b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_sb_detail_temp c ON a.headerId = c.headerId AND c.deleted = 1
+			LEFT JOIN hro_biz_employee_contract_sb d ON a.employeeSBId = d.employeeSBId AND d.deleted = 1
+			LEFT JOIN hro_biz_employee e ON a.employeeId = e.employeeId AND c.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId} 
+		</if>
+		<if test="headerId != null and headerId != ''">
+			AND a.headerId = #{headerId} 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND e.employeeNo = #{employeeNo}
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="residencyType != null and residencyType != ''">
+			AND (a.residencyType = #{residencyType} OR '0' = #{residencyType})
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND a.certificateNumber = #{certificateNumber}
+		</if>
+		<if test="vendorId != null and vendorId != ''">
+			AND (a.vendorId = #{vendorId} or '0' = #{vendorId} )
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		<if test="sbSolutionId != null and sbSolutionId != ''">
+			AND (d.sbSolutionId = #{sbSolutionId} or '0' = #{sbSolutionId})
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (a.orderId = #{orderId} or '0' = #{orderId})
+		</if>
+		<if test="employStatus != null and employStatus != ''">
+			AND (a.employStatus = #{employStatus} or '0' = #{employStatus})
+		</if>
+		<if test="sbStatus != null and sbStatus != ''">
+			AND (a.sbStatus = #{sbStatus} or '0' = #{sbStatus})
+		</if>
+		<if test="tempStatus != null and tempStatus != ''">
+			AND (a.tempStatus = #{tempStatus} or '0' = #{tempStatus})
+		</if>
+		<if test="monthlyLimit != null and monthlyLimit != ''">
+			AND <![CDATA[ CASE WHEN LENGTH(b.monthly) < 7 THEN CONCAT(LEFT(b.monthly, 5), LPAD(RIGHT(b.monthly, 1), 2, '0')) ELSE b.monthly END <= 
+				CASE WHEN LENGTH(#{monthlyLimit}) < 7 THEN CONCAT(LEFT(#{monthlyLimit}, 5), LPAD(RIGHT(#{monthlyLimit}, 1), 2, '0')) 
+					ELSE #{monthlyLimit} END ]]>
+		</if>
+		<if test="status != null and status != ''">
+			AND (c.status in (${status}) or '0' = '${status}')
+		</if>
+		GROUP BY a.headerId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getAmountVendorSBHeaderTempVOsByCondition" parameterType="sbHeaderTemp" resultMap="result">
+		SELECT COUNT(DISTINCT a.orderId) AS countOrderId, COUNT(DISTINCT a.contractId) AS countContractId, COUNT(DISTINCT a.clientId) AS countClientId,
+			COUNT(DISTINCT a.employeeSBId) AS countEmployeeSBId, COUNT(DISTINCT b.itemId) AS countItemId, a.monthly, MIN(b.`status`) AS additionalStatus,
+			a.vendorId, a.vendorNameEN, a.vendorNameZH, a.clientId, a.accountId
+		FROM hro_sb_header_temp a
+		LEFT JOIN hro_sb_detail_temp b ON a.headerId = b.headerId AND b.deleted = 1
+		WHERE a.vendorId IS NOT NULL AND a.vendorId != '' AND a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="vendorId != null and vendorId != ''">
+			AND (a.vendorId = #{vendorId} or '0' = #{vendorId})
+		</if>
+		<if test="vendorNameZH != null and vendorNameZH != ''">
+			AND a.vendorNameZH like CONCAT('%', '${vendorNameZH}', '%')
+		</if>
+		<if test="vendorNameEN != null and vendorNameEN != ''">
+			AND a.vendorNameEN like CONCAT('%', '${vendorNameEN}', '%')
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		GROUP BY a.vendorId, a.monthly
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getSBHeaderTempVOByHeaderId" parameterType="int" resultMap="result">
+		SELECT a.headerId, <include refid="SBHeaderTempColumns-For-Join"/>,
+			COUNT(1) AS countItemId, min(c.status) as additionalStatus 
+		FROM hro_sb_header_temp a LEFT JOIN hro_common_batch b ON a.batchId = b.batchId AND b.deleted = 1
+			LEFT JOIN hro_sb_detail_temp c ON a.headerId = c.headerId AND c.deleted = 1
+		WHERE a.deleted = 1 AND a.headerId = #{headerId}
+		GROUP BY a.headerId
+	</select>
+
+	<select id="getVendorSBHeaderTempVOsByCondition" parameterType="sbHeaderTemp" resultMap="result">
+		SELECT b.headerId, <include refid="SBHeaderTempColumns-For-Join"/>, c.sbSolutionId, b.`status` AS additionalStatus, COUNT(DISTINCT b.itemId) AS countItemId
+			FROM hro_sb_header_temp a
+		RIGHT JOIN hro_sb_detail_temp b ON a.headerId = b.headerId AND a.deleted = 1
+		LEFT JOIN hro_biz_employee_contract_sb c ON a.employeeSBId = c.employeeSBId AND c.deleted = 1
+		WHERE a.vendorId = #{vendorId} AND a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND a.batchId = #{batchId} 
+		</if>
+		<if test="headerId != null and headerId != ''">
+			AND a.headerId = #{headerId} 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		<if test="sbSolutionId != null and sbSolutionId != ''">
+			AND (c.sbSolutionId = #{sbSolutionId} or '0' = #{sbSolutionId})
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (a.orderId = #{orderId} or '0' = #{orderId})
+		</if>
+		<if test="employStatus != null and employStatus != ''">
+			AND (a.employStatus = #{employStatus} or '0' = #{employStatus})
+		</if>
+		<if test="sbStatus != null and sbStatus != ''">
+			AND (a.sbStatus = #{sbStatus} or '0' = #{sbStatus})
+		</if>
+		<if test="tempStatus != null and tempStatus != ''">
+			AND (a.tempStatus = #{tempStatus} or '0' = #{tempStatus})
+		</if>
+		<if test="monthlyLimit != null and monthlyLimit != ''">
+			AND <![CDATA[ CASE WHEN LENGTH(b.monthly) < 7 THEN CONCAT(LEFT(b.monthly, 5), LPAD(RIGHT(b.monthly, 1), 2, '0')) ELSE b.monthly END <= 
+				CASE WHEN LENGTH(#{monthlyLimit}) < 7 THEN CONCAT(LEFT(#{monthlyLimit}, 5), LPAD(RIGHT(#{monthlyLimit}, 1), 2, '0')) 
+					ELSE #{monthlyLimit} END ]]>
+		</if>
+		<if test="additionalStatus != null and additionalStatus != ''">
+			AND (b.status in (${additionalStatus}) or '0' = '${additionalStatus}')
+		</if>
+		GROUP BY b.`status`, b.headerId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getSBHeaderTempVOsByBatchId" parameterType="int" resultMap="result">
+		SELECT headerId, <include refid="SBHeaderTempColumns" />
+		FROM hro_sb_header_temp
+		WHERE deleted = 1 AND batchId = #{value} 
+	</select>
+
+	<update id="updateSBHeaderTemp" parameterType="sbHeaderTemp">
+		UPDATE hro_sb_header_temp SET accountId = #{accountId}, entityId = #{entityId}, businessTypeId = #{businessTypeId}, batchId = #{batchId}, 
+			clientId = #{clientId}, corpId = #{corpId}, clientNo = #{clientNo}, clientNameZH = #{clientNameZH}, clientNameEN = #{clientNameEN}, orderId = #{orderId}, 
+			contractId = #{contractId}, contractStartDate = #{contractStartDate}, contractEndDate = #{contractEndDate}, 
+			contractBranch = #{contractBranch}, contractOwner = #{contractOwner}, employeeId = #{employeeId}, employeeNameZH = #{employeeNameZH}, 
+			employeeNameEN = #{employeeNameEN}, sbSolutionId = #{sbSolutionId}, employeeSBId= #{employeeSBId}, employeeSBNameZH = #{employeeSBNameZH}, 
+			employeeSBNameEN = #{employeeSBNameEN}, cityId = #{cityId}, vendorId = #{vendorId}, vendorNameZH = #{vendorNameZH}, 
+			vendorNameEN = #{vendorNameEN}, vendorServiceIds = #{vendorServiceIds}, vendorServiceFee = #{vendorServiceFee}, workPlace = #{workPlace}, 
+			gender = #{gender}, certificateType = #{certificateType}, certificateNumber = #{certificateNumber}, needMedicalCard = #{needMedicalCard}, 
+			needSBCard = #{needSBCard}, medicalNumber = #{medicalNumber}, sbNumber = #{sbNumber}, fundNumber = #{fundNumber}, personalSBBurden = #{personalSBBurden}, 
+			residencyType = #{residencyType}, residencyCityId = #{residencyCityId}, residencyAddress = #{residencyAddress}, 
+			highestEducation = #{highestEducation}, maritalStatus = #{maritalStatus}, employStatus = #{employStatus}, sbStatus = #{sbStatus}, 
+			startDate = #{startDate}, endDate = #{endDate}, onboardDate = #{onboardDate}, resignDate = #{resignDate}, monthly = #{monthly}, 
+			description = #{description}, deleted = #{deleted}, status = #{status}, tempStatus = #{tempStatus}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, 
+			remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate} 
+		WHERE headerId = #{headerId} 
+  	</update>
+
+	<insert id="insertSBHeaderTemp" parameterType="sbHeaderTemp" useGeneratedKeys="true" keyProperty="headerId">
+		INSERT INTO hro_sb_header_temp( <include refid="SBHeaderTempColumns" /> )
+		VALUES(#{accountId}, #{entityId}, #{businessTypeId}, #{batchId}, #{clientId}, #{corpId}, #{clientNo}, #{clientNameZH}, #{clientNameEN}, #{orderId}, 
+			#{contractId}, #{contractStartDate}, #{contractEndDate}, #{contractBranch}, #{contractOwner}, #{employeeId}, #{employeeNameZH}, 
+			#{employeeNameEN}, #{sbSolutionId}, #{employeeSBId}, #{employeeSBNameZH}, #{employeeSBNameEN}, #{cityId}, #{vendorId}, #{vendorNameZH}, #{vendorNameEN}, 
+			#{vendorServiceIds}, #{vendorServiceFee}, #{workPlace}, #{gender}, #{certificateType}, #{certificateNumber}, #{needMedicalCard}, 
+			#{needSBCard}, #{medicalNumber}, #{sbNumber}, #{fundNumber}, #{personalSBBurden}, #{residencyType}, #{residencyCityId}, #{residencyAddress}, #{highestEducation}, 
+			#{maritalStatus}, #{employStatus}, #{sbStatus}, #{startDate}, #{endDate}, #{onboardDate}, #{resignDate}, #{monthly}, #{description}, 1, 
+			#{status}, #{tempStatus}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate}
+	</insert>
+
+	<delete id="deleteSBHeaderTemp" parameterType="int" >
+		DELETE FROM hro_sb_header_temp WHERE headerId = #{value}
+  	</delete>
+  	
+  	<select id="getSBMonthliesByEmployeeId" parameterType="int" resultMap="result">
+		SELECT DISTINCT(h.monthly) as monthly,SUM(a.amountPersonal) as amountPersonal,SUM(a.amountCompany) as amountCompany
+		FROM hro_sb_header_temp h LEFT JOIN hro_sb_detail_temp a on h.headerId = a.headerId and a.deleted = 1
+		WHERE h.deleted = 1 AND h.employeeId = #{value}
+		AND h.status = 3
+		GROUP BY h.monthly
+		ORDER BY h.monthly DESC
+	</select>
+
+</mapper>

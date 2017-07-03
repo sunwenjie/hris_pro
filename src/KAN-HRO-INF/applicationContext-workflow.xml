@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+           http://www.springframework.org/schema/aop   
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
+           http://www.springframework.org/schema/tx  
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- Dao initialization -->
+
+	<bean id="workflowDefineDao"
+		class="com.kan.base.dao.mybatis.impl.workflow.WorkflowDefineDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="workflowDefineStepsDao"
+		class="com.kan.base.dao.mybatis.impl.workflow.WorkflowDefineStepsDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="workflowDefineRequirementsDao"
+		class="com.kan.base.dao.mybatis.impl.workflow.WorkflowDefineRequirementsDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="workflowActualDao"
+		class="com.kan.base.dao.mybatis.impl.workflow.WorkflowActualDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+	<bean id="workflowActualStepsDao"
+		class="com.kan.base.dao.mybatis.impl.workflow.WorkflowActualStepsDaoImpl">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+
+
+	<!-- Service initialization -->
+
+	<bean id="workflowDefineService"
+		class="com.kan.base.service.impl.workflow.WorkflowDefineServiceImpl">
+		<property name="dao" ref="workflowDefineDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="workflowDefineStepsService"
+		class="com.kan.base.service.impl.workflow.WorkflowDefineStepsServiceImpl">
+		<property name="dao" ref="workflowDefineStepsDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="workflowDefineRequirementsService"
+		class="com.kan.base.service.impl.workflow.WorkflowDefineRequirementsServiceImpl">
+		<property name="dao" ref="workflowDefineRequirementsDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="workflowActualService"
+		class="com.kan.base.service.impl.workflow.WorkflowActualServiceImpl">
+		<property name="dao" ref="workflowActualDao" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="workflowActualStepsService"
+		class="com.kan.base.service.impl.workflow.WorkflowActualStepsServiceImpl">
+		<property name="dao" ref="workflowActualStepsDao" />
+		<property name="workflowDefineDao" ref="workflowDefineDao" />
+		<property name="workflowActualDao" ref="workflowActualDao" />
+		<property name="historyDao" ref="historyDao" />
+		<property name="employeeContractService" ref="employeeContractService" />
+		<property name="leaveHeaderService" ref="leaveHeaderService" />
+		<property name="employeeSalaryAdjustmentService" ref="employeeSalaryAdjustmentService" />
+		<property name="employeePositionChangeService" ref="employeePositionChangeService" />
+		<property name="employeeContractSalaryService" ref="employeeContractSalaryService" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<bean id="workflowService" class="com.kan.base.service.impl.workflow.WorkflowService">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="workflowActualDao" ref="workflowActualDao" />
+		<property name="workflowActualStepsDao" ref="workflowActualStepsDao" />
+		<property name="employeeContractDao" ref="employeeContractDao" />
+		<property name="clientOrderHeaderDao" ref="clientOrderHeaderDao" />
+		<property name="historyDao" ref="historyDao" />
+		<property name="staffDao" ref="staffDao" />
+	</bean>
+
+	<!-- 工作流切面配置 -->
+	<bean id="workflowAspect" class="com.kan.base.aop.WorkflowAspect">
+		<property name="workflowService" ref="workflowService" />
+	</bean>
+	<bean id="workflowAdvisor"
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice" ref="workflowAspect" />
+		<property name="patterns">
+			<list>
+				<value>com.kan.hro.service.impl.biz.sb.SBBatchServiceImpl.submit</value>
+				<value>com.kan.hro.service.impl.biz.employee.EmployeePositionChangeServiceImpl.submitEmployeePositionChange</value>
+				<value>com.kan.hro.service.impl.biz.employee.EmployeeSalaryAdjustmentServiceImpl.submitEmployeeSalaryAdjustment</value>
+				<value>com.kan.hro.service.impl.biz.employee.EmployeeContractSalaryServiceImpl.submitEmployeeContractSalary</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+
+</beans>  

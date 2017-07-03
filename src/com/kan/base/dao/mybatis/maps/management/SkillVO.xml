@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.management.SkillVO">
+
+	<resultMap id="skillBaseView" type="com.kan.base.domain.management.SkillBaseView">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+	</resultMap>
+
+	<resultMap id="result" type="com.kan.base.domain.management.SkillVO">
+		<result property="skillId" column="skillId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="skillNameZH" column="skillNameZH" />
+		<result property="skillNameEN" column="skillNameEN" />
+		<result property="description" column="description" />
+		<result property="parentSkillId" column="parentSkillId" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+
+	<sql id="SkillColumns">
+		accountId,corpId,skillNameZH, skillNameEN, description, parentSkillId, deleted, status,
+		remark1, remark2, createBy,
+		createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="SkillColumns_ext">
+		s.accountId,s.corpId,s.skillNameZH, s.skillNameEN, s.description, s.parentSkillId, s.deleted, s.status,
+		s.remark1, s.remark2, s.createBy,
+		s.createDate, s.modifyBy, s.modifyDate 
+	</sql>
+
+	<select id="countSkillVOsByCondition" parameterType="skill"
+		resultType="int">
+		select count(*)
+		from HRO_MGT_Skill
+		where deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="skillNameZH != null and skillNameZH != ''">
+			AND skillNameZH like CONCAT('%', '${skillNameZH}', '%') 
+		</if>
+		<if test="skillNameEN != null and skillNameEN != ''">
+			AND skillNameEN like CONCAT('%', '${skillNameEN}', '%') 
+		</if>
+		<if test="description != null and description != ''">
+			AND description = #{description}
+		</if>
+		<if test="parentSkillId != null and parentSkillId != ''">
+			AND parentSkillId = #{parentSkillId}
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+	</select>
+
+	<select id="getSkillVOsByCondition" parameterType="skill"
+		resultMap="result">
+		select skillId,
+		<include refid="SkillColumns" />
+		from HRO_MGT_Skill
+		where deleted = 1 AND accountId = #{accountId} 
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="skillNameZH != null and skillNameZH != ''">
+			AND skillNameZH like CONCAT('%', '${skillNameZH}', '%') 
+		</if>
+		<if test="skillNameEN != null and skillNameEN != ''">
+			AND skillNameEN like CONCAT('%', '${skillNameEN}', '%') 
+		</if>
+		<if test="description != null and description != ''">
+			AND description = #{description}
+		</if>
+		<if test="parentSkillId != null and parentSkillId != ''">
+			AND parentSkillId = #{parentSkillId}
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getSkillVOBySkillId" parameterType="int" resultMap="result">
+		select SkillId,
+		<include refid="SkillColumns" />
+		from HRO_MGT_Skill
+		where skillId = #{value} AND deleted = 1
+	</select>
+
+	<update id="updateSkill" parameterType="skill">
+		update HRO_MGT_Skill set
+		accountId = #{accountId},corpId = #{corpId},
+		skillNameZH = #{skillNameZH}, skillNameEN = #{skillNameEN}, description = #{description}, 
+		parentSkillId = #{parentSkillId}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1},
+		remark2 = #{remark2}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where skillId = #{skillId} 
+  	</update>
+
+	<insert id="insertSkill" parameterType="skill" useGeneratedKeys="true"
+		keyProperty="skillId">
+		insert into HRO_MGT_Skill(
+		<include refid="SkillColumns" />
+		)
+		values(#{accountId},#{corpId}, #{skillNameZH}, #{skillNameEN}, #{description}, #{parentSkillId}, 1, #{status},
+		#{remark1},#{remark2}, #{createBy}, #{createDate}, #{modifyBy},
+		#{modifyDate})
+	</insert>
+		
+  	<select id="getSkillVOsByParentSkillId" parameterType="skill" resultMap="result">
+		select s.skillId, <include refid="SkillColumns_ext"/> ,
+		if(((
+		SELECT
+			count(1)
+		FROM
+			HRO_BIZ_Employee_Skill es
+		WHERE
+			es.deleted = 1
+		AND es.skillId = s.skillId
+		)  + (
+			SELECT
+				count(1)
+			FROM
+				HRO_MGT_Position p
+			WHERE
+				p.deleted = 1
+			AND p.skill = s.skillId
+		) >0),1,2) as extended 
+		from HRO_MGT_Skill s
+		where s.deleted = 1 AND s.status = 1 
+		<if test="accountId != null and accountId != ''">
+			AND s.accountId = #{accountId} 
+		</if>
+		<if test="parentSkillId != null and parentSkillId != ''">
+			AND s.parentSkillId = #{parentSkillId} 
+		</if>
+		 
+		order by s.skillId
+  	</select>
+  	
+	<delete id="deleteSkill" parameterType="int">
+		delete from HRO_MGT_Skill where skillId = #{skillId}
+  	</delete>
+
+  	<select id="getSkillBaseViewsByAccountId" resultType="skillBaseView">
+  		select skillId as id, CONCAT(skillNameZH, ' - ', IFNULL(skillNameEN, '')) as name 
+  		from HRO_MGT_Skill
+  		where deleted = 1 AND status = 1 AND accountId = #{value}
+  		order by name 
+  	</select>
+  	
+  	<select id="getSkillBaseViewsByClientId" resultType="skill" resultMap="skillBaseView">
+  		select skillId as id, CONCAT(skillNameZH, ' - ', IFNULL(skillNameEN, '')) as name 
+  		from HRO_MGT_Skill
+  		where deleted = 1 AND status = 1 AND accountId = #{accountId}
+  		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+  		order by name 
+  	</select>
+  	
+</mapper>

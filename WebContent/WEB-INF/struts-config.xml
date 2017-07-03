@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans/>
+	
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+
+		<action path="/logon" forward="/logon.jsp" />
+		<action path="/logoni" forward="/logoni.jsp" />
+		<action path="/logonv" forward="/logonv.jsp" />
+		<action path="/logonc" forward="/logonc.jsp" />
+		<action path="/logone" forward="/logone.jsp" />
+		<action path="/logonim" forward="/securityAction.do?proc=logon_wx" />
+		<action path="/about" forward="/jsp/about/about.jsp" />
+		<action path="/upload" forward="/popup/uploadFile.jsp" />
+		<action path="/uploadSucceed" forward="/popup/uploadSucceed.jsp" />
+		<action path="/uploadExcel" forward="/popup/uploadExcelFile.jsp" />
+		<action path="/uploadExcelSucceed" forward="/popup/uploadExcelSucceed.jsp" />
+		<action path="/error" forward="/jsp/error.jsp" />
+		
+		<action parameter="proc" path="/securityAction" type="com.kan.base.web.actions.SecurityAction" name="userForm" scope="request" validate="false">
+			<forward name="index" path="/jsp/index/index.jsp" />
+			<forward name="listAccount" path="/jsp/system/account/listAccount.jsp" />
+			<forward name="listUser" path="/jsp/security/user/listUser.jsp" />
+			<forward name="listEmployeeInHouse" path="/jsp/business/employee/employee/listEmployeeInHouse.jsp"></forward>
+			<forward name="logon" path="/logon.jsp" />
+			<forward name="logon_inHouse" path="/logoni.jsp" />
+			<forward name="logon_inVendor" path="/logonv.jsp" />
+			<forward name="logon_inClient" path="/logonc.jsp" />
+			<forward name="logon_inEmployee" path="/logone.jsp" />
+			<forward name="logon_mobile" path="/mobile/logon.jsp" />
+			<forward name="index_mobile" path="/mobile/index.jsp" />
+			<forward name="choosePositionPage" path="/choosePositionPage.jsp" />
+			<forward name="choosePositionPage_mobile" path="/mobile/choosePositionPage.jsp" />
+			<forward name="changePassword" path="/popup/changePassword.jsp" />
+			<forward name="showDashboard" path="/jsp/management/dashboard/showDashboard.jsp"></forward>
+			<forward name="to_passwordNew" path="/jsp/security/to_passwordNew.jsp"></forward>
+			<forward name="redirectPage" path="/redirectPage.jsp" />
+			<forward name="toForgetPwd" path="/jsp/security/toForgetPwd.jsp" />
+			<forward name="toResetPassword" path="/jsp/security/toResetPassword.jsp" />
+			<forward name="validCodeExpired" path="/jsp/security/validCodeExpired.jsp" />
+			<forward name="forgetPasswordResult" path="/jsp/security/forgetPasswordResult.jsp" />
+			<forward name="resetPasswordSuccess" path="/jsp/security/resetPasswordSuccess.jsp" />
+			<forward name="to_changePwd_mobile" path="/jsp/security/to_changePwd_mobile.jsp" />
+			<forward name="changePwdResult_mobile" path="/jsp/security/changePwdResult_mobile.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/vendorSecurityAction" type="com.kan.base.web.actions.VendorSecurityAction" name="vendorUserForm" scope="request" validate="false">
+			<forward name="manageVendor" path="/jsp/business/vendor/vendor/manageVendor.jsp" />
+			<forward name="logon_inVendor" path="/logonv.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeSecurityAction" type="com.kan.hro.web.actions.biz.employee.EmployeeSecurityAction" name="employeeUserForm" scope="request" validate="false">
+			<forward name="manageEmployee" path="/jsp/business/employee/employee/manageEmployee.jsp" ></forward>
+			<forward name="logonEmployee" path="/logone.jsp" />
+			<forward name="logon_inEmployee" path="/logone.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		<action parameter="proc" path="/clientSecurityAction" type="com.kan.base.web.actions.ClientSecurityAction" name="clientUserForm" scope="request" validate="false">
+			<forward name="index" path="/jsp/business/client/login/index.jsp" />
+			<forward name="logon_inClient" path="/logonc.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		<!-- secuirtyAction for wap -->
+		<action parameter="proc" path="/m.securityAction" type="com.kan.base.wap.actions.SecurityAction_Wap" name="userForm" scope="request" validate="false">
+		</action>
+		
+		<action parameter="proc" path="/locationAction" type="com.kan.base.web.actions.util.LocationAction" scope="request" validate="false">
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/uploadFileAction" type="com.kan.base.web.actions.util.UploadFileAction" scope="request" validate="false">
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/downloadFileAction" type="com.kan.base.web.actions.util.DownloadFileAction" scope="request" validate="false">
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+
+	</action-mappings>
+
+	<message-resources parameter="MessageResources/Error/Error" />
+	<message-resources parameter="MessageResources/Public/Public" key="public" />
+	<message-resources parameter="MessageResources/Title/Title" key="title" />
+	
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config"
+			value="/WEB-INF/tiles-defs.xml" />
+		<set-property property="moduleAware" value="true" />
+	</plug-in>
+
+</struts-config>
+

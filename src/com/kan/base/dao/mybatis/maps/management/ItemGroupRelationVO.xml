@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.management.ItemGroupRelationVO">
+
+	<resultMap id="result" type="com.kan.base.domain.management.ItemGroupRelationVO" >
+		<result property="relationId" column="relationId"/>
+		<result property="itemGroupId" column="itemGroupId"/>
+		<result property="itemId" column="itemId"/>
+		<result property="description" column="description"/>
+		<result property="deleted" column="deleted"/>
+		<result property="status" column="status"/>
+		<result property="remark1" column="remark1"/>
+		<result property="remark2" column="remark2"/>
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+	
+	<sql id="itemGroupRelationColumns">
+		itemGroupId, itemId, description, deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate
+	</sql>  	 	
+	
+	<select id="countItemGroupRelationVOsByCondition" parameterType="itemGroupRelation" resultType="int">
+		select count(*) 
+		from HRO_MGT_Item_Group_Relation
+		where deleted = 1 
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="itemGroupId != null and itemGroupId != ''">
+			AND (itemGroupId = #{itemGroupId} or 0 = #{itemGroupId})
+		</if>
+  	</select>
+	
+	<select id="getItemGroupRelationVOsByCondition" parameterType="itemGroupRelation" resultMap="result">
+		select relationId, <include refid="itemGroupRelationColumns"/>  
+		from HRO_MGT_Item_Group_Relation 
+		where deleted = 1
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="itemGroupId != null and itemGroupId != ''">
+			AND (itemGroupId = #{itemGroupId} or 0 = #{itemGroupId})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+  	
+  	<select id="getItemGroupRelationVOByEducationId" parameterType="int" resultMap="result">
+  		select relationId, <include refid="itemGroupRelationColumns"/>
+  		from HRO_MGT_Item_Group_Relation
+  		where relationId = #{value}
+  	</select>
+  	
+  	<insert id="insertItemGroupRelation" parameterType="itemGroupRelation" useGeneratedKeys="true" keyProperty="relationId">
+  		insert into HRO_MGT_Item_Group_Relation(<include refid="itemGroupRelationColumns"/>)
+  		values( #{itemGroupId}, #{itemId}, #{description}, 1, 1, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate}) 	
+  	</insert>
+  	
+  	<update id="updateItemGroupRelation" parameterType="itemGroupRelation">
+  		update HRO_MGT_Item_Group_Relation set itemGroupId = #{itemGroupId}, itemId = #{itemId}, description = #{description}, deleted = #{deleted}, status = #{status}, 
+  			remark1 = #{remark1}, remark2 = #{remark2}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+  		where relationId = #{relationId}
+  	</update>
+  	
+  	<delete id="deleteItemGroupRelation" parameterType="itemGroupRelation">
+  		delete from HRO_MGT_Item_Group_Relation where relationId = #{relationId}
+  	</delete>
+  	
+  	<select id="getItemGroupRelationVOsByItemGroupId" parameterType="int" resultMap="result">
+  		select relationId, <include refid="itemGroupRelationColumns"/>
+  		from HRO_MGT_Item_Group_Relation
+  		where deleted = 1 AND status = 1 AND itemGroupId = #{value}
+  	</select>
+  	
+</mapper>

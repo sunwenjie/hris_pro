@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="paymentBatchForm" type="com.kan.hro.domain.biz.payment.PaymentBatchVO"></form-bean>
+		<form-bean name="paymentHeaderForm" type="com.kan.hro.domain.biz.payment.PaymentHeaderVO"></form-bean>
+		<form-bean name="paymentAdjustmentHeaderForm" type="com.kan.hro.domain.biz.payment.PaymentAdjustmentHeaderVO"></form-bean>
+		<form-bean name="paymentAdjustmentDetailForm" type="com.kan.hro.domain.biz.payment.PaymentAdjustmentDetailVO"></form-bean>
+		<form-bean name="payslipDetailViewForm" type="com.kan.hro.domain.biz.payment.PayslipDetailView"></form-bean>
+		<form-bean name="payslipHeaderViewForm" type="com.kan.hro.domain.biz.payment.PayslipHeaderView"></form-bean>
+		<form-bean name="salaryHeaderForm" type="com.kan.hro.domain.biz.payment.SalaryHeaderVO"></form-bean>
+		<form-bean name="incomeTaxYearViewForm" type="com.kan.hro.domain.biz.payment.IncomeTaxYearView"></form-bean>
+		
+		<form-bean name="paymentAdjustmentImportBatchForm" type="com.kan.hro.domain.biz.payment.PaymentAdjustmentImportBatchVO"></form-bean>
+		<form-bean name="paymentAdjustmentImportHeaderForm" type="com.kan.hro.domain.biz.payment.PaymentAdjustmentImportHeaderVO"></form-bean>
+		<form-bean name="paymentAdjustmentImportDetailForm" type="com.kan.hro.domain.biz.payment.PaymentAdjustmentImportDetailVO"></form-bean>
+		<form-bean name="paymentReportForm" type="com.kan.hro.domain.biz.payment.PaymentReportVO"></form-bean>
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+
+		<!-- Table actions start -->
+		<action parameter="proc" path="/paymentAction" type="com.kan.hro.web.actions.biz.payment.PaymentAction" name="paymentBatchForm" scope="request" validate="false">
+			<forward name="listPaymentBatch" path="/jsp/payment/listPaymentBatch.jsp"></forward>
+			<forward name="listPaymentBatchTable" path="/contents/payment/table/listPaymentBatchTable.jsp"></forward>
+			<forward name="listPaymentHeader" path="/jsp/payment/listPaymentHeader.jsp"></forward>
+			<forward name="listPaymentHeaderTable" path="/contents/payment/table/listPaymentHeaderTable.jsp"></forward>
+			<forward name="managePaymentBatch" path="/jsp/payment/managePaymentBatch.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Table actions start -->
+		<action parameter="proc" path="/paymentHeaderAction" type="com.kan.hro.web.actions.biz.payment.PaymentHeaderAction" name="paymentHeaderForm" scope="request" validate="false">
+			<forward name="listPaymentBatch" path="/jsp/payment/listPaymentBatch.jsp"></forward>
+			<forward name="listPaymentBatchTable" path="/contents/payment/table/listPaymentBatchTable.jsp"></forward>
+			<forward name="listPaymentHeader" path="/jsp/payment/listPaymentHeader.jsp"></forward>
+			<forward name="listPaymentHeaderTable" path="/contents/payment/table/listPaymentHeaderTable.jsp"></forward>
+			<forward name="paymentMonthlyList" path="/mobile/paymentMonthlyList.jsp"></forward>
+			<forward name="paymentDetailMobile" path="/mobile/paymentDetailMobile.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/paymentAdjustmentHeaderAction" type="com.kan.hro.web.actions.biz.payment.PaymentAdjustmentHeaderAction" name="paymentAdjustmentHeaderForm" scope="request" validate="false">
+			<forward name="listPaymentAdjustmentHeader" path="/jsp/payment/adjustment/header/listPaymentAdjustmentHeader.jsp"></forward>
+			<forward name="listPaymentAdjustmentHeaderTable" path="/contents/payment/adjustment/header/table/listPaymentAdjustmentHeaderTable.jsp"></forward>
+			<forward name="listPaymentAdjustmentHeaderConfirm" path="/jsp/payment/adjustment/header/listPaymentAdjustmentHeaderConfirm.jsp"></forward>
+			<forward name="listPaymentAdjustmentHeaderConfirmTable" path="/contents/payment/adjustment/header/table/listPaymentAdjustmentHeaderConfirmTable.jsp"></forward>
+			<forward name="listPaymentAdjustmentDetail" path="/jsp/payment/adjustment/detail/listPaymentAdjustmentDetail.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/paymentAdjustmentDetailAction" type="com.kan.hro.web.actions.biz.payment.PaymentAdjustmentDetailAction" name="paymentAdjustmentDetailForm" scope="request" validate="false">
+			<forward name="listPaymentAdjustmentDetail" path="/jsp/payment/adjustment/detail/listPaymentAdjustmentDetail.jsp"></forward>
+			<forward name="listPaymentAdjustmentDetailConfrim" path="/jsp/payment/adjustment/detail/listPaymentAdjustmentDetailConfirm.jsp"></forward>
+			<forward name="listPaymentAdjustmentDetailTable" path="/contents/payment/adjustment/detail/table/listPaymentAdjustmentDetailTable.jsp"></forward>
+			<forward name="manageAdjustmentDetailForm" path="/contents/payment/adjustment/detail/form/managePaymentAdjustmentDetailForm.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/payslipViewAction" type="com.kan.hro.web.actions.biz.payment.PayslipViewAction" name="payslipDetailViewForm" scope="request" validate="false">
+			<forward name="listPayslipView" path="/jsp/payment/payslip/listPayslipView.jsp"></forward>
+			<forward name="listPayslipViewReport" path="/jsp/payment/payslip/report/listPayslipViewReport.jsp"></forward>
+			<forward name="listPayslipViewReport-IClick" path="/jsp/payment/payslip/report/listPayslipViewReportIClick.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/incomeTaxAction" type="com.kan.hro.web.actions.biz.payment.IncomeTaxAction" name="payslipHeaderViewForm" scope="request" validate="false">
+			<forward name="listIncomeTax" path="/jsp/payment/incomeTax/listIncomeTax.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/salaryAction" type="com.kan.hro.web.actions.biz.payment.SalaryAction" name="salaryHeaderForm" scope="request" validate="false">
+			<forward name="listSalaryDetailTable" path="/contents/payment/salary/table/listSalaryDetailTable.jsp" />
+			<forward name="listSalaryBatchBody" path="/jsp/payment/salary/listSalaryBatch.jsp" />
+			<forward name="listSalaryHeadBody" path="/jsp/payment/salary/listSalaryHeader.jsp" />
+			<forward name="listSalaryBatchTable" path="/contents/payment/salary/table/listSalaryBatchTable.jsp" />
+			<forward name="listSalaryHeadTable" path="/contents/payment/salary/table/listSalaryHeaderTable.jsp" />
+			<forward name="listSalaryDetail" path="/jsp/payment/salary/listSalaryDetail.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/incomeTaxYearViewAction" type="com.kan.hro.web.actions.biz.payment.IncomeTaxYearViewAction" name="incomeTaxYearViewForm" scope="request" validate="false">
+			<forward name="listIncomeTaxYearView" path="/jsp/payment/incomeTaxYearView/listIncomeTaxYearView.jsp"></forward>
+			<forward name="listIncomeTaxYearViewTable" path="/contents/payment/incomeTaxYearView/table/listIncomeTaxYearViewTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/paymentAdjustmentImportBatchAction" type="com.kan.hro.web.actions.biz.payment.PaymentAdjustmentImportBatchAction" name="paymentAdjustmentImportBatchForm" scope="request" validate="false">
+			<forward name="listPaymentAdjustmentImportBatch" path="/jsp/payment/adjustment/batch/listPaymentAdjustmentImportBatch.jsp"></forward>
+			<forward name="listPaymentAdjustmentImportBatchTable" path="/contents/payment/adjustment/batch/table/listPaymentAdjustmentImportBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/paymentAdjustmentImportHeaderAction" type="com.kan.hro.web.actions.biz.payment.PaymentAdjustmentImportHeaderAction" name="paymentAdjustmentImportHeaderForm"
+			scope="request" validate="false">
+			<forward name="listPaymentAdjustmentImportHeader" path="/jsp/payment/adjustment/header/listPaymentAdjustmentImportHeader.jsp"></forward>
+			<forward name="listPaymentAdjustmentImportHeaderTable" path="/contents/payment/adjustment/header/table/listPaymentAdjustmentImportHeaderTable.jsp"></forward>
+			<forward name="listPaymentAdjustmentImportBatch" path="/jsp/payment/adjustment/batch/listPaymentAdjustmentImportBatch.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/paymentAdjustmentImportDetailAction" type="com.kan.hro.web.actions.biz.payment.PaymentAdjustmentImportDetailAction" name="paymentAdjustmentImportDetailForm"
+			scope="request" validate="false">
+			<forward name="listPaymentAdjustmentImportDetail" path="/jsp/payment/adjustment/detail/listPaymentAdjustmentImportDetail.jsp"></forward>
+			<forward name="listPaymentAdjustmentImportDetailTable" path="/contents/payment/adjustment/detail/table/listPaymentAdjustmentImportDetailTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/paymentReportAction" type="com.kan.hro.web.actions.biz.payment.PaymentReportAction" name="paymentReportForm"
+			scope="request" validate="false">
+			<forward name="listAVGPaymentReport" path="/jsp/payment/report/listAVGPaymentReport.jsp"></forward>
+			<forward name="listAVGPaymentReportTable" path="/contents/payment/report/table/listAVGPaymentReportTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+
+	</action-mappings>
+
+	<message-resources parameter="MessageResources/Payment/Payment" key="payment"></message-resources>
+	
+</struts-config>
+

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.settlement.SettlementAdjustmentImportDetailVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.settlement.SettlementAdjustmentImportDetailVO">
+		<result property="adjustmentDetailId" column="adjustmentDetailId" />
+		<result property="adjustmentHeaderId" column="adjustmentHeaderId" />
+		<result property="itemId" column="itemId" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For Application -->
+		<result property="itemNo" column="itemNo" />
+		<result property="sbSolutionId" column="sbSolutionId" />
+		<result property="contractId" column="contractId" />
+	</resultMap>
+  	
+	<sql id="SettlementAdjustmentDetailColumns">
+		adjustmentHeaderId, itemId, nameZH, nameEN, amountPersonal, amountCompany, monthly,  description, deleted, status, remark1, 
+		remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="SettlementAdjustmentDetailColumns-for-join">
+		a.adjustmentHeaderId, a.itemId, a.nameZH, a.nameEN, a.billAmountPersonal, a.billAmountCompany,a.costAmountPersonal, a.costAmountCompany, a.monthly, a.description, a.deleted, 
+		a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+	
+	<sql id="SettlementAdjustmentDetailColumns-for-insert">
+		a.itemId, a.nameZH, a.nameEN, a.billAmountPersonal, a.billAmountCompany,a.costAmountPersonal, a.costAmountCompany, a.monthly,  a.description, a.deleted, 
+		a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countSettlementAdjustmentImportDetailVOsByCondition" parameterType="sbAdjustmentImportDetail" resultType="int">
+		SELECT
+			count(1) as count
+		FROM
+			hro_settle_adjustment_detail_temp a
+		LEFT JOIN HRO_MGT_Item b ON a.itemId = b.itemId
+		AND b.deleted = 1
+		WHERE
+			a.deleted = 1
+		AND a.adjustmentHeaderId = #{adjustmentHeaderId}
+	</select>
+
+	<select id="getSettlementAdjustmentImportDetailVOsByCondition" parameterType="sbAdjustmentImportDetail"  resultMap="result">
+		SELECT
+			a.adjustmentDetailId,<include refid="SettlementAdjustmentDetailColumns-for-join" />,
+			b.itemNo AS itemNo
+		FROM
+			hro_settle_adjustment_detail_temp a
+		LEFT JOIN HRO_MGT_Item b ON a.itemId = b.itemId
+		AND b.deleted = 1
+		WHERE
+			a.deleted = 1
+		AND a.adjustmentHeaderId = #{adjustmentHeaderId}
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<insert id="insertSettlementAdjustmentDetailTempToDetail" parameterType="int">
+		INSERT INTO hro_settle_adjustment_detail (adjustmentHeaderId,
+			itemId,
+			nameZH,
+			nameEN,
+			billAmountPersonal,
+			billAmountCompany,
+			costAmountPersonal,
+			costAmountCompany,
+			monthly,
+			description,
+			deleted,
+			STATUS,
+			remark1,
+			remark2,
+			remark3,
+			remark4,
+			remark5,
+			createBy,
+			createDate,
+			modifyBy,
+			modifyDate
+		)
+		SELECT c.adjustmentHeaderId ,<include refid="SettlementAdjustmentDetailColumns-for-insert" /> FROM hro_settle_adjustment_detail_temp a
+		INNER JOIN hro_settle_adjustment_header_temp b ON a.adjustmentHeaderId = b.adjustmentHeaderId
+		INNER JOIN hro_settle_adjustment_header c ON c.remark4 = b.adjustmentHeaderId
+		AND b.deleted = 1
+		WHERE
+			a.deleted = 1
+		AND b.batchId = #{batchId}
+  	</insert>
+  	
+  	<delete id="deleteSettlementAdjustmentImportDetailTempByBatchId" parameterType="int">
+		DELETE b FROM
+		hro_settle_adjustment_header_temp a JOIN
+		hro_settle_adjustment_detail_temp b on
+		a.adjustmentHeaderId=b.adjustmentHeaderId
+		WHERE
+		a.batchId = #{value}
+	</delete>
+	
+	<delete id="deleteSettlementAdjustmentImportDetailTempRecord">
+		DELETE FROM hro_settle_adjustment_detail_temp
+		WHERE hro_settle_adjustment_detail_temp.adjustmentHeaderId in
+		<foreach collection="array" item="ids"  open="(" separator="," close=")">  
+        	#{ids}
+     	</foreach>  
+	</delete>
+</mapper>

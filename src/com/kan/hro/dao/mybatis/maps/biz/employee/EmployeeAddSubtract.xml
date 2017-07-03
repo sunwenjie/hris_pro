@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeAddSubtract">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeAddSubtract">
+
+	</resultMap>
+
+	<!-- 合同社保增员 -->
+	<select id="countEmployeeAddByCondition" parameterType="employeeAddSubtract" resultType="int">
+		SELECT COUNT(a.contractId)
+		FROM
+		hro_biz_employee_contract a
+		JOIN hro_biz_employee b ON a.employeeId = b.employeeId
+		LEFT JOIN hro_biz_employee_contract_sb c ON c.contractId = a.contractId
+		LEFT JOIN hro_mgt_social_benefit_solution_header e ON e.headerId = c.sbSolutionId
+		LEFT JOIN hro_biz_client f on f.clientId = a.clientId
+		LEFT JOIN hro_sys_city g on g.cityId = b.residencyCityId
+
+		where a.accountId = #{accountId} and a.deleted = 1
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<!-- 合同报表 -->
+		<if test="ctop != null and ctop != ''  and month!=null and month!=''">
+		<![CDATA[	AND a.startDate <= #{toDate} ]]>
+		</if>
+		<!-- 合同状态 -->
+		<if test="contractStatus != null and contractStatus != '' ">
+			AND (a.status = #{contractStatus} or 0= #{contractStatus})
+		</if>
+
+		<!-- 社保报表 -->
+		<if test="sbop != null and sbop != ''  and month!=null and month!=''">
+			<![CDATA[	AND c.startDate <= #{toDate} ]]>
+			
+		</if>
+		<if test="sbop != null and sbop != ''">
+			and e.sbType = #{sbop}
+		</if>
+
+		<!-- 社保状态 -->
+		<if test="sbStatus != null and sbStatus != ''">
+			AND (c.status = #{sbStatus} or 0 = #{sbStatus})
+		</if>
+
+		<!-- 客户条件 -->
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="clientName != null and clientName != ''">
+			AND f.nameZH LIKE CONCAT('%', '${clientName}', '%')
+		</if>
+		<if test="number != null and number != ''">
+			AND f.number = #{number} 
+		</if>
+		<!-- 雇员条件 -->
+		<if test="employeeName != null and employeeName != ''">
+			AND b.nameZH LIKE CONCAT('%', '${employeeName}', '%')
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber = ${certificateNumber}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = ${contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = ${employeeId}
+		</if>
+
+	</select>
+
+	<select id="getEmployeeAddByCondition" parameterType="employeeAddSubtract" resultType="com.kan.hro.domain.biz.employee.EmployeeAddSubtract">
+		SELECT
+		a.contractId,
+		b.nameZH as employeeName,
+		b.employeeId,
+		b.salutation,
+		a.sbNumber,
+		b.certificateNumber,
+		b.residencyType,
+		b.highestEducation,
+		a.additionalPosition,
+		a.startDate,
+		(
+		CASE a.employStatus
+		WHEN 1 THEN
+			a.endDate
+		ELSE
+			a.resignDate
+		END
+		) AS endDate,
+		a.description,
+
+		g.cityNameZH,
+		b.residencyAddress,
+		a.resignDate,
+
+		c.startDate as planStartDate,
+		c.endDate as planEndDate,
+		e.nameZH as sbName,
+		(SELECT MAX(x.basePersonal) from hro_biz_employee_contract_sb_detail x where x.employeeSBId = c.employeeSBId) as base,
+
+		f.number ,
+		f.nameZH as clientName
+		FROM
+		hro_biz_employee_contract a
+		JOIN hro_biz_employee b ON a.employeeId = b.employeeId
+		LEFT JOIN hro_biz_employee_contract_sb c ON c.contractId = a.contractId
+		LEFT JOIN hro_mgt_social_benefit_solution_header e ON e.headerId = c.sbSolutionId
+		LEFT JOIN hro_biz_client f on f.clientId = a.clientId
+		LEFT JOIN hro_sys_city g on g.cityId = b.residencyCityId
+
+		where a.accountId = #{accountId} and a.deleted = 1
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<!-- 合同报表 -->
+		<if test="ctop != null and ctop != ''  and month!=null and month!=''">
+		<![CDATA[	AND a.startDate <= #{toDate} ]]>
+		</if>
+		<!-- 合同状态 -->
+		<if test="contractStatus != null and contractStatus != ''">
+			AND (a.status = #{contractStatus} or 0= #{contractStatus})
+		</if>
+
+		<!-- 社保报表 -->
+		<if test="sbop != null and sbop != ''">
+			and e.sbType = #{sbop}
+		</if>
+		<if test="sbop != null and sbop != '' and month!=null and month!=''">
+			<![CDATA[	AND c.startDate <= #{toDate} ]]>
+		</if>
+		<!-- 社保状态 -->
+		<if test="sbStatus != null and sbStatus != ''">
+			AND (c.status = #{sbStatus} or 0 = #{sbStatus})
+		</if>
+
+		<!-- 客户条件 -->
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="clientName != null and clientName != ''">
+			AND f.nameZH LIKE CONCAT('%', '${clientName}', '%')
+			
+		</if>
+		<if test="number != null and number != ''">
+			AND f.number = #{number} 
+		</if>
+		<!-- 雇员条件 -->
+		<if test="employeeName != null and employeeName != ''">
+			AND b.nameZH LIKE CONCAT('%', '${employeeName}', '%')
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber = ${certificateNumber}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = ${contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = ${employeeId}
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+
+
+
+
+	<!--合同社保减员 -->
+	<select id="countEmployeeSubtractByCondition" parameterType="employeeAddSubtract" resultType="int">
+		SELECT COUNT(a.contractId)
+		FROM
+		hro_biz_employee_contract a
+		JOIN hro_biz_employee b ON a.employeeId = b.employeeId
+		LEFT JOIN hro_biz_employee_contract_sb c ON c.contractId = a.contractId
+		LEFT JOIN hro_mgt_social_benefit_solution_header e ON e.headerId = c.sbSolutionId
+		LEFT JOIN hro_biz_client f on f.clientId = a.clientId
+		LEFT JOIN hro_sys_city g on g.cityId = b.residencyCityId
+
+		where a.accountId = #{accountId} and a.deleted = 1
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<!-- 合同报表 -->
+		<if test="ctop != null and ctop != ''  and month!=null and month!=''">
+			<![CDATA[AND a.resignDate >= #{fromDate}]]>
+		</if>
+
+		<!-- 合同状态 -->
+		<if test="contractStatus != null and contractStatus != ''">
+			AND (a.status = #{contractStatus} or 0 = #{contractStatus} )
+		</if>
+
+		<!-- 社保报表 -->
+		<if test="sbop != null and sbop !=''  and month!=null and month!=''">
+			<![CDATA[AND c.endDate >= #{fromDate}]]>
+		</if>
+		<if test="sbop != null and sbop !='' ">
+			and e.sbType = #{sbop}
+		</if>
+		
+		<!-- 社保状态 -->
+		<if test="sbStatus != null and sbStatus != ''">
+			AND (c.status = #{sbStatus} or 0 = #{sbStatus})
+		</if>
+
+		<!-- 客户条件 -->
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="clientName != null and clientName != ''">
+			AND f.nameZH LIKE CONCAT('%', '${clientName}', '%')
+			
+		</if>
+		<if test="number != null and number != ''">
+			AND f.number = #{number} 
+		</if>
+		<!-- 雇员条件 -->
+		<if test="employeeName != null and employeeName != ''">
+			AND b.nameZH LIKE CONCAT('%', '${employeeName}', '%')
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber = ${certificateNumber}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = ${contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = ${employeeId}
+		</if>
+	</select>
+
+	<select id="getEmployeeSubtractByCondition" parameterType="employeeAddSubtract" resultType="com.kan.hro.domain.biz.employee.EmployeeAddSubtract">
+		SELECT
+		a.contractId,
+		b.nameZH as employeeName,
+		b.employeeId,
+		b.salutation,
+		a.sbNumber,
+		b.certificateNumber,
+		b.residencyType,
+		b.highestEducation,
+		a.additionalPosition,
+		a.startDate,
+		(
+		CASE a.employStatus
+		WHEN 1 THEN
+			a.endDate
+		ELSE
+			a.resignDate
+		END
+		) AS endDate,
+		a.description,
+
+		g.cityNameZH,
+		b.residencyAddress,
+		a.resignDate,
+
+		c.startDate as planStartDate,
+		c.endDate as planEndDate,
+		e.nameZH as sbName,
+		(SELECT MAX(x.basePersonal) from hro_biz_employee_contract_sb_detail x where x.employeeSBId = c.employeeSBId) as base,
+
+		f.number ,
+		f.nameZH as clientName
+		FROM
+		hro_biz_employee_contract a
+		JOIN hro_biz_employee b ON a.employeeId = b.employeeId
+		LEFT JOIN hro_biz_employee_contract_sb c ON c.contractId = a.contractId
+		LEFT JOIN hro_mgt_social_benefit_solution_header e ON e.headerId = c.sbSolutionId
+		LEFT JOIN hro_biz_client f on f.clientId = a.clientId
+		LEFT JOIN hro_sys_city g on g.cityId = b.residencyCityId
+
+		where a.accountId = #{accountId} and a.deleted = 1
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<!-- 合同报表 -->
+		<if test="ctop != null and ctop != ''  and month!=null and month!=''">
+			<![CDATA[AND a.resignDate >= #{fromDate}]]>
+		</if>
+		<!-- 合同状态 -->
+		<if test="contractStatus != null and contractStatus != ''">
+			AND (a.status = #{contractStatus} or 0 = #{contractStatus} )
+		</if>
+
+		<!-- 社保报表 -->
+		<if test="sbop != null and sbop != '' and month!=null and month!=''">
+			<![CDATA[AND c.endDate >= #{fromDate}]]>
+			
+		</if>
+		<if test="sbop != null and sbop != ''">
+			and e.sbType = #{sbop}
+		</if>
+		<!-- 社保状态 -->
+		<if test="sbStatus != null and sbStatus != ''">
+			AND (c.status = #{sbStatus} or 0 = #{sbStatus})
+		</if>
+
+		<!-- 客户条件 -->
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="clientName != null and clientName != ''">
+			AND f.nameZH LIKE CONCAT('%', '${clientName}', '%')
+			
+		</if>
+		<if test="number != null and number != ''">
+			AND f.number = #{number} 
+		</if>
+		<!-- 雇员条件 -->
+		<if test="employeeName != null and employeeName != ''">
+			AND b.nameZH LIKE CONCAT('%', '${employeeName}', '%')
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber = ${certificateNumber}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = ${contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = ${employeeId}
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<!-- 商保加保 -->
+	<select id="countEmployeeAddByConditionForCB" parameterType="employeeAddSubtract" resultType="int">
+		SELECT
+		count(a.contractId)
+		FROM
+		hro_biz_employee_contract a
+		JOIN hro_biz_employee b ON a.employeeId = b.employeeId
+		JOIN hro_biz_employee_contract_cb c ON c.contractId = a.contractId
+		JOIN HRO_MGT_Commercial_Benefit_Solution_Header e ON e.headerId = c.solutionId
+		LEFT JOIN hro_biz_client f on f.clientId = a.clientId
+		LEFT JOIN hro_sys_city g on g.cityId = b.residencyCityId
+
+		where a.accountId = #{accountId} and a.deleted = 1
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<!-- 合同状态 -->
+		<if test="contractStatus != null and contractStatus != ''">
+			AND (a.status = #{contractStatus} or 0 = #{contractStatus} )
+		</if>
+		<!-- 商保报表 -->
+		<if test="cbop != null and cbop !='' and month!=null and month!=''">
+			<![CDATA[AND c.startDate <= #{toDate} ]]>
+		</if>
+		<!-- 商保状态 -->
+		<if test="cbStatus != null and cbStatus != ''">
+			AND (c.status = #{cbStatus} or 0 = #{cbStatus})
+		</if>
+
+		<!-- 客户条件 -->
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="clientName != null and clientName != ''">
+			AND f.nameZH LIKE CONCAT('%', '${clientName}', '%')
+			
+		</if>
+		<if test="number != null and number != ''">
+			AND f.number = #{number} 
+		</if>
+		<!-- 雇员条件 -->
+		<if test="employeeName != null and employeeName != ''">
+			AND b.nameZH LIKE CONCAT('%', '${employeeName}', '%')
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber = ${certificateNumber}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = ${contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = ${employeeId}
+		</if>
+
+	</select>
+	<select id="getEmployeeAddByConditionForCB" parameterType="employeeAddSubtract" resultType="com.kan.hro.domain.biz.employee.EmployeeAddSubtract">
+		SELECT
+		a.contractId,
+		b.nameZH as employeeName,
+		b.employeeId,
+		b.salutation,
+		a.sbNumber,
+		b.certificateNumber,
+		b.residencyType,
+		b.highestEducation,
+		a.additionalPosition,
+		a.startDate,
+		(
+		CASE a.employStatus
+		WHEN 1 THEN
+			a.endDate
+		ELSE
+			a.resignDate
+		END
+		) AS endDate,
+		a.description,
+
+		g.cityNameZH,
+		b.residencyAddress,
+		a.resignDate,
+
+		c.startDate as planStartDate,
+		c.endDate as planEndDate,
+		e.nameZH as sbName,
+		'' as base,
+
+		f.number ,
+		f.nameZH as clientName
+		FROM
+		hro_biz_employee_contract a
+		JOIN hro_biz_employee b ON a.employeeId = b.employeeId
+		JOIN hro_biz_employee_contract_cb c ON c.contractId = a.contractId
+		JOIN HRO_MGT_Commercial_Benefit_Solution_Header e ON e.headerId = c.solutionId
+		LEFT JOIN hro_biz_client f on f.clientId = a.clientId
+		LEFT JOIN hro_sys_city g on g.cityId = b.residencyCityId
+
+		where a.accountId = #{accountId} and a.deleted = 1
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<!-- 合同报表 -->
+		<if test="ctop != null and ctop !='' and month!=null and month!=''">
+			<![CDATA[AND c.startDate <= #{toDate} ]]>
+		</if>
+		<!-- 合同状态 -->
+		<if test="contractStatus != null and contractStatus != ''">
+			AND a.status = #{contractStatus} 
+		</if>
+
+		<!-- 商保报表 -->
+		<if test="cbop != null and cbop !='' and month!=null and month!=''">
+			AND c.startDate BETWEEN #{fromDate} AND #{toDate} 
+		</if>
+		<!-- 社保状态 -->
+		<if test="cbStatus != null and cbStatus != ''">
+			AND (c.status = #{cbStatus} or 0 = #{cbStatus})
+		</if>
+
+		<!-- 客户条件 -->
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="clientName != null and clientName != ''">
+			AND f.nameZH LIKE CONCAT('%', '${clientName}', '%')
+			
+		</if>
+		<if test="number != null and number != ''">
+			AND f.number = #{number} 
+		</if>
+		<!-- 雇员条件 -->
+		<if test="employeeName != null and employeeName != ''">
+			AND b.nameZH LIKE CONCAT('%', '${employeeName}', '%')
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber = ${certificateNumber}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = ${contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = ${employeeId}
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<!-- 商保减员 -->
+	<select id="countEmployeeSubtractByConditionForCB" parameterType="employeeAddSubtract" resultType="int">
+		SELECT
+		count(a.contractId)
+		FROM
+		hro_biz_employee_contract a
+		JOIN hro_biz_employee b ON a.employeeId = b.employeeId
+		JOIN hro_biz_employee_contract_cb c ON c.contractId = a.contractId
+		JOIN HRO_MGT_Commercial_Benefit_Solution_Header e ON e.headerId = c.solutionId
+		LEFT JOIN hro_biz_client f on f.clientId = a.clientId
+		LEFT JOIN hro_sys_city g on g.cityId = b.residencyCityId
+
+		where a.accountId = #{accountId} and a.deleted = 1
+	    <if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<!-- 合同状态 -->
+		<if test="contractStatus != null and contractStatus != ''">
+			AND (a.status = #{contractStatus} or 0 = #{contractStatus} )
+		</if>
+		<!-- 商保报表 -->
+		<if test="cbop != null and cbop !='' and month!=null and month!=''">
+			<![CDATA[ AND c.endDate >= #{fromDate}  ]]>
+		</if>
+		<!-- 商保状态 -->
+		<if test="cbStatus != null and cbStatus != ''">
+			AND (c.status = #{cbStatus} or 0 = #{cbStatus})
+		</if>
+
+		<!-- 客户条件 -->
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="clientName != null and clientName != ''">
+			AND f.nameZH LIKE CONCAT('%', '${clientName}', '%')
+			
+		</if>
+		<if test="number != null and number != ''">
+			AND f.number = #{number} 
+		</if>
+		<!-- 雇员条件 -->
+		<if test="employeeName != null and employeeName != ''">
+			AND b.nameZH LIKE CONCAT('%', '${employeeName}', '%')
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber = ${certificateNumber}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = ${contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = ${employeeId}
+		</if>
+
+	</select>
+	<select id="getEmployeeSubtractByConditionForCB" parameterType="employeeAddSubtract" resultType="com.kan.hro.domain.biz.employee.EmployeeAddSubtract">
+		SELECT
+		a.contractId,
+		b.nameZH as employeeName,
+		b.employeeId,
+		b.salutation,
+		a.sbNumber,
+		b.certificateNumber,
+		b.residencyType,
+		b.highestEducation,
+		a.additionalPosition,
+		a.startDate,
+		(
+		CASE a.employStatus
+		WHEN 1 THEN
+			a.endDate
+		ELSE
+			a.resignDate
+		END
+		) AS endDate,
+		a.description,
+
+		g.cityNameZH,
+		b.residencyAddress,
+		a.resignDate,
+
+		c.startDate as planStartDate,
+		c.endDate as planEndDate,
+		e.nameZH as sbName,
+		'' as base,
+
+		f.number ,
+		f.nameZH as clientName
+		FROM
+		hro_biz_employee_contract a
+		JOIN hro_biz_employee b ON a.employeeId = b.employeeId
+		JOIN hro_biz_employee_contract_cb c ON c.contractId = a.contractId
+		JOIN HRO_MGT_Commercial_Benefit_Solution_Header e ON e.headerId = c.solutionId
+		LEFT JOIN hro_biz_client f on f.clientId = a.clientId
+		LEFT JOIN hro_sys_city g on g.cityId = b.residencyCityId
+
+		where a.accountId = #{accountId} and a.deleted = 1
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<!-- 合同状态 -->
+		<if test="contractStatus != null and contractStatus != ''">
+			AND (a.status = #{contractStatus} or 0 = #{contractStatus} )
+		</if>
+
+		<!-- 商保报表 -->
+		<if test="cbop != null and cbop !='' and month!=null and month!=''">
+			<![CDATA[ AND c.endDate >= #{fromDate}  ]]>
+		</if>
+		<!-- 社保状态 -->
+		<if test="cbStatus != null and cbStatus != ''">
+			AND (c.status = #{cbStatus} or 0 = #{cbStatus})
+		</if>
+
+		<!-- 客户条件 -->
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="clientName != null and clientName != ''">
+			AND f.nameZH LIKE CONCAT('%', '${clientName}', '%')
+			
+		</if>
+		<if test="number != null and number != ''">
+			AND f.number = #{number} 
+		</if>
+		<!-- 雇员条件 -->
+		<if test="employeeName != null and employeeName != ''">
+			AND b.nameZH LIKE CONCAT('%', '${employeeName}', '%')
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber = ${certificateNumber}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = ${contractId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = ${employeeId}
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+</mapper>

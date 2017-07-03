@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+
+	<display-name>KAN HRO System</display-name>
+	
+	<!-- Character Encoding Filter -->
+	<filter>
+		<filter-name>CharacterEncoding</filter-name>
+		<filter-class>
+			com.kan.base.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>GBK</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ignore</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>CharacterEncoding</filter-name>
+		<servlet-name>action</servlet-name>
+	</filter-mapping>
+	
+	<!-- Locale Encoding Filter -->
+	<filter>
+		<filter-name>Locale</filter-name>
+		<filter-class>
+			com.kan.base.filter.LocaleFilter
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Locale</filter-name>
+		<servlet-name>action</servlet-name>
+	</filter-mapping>
+	
+	<context-param>
+    	<param-name>contextConfigLocation</param-name>
+    	<param-value>classpath:KAN-HRO-INF/applicationContext.xml</param-value>
+  	</context-param>
+  	
+  	<listener>
+    	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  	</listener>
+  	<listener>
+   	 	<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+  	</listener>
+	
+	<!-- Struts 1.3 Action -->
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>
+			org.apache.struts.action.ActionServlet
+		</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/struts-config.xml,
+						/WEB-INF/struts-config-business.xml,
+						/WEB-INF/struts-config-define.xml,
+						/WEB-INF/struts-config-import.xml,
+						/WEB-INF/struts-config-management.xml,
+						/WEB-INF/struts-config-security.xml,
+						/WEB-INF/struts-config-system.xml,
+						/WEB-INF/struts-config-message.xml,
+						/WEB-INF/struts-config-workflow.xml,
+						/WEB-INF/struts-config-sb.xml,
+						/WEB-INF/struts-config-cb.xml,
+						/WEB-INF/struts-config-settlement.xml,
+						/WEB-INF/struts-config-finance.xml,
+						/WEB-INF/struts-config-payment.xml,
+						/WEB-INF/struts-config-wx.xml,
+				    	/WEB-INF/struts-config-performance.xml 
+						</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>2</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detail</param-name>
+			<param-value>2</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	<!-- View druid internal control pages：druid/index.html -->
+	<servlet>
+		<servlet-name>DruidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- File Upload  -->
+	<servlet>
+		<servlet-name>UploadFileProgressBar</servlet-name>
+		<servlet-class>
+			com.kan.base.web.upload.progressbar.UploadFileProgressBar
+		</servlet-class>
+	</servlet>
+ 
+	<servlet-mapping>
+		<servlet-name>UploadFileProgressBar</servlet-name>
+		<url-pattern>/servlet/UploadFileProgressBar</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 验证码 -->
+	<servlet>
+        <servlet-name>jcaptcha</servlet-name>
+        <servlet-class>com.kan.base.web.actions.CaptchaServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>jcaptcha</servlet-name>
+        <url-pattern>/jcaptcha</url-pattern>
+    </servlet-mapping>
+    <!-- 验证码 -->
+	
+	<filter>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+		<init-param>
+			<param-name>exclusions</param-name>
+			<param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*,/mobile/*
+			</param-value>
+		</init-param>
+		<init-param>
+	        <param-name>principalCookieName</param-name>
+	        <param-value>KANUser</param-value>
+   		</init-param>
+		<init-param>
+			<param-name>profileEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://kangroup/authTag</taglib-uri>
+			<taglib-location>/WEB-INF/tld/auth.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+	
+	<!-- Welcome File -->
+	<welcome-file-list>
+		<!-- <welcome-file>default.jsp</welcome-file> -->
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<!-- Session timeout minutes -->
+	<session-config>
+		<session-timeout>15</session-timeout>
+	</session-config>
+	<error-page>
+       <error-code>404</error-code>
+       <location>/404_3.jsp</location>
+  	</error-page>
+    
+	<error-page>
+	   <error-code>500</error-code>
+	   <location>/404_3.jsp</location>
+	</error-page>
+</web-app>

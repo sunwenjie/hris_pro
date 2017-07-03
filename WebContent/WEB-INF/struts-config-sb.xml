@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="sbBatchForm" type="com.kan.hro.domain.biz.sb.SBBatchVO"></form-bean>
+		<form-bean name="sbHeaderForm" type="com.kan.hro.domain.biz.sb.SBHeaderVO"></form-bean>
+		<form-bean name="sbDetailForm" type="com.kan.hro.domain.biz.sb.SBDetailVO"></form-bean>
+		<form-bean name="sbHeaderTempForm" type="com.kan.hro.domain.biz.sb.SBHeaderTempVO"></form-bean>
+		<form-bean name="sbDetailTempForm" type="com.kan.hro.domain.biz.sb.SBDetailTempVO"></form-bean>
+		<form-bean name="sbAdjustmentHeaderForm" type="com.kan.hro.domain.biz.sb.SBAdjustmentHeaderVO"></form-bean>
+		<form-bean name="sbAdjustmentDetailForm" type="com.kan.hro.domain.biz.sb.SBAdjustmentDetailVO"></form-bean>
+		<form-bean name="sbBillDetailViewForm" type="com.kan.hro.domain.biz.sb.SBBillDetailView"></form-bean>
+		<form-bean name="sbImportBatchForm" type="com.kan.hro.domain.biz.sb.SBImportBatchVO"></form-bean>
+		
+		<form-bean name="sbAdjustmentImportBatchActionForm" type="com.kan.hro.domain.biz.sb.SBAdjustmentImportBatchVO"></form-bean>
+		<form-bean name="sbAdjustmentImportHeaderForm" type="com.kan.hro.domain.biz.sb.SBAdjustmentImportHeaderVO"></form-bean>
+		<form-bean name="sbAdjustmentImportDetailForm" type="com.kan.hro.domain.biz.sb.SBAdjustmentImportDetailVO"></form-bean>
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+
+		<!-- SBAction actions start -->
+		<action parameter="proc" path="/sbAction" type="com.kan.hro.web.actions.biz.sb.SBAction" name="sbBatchForm"
+			scope="request" validate="false">
+			<forward name="listSBBatchPreview" path="/jsp/sb/listSBBatchPreview.jsp"></forward>
+			<forward name="listSBBatchConfirm" path="/jsp/sb/listSBBatchConfirm.jsp"></forward>
+			<forward name="listSBBatchSubmit" path="/jsp/sb/listSBBatchSubmit.jsp"></forward>
+			<forward name="listSBBatchTablePreview" path="/contents/sb/table/listSBBatchTablePreView.jsp"></forward>
+			<forward name="listSBBatchTableConfirm" path="/contents/sb/table/listSBBatchTableConfirm.jsp"></forward>
+			<forward name="listSBBatchTableSubmit" path="/contents/sb/table/listSBBatchTableSubmit.jsp"></forward>
+			<forward name="manageSB" path="/jsp/sb/manageSB.jsp"></forward>
+			<forward name="listHeader" path="/jsp/sb/listHeader.jsp"></forward>
+			<forward name="listHeaderTable" path="/contents/sb/table/listHeaderTable.jsp"></forward>
+			<forward name="listDetail" path="/jsp/sb/listDetail.jsp"></forward>
+			<forward name="listDetailTable" path="/contents/sb/table/listDetailTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+			<forward name="listDetailWorkflow" path="/contents/workflow/sb/table/listDetailTable.jsp"></forward>
+		</action>
+		
+		<!-- SBHeaderAction actions start -->
+		<action parameter="proc" path="/sbHeaderAction" type="com.kan.hro.web.actions.biz.sb.SBHeaderAction" name="sbHeaderForm"
+			scope="request" validate="false">
+			<forward name="listSBBatchPreview" path="/jsp/sb/listSBBatchPreview.jsp"></forward>
+			<forward name="listSBBatchConfirm" path="/jsp/sb/listSBBatchConfirm.jsp"></forward>
+			<forward name="listSBBatchSubmit" path="/jsp/sb/listSBBatchSubmit.jsp"></forward>
+			<forward name="listSBBatchTablePreview" path="/contents/sb/table/listSBBatchTablePreView.jsp"></forward>
+			<forward name="listSBBatchTableConfirm" path="/contents/sb/table/listSBBatchTableConfirm.jsp"></forward>
+			<forward name="listSBBatchTableSubmit" path="/contents/sb/table/listSBBatchTableSubmit.jsp"></forward>
+			<forward name="manageSB" path="/jsp/sb/manageSB.jsp"></forward>
+			<forward name="listHeader" path="/jsp/sb/listHeader.jsp"></forward>
+			<forward name="listHeaderTable" path="/contents/sb/table/listHeaderTable.jsp"></forward>
+			<forward name="listDetail" path="/jsp/sb/listDetail.jsp"></forward>
+			<forward name="listDetailTable" path="/contents/sb/table/listDetailTable.jsp"></forward>
+			<forward name="sbMonthlyList" path="/mobile/sbMonthlyList.jsp"></forward>
+			<forward name="sbDetailMobile" path="/mobile/sbDetailMobile.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+			<forward name="listHeaderWorkflow" path="/contents/workflow/sb/listHeaderBodyWorkflow.jsp"></forward>
+			<forward name="listHeaderTableWorkflow" path="/contents/sb/table/listHeaderTableWorkflow.jsp"></forward>
+			<forward name="listDetailWorkflow" path="/contents/workflow/sb/listDetailBodyWorkflow.jsp"></forward>
+			<forward name="listDetailTableWorkflow" path="/contents/sb/table/listDetailTableWorkflow.jsp"></forward>
+		</action>
+
+		<!-- VendorSBAction actions start -->
+		<action parameter="proc" path="/vendorSBAction" type="com.kan.hro.web.actions.biz.sb.VendorSBAction" name="commonBatchForm"
+			scope="request" validate="false">
+			<forward name="listCommonBatch" path="/jsp/business/vendor/sbTemp/listBatch.jsp"></forward>
+			<forward name="listCommonBatchTable" path="/contents/business/vendor/sbTemp/table/listBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+
+		<!-- SBFeedbackImportAction actions start -->
+		<action parameter="proc" path="/sbFeedbackImportAction" type="com.kan.hro.web.actions.biz.sb.SBFeedbackImportAction" name="sbImportBatchForm"
+			scope="request" validate="false">
+			<forward name="listCommonBatch" path="/jsp/sb/sbFeedback/listBatch.jsp"></forward>
+			<forward name="listCommonBatchTable" path="/contents/sb/sbFeedback/table/listBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+				
+		<!-- SBFeedbackHeaderTempAction actions start -->
+		<action parameter="proc" path="/sbFeedbackHeaderTempAction" type="com.kan.hro.web.actions.biz.sb.SBFeedbackHeaderTempAction" name="sbHeaderTempForm"
+			scope="request" validate="false">
+			<forward name="listHeaderTemp" path="/jsp/sb/sbFeedback/listHeaderTemp.jsp"></forward>
+			<forward name="listHeaderTempTable" path="/contents/sb/sbFeedback/table/listHeaderTempTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+				
+		<!-- SBFeedbackDetailTempAction actions start -->
+		<action parameter="proc" path="/sbFeedbackDetailTempAction" type="com.kan.hro.web.actions.biz.sb.SBFeedbackDetailTempAction" name="sbDetailTempForm"
+			scope="request" validate="false">
+			<forward name="listDetailTemp" path="/jsp/sb/sbFeedback/listDetailTemp.jsp"></forward>
+			<forward name="listDetailTempTable" path="/contents/sb/sbFeedback/table/listDetailTempTable.jsp"></forward>
+			<forward name="handleSBDetailTempPopup" path="/popup/handleSBDetailTemp.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+				
+		<!-- SBHeaderTempAction actions start -->
+		<action parameter="proc" path="/sbHeaderTempAction" type="com.kan.hro.web.actions.biz.sb.SBHeaderTempAction" name="sbHeaderTempForm"
+			scope="request" validate="false">
+			<forward name="listHeaderTemp" path="/jsp/business/vendor/sbTemp/listHeaderTemp.jsp"></forward>
+			<forward name="listHeaderTempTable" path="/contents/business/vendor/sbTemp/table/listHeaderTempTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+				
+		<!-- SBDetailTempAction actions start -->
+		<action parameter="proc" path="/sbDetailTempAction" type="com.kan.hro.web.actions.biz.sb.SBDetailTempAction" name="sbDetailTempForm"
+			scope="request" validate="false">
+			<forward name="listDetailTemp" path="/jsp/business/vendor/sbTemp/listDetailTemp.jsp"></forward>
+			<forward name="listDetailTempTable" path="/contents/business/vendor/sbTemp/table/listDetailTempTable.jsp"></forward>
+			<forward name="handleSBDetailTempPopup" path="/popup/handleSBDetailTemp.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- SBAdjustment Header Actions start -->
+		<action parameter="proc" path="/sbAdjustmentHeaderAction" type="com.kan.hro.web.actions.biz.sb.SBAdjustmentHeaderAction" name="sbAdjustmentHeaderForm"
+			scope="request" validate="false">
+			<forward name="listSBAdjustmentHeader" path="/jsp/sb/adjustment/header/listSBAdjustmentHeader.jsp"></forward>
+			<forward name="listSBAdjustmentHeaderTable" path="/contents/sb/adjustment/header/table/listSBAdjustmentHeaderTable.jsp"></forward>
+			<forward name="listSBAdjustmentHeaderConfirm" path="/jsp/sb/adjustment/header/listSBAdjustmentHeaderConfirm.jsp"></forward>
+			<forward name="listSBAdjustmentHeaderConfirmTable" path="/contents/sb/adjustment/header/table/listSBAdjustmentHeaderConfirmTable.jsp"></forward>
+			<forward name="listSBAdjustmentDetail" path="/jsp/sb/adjustment/detail/listSBAdjustmentDetail.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/sbAdjustmentImportBatchAction" type="com.kan.hro.web.actions.biz.sb.SBAdjustmentImportBatchAction" name="sbAdjustmentImportBatchActionForm"
+			scope="request" validate="false">
+			<forward name="listSBAdjustmentImportBatch" path="/jsp/sb/adjustment/batch/listSBAdjustmentImportBatch.jsp"></forward>
+			<forward name="listSBAdjustmentImportBatchTable" path="/contents/sb/adjustment/batch/table/listSBAdjustmentImportBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/sbAdjustmentImportHeaderAction" type="com.kan.hro.web.actions.biz.sb.SBAdjustmentImportHeaderAction" name="sbAdjustmentImportHeaderForm"
+			scope="request" validate="false">
+			<forward name="listSBAdjustmentImportHeader" path="/jsp/sb/adjustment/header/listSBAdjustmentImportHeader.jsp"></forward>
+			<forward name="listSBAdjustmentImportHeaderTable" path="/contents/sb/adjustment/header/table/listSBAdjustmentImportHeaderTable.jsp"></forward>
+			<forward name="listSBAdjustmentImportBatch" path="/jsp/sb/adjustment/batch/listSBAdjustmentImportBatch.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/sbAdjustmentImportDetailAction" type="com.kan.hro.web.actions.biz.sb.SBAdjustmentImportDetailAction" name="sbAdjustmentImportDetailForm"
+			scope="request" validate="false">
+			<forward name="listSBAdjustmentImportDetail" path="/jsp/sb/adjustment/detail/listSBAdjustmentImportDetail.jsp"></forward>
+			<forward name="listSBAdjustmentImportDetailTable" path="/contents/sb/adjustment/detail/table/listSBAdjustmentImportDetailTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- SBAdjustment Detail Actions start -->
+		<action parameter="proc" path="/sbAdjustmentDetailAction" type="com.kan.hro.web.actions.biz.sb.SBAdjustmentDetailAction" name="sbAdjustmentDetailForm"
+			scope="request" validate="false">
+			<forward name="listSBAdjustmentDetail" path="/jsp/sb/adjustment/detail/listSBAdjustmentDetail.jsp"></forward>
+			<forward name="listSBAdjustmentDetailConfrim" path="/jsp/sb/adjustment/detail/listSBAdjustmentDetailConfirm.jsp"></forward>
+			<forward name="listSBAdjustmentDetailTable" path="/contents/sb/adjustment/detail/table/listSBAdjustmentDetailTable.jsp"></forward>
+			<forward name="manageSBAdjustmentDetailForm" path="/contents/sb/adjustment/detail/form/manageSBAdjustmentDetailForm.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- SBBillView Actions start -->
+		<action parameter="proc" path="/sbBillViewAction" type="com.kan.hro.web.actions.biz.sb.SBBillViewAction" name="sbBillDetailViewForm"
+			scope="request" validate="false">
+			<forward name="listSBBillView" path="/jsp/sb/bill/listSBBilllView.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+	</action-mappings>
+
+	<message-resources parameter="MessageResources/SB/SB" key="sb" />
+
+</struts-config>
+

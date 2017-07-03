@@ -1,0 +1,1154 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeReportVO">
+	
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeReportVO">
+		<result property="employeeId" column="employeeId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="employeeNo" column="employeeNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="salutation" column="salutation" />
+		<result property="birthday" column="birthday" />
+		<result property="maritalStatus" column="maritalStatus" />
+		<result property="nationNality" column="nationNality" />
+		<result property="birthdayPlace" column="birthdayPlace" />
+		<result property="residencyCityId" column="residencyCityId" />
+		<result property="residencyCity" column="residencyCity" />
+		<result property="residencyAddress" column="residencyAddress" />
+		<result property="personalAddress" column="personalAddress" />
+		<result property="personalPostcode" column="personalPostcode" />
+		<result property="highestEducation" column="highestEducation" />
+		<result property="recordNo" column="recordNo" />
+		<result property="recordAddress" column="recordAddress" />
+		<result property="residencyType" column="residencyType" />
+		<result property="graduationDate" column="graduationDate" />
+		<result property="onboardDate" column="onboardDate" />
+		<result property="startWorkDate" column="startWorkDate" />
+		<result property="hasForeignerWorkLicence" column="hasForeignerWorkLicence" />
+		<result property="foreignerWorkLicenceNo" column="foreignerWorkLicenceNo" />
+		<result property="foreignerWorkLicenceEndDate" column="foreignerWorkLicenceEndDate" />
+		<result property="hasResidenceLicence" column="hasResidenceLicence" />
+		<result property="residenceNo" column="residenceNo" />
+		<result property="residenceStartDate" column="residenceStartDate" />
+		<result property="residenceEndDate" column="residenceEndDate" />
+		<result property="certificateType" column="certificateType" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="certificateStartDate" column="certificateStartDate" />
+		<result property="certificateEndDate" column="certificateEndDate" />
+		<result property="certificateAwardFrom" column="certificateAwardFrom" />
+		<result property="bankId" column="bankId" />
+		<result property="bankBranch" column="bankBranch" />
+		<result property="bankAccount" column="bankAccount" />
+		<result property="phone1" column="phone1" />
+		<result property="mobile1" column="mobile1" />
+		<result property="email1" column="email1" />
+		<result property="website1" column="website1" />
+		<result property="phone2" column="phone2" />
+		<result property="mobile2" column="mobile2" />
+		<result property="email2" column="email2" />
+		<result property="website2" column="website2" />
+		<result property="im1Type" column="im1Type" />
+		<result property="im1" column="im1" />
+		<result property="im2Type" column="im2Type" />
+		<result property="im2" column="im2" />
+		<result property="im3Type" column="im3Type" />
+		<result property="im3" column="im3" />
+		<result property="im4Type" column="im4Type" />
+		<result property="im4" column="im4" />
+		<result property="branch" column="branch" />
+		<result property="owner" column="owner" />
+		<result property="photo" column="photo" />
+		<result property="attachment" column="attachment" />
+		<result property="resumeZH" column="resumeZH" />
+		<result property="resumeEN" column="resumeEN" />
+		<result property="publicCode" column="publicCode" />
+		<result property="_tempPositionIds" column="_tempPositionIds" />
+		<result property="_tempBranchIds" column="_tempBranchIds" />
+		<result property="_tempParentBranchIds" column="_tempParentBranchIds" />
+		<result property="_tempParentPositionIds" column="_tempParentPositionIds" />
+		<result property="_tempParentPositionOwners" column="_tempParentPositionOwners" />
+		<result property="_tempParentPositionBranchIds" column="_tempParentPositionBranchIds" />
+		<result property="_tempPositionLocationIds" column="_tempPositionLocationIds" />
+		<result property="_tempPositionGradeIds" column="_tempPositionGradeIds" />
+		<result property="_tempUsername" column="_tempUsername" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- Report Relation Field-->
+		<result property="entityNameZH" column="entityNameZH" />
+		<result property="entityNameEN" column="entityNameEN" />
+		<result property="entityTitle" column="entityTitle" />
+		<result property="parentBranchNameZH" column="parentBranchNameZH" />
+		<result property="parentBranchNameEN" column="parentBranchNameEN" />
+		<result property="branchNameZH" column="branchNameZH" />
+		<result property="branchNameEN" column="branchNameEN" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="settlementBranch" column="settlementBranch" />
+		<result property="templateId" column="templateId" />
+		<result property="contractStatus" column="contractStatus" />
+		<result property="contractRemark1" column="contractRemark1" />
+		<result property="resignDate" column="resignDate" />
+		<result property="leaveReasons" column="leaveReasons" />
+		<result property="employStatus" column="employStatus" />
+		<result property="contractStartDate" column="contractStartDate" />
+		<result property="contractEndDate" column="contractEndDate" />
+		<result property="contractId" column="contractId" />
+		<result property="lastWorkDate" column="lastWorkDate" />
+		<result property="currency" column="currency" />
+		
+		<result property="orderProbationMonth" column="orderProbationMonth" />
+		<result property="probationMonth" column="probationMonth" />
+		<result property="probationEndDate" column="probationEndDate" />
+		<result property="schoolNames" column="schoolNames" />
+		<result property="majors" column="majors" />
+		<result property="graduateDates" column="graduateDates" />
+		<result property="emergencyNames" column="emergencyNames" />
+		<result property="relationshipIds" column="relationshipIds" />
+		<result property="phones" column="phones" />
+		<result property="mobiles" column="mobiles" />
+		
+		<result property="bizEmail" column="bizEmail" />
+		<result property="personalEmail" column="personalEmail" />
+		<result property="contractRemark5" column="contractRemark5" />
+		
+		
+		<!-- 绩效报表字段 -->   
+		<result property="yearly" column="yearly" />
+		<result property="yearPerformanceRating" column="yearPerformanceRating" />
+		<result property="yearPerformancePromotion" column="yearPerformancePromotion" />
+		<result property="recommendTTCIncrease" column="recommendTTCIncrease" />
+		<result property="ttcIncrease" column="ttcIncrease" />
+		<result property="newTTCLocal" column="newTTCLocal" />
+		<result property="newTTCUSD" column="newTTCUSD" />
+		<result property="newBaseSalaryLocal" column="newBaseSalaryLocal" />
+		<result property="newBaseSalaryUSD" column="newBaseSalaryUSD" />
+		<result property="newAnnualSalaryLocal" column="newAnnualSalaryLocal" />
+		<result property="newAnnualSalaryUSD" column="newAnnualSalaryUSD" />
+		<result property="newAnnualHousingAllowance" column="newAnnualHousingAllowance" />
+		<result property="newAnnualChildrenEduAllowance" column="newAnnualChildrenEduAllowance" />
+		<result property="newAnnualGuaranteedAllowanceLocal" column="newAnnualGuaranteedAllowanceLocal" />
+		<result property="newAnnualGuatanteedAllowanceUSD" column="newAnnualGuatanteedAllowanceUSD" />
+		<result property="newMonthlyTarget" column="newMonthlyTarget" />
+		<result property="newQuarterlyTarget" column="newGPTarget" />
+		<result property="newGPTarget" column="newMonthlyTarget" />
+		<result property="newTargetValueLocal" column="newTargetValueLocal" />
+		<result property="newTargetValueUSD" column="newTargetValueUSD" />
+		<result property="newJobGrade" column="newJobGrade" />
+		<result property="newInternalTitle" column="newInternalTitle" />
+		<result property="newPositionEN" column="newPositionEN" />
+		<result property="newPositionZH" column="newPositionZH" />
+		<result property="newShareOptions" column="newShareOptions" />
+		<result property="targetBonus" column="targetBonus" />
+		<result property="proposedBonus" column="proposedBonus" />
+		<result property="proposedPayoutLocal" column="proposedPayoutLocal" />
+		<result property="proposedPayoutUSD" column="proposedPayoutUSD" />
+		<result property="comments" column="comments" />
+		<result property="updateBy" column="updateBy" />
+		<result property="updateDate" column="updateDate" />
+	</resultMap>
+	
+	<sql id="columns_for_performance">
+		h.yearly as yearly,
+		h.yearPerformanceRating, h.yearPerformancePromotion, h.recommendTTCIncrease, h.ttcIncrease, h.newTTCLocal, h.newTTCUSD,
+		h.newBaseSalaryLocal, h.newBaseSalaryUSD, h.newAnnualSalaryLocal, h.newAnnualSalaryUSD, h.newAnnualHousingAllowance,
+		h.newAnnualChildrenEduAllowance, h.newAnnualGuaranteedAllowanceLocal, h.newAnnualGuatanteedAllowanceUSD, h.newMonthlyTarget,
+		h.newQuarterlyTarget, h.newGPTarget, h.newTargetValueLocal, h.newTargetValueUSD, h.newJobGrade, h.newInternalTitle,
+		h.newPositionEN, h.newPositionZH, h.newShareOptions, h.targetBonus, h.proposedBonus, h.proposedPayoutLocal, h.proposedPayoutUSD,
+		h.description as comments, h.modifyBy as updateBy, h.modifyDate as updateDate
+	</sql>
+  	
+	<sql id="employeeColumns_for_join">
+		a.employeeId,
+		a.accountId, a.corpId, a.employeeNo, a.nameZH, a.nameEN, a.salutation, a.birthday, a.maritalStatus ,a.nationNality, a.birthdayPlace, a.residencyCityId, a.residencyCity,a.residencyAddress, a.personalAddress, 
+		a.personalPostcode, a.highestEducation, a.recordNo, a.recordAddress, a.residencyType, a.graduationDate, a.onboardDate, a.startWorkDate, a.hasForeignerWorkLicence, a.foreignerWorkLicenceNo, 
+		a.foreignerWorkLicenceEndDate, a.hasResidenceLicence, a.residenceNo, a.residenceStartDate, a.residenceEndDate, a.certificateType, a.certificateNumber, a.certificateStartDate, a.certificateEndDate,
+		a.certificateAwardFrom, a.bankId, a.bankBranch, a.bankAccount, a.phone1, a.mobile1, a.email1, a.website1, a.phone2, a.mobile2, a.email2, a.website2, a.im1Type, a.im1, a.im2Type, a.im2, 
+		a.im3Type, a.im3, a.im4Type, a.im4,a.branch, a.owner, a.photo, a.attachment, a.resumeZH, a.resumeEN, a.publicCode, a._tempPositionIds, a._tempBranchIds, a._tempParentBranchIds, a._tempParentPositionIds, a._tempUsername,
+		a._tempParentPositionOwners, a._tempParentPositionBranchIds, a._tempPositionLocationIds, a._tempPositionGradeIds, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+	
+	<select id="countEmployeeReportVOsByCondition" parameterType="employeeReport" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM(
+				SELECT
+					COUNT(1)
+				FROM hro_biz_employee a
+					LEFT JOIN hro_biz_employee_contract b ON a.employeeId = b.employeeId AND b.deleted = 1
+					LEFT JOIN hro_sec_entity c ON b.entityId = c.entityId AND c.deleted = 1
+					<!-- LEFT JOIN hro_sec_staff d ON a.employeeId = d.employeeId AND d.deleted = 1 -->
+					LEFT JOIN hro_biz_employee_education e ON a.employeeId = e.employeeId AND e.deleted = 1
+					LEFT JOIN hro_biz_employee_emergency f ON a.employeeId = f.employeeId AND f.deleted = 1
+				WHERE a.deleted = 1 AND a.accountId = #{accountId}
+				<if test="employeeId != null and employeeId != ''">
+					AND a.employeeId = #{employeeId}
+				</if>
+				<if test="corpId == null or corpId == ''">
+					AND a.corpId  IS NULL
+				</if>
+				<if test="nameZH != null and nameZH != ''">
+					AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+				</if>
+				<if test="nameEN != null and nameEN != ''">
+					AND UPPER(a.nameEN) LIKE CONCAT('%', '${nameEN}', '%')
+				</if>
+				<if test="remark1 != null and remark1 != ''">
+					AND UPPER(a.remark1) LIKE CONCAT('%', '${remark1}', '%')
+				</if>
+				<if test="entityId != null and entityId != ''">
+					AND (b.entityId = #{entityId} OR 0 = #{entityId})
+				</if>	
+				<if test="status != null and status != ''">
+					AND (a.status = #{status} or 0 = #{status})
+				</if>
+				<!-- 新入职员工 -->
+				<if test="rt == 'new' and contractStatus != null and contractStatus != ''">
+					AND b.`status` &gt;= #{contractStatus}
+				</if>	
+				<if test="rt == 'new' and monthBegin != null and monthBegin != '' and monthEnd != null and monthEnd != ''">
+					AND ( b.startDate BETWEEN #{monthBegin} AND #{monthEnd} )
+				</if>
+				<!-- End -->
+				<!-- 离职员工 -->
+				<if test="rt == 'dimission' and employStatus != null and employStatus != ''">
+					AND b.employStatus &gt; #{employStatus}
+				</if>
+				<if test="rt == 'dimission' and monthBegin != null and monthBegin != '' and monthEnd != null and monthEnd != ''">
+					AND ( b.resignDate BETWEEN #{monthBegin} AND #{monthEnd} )
+				</if>
+				<!-- End -->
+				<!-- 员工全表 -->
+				<if test="rt == 'full' and contractStartDate != null and contractStartDate  != ''">
+					<![CDATA[
+						AND (b.startDate >= #{contractStartDate}  )
+					]]>
+				</if>
+				<if test="rt == 'full' and contractEndDate != null and contractEndDate  != ''">
+					<![CDATA[
+						AND (b.endDate <= #{contractEndDate} )
+					]]>
+				</if>
+				<if test="rt == 'full' and startWorkDateStart != null and startWorkDateStart  != ''">
+					<![CDATA[
+						AND a.startWorkDate >= #{startWorkDateStart}
+					]]>
+				</if>
+				<if test="rt == 'full' and startWorkDateEnd != null and startWorkDateEnd  != ''">
+					<![CDATA[
+						AND a.startWorkDate <= #{startWorkDateEnd}
+					]]>
+				</if>
+				<if test="rt == 'full' and resignDateStart != null and resignDateStart  != ''">
+					<![CDATA[
+						AND b.resignDate >= #{resignDateStart}
+					]]>
+				</if>
+				<if test="rt == 'full' and resignDateEnd != null and resignDateEnd  != ''">
+					<![CDATA[
+						AND b.resignDate <= #{resignDateEnd}
+					]]>
+				</if>
+				<if test="rt == 'full' and employStatus != null and employStatus  != ''">
+					<![CDATA[
+						AND (b.employStatus = #{employStatus} or 0 = #{employStatus})
+					]]>
+				</if>
+				<!-- End -->
+				<!-- 绩效报表 -->
+				<if test="rt == 'performance' and contractStartDate != null and contractStartDate  != ''">
+					<![CDATA[
+						AND (b.startDate >= #{contractStartDate}  )
+					]]>
+				</if>
+				<if test="rt == 'performance' and contractEndDate != null and contractEndDate  != ''">
+					<![CDATA[
+						AND (b.endDate <= #{contractEndDate} )
+					]]>
+				</if>
+				<if test="rt == 'performance' and startWorkDateStart != null and startWorkDateStart  != ''">
+					<![CDATA[
+						AND a.startWorkDate >= #{startWorkDateStart}
+					]]>
+				</if>
+				<if test="rt == 'performance' and startWorkDateEnd != null and startWorkDateEnd  != ''">
+					<![CDATA[
+						AND a.startWorkDate <= #{startWorkDateEnd}
+					]]>
+				</if>
+				<if test="rt == 'performance' and resignDateStart != null and resignDateStart  != ''">
+					<![CDATA[
+						AND b.resignDate >= #{resignDateStart}
+					]]>
+				</if>
+				<if test="rt == 'performance' and resignDateEnd != null and resignDateEnd  != ''">
+					<![CDATA[
+						AND b.resignDate <= #{resignDateEnd}
+					]]>
+				</if>
+				<!-- End -->
+				
+				<if test="rulePublic == 1">
+					AND ( false 
+					<if test="rulePrivateIds !=null">
+						 OR a.employeeId in
+						<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+			        		#{rulePrivateId}
+			     		</foreach>
+					</if>
+					<if test="rulePositionIds !=null">
+						OR a.owner in
+						<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+			        		#{rulePositionId}
+			     		</foreach>
+					</if>
+					<if test="rulePositionIds !=null">
+						OR b.owner in
+						<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+			        		#{rulePositionId}
+			     		</foreach>
+					</if>
+					<if test="ruleBranchIds !=null">
+						OR a._tempBranchIds in
+						<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+			        		#{ruleBranchId}
+			     		</foreach>
+					</if>
+					<if test="ruleBusinessTypeIds !=null">
+						OR a.businessTypeId in
+						<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+			        		#{ruleBusinessTypeId}
+			     		</foreach>
+					</if>
+					<if test="ruleEntityIds !=null">
+						OR b.entityId in
+						<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+			        		#{ruleEntityId}
+			     		</foreach>
+					</if>
+					)
+				</if>
+				
+				<!-- End -->
+				GROUP BY a.employeeId, b.contractId	
+			)AS TEMP	
+	</select>
+	
+	<select id="getEmployeeReportVOsByCondition" parameterType="employeeReport" resultMap="result">
+		SELECT
+			<include refid="employeeColumns_for_join" />,
+		 	b.settlementBranch AS settlementBranch, b.businessTypeId AS businessTypeId,
+			b.templateId AS templateId, b.`status` AS contractStatus,
+			c.nameZH AS entityNameZH, c.nameEN AS entityNameEN, c.title AS entityTitle, b.remark1 AS contractRemark1,
+			b.resignDate AS resignDate, b.leaveReasons AS leaveReasons, b.employStatus AS employStatus, 
+			g.probationMonth AS orderProbationMonth, b.probationMonth AS probationMonth, b.probationEndDate AS probationEndDate,
+			b.startDate AS contractStartDate, b.endDate AS contractEndDate,
+			b.contractId AS contractId, b.currency AS currency,b.lastWorkDate as lastWorkDate,
+			
+			GROUP_CONCAT(DISTINCT e.schoolName separator '、' ) AS schoolNames,
+			GROUP_CONCAT(DISTINCT e.major separator '、' ) AS majors,
+			GROUP_CONCAT(DISTINCT e.endDate separator '、' ) AS graduateDates,
+			
+			GROUP_CONCAT(DISTINCT f.name separator '、' ) AS emergencyNames,
+			GROUP_CONCAT(DISTINCT f.relationshipId separator '、' ) AS relationshipIds,
+			GROUP_CONCAT(DISTINCT f.phone separator '、' ) AS phones,
+			GROUP_CONCAT(DISTINCT f.mobile separator '、' ) AS mobiles,
+			
+			a.email1 AS bizEmail, a.email2 AS personalEmail,
+			a.remark5 AS remark5, b.remark5 as contractRemark5
+		FROM hro_biz_employee a
+			LEFT JOIN hro_biz_employee_contract b ON a.employeeId = b.employeeId AND b.deleted = 1
+			LEFT JOIN hro_sec_entity c ON b.entityId = c.entityId AND c.deleted = 1
+			<!-- LEFT JOIN hro_sec_staff d ON a.employeeId = d.employeeId AND d.deleted = 1 -->
+			LEFT JOIN
+			(
+				SELECT e.employeeId, e.schoolName, e.major, e.endDate FROM hro_biz_employee_education e 
+				WHERE e.deleted = 1
+			)e ON a.employeeId = e.employeeId
+			LEFT JOIN
+			(
+				SELECT f.employeeId, f.name, f.relationshipId, f.phone, f.mobile FROM hro_biz_employee_emergency f
+				WHERE f.deleted = 1
+			)f ON a.employeeId = f.employeeId
+			LEFT JOIN hro_biz_client_order_header g ON b.orderId = g.orderHeaderId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND ( a.corpId = #{corpId} or 0 = #{corpId} )
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId  IS NULL
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND UPPER(a.nameEN) LIKE CONCAT('%', '${nameEN}', '%')
+		</if>	
+		<if test="remark1 != null and remark1 != ''">
+			AND UPPER(a.remark1) LIKE CONCAT('%', '${remark1}', '%')
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (b.entityId = #{entityId} OR 0 = #{entityId})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<!-- 新入职员工 -->
+		<if test="rt == 'new' and contractStatus != null and contractStatus != ''">
+			AND b.`status` &gt;= #{contractStatus}
+		</if>	
+		<if test="rt == 'new' and monthBegin != null and monthBegin != '' and monthEnd != null and monthEnd != ''">
+			AND ( b.startDate BETWEEN #{monthBegin} AND #{monthEnd} )
+		</if>
+		<!-- End -->
+		<!-- 离职员工 -->
+		<if test="rt == 'dimission' and employStatus != null and employStatus != ''">
+			AND b.employStatus &gt; #{employStatus}
+		</if>
+		<if test="rt == 'dimission' and monthBegin != null and monthBegin != '' and monthEnd != null and monthEnd != ''">
+			AND ( b.resignDate BETWEEN #{monthBegin} AND #{monthEnd} )
+		</if>
+		<!-- End -->
+		<!-- 员工全表 -->
+		<if test="rt == 'full' and contractStartDate != null and contractStartDate  != ''">
+			<![CDATA[
+				AND (b.startDate >= #{contractStartDate}  )
+			]]>
+		</if>
+		<if test="rt == 'full' and contractEndDate != null and contractEndDate  != ''">
+			<![CDATA[
+				AND (b.endDate <= #{contractEndDate} )
+			]]>
+		</if>
+		<if test="rt == 'full' and startWorkDateStart != null and startWorkDateStart  != ''">
+			<![CDATA[
+				AND a.startWorkDate >= #{startWorkDateStart}
+			]]>
+		</if>
+		<if test="rt == 'full' and startWorkDateEnd != null and startWorkDateEnd  != ''">
+			<![CDATA[
+				AND a.startWorkDate <= #{startWorkDateEnd}
+			]]>
+		</if>
+		<if test="rt == 'full' and resignDateStart != null and resignDateStart  != ''">
+			<![CDATA[
+				AND b.resignDate >= #{resignDateStart}
+			]]>
+		</if>
+		<if test="rt == 'full' and resignDateEnd != null and resignDateEnd  != ''">
+			<![CDATA[
+				AND b.resignDate <= #{resignDateEnd}
+			]]>
+		</if>
+		<if test="rt == 'full' and employStatus != null and employStatus  != ''">
+			<![CDATA[
+				AND (b.employStatus = #{employStatus} or 0 = #{employStatus})
+			]]>
+		</if>
+		<!-- End -->
+		<!-- 绩效报表 -->
+		<if test="rt == 'performance' and contractStartDate != null and contractStartDate  != ''">
+			<![CDATA[
+				AND (b.startDate >= #{contractStartDate}  )
+			]]>
+		</if>
+		<if test="rt == 'performance' and contractEndDate != null and contractEndDate  != ''">
+			<![CDATA[
+				AND (b.endDate <= #{contractEndDate} )
+			]]>
+		</if>
+		<if test="rt == 'performance' and startWorkDateStart != null and startWorkDateStart  != ''">
+			<![CDATA[
+				AND a.startWorkDate >= #{startWorkDateStart}
+			]]>
+		</if>
+		<if test="rt == 'performance' and startWorkDateEnd != null and startWorkDateEnd  != ''">
+			<![CDATA[
+				AND a.startWorkDate <= #{startWorkDateEnd}
+			]]>
+		</if>
+		<if test="rt == 'performance' and resignDateStart != null and resignDateStart  != ''">
+			<![CDATA[
+				AND b.resignDate >= #{resignDateStart}
+			]]>
+		</if>
+		<if test="rt == 'performance' and resignDateEnd != null and resignDateEnd  != ''">
+			<![CDATA[
+				AND b.resignDate <= #{resignDateEnd}
+			]]>
+		</if>
+		<!-- End -->
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR a.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR a.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR b.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR a._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR a.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR b.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		<!-- End -->
+		GROUP BY a.employeeId, b.contractId	
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="countEmployeeSalaryReportVOsByCondition" parameterType="employeeReport" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM(
+				SELECT
+					COUNT(1)
+				FROM hro_biz_employee a
+					LEFT JOIN hro_biz_employee_contract b ON a.employeeId = b.employeeId AND b.deleted = 1
+					LEFT JOIN hro_sec_entity c ON b.entityId = c.entityId AND c.deleted = 1
+					LEFT JOIN hro_biz_employee_contract_salary d ON  d.contractId= b.contractId and d.deleted=1
+				WHERE a.deleted = 1 AND a.accountId = #{accountId}
+				<if test="employeeId != null and employeeId != ''">
+					AND a.employeeId = #{employeeId}
+				</if>
+				<if test="corpId == null or corpId == ''">
+					AND a.corpId  IS NULL
+				</if>
+				<if test="nameZH != null and nameZH != ''">
+					AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+				</if>
+				<if test="nameEN != null and nameEN != ''">
+					AND UPPER(a.nameEN) LIKE CONCAT('%', '${nameEN}', '%')
+				</if>
+				
+				<if test="entityId != null and entityId != ''">
+					AND (b.entityId = #{entityId} OR 0 = #{entityId})
+				</if>	
+				<if test=" monthBegin != null and monthBegin  != ''">
+					<![CDATA[
+						AND  a.onboardDate >= #{monthBegin}  
+					]]>
+				</if>
+				<if test="monthEnd != null and monthEnd  != ''">
+					<![CDATA[
+						AND  a.onboardDate <= #{monthEnd} 
+					]]>
+				</if>
+				
+				<if test="salaryEndDateEnd != null and salaryEndDateEnd != ''">
+						<![CDATA[
+					 and (d.endDate <=#{salaryEndDateEnd} or d.endDate is null  )
+						]]>
+				</if>
+				
+				<if test="salaryEndDateStart != null and salaryEndDateStart != ''">
+						<![CDATA[
+					 and (d.endDate >=#{salaryEndDateStart} or d.endDate is null  )
+						]]>
+				</if>
+						
+				<if test="salaryStartDateEnd != null and salaryStartDateEnd != ''">
+						<![CDATA[
+						 and d.startDate<= #{salaryStartDateEnd} 
+						
+						]]>
+				</if>
+				
+				<if test="salaryStartDateStart != null and salaryStartDateStart != ''">
+						<![CDATA[
+						 and d.startDate>= #{salaryStartDateStart} 
+						]]>
+				</if>
+				
+				<if test=" contractStartDate != null and contractStartDate  != ''">
+					<![CDATA[
+						AND (b.startDate >= #{contractStartDate}  )
+					]]>
+				</if>
+				<if test="contractEndDate != null and contractEndDate  != ''">
+					<![CDATA[
+						AND (b.endDate <= #{contractEndDate} )
+					]]>
+				</if>
+
+			<if test=" startWorkDateStart != null and startWorkDateStart  != ''">
+					<![CDATA[
+					AND a.startWorkDate >= #{startWorkDateStart}
+				]]>
+			</if>
+			<if test="  startWorkDateEnd != null and startWorkDateEnd  != ''">
+					<![CDATA[
+					AND a.startWorkDate <= #{startWorkDateEnd}
+				]]>
+			</if>
+			<if test=" resignDateStart != null and resignDateStart  != ''">
+					<![CDATA[
+					AND b.resignDate >= #{resignDateStart}
+				]]>
+			</if>
+			<if test=" resignDateEnd != null and resignDateEnd  != ''">
+					<![CDATA[
+					AND b.resignDate <= #{resignDateEnd}
+				]]>
+			</if>
+				
+				<if test="rulePublic == 1">
+					AND ( false 
+					<if test="rulePrivateIds !=null">
+						 OR a.employeeId in
+						<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+			        		#{rulePrivateId}
+			     		</foreach>
+					</if>
+					<if test="rulePositionIds !=null">
+						OR a.owner in
+						<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+			        		#{rulePositionId}
+			     		</foreach>
+					</if>
+					<if test="rulePositionIds !=null">
+						OR b.owner in
+						<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+			        		#{rulePositionId}
+			     		</foreach>
+					</if>
+					<if test="ruleBranchIds !=null">
+						OR a._tempBranchIds in
+						<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+			        		#{ruleBranchId}
+			     		</foreach>
+					</if>
+					<if test="ruleBusinessTypeIds !=null">
+						OR a.businessTypeId in
+						<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+			        		#{ruleBusinessTypeId}
+			     		</foreach>
+					</if>
+					<if test="ruleEntityIds !=null">
+						OR b.entityId in
+						<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+			        		#{ruleEntityId}
+			     		</foreach>
+					</if>
+					)
+				</if>
+				
+				<!-- End -->
+				GROUP BY a.employeeId	
+			)AS TEMP	
+	</select>
+	
+	<select id="getEmployeeSalaryReportVOsByCondition" parameterType="employeeReport" resultMap="result">
+		SELECT
+			<include refid="employeeColumns_for_join" />,
+		 	b.settlementBranch AS settlementBranch, b.businessTypeId AS businessTypeId,
+			b.templateId AS templateId, b.`status` AS contractStatus,
+			c.nameZH AS entityNameZH, c.nameEN AS entityNameEN, c.title AS entityTitle, b.remark1 AS contractRemark1,
+			b.resignDate AS resignDate, b.leaveReasons AS leaveReasons, b.employStatus AS employStatus, b.probationEndDate AS probationEndDate,
+			b.startDate AS contractStartDate, b.endDate AS contractEndDate,
+			b.contractId AS contractId,b.lastWorkDate as lastWorkDate,
+			a.email1 AS bizEmail, a.email2 AS personalEmail,
+			
+			a.remark5 AS remark5
+		FROM hro_biz_employee a
+			LEFT JOIN hro_biz_employee_contract b ON a.employeeId = b.employeeId AND b.deleted = 1 AND b.status in (3,5,6,7)
+			LEFT JOIN hro_sec_entity c ON b.entityId = c.entityId AND c.deleted = 1
+			LEFT JOIN hro_biz_employee_contract_salary d ON  d.contractId= b.contractId and d.deleted=1
+	
+		WHERE a.deleted = 1  and  a.accountId = #{accountId}
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND ( a.corpId = #{corpId} or 0 = #{corpId} )
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId  IS NULL
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND UPPER(a.nameEN) LIKE CONCAT('%', '${nameEN}', '%')
+		</if>	
+		<if test="entityId != null and entityId != ''">
+			AND (b.entityId = #{entityId} OR 0 = #{entityId})
+		</if>
+	
+		<if test=" monthBegin != null and monthBegin  != ''">
+			<![CDATA[
+				AND  a.onboardDate >= #{monthBegin}  
+			]]>
+		</if>
+		<if test="monthEnd != null and monthEnd  != ''">
+			<![CDATA[
+				AND  a.onboardDate <= #{monthEnd} 
+			]]>
+		</if>
+		
+		<if test="salaryEndDateEnd != null and salaryEndDateEnd != ''">
+					<![CDATA[
+				 and (d.endDate <=#{salaryEndDateEnd} or d.endDate is null  )
+					]]>
+			</if>
+			
+			<if test="salaryEndDateStart != null and salaryEndDateStart != ''">
+					<![CDATA[
+				 and (d.endDate >=#{salaryEndDateStart} or d.endDate is null  )
+					]]>
+			</if>
+					
+			<if test="salaryStartDateEnd != null and salaryStartDateEnd != ''">
+					<![CDATA[
+					 and d.startDate<= #{salaryStartDateEnd} 
+					
+					]]>
+			</if>
+			
+			<if test="salaryStartDateStart != null and salaryStartDateStart != ''">
+					<![CDATA[
+					 and d.startDate>= #{salaryStartDateStart} 
+					]]>
+		</if>
+		<if test=" contractStartDate != null and contractStartDate  != ''">
+				<![CDATA[
+					AND (b.startDate >= #{contractStartDate}  )
+				]]>
+		</if>
+		<if test="contractEndDate != null and contractEndDate  != ''">
+			<![CDATA[
+				AND (b.endDate <= #{contractEndDate} )
+			]]>
+		</if>
+	
+		<if test=" startWorkDateStart != null and startWorkDateStart  != ''">
+				<![CDATA[
+				AND a.startWorkDate >= #{startWorkDateStart}
+			]]>
+		</if>
+		<if test="  startWorkDateEnd != null and startWorkDateEnd  != ''">
+				<![CDATA[
+				AND a.startWorkDate <= #{startWorkDateEnd}
+			]]>
+		</if>
+		<if test=" resignDateStart != null and resignDateStart  != ''">
+				<![CDATA[
+				AND b.resignDate >= #{resignDateStart}
+			]]>
+		</if>
+		<if test=" resignDateEnd != null and resignDateEnd  != ''">
+				<![CDATA[
+				AND b.resignDate <= #{resignDateEnd}
+			]]>
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR a.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR a.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR b.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR a._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR a.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR b.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		<!-- End -->
+		GROUP BY a.employeeId	
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	
+	<!-- 绩效报表Start -->
+	<select id="countEmployeePerformanceReportVOsByCondition" parameterType="employeeReport" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM(
+				SELECT
+					COUNT(1)
+				FROM hro_biz_employee a
+					LEFT JOIN hro_biz_employee_contract b ON a.employeeId = b.employeeId AND b.deleted = 1 AND b.employStatus = 1
+					LEFT JOIN hro_sec_entity c ON b.entityId = c.entityId AND c.deleted = 1
+					LEFT JOIN hro_sec_staff d ON a.employeeId = d.employeeId AND d.deleted = 1
+					LEFT JOIN hro_biz_employee_education e ON a.employeeId = e.employeeId AND e.deleted = 1
+					LEFT JOIN hro_biz_employee_emergency f ON a.employeeId = f.employeeId AND f.deleted = 1
+				WHERE a.deleted = 1 AND a.`status` = 1 AND a.accountId = #{accountId}
+				<if test="employeeId != null and employeeId != ''">
+					AND a.employeeId = #{employeeId}
+				</if>
+				<if test="corpId == null or corpId == ''">
+					AND a.corpId  IS NULL
+				</if>
+				<if test="nameZH != null and nameZH != ''">
+					AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+				</if>
+				<if test="nameEN != null and nameEN != ''">
+					AND UPPER(a.nameEN) LIKE CONCAT('%', '${nameEN}', '%')
+				</if>
+				<if test="remark1 != null and remark1 != ''">
+					AND UPPER(a.remark1) LIKE CONCAT('%', '${remark1}', '%')
+				</if>
+				<if test="entityId != null and entityId != ''">
+					AND (b.entityId = #{entityId} OR 0 = #{entityId})
+				</if>	
+				<if test="status != null and status != ''">
+					AND (a.status = #{status} or 0 = #{status})
+				</if>
+				<!-- 绩效报表 -->
+				<if test="contractStartDate != null and contractStartDate  != ''">
+					<![CDATA[
+						AND (b.startDate >= #{contractStartDate}  )
+					]]>
+				</if>
+				<if test="contractEndDate != null and contractEndDate  != ''">
+					<![CDATA[
+						AND (b.endDate <= #{contractEndDate} )
+					]]>
+				</if>
+				<if test="startWorkDateStart != null and startWorkDateStart  != ''">
+					<![CDATA[
+						AND a.startWorkDate >= #{startWorkDateStart}
+					]]>
+				</if>
+				<if test="startWorkDateEnd != null and startWorkDateEnd  != ''">
+					<![CDATA[
+						AND a.startWorkDate <= #{startWorkDateEnd}
+					]]>
+				</if>
+				<if test="resignDateStart != null and resignDateStart  != ''">
+					<![CDATA[
+						AND b.resignDate >= #{resignDateStart}
+					]]>
+				</if>
+				<if test="resignDateEnd != null and resignDateEnd  != ''">
+					<![CDATA[
+						AND b.resignDate <= #{resignDateEnd}
+					]]>
+				</if>
+				<!-- End -->
+				
+				<if test="rulePublic == 1">
+					AND ( false 
+					<if test="rulePrivateIds !=null">
+						 OR a.employeeId in
+						<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+			        		#{rulePrivateId}
+			     		</foreach>
+					</if>
+					<if test="rulePositionIds !=null">
+						OR a.owner in
+						<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+			        		#{rulePositionId}
+			     		</foreach>
+					</if>
+					<if test="rulePositionIds !=null">
+						OR b.owner in
+						<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+			        		#{rulePositionId}
+			     		</foreach>
+					</if>
+					<if test="ruleBranchIds !=null">
+						OR a._tempBranchIds in
+						<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+			        		#{ruleBranchId}
+			     		</foreach>
+					</if>
+					<if test="ruleBusinessTypeIds !=null">
+						OR a.businessTypeId in
+						<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+			        		#{ruleBusinessTypeId}
+			     		</foreach>
+					</if>
+					<if test="ruleEntityIds !=null">
+						OR b.entityId in
+						<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+			        		#{ruleEntityId}
+			     		</foreach>
+					</if>
+					)
+				</if>
+				
+				<!-- End -->
+				GROUP BY a.employeeId, b.contractId	
+			)AS TEMP	
+	</select>
+	
+	<select id="getEmployeePerformanceReportVOsByCondition" parameterType="employeeReport" resultMap="result">
+		SELECT
+			<include refid="employeeColumns_for_join" />,
+		 	b.settlementBranch AS settlementBranch, b.businessTypeId AS businessTypeId,
+			b.templateId AS templateId, b.`status` AS contractStatus,
+			c.nameZH AS entityNameZH, c.nameEN AS entityNameEN, c.title AS entityTitle, b.remark1 AS contractRemark1,
+			b.resignDate AS resignDate, b.leaveReasons AS leaveReasons, b.employStatus AS employStatus, 
+			g.probationMonth AS orderProbationMonth, b.probationMonth AS probationMonth, b.probationEndDate AS probationEndDate,
+			b.startDate AS contractStartDate, b.endDate AS contractEndDate,
+			b.contractId AS contractId, b.currency AS currency,b.lastWorkDate as lastWorkDate,
+			
+			GROUP_CONCAT(DISTINCT e.schoolName separator '、' ) AS schoolNames,
+			GROUP_CONCAT(DISTINCT e.major separator '、' ) AS majors,
+			GROUP_CONCAT(DISTINCT e.endDate separator '、' ) AS graduateDates,
+			
+			GROUP_CONCAT(DISTINCT f.name separator '、' ) AS emergencyNames,
+			GROUP_CONCAT(DISTINCT f.relationshipId separator '、' ) AS relationshipIds,
+			GROUP_CONCAT(DISTINCT f.phone separator '、' ) AS phones,
+			GROUP_CONCAT(DISTINCT f.mobile separator '、' ) AS mobiles,
+			
+			a.email1 AS bizEmail, a.email2 AS personalEmail,
+			a.remark5 AS remark5,
+			
+			<include refid="columns_for_performance"/>
+		FROM hro_biz_employee a
+			LEFT JOIN hro_biz_employee_contract b ON a.employeeId = b.employeeId AND b.deleted = 1 AND b.employStatus = 1
+			LEFT JOIN hro_sec_entity c ON b.entityId = c.entityId AND c.deleted = 1
+			LEFT JOIN hro_sec_staff d ON a.employeeId = d.employeeId AND d.deleted = 1
+			LEFT JOIN hro_biz_employee_education e ON a.employeeId = e.employeeId AND e.deleted = 1
+			LEFT JOIN hro_biz_employee_emergency f ON a.employeeId = f.employeeId AND f.deleted = 1
+			LEFT JOIN hro_biz_client_order_header g ON b.orderId = g.orderHeaderId
+			LEFT JOIN hro_performance h ON a.employeeId = h.employeeId AND h.yearly = #{yearly}
+		WHERE a.deleted = 1 AND a.`status` = 1 AND a.accountId = #{accountId}
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND ( a.corpId = #{corpId} or 0 = #{corpId} )
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId  IS NULL
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND UPPER(a.nameEN) LIKE CONCAT('%', '${nameEN}', '%')
+		</if>	
+		<if test="remark1 != null and remark1 != ''">
+			AND UPPER(a.remark1) LIKE CONCAT('%', '${remark1}', '%')
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (b.entityId = #{entityId} OR 0 = #{entityId})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<!-- 绩效报表 -->
+		<if test="contractStartDate != null and contractStartDate  != ''">
+			<![CDATA[
+				AND (b.startDate >= #{contractStartDate}  )
+			]]>
+		</if>
+		<if test="contractEndDate != null and contractEndDate  != ''">
+			<![CDATA[
+				AND (b.endDate <= #{contractEndDate} )
+			]]>
+		</if>
+		<if test="startWorkDateStart != null and startWorkDateStart  != ''">
+			<![CDATA[
+				AND a.startWorkDate >= #{startWorkDateStart}
+			]]>
+		</if>
+		<if test="startWorkDateEnd != null and startWorkDateEnd  != ''">
+			<![CDATA[
+				AND a.startWorkDate <= #{startWorkDateEnd}
+			]]>
+		</if>
+		<if test="resignDateStart != null and resignDateStart  != ''">
+			<![CDATA[
+				AND b.resignDate >= #{resignDateStart}
+			]]>
+		</if>
+		<if test="resignDateEnd != null and resignDateEnd  != ''">
+			<![CDATA[
+				AND b.resignDate <= #{resignDateEnd}
+			]]>
+		</if>
+		<!-- End -->
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR a.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR a.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR b.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR a._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR a.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR b.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		<!-- End -->
+		GROUP BY a.employeeId, b.contractId	
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+  
+	<select id="countContactsByCondition" parameterType="employeeReport" resultType="int">
+		select count(0) from(
+			select a.employeeId from hro_biz_employee a right join hro_biz_employee_contract b on b.employeeId = a.employeeId and b.deleted = 1
+			where a.deleted = 1 
+			<!-- 只有在职 -->
+			AND a.accountId = #{accountId} and b.employStatus = 1
+			<if test="employeeId != null and employeeId != ''">
+				AND a.employeeId = #{employeeId}
+			</if>
+			<if test="nameZH != null and nameZH != ''">
+				AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+			</if>
+			<if test="nameEN != null and nameEN != ''">
+				AND UPPER(a.nameEN) LIKE CONCAT('%', '${nameEN}', '%')
+			</if>
+			<!-- 如果是查询通讯录不要other on payroll  4 -->
+			
+			<if test="search4Contact != null and search4Contact != '' ">
+				AND 
+					(b.remark1 like '%"guyuanleixinger":"1"%'
+					or
+					b.remark1 like '%"guyuanleixinger":"3"%'
+					)
+			</if>
+			
+		)t
+		group by employeeId 
+	</select>
+	
+	<select id="getContactsByCondition" parameterType="employeeReport" resultMap="result">
+		select * from(
+			select  
+				<include refid="employeeColumns_for_join" />,
+			 	b.settlementBranch AS settlementBranch, 
+				b.templateId AS templateId, b.`status` AS contractStatus,b.entityId AS entityId,
+				b.remark1 AS contractRemark1,
+				b.resignDate AS resignDate, b.leaveReasons AS leaveReasons, b.employStatus AS employStatus, 
+				b.probationMonth AS probationMonth, b.probationEndDate AS probationEndDate,
+				b.contractId AS contractId, b.currency AS currency,b.lastWorkDate as lastWorkDate
+			from hro_biz_employee a right join hro_biz_employee_contract b on a.employeeId = b.employeeId and b.deleted = 1
+			where a.deleted = 1 
+			AND a.accountId = #{accountId}  and b.employStatus = 1 
+			<if test="employeeId != null and employeeId != ''">
+				AND a.employeeId = #{employeeId}
+			</if>
+			<if test="nameZH != null and nameZH != ''">
+				AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+			</if>
+			<if test="nameEN != null and nameEN != ''">
+				AND UPPER(a.nameEN) LIKE CONCAT('%', '${nameEN}', '%')
+			</if>
+			<!-- 如果是查询通讯录只需要fulltime 和 constant 在微信同步里面也验证了 -->
+			  
+			<if test="search4Contact != null and search4Contact != '' ">
+				AND 
+					(b.remark1 like '%"guyuanleixinger":"1"%'
+					or
+					b.remark1 like '%"guyuanleixinger":"3"%'
+					)
+			</if>
+			
+		)t
+		group by employeeId 
+	</select>
+</mapper>

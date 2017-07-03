@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.management.SettingVO">
+
+	<resultMap id="result-for-baseInfo" type="com.kan.base.domain.system.AccountVO">
+		<result property="nameCN" column="nameCN"/>
+		<result property="nameEN" column="nameEN"/>
+		<result property="entityName" column="entityName"/>
+		<result property="bizPhone" column="bizPhone"/>
+		<result property="bizEmail" column="bizEmail"/>
+		<result property="department" column="department"/>
+	</resultMap>
+	
+	<resultMap id="countList" type="java.lang.Integer">
+		<result property="count" column="count"/>
+	</resultMap>
+	<resultMap id="sbAmountList" type="com.kan.hro.domain.biz.sb.SBDetailVO">
+		<result property="amountCompany" column="amountCompany"/>
+		<result property="amountPersonal" column="amountPersonal"/>
+	</resultMap>
+	<resultMap id="cbAmountList" type="com.kan.hro.domain.biz.cb.CBDetailVO">
+		<result property="amountSalesCost" column="amountSalesCost"/>
+		<result property="amountSalesPrice" column="amountSalesPrice"/>
+	</resultMap>
+	<resultMap id="settlementDetailAmountList" type="com.kan.hro.domain.biz.settlement.OrderDetailVO">
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+	</resultMap>
+	<resultMap id="settlementAdjAmountList" type="com.kan.hro.domain.biz.settlement.AdjustmentDetailVO">
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+	</resultMap>
+	<resultMap id="paymentHeaderAmountList" type="com.kan.hro.domain.biz.payment.PaymentHeaderVO">
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="taxAmountPersonal" column="taxAmountPersonal" />
+	</resultMap>
+	<resultMap id="paymentAdjAmountList" type="com.kan.hro.domain.biz.payment.PaymentAdjustmentHeaderVO">
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="taxAmountPersonal" column="taxAmountPersonal" />
+	</resultMap>
+	
+	<!-- 基本信息 -->
+  	<select id="getAccountVOByAccountIdForDashboard" parameterType="int" resultMap="result-for-baseInfo">
+		SELECT nameCN,nameEN,entityName,bizPhone,bizEmail,department
+		FROM hro_mgt_dashboard_baseinfo
+		WHERE accountId = #{value}
+  	</select>
+  	
+  	<!-- 供应商  -->
+  	<select id="getVendorCountForDashboard" parameterType="vendorInfo" resultMap="countList">
+		SELECT vendorCount AS count
+		FROM hro_mgt_dashboard_vendor_count
+		WHERE accountId = #{accountId}
+		<if test="status != null and status != '' ">
+			AND (status = #{status} OR 0 = #{status}) 
+		</if>
+		<if test="corpId != null and corpId != '' ">
+			AND (corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == '' ">
+			AND corpId IS NULL 
+		</if>
+  	</select>
+  	
+  	<!-- 客户 -->
+ 	<select id="getClientCountForDashboard" parameterType="client" resultMap="countList">
+		SELECT clientCount AS count
+		FROM hro_mgt_dashboard_client_count
+		WHERE accountId = #{accountId}
+		<if test="status != null and status != '' ">
+			AND (status = #{status} OR 0 = #{status}) 
+		</if>
+  	</select>
+  	
+  	<!-- 商务合同 -->
+  	<select id="getClientContractCountForDashboard" parameterType="clientContract" resultMap="countList">
+		SELECT clientContractCount AS count
+		FROM hro_mgt_dashboard_client_contract_count
+		WHERE accountId = #{accountId}
+		<if test="status != null and status != '' ">
+			AND (status = #{status} OR 0 = #{status}) 
+		</if>
+  	</select>
+  	
+  	<!-- 订单 -->
+  	<select id="getClientOrdersCountForDashboard" parameterType="clientOrderHeader" resultMap="countList">
+		SELECT clientOrdersCount AS count
+		FROM hro_mgt_dashboard_client_orders_count
+		WHERE accountId = #{accountId}
+		<if test="status != null and status != '' ">
+			AND (status = #{status} OR 0 = #{status}) 
+		</if>
+		<if test="clientId != null and clientId != '' ">
+			AND (clientId = #{clientId} OR 0 = #{clientId}) 
+		</if>
+  	</select>
+  	
+  	<!-- 雇员 -->
+  	<select id="getEmployeeCountForDashboard" parameterType="employee" resultMap="countList">
+		SELECT employeeCount AS count
+		FROM hro_mgt_dashboard_employee_count
+		WHERE accountId = #{accountId}
+		<if test="status != null and status != '' ">
+			AND (status = #{status} OR 0 = #{status}) 
+		</if>
+		<if test="corpId != null and corpId != '' ">
+			AND (corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+  	</select>
+  	
+  	<!-- 派送信息 -->
+  	<select id="getEmployeeContractCountForDashboard" parameterType="employeeContract" resultMap="countList">
+		SELECT employeeContractCount AS count
+		FROM hro_mgt_dashboard_employee_contract_count
+		WHERE accountId = #{accountId}
+		<if test="status != null and status != '' ">
+			AND (status = #{status} OR 0 = #{status}) 
+		</if>
+		<if test="corpId != null and corpId != '' ">
+			AND (corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="flag != null and flag != '' ">
+			AND (flag = #{flag} OR 0 = #{flag}) 
+		</if>
+  	</select>
+  	
+  	<!-- 请假 -->
+  	<select id="getAttendanceLeaveDurationForDashboard" parameterType="leaveHeader" resultMap="countList">
+		SELECT sum(duration) AS count
+		FROM hro_mgt_dashboard_leave
+		WHERE accountId = #{accountId}
+		<if test="status !=null and status != '' ">
+			AND status in (${status})
+        </if>
+		<if test="corpId != null and corpId != '' ">
+			AND (corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="employeeId != null and employeeId != '' ">
+			AND (employeeId = #{employeeId}) 
+		</if>
+		<if test="estimateStartDate != null and estimateStartDate != '' and estimateEndDate != null and estimateEndDate != ''">
+			AND (estimateStartDate between #{estimateStartDate} AND #{estimateEndDate} )
+		</if>
+  	</select>
+  	
+  	<!-- 加班 -->
+  	<select id="getAttendanceOTDurationForDashboard" parameterType="otHeader" resultMap="countList">
+		SELECT duration AS count
+		FROM hro_mgt_dashboard_ot
+		WHERE accountId = #{accountId}
+		<if test="status !=null and status != '' ">
+		AND status in 
+		<foreach collection="statusList" index="index" item="item" open="(" separator="," close=")" >  
+            #{item}  
+        </foreach>
+        </if>
+		<if test="corpId != null and corpId != '' ">
+			AND (corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="employeeId != null and employeeId != '' ">
+			AND (employeeId = #{employeeId} OR 0 = #{employeeId}) 
+		</if>
+		<if test="estimateStartDate != null and estimateStartDate != '' and estimateEndDate != null and estimateEndDate != ''">
+			AND ( ( estimateStartDate between date_format('${estimateStartDate}', '%Y-%m-%d %T') AND date_format('${estimateEndDate}', '%Y-%m-%d %T') ) 
+				OR ( estimateEndDate between date_format('${estimateStartDate}', '%Y-%m-%d %T') AND date_format('${estimateEndDate}', '%Y-%m-%d %T') ) )
+		</if>
+  	</select>
+  	
+  	<!-- 社保 -->
+  	<select id="getSBAmountForDashboard" parameterType="sbHeader" resultMap="sbAmountList">
+		SELECT amountCompany AS amountCompany,amountPersonal AS amountPersonal
+		FROM hro_mgt_dashboard_sb_count
+		WHERE accountId = #{accountId}
+		<if test="status != null and status != '' ">
+			AND (status = #{status} OR 0 = #{status}) 
+		</if>
+		<if test="corpId != null and corpId != '' ">
+			AND (corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="monthly != null and monthly != '' ">
+			AND (monthly = #{monthly} OR 0 = #{monthly}) 
+		</if>
+		<if test="employeeId != null and employeeId != '' ">
+			AND (employeeId = #{employeeId} OR 0 = #{employeeId}) 
+		</if>
+  	</select>
+  	
+  	<!-- 社保调整 -->
+  	<select id="getSBAdjAmountForDashboard" parameterType="sbAdjustmentHeader" resultMap="sbAmountList">
+		SELECT amountCompany AS amountCompany,amountPersonal AS amountPersonal
+		FROM hro_mgt_dashboard_sb_adjustment_count
+		WHERE accountId = #{accountId}
+		<if test="status != null and status != '' ">
+			AND (status = #{status} OR 0 = #{status}) 
+		</if>
+		<if test="corpId != null and corpId != '' ">
+			AND (corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="monthly != null and monthly != '' ">
+			AND (monthly = #{monthly} OR 0 = #{monthly}) 
+		</if>
+		<if test="employeeId != null and employeeId != '' ">
+			AND (employeeId = #{employeeId} OR 0 = #{employeeId}) 
+		</if>
+  	</select>
+  	
+  	<!-- 商保 -->
+  	<select id="getCBAmountForDashboard" parameterType="cbHeader" resultMap="cbAmountList">
+		SELECT amountSalesCost ,amountSalesPrice
+		FROM hro_mgt_dashboard_cb_count
+		WHERE accountId = #{accountId}
+		<if test="status != null and status != '' ">
+			AND (status = #{status} OR 0 = #{status}) 
+		</if>
+		<if test="corpId != null and corpId != '' ">
+			AND (corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="monthly != null and monthly != '' ">
+			AND (monthly = #{monthly} OR 0 = #{monthly}) 
+		</if>
+		<if test="employeeId != null and employeeId != '' ">
+			AND (employeeId = #{employeeId} OR 0 = #{employeeId}) 
+		</if>
+  	</select>
+  	
+  	<!-- 结算 -->
+  	<select id="getSettlementAmountForDashboard" parameterType="settlementServiceContract" resultMap="settlementDetailAmountList">
+		SELECT billAmountCompany ,billAmountPersonal,costAmountCompany,costAmountPersonal
+		FROM hro_mgt_dashboard_settlement
+		WHERE accountId = #{accountId}
+		<if test="status != null and status != '' ">
+			AND (status = #{status} OR 0 = #{status}) 
+		</if>
+		<if test="corpId != null and corpId != '' ">
+			AND (corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="monthly != null and monthly != '' ">
+			AND (monthly = #{monthly} OR 0 = #{monthly}) 
+		</if>
+  	</select>
+  	<!-- 结算调整 -->
+  	<select id="getSettlementAdjAmountForDashboard" parameterType="adjustmentHeader" resultMap="settlementAdjAmountList">
+		SELECT billAmountCompany ,costAmountCompany
+		FROM hro_mgt_dashboard_settlement_adjustment
+		WHERE accountId = #{accountId}
+		<if test="status != null and status != '' ">
+			AND (status = #{status} OR 0 = #{status}) 
+		</if>
+		<if test="corpId != null and corpId != '' ">
+			AND (corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+			AND (adjustmentDate between date_format('${startDate}', '%Y-%m-%d %T') AND date_format('${endDate}', '%Y-%m-%d %T')) 
+		</if>
+  	</select>
+  	
+  	<!-- 薪酬 -->
+  	<select id="getPaymentAmountForDashboard" parameterType="paymentHeader" resultMap="paymentHeaderAmountList">
+		SELECT 
+            (billAmountPersonal - getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE')) - 
+            (costAmountPersonal - getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE')) -
+            (taxAmountPersonal - getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE')) -
+            (annualBonus - getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE')) as addtionalBillAmountPersonal,
+			taxAmountPersonal - getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE') AS taxAmountPersonal
+		FROM hro_mgt_dashboard_payment
+		WHERE accountId = #{accountId}
+		<if test="status != null and status != '' ">
+			AND (status = #{status} OR 0 = #{status}) 
+		</if>
+		<if test="corpId != null and corpId != '' ">
+			AND (corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="monthly != null and monthly != '' ">
+			AND (monthly = #{monthly} OR 0 = #{monthly}) 
+		</if>
+		<if test="employeeId != null and employeeId != '' ">
+			AND (employeeId = #{employeeId} OR 0 = #{employeeId}) 
+		</if>
+  	</select>
+  	<!-- 薪酬调整 -->
+  	<select id="getPaymentAdjAmountForDashboard" parameterType="paymentAdjustmentHeader" resultMap="paymentAdjAmountList">
+		SELECT addtionalBillAmountPersonal,taxAmountPersonal
+		FROM hro_mgt_dashboard_payment_adjustment
+		WHERE accountId = #{accountId}
+		<if test="status != null and status != '' ">
+			AND (status = #{status} OR 0 = #{status}) 
+		</if>
+		<if test="corpId != null and corpId != '' ">
+			AND (corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="monthly != null and monthly != '' ">
+			AND (monthly = #{monthly} OR 0 = #{monthly}) 
+		</if>
+		<if test="employeeId != null and employeeId != '' ">
+			AND (employeeId = #{employeeId} OR 0 = #{employeeId}) 
+		</if>
+  	</select>
+  	
+  	<!-- 月末在职员工人数 -->
+  	<select id="getEmployeeOnJobCountForDashboard" parameterType="employeeContract" resultMap="countList">
+		SELECT COUNT(0) as count from 
+		(
+		SELECT DISTINCT(e.employeeId) from hro_biz_employee e LEFT JOIN hro_biz_employee_contract c on e.employeeId = c.employeeId AND c.deleted = 1
+		WHERE e.deleted = 1 AND e.accountId = #{accountId}
+		<if test="status !=null and status != '' ">
+		AND c.status in 
+		<foreach collection="statusList" index="index" item="item" open="(" separator="," close=")" >  
+            #{item}  
+        </foreach> 
+        </if>
+		<if test="corpId != corpId and corpId != '' ">
+			AND (c.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<![CDATA[
+			AND (
+					(c.resignDate is null AND c.endDate is not null  AND #{startDateTo} >= c.startDate &&  #{endDateFrom} <= c.endDate  ) ||
+					(c.resignDate is not null AND #{startDateTo} >= c.startDate &&  #{endDateFrom} <= c.resignDate ) ||
+					(c.resignDate is null AND c.endDate is null AND #{startDateTo} >= c.startDate)
+				)
+		]]>
+		
+		) t
+  	</select>
+  	
+  	<!-- 每月新增员工人数 -->
+  	<select id="getEmployeeNewCountForDashboard" parameterType="employeeContract" resultMap="countList">
+		SELECT countEmployees AS count
+		FROM hro_mgt_dashboard_new_employee_count
+		WHERE accountId = #{accountId}
+		<if test="status !=null and status != '' ">
+		AND status in 
+		<foreach collection="statusList" index="index" item="item" open="(" separator="," close=")" >  
+            #{item}  
+        </foreach>
+        </if>
+		<if test="corpId != null and corpId != '' ">
+			AND (corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="monthly != null and monthly != '' ">
+			AND (cDate = #{monthly} OR 0 = #{monthly}) 
+		</if>
+  	</select>
+  	
+  	<!-- 每月离职员工人数 -->
+  	<select id="getEmployeeDismissionCountForDashboard" parameterType="employeeContract" resultMap="countList">
+		SELECT countEmployees AS count
+		FROM hro_mgt_dashboard_dismission_count
+		WHERE accountId = #{accountId}
+		<if test="status !=null and status != '' ">
+		AND status in 
+		<foreach collection="statusList" index="index" item="item" open="(" separator="," close=")" >  
+            #{item}  
+        </foreach>
+        </if>
+		<if test="corpId != null and corpId != '' ">
+			AND (corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="monthly != null and monthly != '' ">
+			AND (rDate = #{monthly} OR 0 = #{monthly}) 
+		</if>
+  	</select>
+</mapper>

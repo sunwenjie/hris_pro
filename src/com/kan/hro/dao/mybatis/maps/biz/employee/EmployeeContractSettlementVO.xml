@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeContractSettlementVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeContractSettlementVO">
+		<result property="employeeSettlementId" column="employeeSettlementId" />
+		<result property="contractId" column="contractId" />
+		<result property="itemId" column="itemId" />
+		<result property="baseFrom" column="baseFrom" />
+		<result property="divideType" column="divideType" />
+		<result property="percentage" column="percentage" />
+		<result property="fix" column="fix" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="resultCap" column="resultCap" />
+		<result property="resultFloor" column="resultFloor" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+
+	<sql id="employeeContractSettlementColumns">
+		contractId,itemId,baseFrom,divideType,
+		percentage,fix,startDate,endDate,resultCap,resultFloor,description,deleted,
+		status,remark1,remark2,remark3,remark4,remark5,createBy,createDate,modifyBy,modifyDate
+	</sql>
+		
+	<sql id="employeeContractSettlementColumns-for-join">
+		a.employeeSettlementId,a.contractId,a.itemId,a.baseFrom,a.divideType,
+		a.percentage,a.fix,a.startDate,a.endDate,a.resultCap,a.resultFloor,a.description,a.deleted,
+		a.status,a.remark1,a.remark2,a.remark3,a.remark4,a.remark5,a.createBy,a.createDate,a.modifyBy,a.modifyDate
+	</sql>	
+	
+	                                                                     
+	<select id="countEmployeeContractSettlementVOsByCondition" parameterType="employeeContractSettlement" resultType="int">
+		SELECT COUNT(0)
+		FROM HRO_BIZ_Employee_Contract_Settlement a LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId 
+		WHERE a.deleted = 1 AND a.contractId = #{contractId} 
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} OR 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getEmployeeContractSettlementVOsByCondition" parameterType="employeeContractSettlement" resultMap="result">
+		SELECT a.employeeOtherId, <include refid="employeeContractSettlementColumns-for-join" />
+		FROM HRO_BIZ_Employee_Contract_Settlement a LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId 
+		WHERE a.deleted = 1 AND a.contractId = #{contractId} 
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} OR 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getEmployeeContractSettlementVOByEmployeeSettlementId" parameterType="int" resultMap="result">
+		SELECT a.employeeSettlementId, <include refid="employeeContractSettlementColumns-for-join" />
+		FROM HRO_BIZ_Employee_Contract_Settlement a LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId 
+		WHERE a.deleted = 1 AND a.employeeSettlementId = #{value}		
+	</select>
+	
+	<select id="getEmployeeContractSettlementVOsByContractId" parameterType="int"  resultMap="result">
+		SELECT a.employeeSettlementId, <include refid="employeeContractSettlementColumns-for-join" />
+		FROM HRO_BIZ_Employee_Contract_Settlement a LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId 
+		WHERE a.deleted = 1  AND a.contractId = #{value} 
+		ORDER BY a.itemId
+	</select>
+	
+	<insert id="insertEmployeeContractSettlement" parameterType="employeeContractSettlement" useGeneratedKeys="true" keyProperty="employeeSettlementId">
+		INSERT INTO HRO_BIZ_Employee_Contract_Settlement( <include refid="employeeContractSettlementColumns" /> )
+		VALUES(#{contractId},#{itemId},#{baseFrom},#{divideType},
+		#{percentage},#{fix},#{startDate},#{endDate},#{resultCap},#{resultFloor},#{description},1,
+		#{status},#{remark1},#{remark2},#{remark3},#{remark4},#{remark5},#{createBy},#{createDate},#{modifyBy},#{modifyDate})
+	</insert>
+
+	<update id="updateEmployeeContractSettlement" parameterType="employeeContractSettlement">
+		UPDATE HRO_BIZ_Employee_Contract_Settlement SET contractId = #{contractId},itemId=#{itemId},baseFrom=#{baseFrom},divideType=#{divideType},
+		percentage=#{percentage},fix=#{fix},startDate=#{startDate},endDate=#{endDate},resultCap=#{resultCap},resultFloor=#{resultFloor}, 
+		description=#{description}, deleted=#{deleted}, status=#{status}, remark1 = #{remark1}, 
+		remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate},
+		modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE employeeSettlementId = #{employeeSettlementId} 
+	</update>	
+	
+	<delete id="deleteEmployeeContractSettlement" parameterType="int">
+		DELETE FROM HRO_BIZ_Employee_Contract_Settlement WHERE employeeSettlementId = #{value}
+  	</delete>	
+</mapper>

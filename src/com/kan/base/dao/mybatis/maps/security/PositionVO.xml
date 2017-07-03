@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.security.PositionVO">
+
+	<resultMap id="positionBaseView" type="com.kan.base.domain.security.PositionBaseView">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="parentId" column="parentId" />
+	</resultMap>
+
+	<resultMap id="result" type="com.kan.base.domain.security.PositionVO">
+		<result property="positionId" column="positionId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="locationId" column="locationId" />
+		<result property="branchId" column="branchId" />
+		<result property="positionGradeId" column="positionGradeId" />
+		<result property="titleZH" column="titleZH" />
+		<result property="titleEN" column="titleEN" />
+		<result property="description" column="description" />
+		<result property="skill" column="skill" />
+		<result property="note" column="note" />
+		<result property="attachment" column="attachment" />
+		<result property="parentPositionId" column="parentPositionId" />
+		<result property="isVacant" column="isVacant" />
+		<result property="isIndependentDisplay" column="isIndependentDisplay" />
+		<result property="needPublish" column="needPublish" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- for app -->
+		<result property="staffId" column="staffId" />
+		<result property="staffIds" column="staffIds" />
+	</resultMap>
+	
+  	<sql id="PositionColumns"> 
+  		accountId,corpId, locationId, branchId, positionGradeId, titleZH, titleEN, description, skill, note, attachment, parentPositionId, isVacant,isIndependentDisplay ,needPublish, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+  	<sql id="PositionColumns-for-join"> 
+  		p.accountId,p.corpId, p.locationId, p.branchId, p.positionGradeId, p.titleZH, p.titleEN, p.description,
+  		p.skill, p.note, p.attachment, p.parentPositionId, p.isVacant, p.isIndependentDisplay,p.needPublish, p.deleted, p.status, p.remark1, 
+  		p.remark2, p.remark3, p.remark4, p.remark5, p.createBy, p.createDate, p.modifyBy, p.modifyDate 
+	</sql>
+		
+  	<select id="getPositionBaseViewsByAccountId" resultType="positionBaseView">
+  		select positionId as id, CONCAT(titleZH, ' - ', titleEN) as name ,parentPositionId as parentId
+  		from HRO_SEC_Position
+  		where deleted = 1  AND accountId = #{value}
+  		order by name 
+  	</select>
+  	
+	<select id="countPositionVOsByCondition" parameterType="position" resultType="int">
+		select count(0) 
+		from HRO_SEC_Position
+		where deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="titleZH != null and titleZH != ''">
+			AND titleZH like CONCAT('%', '${titleZH}', '%') 
+		</if>
+		<if test="titleEN != null and titleEN != ''">
+			AND titleEN like CONCAT('%', '${titleEN}', '%') 
+		</if>
+		<if test="description != null and description != ''">
+			AND description like CONCAT('%', '${description}', '%') 
+		</if>
+		<if test="isVacant != null and isVacant != ''">
+			AND (isVacant = #{isVacant} or 0 = #{isVacant})
+		</if>
+		<if test="needPublish != null and needPublish != ''">
+			AND (needPublish = #{needPublish} or 0 = #{needPublish})
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+  	
+	<select id="getPositionVOsByCondition" parameterType="position" resultMap="result">
+		select positionId, <include refid="PositionColumns"/>  
+		from HRO_SEC_Position 
+		where deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="titleZH != null and titleZH != ''">
+			AND titleZH like CONCAT('%', '${titleZH}', '%') 
+		</if>
+		<if test="titleEN != null and titleEN != ''">
+			AND titleEN like CONCAT('%', '${titleEN}', '%') 
+		</if>
+		<if test="description != null and description != ''">
+			AND description like CONCAT('%', '${description}', '%') 
+		</if>
+		<if test="isVacant != null and isVacant != ''">
+			AND (isVacant = #{isVacant} or 0 = #{isVacant})
+		</if>
+		<if test="needPublish != null and needPublish != ''">
+			AND (needPublish = #{needPublish} or 0 = #{needPublish})
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+  	
+  	
+	<select id="getPositionVOsByPositionVO" parameterType="position" resultMap="result">
+		SELECT positionId, <include refid="PositionColumns"/>  
+		FROM HRO_SEC_Position 
+		WHERE deleted = 1 AND accountId = #{accountId} AND status = 1
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="branchId != null and branchId != ''">
+			AND branchId = #{branchId}
+		</if>
+			ORDER BY titleZH
+  	</select>
+  	
+  	<select id="getPositionVOByPositionId" parameterType="int" resultMap="result">
+		SELECT positionId, <include refid="PositionColumns"/>  
+		FROM HRO_SEC_Position 
+		WHERE deleted = 1 AND positionId = #{value}
+  	</select>
+  	
+	<update id="updatePosition" parameterType="position">
+			UPDATE HRO_SEC_Position set  locationId = #{locationId}, branchId = #{branchId}, positionGradeId = #{positionGradeId},
+			titleZH = #{titleZH}, titleEN = #{titleEN}, description = #{description}, skill = #{skill}, note = #{note}, attachment = #{attachment},
+			parentPositionId = #{parentPositionId}, isVacant = #{isVacant},isIndependentDisplay=#{isIndependentDisplay}, needPublish = #{needPublish},
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, 
+			remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+			WHERE positionId = #{positionId} 
+  	</update>
+  	
+  	<insert id="insertPosition" parameterType="position" useGeneratedKeys="true" keyProperty="positionId">
+			INSERT INTO HRO_SEC_Position(<include refid="PositionColumns"/>) 
+			VALUES (#{accountId},#{corpId}, #{locationId}, #{branchId}, #{positionGradeId}, #{titleZH}, #{titleEN}, #{description},
+			#{skill}, #{note}, #{attachment}, #{parentPositionId}, #{isVacant}, #{isIndependentDisplay},#{needPublish},
+		 	1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, 
+			#{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+  	
+  	<delete id="deletePosition" parameterType="position">
+		update HRO_SEC_Position set deleted = 2, modifyBy = #{modifyBy}, modifyDate = #{modifyDate} where positionId = #{positionId}
+  	</delete>
+  	
+	<select id="getPositionVOsByAccountId" parameterType="String" resultMap="result">
+		SELECT positionId, <include refid="PositionColumns"/>  
+		FROM HRO_SEC_Position 
+		WHERE deleted = 1 AND accountId = #{value} 
+		ORDER BY positionId, locationId, branchId
+  	</select>
+  	
+  	<select id="getPositionVOsByParentPositionId" parameterType="position" resultMap="result">
+		SELECT p.positionId, <include refid="PositionColumns-for-join"/>,
+		CASE
+			WHEN ( (COUNT(moduleRight.relationId)+COUNT(moduleRule.relationId))=0 )
+			THEN 2
+			ELSE 1
+		END AS `extended`  
+		FROM HRO_SEC_Position p
+		LEFT JOIN hro_sec_position_module_right_relation moduleRight on moduleRight.positionId = p.positionId AND moduleRight.deleted = 1
+		LEFT JOIN hro_sec_position_module_rule_relation moduleRule ON moduleRule.positionId = p.positionId AND moduleRule.deleted = 1
+		WHERE p.deleted = 1 AND p.accountId = #{accountId} AND p.parentPositionId = #{parentPositionId} 
+		GROUP BY p.positionId
+		ORDER BY p.positionGradeId, p.positionId
+  	</select>
+  	
+  	<select id="getPositionVOsByStaffIds" parameterType="position" resultMap="result">
+		SELECT s.staffId,p.titleZH,p.titleEN
+		FROM hro_sec_staff s LEFT JOIN hro_sec_position_staff_relation r ON s.staffId = r.staffId AND r.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = r.positionId AND p.deleted = 1
+		LEFT JOIN hro_sec_branch b on b.branchId = p.branchId AND b.deleted = 1
+		WHERE s.deleted = 1
+		AND r.staffType !=2
+		<if test="staffIds != null and staffIds != ''">
+			AND s.staffId in (${staffIds})
+		</if>
+		AND b.branchId = #{branchId}
+  	</select>
+  	
+  	<select id="getPositionVOsByEmployeeId" parameterType="staff" resultMap="result">
+		SELECT p.positionId, <include refid="PositionColumns-for-join"/>  
+		FROM hro_sec_position p LEFT JOIN hro_sec_position_staff_relation r ON r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE p.deleted = 1 AND s.employeeId = #{employeeId} AND s.accountId = #{accountId} 
+  	</select>
+  	
+  	<select id="getPositionVOBalancesByPositionVO" parameterType="position" resultType="int">
+		SELECT result_1 - result_2 FROM
+			(SELECT isVacant AS result_1 FROM hro_sec_position WHERE positionId = #{positionId}) d,
+			(SELECT COUNT(a.relationId) AS result_2
+					FROM HRO_SEC_Position_Staff_Relation a LEFT OUTER JOIN HRO_SEC_Position b ON a.positionId = b.positionId 
+						LEFT OUTER JOIN HRO_SEC_Staff c ON a.staffId = c.staffId 
+					WHERE a.deleted = 1 AND a.`status` = 1 AND b.deleted = 1 AND c.deleted = 1 AND a.positionId = #{positionId}) e
+  	</select>
+  	
+</mapper>

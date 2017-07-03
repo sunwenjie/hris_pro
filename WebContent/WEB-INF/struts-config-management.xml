@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="optionsForm" type="com.kan.base.domain.management.OptionsVO" />
+		<form-bean name="emailConfigurationForm" type="com.kan.base.domain.management.EmailConfigurationVO" />
+		<form-bean name="shareFolderConfigurationForm" type="com.kan.base.domain.management.ShareFolderConfigurationVO" />
+		<form-bean name="mgtPositionForm" type="com.kan.base.domain.management.PositionVO"/>
+		<form-bean name="mgtPositionGradeForm" type="com.kan.base.domain.management.PositionGradeVO"/>
+		<form-bean name="mgtPositionGradeCurrencyForm" type="com.kan.base.domain.management.PositionGradeCurrencyVO"/>
+		<form-bean name="employeeStatusForm" type="com.kan.base.domain.management.EmployeeStatusVO"></form-bean>
+		<form-bean name="educationForm" type="com.kan.base.domain.management.EducationVO"></form-bean>
+		<form-bean name="languageForm" type="com.kan.base.domain.management.LanguageVO"></form-bean>
+		<form-bean name="skillForm" type="com.kan.base.domain.management.SkillVO"></form-bean>
+		<form-bean name="contractTypeForm" type="com.kan.base.domain.management.ContractTypeVO"></form-bean>	
+		<form-bean name="itemForm" type="com.kan.base.domain.management.ItemVO"></form-bean>
+		<form-bean name="itemGroupForm" type="com.kan.base.domain.management.ItemGroupVO"></form-bean>
+		<form-bean name="socialBenefitSolutionHeaderForm" type="com.kan.base.domain.management.SocialBenefitSolutionHeaderVO"></form-bean>
+		<form-bean name="socialBenefitSolutionDetailForm" type="com.kan.base.domain.management.SocialBenefitSolutionDetailVO"></form-bean>
+		<form-bean name="certificationForm" type="com.kan.base.domain.management.CertificationVO"></form-bean>
+		<form-bean name="membershipForm" type="com.kan.base.domain.management.MembershipVO"></form-bean>
+		<form-bean name="businessContractTemplateForm" type="com.kan.base.domain.management.BusinessContractTemplateVO"></form-bean>
+		<form-bean name="laborContractTemplateForm" type="com.kan.base.domain.management.LaborContractTemplateVO"></form-bean>
+		<form-bean name="itemMappingForm" type="com.kan.base.domain.management.ItemMappingVO"></form-bean>
+		<form-bean name="taxForm" type="com.kan.base.domain.management.TaxVO"></form-bean>
+		<form-bean name="industryTypeForm" type="com.kan.base.domain.management.IndustryTypeVO"></form-bean>
+		<form-bean name="calendarHeaderForm" type="com.kan.base.domain.management.CalendarHeaderVO" />
+		<form-bean name="calendarDetailForm" type="com.kan.base.domain.management.CalendarDetailVO" />
+		<form-bean name="shiftHeaderForm" type="com.kan.base.domain.management.ShiftHeaderVO" />
+		<form-bean name="shiftDetailForm" type="com.kan.base.domain.management.ShiftDetailVO" />
+		<form-bean name="shiftExceptionForm" type="com.kan.base.domain.management.ShiftExceptionVO" />
+		<form-bean name="sickLeaveSalaryHeaderForm" type="com.kan.base.domain.management.SickLeaveSalaryHeaderVO" />
+		<form-bean name="sickLeaveSalaryDetailForm" type="com.kan.base.domain.management.SickLeaveSalaryDetailVO" />
+		<form-bean name="commercialBenefitSolutionHeaderForm" type="com.kan.base.domain.management.CommercialBenefitSolutionHeaderVO" />
+		<form-bean name="commercialBenefitSolutionDetailForm" type="com.kan.base.domain.management.CommercialBenefitSolutionDetailVO" />
+		<form-bean name="bankForm" type="com.kan.base.domain.management.BankVO" />
+		<form-bean name="settingForm" type="com.kan.base.domain.management.SettingVO" />
+		<form-bean name="resignTemplateForm" type="com.kan.base.domain.management.ResignTemplateVO"></form-bean>
+		<form-bean name="annualLeaveRuleHeaderForm" type="com.kan.base.domain.management.AnnualLeaveRuleHeaderVO" />
+		<form-bean name="annualLeaveRuleDetailForm" type="com.kan.base.domain.management.AnnualLeaveRuleDetailVO" />
+		<form-bean name="exchangeRateForm" type="com.kan.base.domain.management.ExchangeRateVO"></form-bean>
+		<form-bean name="yerrRuleForm" type="com.kan.base.domain.management.YERRRuleVO"></form-bean>
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+		
+		<!-- Options actions start -->
+		<action parameter="proc" path="/optionsAction" type="com.kan.base.web.actions.management.OptionsAction" name="optionsForm" scope="request" 
+			validate="false">
+			<forward name="modifyOptions" path="/jsp/management/options/modifyOptions.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Email configuration actions start -->
+		<action parameter="proc" path="/emailConfigurationAction" type="com.kan.base.web.actions.management.EmailConfigurationAction" 
+			name="emailConfigurationForm" scope="request" validate="false">
+			<forward name="modifyEmailConfiguration" path="/jsp/management/email/modifyEmailConfiguration.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Share Folder configuration actions start -->
+		<action parameter="proc" path="/shareFolderConfigurationAction" type="com.kan.base.web.actions.management.ShareFolderConfigurationAction" 
+			name="shareFolderConfigurationForm" scope="request" validate="false">
+			<forward name="modifyShareFolderConfiguration" path="/jsp/management/shareFolder/modifyShareFolderConfiguration.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- MgtPositionGrade action start -->
+        <action parameter="proc" path="/mgtPositionGradeAction" type="com.kan.base.web.actions.management.PositionGradeAction" name="mgtPositionGradeForm"
+          	scope="request" validate="false">
+          	<forward name="listPositionGrade" path="/jsp/management/positionGrade/positionGrade/listPositionGrade.jsp"/>
+          	<forward name="listPositionGradeTable" path="/contents/management/positionGrade/positionGrade/table/listPositionGradeTable.jsp"/>
+          	<forward name="managePositionGrade" path="/jsp/management/positionGrade/positionGradeCurrency/listPositionGradeCurrency.jsp"/>
+          	<forward name="listPositionGradeCurrency" path="/jsp/management/positionGrade/positionGradeCurrency/listPositionGradeCurrency.jsp"/>
+          	<forward name="error" path="/jsp/error.jsp" />
+        </action>
+        
+        <!-- MgtPositionGradeCurrency actions start -->
+        <action parameter="proc" path="/mgtPositionGradeCurrencyAction" type="com.kan.base.web.actions.management.PositionGradeCurrencyAction" name="mgtPositionGradeCurrencyForm"
+        	scope="request" validate="false">
+        	<forward name="listPositionGradeCurrency" path="/jsp/management/positionGrade/positionGradeCurrency/listPositionGradeCurrency.jsp"></forward>
+        	<forward name="listPositionGradeCurrencyTable" path="/contents/management/positionGrade/positionGradeCurrency/table/listPositionGradeCurrencyTable.jsp"></forward>
+        	<forward name="managePositionGradeCurrencyForm" path="/contents/management/positionGrade/positionGradeCurrency/form/managePositionGradeCurrencyForm.jsp"></forward>
+        	<forward name="error" path="/jsp/error.jsp" />
+        </action>
+        
+        <!-- MgtPosition action start -->
+		<action parameter="proc" path="/mgtPositionAction" type="com.kan.base.web.actions.management.PositionAction" name="mgtPositionForm" scope="request" 
+			validate="false">
+			<forward name="listPosition" path="/jsp/management/position/listPosition.jsp"></forward>
+			<forward name="managePosition" path="/jsp/management/position/managePosition.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- EmployeeStatus actions start -->
+		<action parameter="proc" path="/employeeStatusAction" type="com.kan.base.web.actions.management.EmployeeStatusAction" name="employeeStatusForm"
+			scope="request" validate="false">
+			<forward name="listEmployeeStatus" path="/jsp/management/employeeStatus/listEmployeeStatus.jsp"/>
+			<forward name="listEmployeeStatusTable" path="/contents/management/employeeStatus/table/listEmployeeStatusTable.jsp"></forward>
+			<forward name="manageEmployeeStatus" path="/jsp/management/employeeStatus/manageEmployeeStatus.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Education actions start -->
+		<action parameter="proc" path="/educationAction" type="com.kan.base.web.actions.management.EducationAction" name="educationForm" scope="request" 
+			validate="false">
+			<forward name="listEducation" path="/jsp/management/education/listEducation.jsp"></forward>
+			<forward name="listEducationTable" path="/contents/management/education/table/listEducationTable.jsp"></forward>
+			<forward name="manageEducation" path="/jsp/management/education/manageEducation.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Language actions start  -->
+		<action parameter="proc" path="/languageAction" type="com.kan.base.web.actions.management.LanguageAction" name="languageForm" scope="request" 
+			validate="false">
+			<forward name="listLanguage" path="/jsp/management/language/listLanguage.jsp"></forward>
+			<forward name="listLanguageTable" path="/contents/management/language/table/listLanguageTable.jsp"></forward>
+			<forward name="manageLanguage" path="/jsp/management/language/manageLanguage.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Skill actions start -->
+		<action parameter="proc" path="/skillAction" type="com.kan.base.web.actions.management.SkillAction" name="skillForm" scope="request" validate="false">
+			<forward name="listSkill" path="/jsp/management/skill/listSkill.jsp"></forward>
+			<forward name="manageSkill" path="/jsp/management/skill/manageSkill.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ContractType actions start -->
+		<action parameter="proc" path="/contractTypeAction"
+			type="com.kan.base.web.actions.management.ContractTypeAction" name="contractTypeForm"
+			scope="request" validate="false">	
+			<forward name="listContractType" path="/jsp/management/contractType/listContractType.jsp"></forward>
+			<forward name="listContractTypeTable" path="/contents/management/contractType/table/listContractTypeTable.jsp"></forward>
+			<forward name="manageContractType" path="/jsp/management/contractType/manageContractType.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<!-- Item actions start -->
+		<action parameter="proc" path="/itemAction"
+			type="com.kan.base.web.actions.management.ItemAction" name="itemForm"
+			scope="request" validate="false">	
+			<forward name="listItem" path="/jsp/management/item/listItem.jsp"></forward>
+			<forward name="listItemTable" path="/contents/management/item/table/listItemTable.jsp"></forward>
+			<forward name="manageItem" path="/jsp/management/item/manageItem.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<!-- ItemGroup actions start -->
+		<action parameter="proc" path="/itemGroupAction"
+			type="com.kan.base.web.actions.management.ItemGroupAction" name="itemGroupForm"
+			scope="request" validate="false">	
+			<forward name="listItemGroup" path="/jsp/management/itemGroup/listItemGroup.jsp"></forward>
+			<forward name="listItemGroupTable" path="/contents/management/itemGroup/table/listItemGroupTable.jsp"></forward>
+			<forward name="manageItemGroup" path="/jsp/management/itemGroup/manageItemGroup.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<!-- SocialBenefitSolutionHeader actions start -->
+		<action parameter="proc" path="/socialBenefitSolutionHeaderAction"
+			type="com.kan.base.web.actions.management.SocialBenefitSolutionHeaderAction" name="socialBenefitSolutionHeaderForm"
+			scope="request" validate="false">	
+			<forward name="listSocialBenefitSolutionHeader" path="/jsp/management/socialBenefitSolution/header/listSocialBenefitSolutionHeader.jsp"></forward>
+			<forward name="listSocialBenefitSolutionHeaderTable" path="/contents/management/socialBenefitSolution/header/table/listSocialBenefitSolutionHeaderTable.jsp"></forward>
+			<forward name="manageSocialBenefitSolutionHeader" path="/jsp/management/socialBenefitSolution/header/manageSocialBenefitSolutionHeader.jsp"></forward>
+			<forward name="listSocialBenefitSolutionDetail" path="/jsp/management/socialBenefitSolution/detail/listSocialBenefitSolutionDetail.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<!-- SocialBenefitSolutionDetail actions start -->
+		<action parameter="proc" path="/socialBenefitSolutionDetailAction"
+			type="com.kan.base.web.actions.management.SocialBenefitSolutionDetailAction" name="socialBenefitSolutionDetailForm"
+			scope="request" validate="false">	
+			<forward name="listSocialBenefitSolutionDetail" path="/jsp/management/socialBenefitSolution/detail/listSocialBenefitSolutionDetail.jsp"></forward>
+			<forward name="listSocialBenefitSolutionDetailTable" path="/contents/management/socialBenefitSolution/detail/table/listSocialBenefitSolutionDetailTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<!-- Certification actions start -->
+		<action parameter="proc" path="/certificationAction"
+			type="com.kan.base.web.actions.management.CertificationAction" name="certificationForm"
+			scope="request" validate="false">	
+			<forward name="listCertification" path="/jsp/management/certification/listCertification.jsp"></forward>
+			<forward name="listCertificationTable" path="/contents/management/certification/table/listCertificationTable.jsp"></forward>
+			<forward name="manageCertification" path="/jsp/management/certification/manageCertification.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<!-- Membership actions start -->
+		<action parameter="proc" path="/membershipAction"
+			type="com.kan.base.web.actions.management.MembershipAction" name="membershipForm"
+			scope="request" validate="false">	
+			<forward name="listMembership" path="/jsp/management/membership/listMembership.jsp"></forward>
+			<forward name="listMembershipTable" path="/contents/management/membership/table/listMembershipTable.jsp"></forward>
+			<forward name="manageMembership" path="/jsp/management/membership/manageMembership.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+
+		<!-- BusinessContractTemplate actions start -->
+		<action parameter="proc" path="/businessContractTemplateAction"
+			type="com.kan.base.web.actions.management.BusinessContractTemplateAction" name="businessContractTemplateForm"
+			scope="request" validate="false">
+			<forward name="listBusinessContractTemplate" path="/jsp/management/businessContractTemplate/listBusinessContractTemplate.jsp"></forward>
+			<forward name="listBusinessContractTemplateTable" path="/contents/management/businessContractTemplate/table/listBusinessContractTemplateTable.jsp"></forward>
+			<forward name="manageBusinessContractTemplate" path="/jsp/management/businessContractTemplate/manageBusinessContractTemplate.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+
+		<!-- LaborContractTemplate actions start -->
+		<action parameter="proc" path="/laborContractTemplateAction"
+			type="com.kan.base.web.actions.management.LaborContractTemplateAction" name="laborContractTemplateForm"
+			scope="request" validate="false">
+			<forward name="listLaborContractTemplate" path="/jsp/management/laborContractTemplate/listLaborContractTemplate.jsp"></forward>
+			<forward name="listLaborContractTemplateInHouse" path="/jsp/management/laborContractTemplate/listLaborContractTemplateInHouse.jsp"></forward>
+			<forward name="listLaborContractTemplateTable" path="/contents/management/laborContractTemplate/table/listLaborContractTemplateTable.jsp"></forward>
+			<forward name="listLaborContractTemplateTableInHouse" path="/contents/management/laborContractTemplate/table/listLaborContractTemplateTableInHouse.jsp"></forward>
+			<forward name="manageLaborContractTemplate" path="/jsp/management/laborContractTemplate/manageLaborContractTemplate.jsp" ></forward>
+			<forward name="manageLaborContractTemplateInHouse" path="/jsp/management/laborContractTemplate/manageLaborContractTemplateInHouse.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+
+		<!-- Item Mapping actions start -->
+		<action parameter="proc" path="/itemMappingAction"
+			type="com.kan.base.web.actions.management.ItemMappingAction" name="itemMappingForm"
+			scope="request" validate="false">	
+			<forward name="listItemMapping" path="/jsp/management/itemMapping/listItemMapping.jsp"></forward>
+			<forward name="listItemMappingTable" path="/contents/management/itemMapping/table/listItemMappingTable.jsp"></forward>
+			<forward name="manageItemMapping" path="/jsp/management/itemMapping/manageItemMapping.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<!-- Item Tax actions start -->
+		<action parameter="proc" path="/taxAction" type="com.kan.base.web.actions.management.TaxAction" name="taxForm"
+			scope="request" validate="false">	
+			<forward name="listTax" path="/jsp/management/tax/listTax.jsp"></forward>
+			<forward name="listTaxTable" path="/contents/management/tax/table/listTaxTable.jsp"></forward>
+			<forward name="manageTax" path="/jsp/management/tax/manageTax.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<!-- Industry Type actions start -->
+		<action parameter="proc" path="/industryTypeAction" type="com.kan.base.web.actions.management.IndustryTypeAction" name="industryTypeForm"
+			scope="request" validate="false">
+			<forward name="listIndustryType" path="/jsp/management/industryType/listIndustryType.jsp"></forward>
+			<forward name="listIndustryTypeTable" path="/contents/management/industryType/table/listIndustryTypeTable.jsp"></forward>
+			<forward name="manageIndustryType" path="/jsp/management/industryType/manageIndustryType.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<!-- CalendarHeader actions start -->
+		<action parameter="proc" path="/calendarHeaderAction" type="com.kan.base.web.actions.management.CalendarHeaderAction" name="calendarHeaderForm"  scope="request"
+			validate="false">
+			<forward name="listCalendarHeader" path="/jsp/management/calendar/header/listCalendarHeader.jsp"/>
+			<forward name="listCalendarHeaderTable" path="/contents/management/calendar/header/table/listCalendarHeaderTable.jsp"/>
+			<forward name="manageCalendarHeader" path="/jsp/management/calendar/detail/listCalendarDetail.jsp"/>
+			<forward name="listCalendarDetail" path="/jsp/management/calendar/detail/listCalendarDetail.jsp"/>
+			<forward name="calendarTable" path="/popup/table/calendarTable.jsp"/>
+			<forward name="error" path="/jsp/error.jsp"/>
+		</action>
+		
+		<!-- CalendarDetail actions start -->
+		<action parameter="proc" path="/calendarDetailAction" type="com.kan.base.web.actions.management.CalendarDetailAction" name="calendarDetailForm"  scope="request"
+			validate="false">
+			<forward name="listCalendarDetail" path="/jsp/management/calendar/detail/listCalendarDetail.jsp"/>
+			<forward name="listCalendarDetailTable" path="/contents/management/calendar/detail/table/listCalendarDetailTable.jsp"/>
+			<forward name="manageCalendarDetailForm" path="/contents/management/calendar/detail/form/manageCalendarDetailForm.jsp"/>
+			<forward name="error" path="/jsp/error.jsp"/>
+		</action>
+		
+		<!-- ShiftHeader actions start -->
+		<action parameter="proc" path="/shiftHeaderAction" type="com.kan.base.web.actions.management.ShiftHeaderAction" name="shiftHeaderForm"  scope="request"
+			validate="false">
+			<forward name="listShiftHeader" path="/jsp/management/shift/header/listShiftHeader.jsp"/>
+			<forward name="listShiftHeaderTable" path="/contents/management/shift/header/table/listShiftHeaderTable.jsp"/>
+			<forward name="listShiftDetail" path="/jsp/management/shift/detail/listShiftDetail.jsp"/>
+			<forward name="listSpecialInfo" path="/contents/management/shift/detail/extend/manageShiftDetailExtend.jsp"/>
+			<forward name="error" path="/jsp/error.jsp"/>
+		</action>
+		
+		<!-- ShiftDetail actions start -->
+		<action parameter="proc" path="/shiftDetailAction" type="com.kan.base.web.actions.management.ShiftDetailAction" name="shiftDetailForm"  scope="request"
+			validate="false">
+			<forward name="listShiftDetail" path="/jsp/management/shift/detail/listShiftDetail.jsp"/>
+			<forward name="listShiftDetailTable" path="/contents/management/shift/detail/table/listShiftDetailTableDefine.jsp"/>
+			<forward name="manageShiftDetailForm" path="/contents/management/shift/detail/form/manageShiftDetailForm.jsp"/>
+			<forward name="error" path="/jsp/error.jsp"/>
+		</action>
+		
+		<!-- ShiftException actions start -->
+		<action parameter="proc" path="/shiftExceptionAction" type="com.kan.base.web.actions.management.ShiftExceptionAction" name="shiftExceptionForm"  scope="request"
+			validate="false">
+			<forward name="listShiftDetail" path="/jsp/management/shift/detail/listShiftDetail.jsp"/>
+			<forward name="listShiftExceptionTable" path="/contents/management/shift/exception/table/listShiftExceptionTable.jsp"/>
+			<forward name="manageShiftExceptionForm" path="/contents/management/shift/exception/form/manageShiftExceptionForm.jsp"/>
+			<forward name="error" path="/jsp/error.jsp"/>
+		</action>
+		
+		<!-- SickLeaveSalaryHeader actions start -->
+		<action parameter="proc" path="/sickLeaveSalaryHeaderAction" type="com.kan.base.web.actions.management.SickLeaveSalaryHeaderAction" name="sickLeaveSalaryHeaderForm"  scope="request"
+			validate="false">
+			<forward name="listSickLeaveSalaryHeader" path="/jsp/management/sickLeaveSalary/header/listSickLeaveSalaryHeader.jsp"/>
+			<forward name="listSickLeaveSalaryHeaderTable" path="/contents/management/sickLeaveSalary/header/table/listSickLeaveSalaryHeaderTable.jsp"/>
+			<forward name="manageSickLeaveSalayHeader" path="/jsp/management/sickLeaveSalary/detail/listSickLeaveSalaryDetail.jsp"/>
+			<forward name="listSpecialInfo" path="/contents/management/sickLeaveSalary/detail/extend/manageShiftDetailExtend.jsp"/>
+			<forward name="listsickLeaveSalaryDetail" path="/jsp/management/sickLeaveSalary/detail/listSickLeaveSalaryDetail.jsp"/>
+			<forward name="error" path="/jsp/error.jsp"/>
+		</action>
+		
+		<!-- SickLeaveSalaryDetail actions start -->
+		<action parameter="proc" path="/sickLeaveSalaryDetailAction" type="com.kan.base.web.actions.management.SickLeaveSalaryDetailAction" name="sickLeaveSalaryDetailForm"  scope="request"
+			validate="false">
+			<forward name="listsickLeaveSalaryDetail" path="/jsp/management/sickLeaveSalary/detail/listSickLeaveSalaryDetail.jsp"/>
+			<forward name="listSickLeaveSalaryDetailTable" path="/contents/management/sickLeaveSalary/detail/table/listSickLeaveSalaryDetailTable.jsp"/>
+			<forward name="manageSickLeaveSalaryDetailForm" path="/contents/management/sickLeaveSalary/detail/form/listSickLeaveSalaryDetailForm.jsp"/>
+			<forward name="error" path="/jsp/error.jsp"/>
+		</action>
+		
+		<!-- CommercialBenefitSolutionHeader actions start -->
+		<action parameter="proc" path="/commercialBenefitSolutionHeaderAction"
+			type="com.kan.base.web.actions.management.CommercialBenefitSolutionHeaderAction" name="commercialBenefitSolutionHeaderForm"
+			scope="request" validate="false">	
+			<forward name="listCommercialBenefitSolutionHeader" path="/jsp/management/commercialBenefitSolution/header/listCommercialBenefitSolutionHeader.jsp"></forward>
+			<forward name="listCommercialBenefitSolutionHeaderTable" path="/contents/management/commercialBenefitSolution/header/table/listCommercialBenefitSolutionHeaderTable.jsp"></forward>
+			<forward name="listCommercialBenefitSolutionDetail" path="/jsp/management/commercialBenefitSolution/detail/listCommercialBenefitSolutionDetail.jsp"></forward>
+			<forward name="manageCommercialBenefitSolutionHeader" path="/jsp/management/commercialBenefitSolution/detail/listCommercialBenefitSolutionDetail.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<!-- CommercialBenefitSolutionDetail actions start -->
+		<action parameter="proc" path="/commercialBenefitSolutionDetailAction"
+			type="com.kan.base.web.actions.management.CommercialBenefitSolutionDetailAction" name="commercialBenefitSolutionDetailForm"
+			scope="request" validate="false">	
+			<forward name="listCommercialBenefitSolutionDetail" path="/jsp/management/commercialBenefitSolution/detail/listCommercialBenefitSolutionDetail.jsp"></forward>
+			<forward name="listCommercialBenefitSolutionDetailTable" path="/contents/management/commercialBenefitSolution/detail/table/listCommercialBenefitSolutionDetailTable.jsp"></forward>
+			<forward name="manageCommercialBenefitSolutionDetailForm" path="/contents/management/commercialBenefitSolution/detail/form/manageCommercialBenenfitSolutionDetailForm.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<!-- Bank actions start -->
+		<action parameter="proc" path="/bankAction"
+			type="com.kan.base.web.actions.management.BankAction" name="bankForm"
+			scope="request" validate="false">	
+			<forward name="listBank" path="/jsp/management/bank/listBank.jsp"></forward>
+			<forward name="listBankTable" path="/contents/management/bank/table/listBankTable.jsp"></forward>
+			<forward name="manageBank" path="/jsp/management/bank/manageBank.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<!-- Setting actions start -->
+		<action parameter="proc" path="/settingAction"
+			type="com.kan.base.web.actions.management.SettingAction" name="settingForm"
+			scope="request" validate="false">	
+			<forward name="modifySetting" path="/jsp/management/setting/modifySetting.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<action parameter="proc" path="/resignTemplateAction"
+			type="com.kan.base.web.actions.management.ResignTemplateAction" name="resignTemplateForm"
+			scope="request" validate="false">
+			<forward name="listResignTemplate" path="/jsp/management/resignTemplate/listResignTemplate.jsp"></forward>
+			<forward name="listResignTemplateTable" path="/contents/management/resignTemplate/table/listResignTemplateTable.jsp"></forward>
+			<forward name="manageResignTemplate" path="/jsp/management/resignTemplate/manageResignTemplate.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />				
+		</action>
+		
+		<!-- AnnualLeaveRuleHeader actions start -->
+		<action parameter="proc" path="/annualLeaveRuleHeaderAction" type="com.kan.base.web.actions.management.AnnualLeaveRuleHeaderAction" name="annualLeaveRuleHeaderForm"  scope="request"
+			validate="false">
+			<forward name="listAnnualLeaveRuleHeader" path="/jsp/management/annualLeaveRule/header/listAnnualLeaveRuleHeader.jsp"/>
+			<forward name="listAnnualLeaveRuleHeaderTable" path="/contents/management/annualLeaveRule/header/table/listAnnualLeaveRuleHeaderTable.jsp"/>
+			<forward name="manageAnnualLeaveRuleHeader" path="/jsp/management/annualLeaveRule/detail/listAnnualLeaveRuleDetail.jsp"/>
+			<forward name="listAnnualLeaveRuleDetail" path="/jsp/management/annualLeaveRule/detail/listAnnualLeaveRuleDetail.jsp"/>
+			<forward name="error" path="/jsp/error.jsp"/>
+		</action>
+		
+		<!-- AnnualLeaveRuleDetail actions start -->
+		<action parameter="proc" path="/annualLeaveRuleDetailAction" type="com.kan.base.web.actions.management.AnnualLeaveRuleDetailAction" name="annualLeaveRuleDetailForm"  scope="request"
+			validate="false">
+			<forward name="listAnnualLeaveRuleDetail" path="/jsp/management/annualLeaveRule/detail/listAnnualLeaveRuleDetail.jsp"/>
+			<forward name="listAnnualLeaveRuleDetailTable" path="/contents/management/annualLeaveRule/detail/table/listAnnualLeaveRuleDetailTable.jsp"/>
+			<forward name="manageAnnualLeaveRuleDetailForm" path="/contents/management/annualLeaveRule/detail/form/listAnnualLeaveRuleDetailForm.jsp"/>
+			<forward name="error" path="/jsp/error.jsp"/>
+		</action>
+		
+		<!-- Exchange Rate actions start  -->
+		<action parameter="proc" path="/exchangeRateAction" type="com.kan.base.web.actions.management.ExchangeRateAction" name="exchangeRateForm" scope="request" 
+			validate="false">
+			<forward name="listExchangeRate" path="/jsp/management/exchangeRate/listExchangeRate.jsp"></forward>
+			<forward name="listExchangeRateTable" path="/contents/management/exchangeRate/table/listExchangeRateTable.jsp"></forward>
+			<forward name="manageExchangeRate" path="/jsp/management/exchangeRate/manageExchangeRate.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- YERR Rule actions start  -->
+		<action parameter="proc" path="/yerrRuleAction" type="com.kan.base.web.actions.management.YERRRuleAction" name="yerrRuleForm" scope="request" 
+			validate="false">
+			<forward name="listYERRRule" path="/jsp/management/yerrRule/listYERRRule.jsp"></forward>
+			<forward name="listYERRRuleTable" path="/contents/management/yerrRule/table/listYERRRuleTable.jsp"></forward>
+			<forward name="manageYERRRule" path="/jsp/management/yerrRule/manageYERRRule.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+	</action-mappings>
+
+	<message-resources parameter="MessageResources/Management/Management" key="management" />
+
+</struts-config>
+

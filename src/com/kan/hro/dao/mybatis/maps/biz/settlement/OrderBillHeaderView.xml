@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.settlement.OrderBillHeaderView">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.settlement.OrderBillHeaderView">
+		<result property="accountId" column="accountId" />
+		<result property="clientId" column="clientId" />
+		<result property="orderId" column="orderId" />
+		<result property="contractId" column="contractId" />
+		<result property="headerId" column="headerId" />
+		<result property="detailId" column="detailId" />
+		<result property="monthly" column="monthly" />
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="clientNO" column="clientNO" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+	
+	<resultMap id="resultDetail" type="com.kan.hro.domain.biz.settlement.OrderBillDetailView">
+		<result property="itemId" column="itemId" />
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+		<result property="sbBillAmountCompany" column="sbBillAmountCompany" />
+		<result property="sbCostAmountPersonal" column="sbCostAmountPersonal" />
+		<result property="personalSBBurden" column="personalSBBurden" />
+		<result property="base" column="base" />
+		<result property="contractId" column="contractId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="employeeId" column="employeeId" />
+		<result property="baseCompany" column="baseCompany" />
+		<result property="basePersonal" column="basePersonal" />
+		<result property="rateCompany" column="rateCompany" />
+		<result property="ratePersonal" column="ratePersonal" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="sbheaderId" column="sbheaderId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="isAdjustment" column="isAdjustment" />
+		<result property="sbMonthly" column="sbMonthly" />
+		<result property="monthly" column="monthly" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+  	
+	<sql id="orderBillHeaderViewColumns">
+		accountId,clientId,orderId,contractId,headerId,detailId,
+		monthly,billAmountCompany,costAmountCompany,
+		deleted, status, remark1, remark2, remark3, remark4, 
+		remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<!-- 使用sum函数 -->
+	<select id="getSumOrderBillHeaderViewsByCondition" parameterType="orderBillHeaderView" resultMap="result">
+	SELECT 
+	`status`,accountId,clientId,orderId,contractId,headerId,detailId,monthly,sum(billAmountCompany) as billAmountCompany,sum(costAmountCompany) as costAmountCompany,
+	clientNameZH,clientNameEN,clientNO,entityId,businessTypeId
+	FROM
+	(
+		SELECT 3 AS status,h.accountId, c.clientId,c.orderId,c.employeeContractId as contractId,h.orderHeaderId AS headerId,c.contractId AS detailId,
+		h.monthly,c.billAmountCompany,c.costAmountCompany,client.nameZH as clientNameZH,client.nameEN as clientNameEN,client.number as clientNO,
+		c.entityId,c.businessTypeId
+		FROM hro_settle_order_header h LEFT JOIN hro_settle_order_contract c on c.orderHeaderId = h.orderHeaderId and c.deleted = 1
+		LEFT JOIN hro_biz_client client ON c.clientId = client.clientId
+		WHERE h.deleted = 1  AND h.accountId = #{accountId}
+		<if test="clientId != null and clientId != ''">
+			AND c.clientId = #{clientId}
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND c.orderId = #{orderId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND c.employeeContractId = #{contractId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (c.monthly = #{monthly} OR 0 = #{monthly})
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (c.orderId = #{orderId} OR 0 = #{orderId})
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND client.nameZH LIKE CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND UPPER(client.nameEN) LIKE CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="clientNO != null and clientNO != ''">
+			AND UPPER(client.number) LIKE CONCAT('%', '${clientNO}', '%')
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (h.entityId = #{entityId} OR 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (h.businessTypeId = #{businessTypeId} OR 0 = #{businessTypeId})
+		</if>
+		<if test="status != null and status != ''">
+			<!-- 1 新建状态 -->
+			<if test="status == 1">
+				AND 0 = 1
+			</if>
+			<!-- 3 已过帐 -->
+			<if test="status == 3">
+				AND 0 = 0
+			</if>
+		</if>
+
+		UNION ALL
+		
+		SELECT ha.status AS status,ha.accountId,ha.clientId,ha.orderId,ha.contractId,da.adjustmentHeaderId as headerId,da.adjustmentDetailId as detailId,
+		ha.monthly,da.billAmountCompany,da.costAmountCompany,client.nameZH as clientNameZH,client.nameEN as clientNameEN,client.number as clientNO,
+		ha.entityId,ha.businessTypeId
+		FROM hro_settle_adjustment_header ha LEFT JOIN hro_settle_adjustment_detail da on ha.adjustmentHeaderId = da.adjustmentHeaderId and da.deleted = 1
+		LEFT JOIN hro_biz_client client on client.clientId = ha.clientId
+		WHERE ha.deleted = 1  AND ha.accountId = #{accountId}
+		<if test="clientId != null and clientId != ''">
+			AND ha.clientId = #{clientId}
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND ha.orderId = #{orderId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND ha.contractId = #{contractId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (ha.monthly = #{monthly} OR 0 = #{monthly})
+		</if>
+		<if test="status != null and status != ''">
+			AND (da.status = #{status} OR 0 = #{status})
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (ha.orderId = #{orderId} OR 0 = #{orderId})
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND client.nameZH LIKE CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND UPPER(client.nameEN) LIKE CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="clientNO != null and clientNO != ''">
+			AND UPPER(client.number) LIKE CONCAT('%', '${clientNO}', '%')
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (ha.entityId = #{entityId} OR 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (ha.businessTypeId = #{businessTypeId} OR 0 = #{businessTypeId})
+		</if>
+		
+		UNION ALL
+		
+		SELECT 1 AS status,ht.accountId, ct.clientId,ct.orderId,ct.employeeContractId as contractId,ht.orderHeaderId AS headerId,ct.contractId AS detailId,
+		ht.monthly,ct.billAmountCompany,ct.costAmountCompany,client.nameZH AS clientNameZH,client.nameEN as clientNameEN,client.number as clientNO,
+		ct.entityId,ct.businessTypeId
+		FROM  hro_settle_order_header_temp ht LEFT JOIN hro_settle_order_contract_temp ct on ct.orderHeaderId = ht.orderHeaderId and ct.deleted = 1
+		LEFT JOIN hro_biz_client client ON client.clientId = ct.clientId
+		WHERE ht.deleted = 1 AND ht.accountId = #{accountId}
+		<if test="clientId != null and clientId != ''">
+			AND ct.clientId = #{clientId}
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND ct.orderId = #{orderId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND ct.employeeContractId = #{contractId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (ct.monthly = #{monthly} OR 0 = #{monthly})
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (ct.orderId = #{orderId} OR 0 = #{orderId})
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND client.nameZH LIKE CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND UPPER(client.nameEN) LIKE CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="clientNO != null and clientNO != ''">
+			AND UPPER(client.number) LIKE CONCAT('%', '${clientNO}', '%')
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (ht.entityId = #{entityId} OR 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (ht.businessTypeId = #{businessTypeId} OR 0 = #{businessTypeId})
+		</if>
+		<if test="status != null and status != ''">
+			<!-- 1 新建状态 -->
+			<if test="status == 1">
+				AND 1 = 1
+			</if>
+			<!-- 3 已过帐 -->
+			<if test="status == 3">
+				AND 1 = 0
+			</if>
+		</if>
+	)t 
+	GROUP BY clientId,orderId,monthly,`status`
+	<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+	</if>
+	<if	test="sortColumn == null or sortColumn == '' or sortOrder == null or sortOrder == ''">
+		ORDER BY monthly desc
+	</if>
+		
+	</select>
+
+	<select id="getOrderBillHeaderViewsByCondition" parameterType="orderBillHeaderView" resultMap="result">
+		SELECT 3 AS status,h.accountId, c.clientId,c.orderId,c.employeeContractId as contractId,h.orderHeaderId AS headerId,c.contractId AS detailId,
+		h.monthly,c.billAmountCompany,c.costAmountCompany,client.nameZH as clientNameZH,client.nameEN as clientNameEN,client.number as clientNO,
+		c.entityId,c.businessTypeId
+		FROM hro_settle_order_header h LEFT JOIN hro_settle_order_contract c on c.orderHeaderId = h.orderHeaderId and c.deleted = 1
+		LEFT JOIN hro_biz_client client ON c.clientId = client.clientId
+		WHERE h.deleted = 1  AND h.accountId = #{accountId}
+		<if test="clientId != null and clientId != ''">
+			AND c.clientId = #{clientId}
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND c.orderId = #{orderId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND c.employeeContractId = #{contractId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (c.monthly = #{monthly} OR 0 = #{monthly})
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (c.orderId = #{orderId} OR 0 = #{orderId})
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND client.nameZH LIKE CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND UPPER(client.nameEN) LIKE CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="clientNO != null and clientNO != ''">
+			AND UPPER(client.number) LIKE CONCAT('%', '${clientNO}', '%')
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (h.entityId = #{entityId} OR 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (h.businessTypeId = #{businessTypeId} OR 0 = #{businessTypeId})
+		</if>
+		<if test="status != null and status != ''">
+			<!-- 1 新建状态 -->
+			<if test="status == 1">
+				AND 0 = 1
+			</if>
+			<!-- 3 已过帐 -->
+			<if test="status == 3">
+				AND 0 = 0
+			</if>
+		</if>
+
+		UNION ALL
+		
+		SELECT ha.status AS status,ha.accountId,ha.clientId,ha.orderId,ha.contractId,da.adjustmentHeaderId as headerId,da.adjustmentDetailId as detailId,
+		ha.monthly,da.billAmountCompany,da.costAmountCompany,client.nameZH as clientNameZH,client.nameEN as clientNameEN,client.number as clientNO,
+		ha.entityId,ha.businessTypeId
+		FROM hro_settle_adjustment_header ha LEFT JOIN hro_settle_adjustment_detail da on ha.adjustmentHeaderId = da.adjustmentHeaderId and da.deleted = 1
+		LEFT JOIN hro_biz_client client on client.clientId = ha.clientId
+		WHERE ha.deleted = 1  AND ha.accountId = #{accountId}
+		<if test="clientId != null and clientId != ''">
+			AND ha.clientId = #{clientId}
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND ha.orderId = #{orderId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND ha.contractId = #{contractId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (ha.monthly = #{monthly} OR 0 = #{monthly})
+		</if>
+		<if test="status != null and status != ''">
+			AND (da.status = #{status} OR 0 = #{status})
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (ha.orderId = #{orderId} OR 0 = #{orderId})
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND client.nameZH LIKE CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND UPPER(client.nameEN) LIKE CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="clientNO != null and clientNO != ''">
+			AND UPPER(client.number) LIKE CONCAT('%', '${clientNO}', '%')
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (ha.entityId = #{entityId} OR 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (ha.businessTypeId = #{businessTypeId} OR 0 = #{businessTypeId})
+		</if>
+		
+		UNION ALL
+		
+		SELECT 1 AS status,ht.accountId, ct.clientId,ct.orderId,ct.employeeContractId as contractId,ht.orderHeaderId AS headerId,ct.contractId AS detailId,
+		ht.monthly,ct.billAmountCompany,ct.costAmountCompany,client.nameZH AS clientNameZH,client.nameEN as clientNameEN,client.number as clientNO,
+		ct.entityId,ct.businessTypeId
+		FROM  hro_settle_order_header_temp ht LEFT JOIN hro_settle_order_contract_temp ct on ct.orderHeaderId = ht.orderHeaderId and ct.deleted = 1
+		LEFT JOIN hro_biz_client client ON client.clientId = ct.clientId
+		WHERE ht.deleted = 1 AND ht.accountId = #{accountId}
+		<if test="clientId != null and clientId != ''">
+			AND ct.clientId = #{clientId}
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND ct.orderId = #{orderId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND ct.employeeContractId = #{contractId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (ct.monthly = #{monthly} OR 0 = #{monthly})
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND (ct.orderId = #{orderId} OR 0 = #{orderId})
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND client.nameZH LIKE CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND UPPER(client.nameEN) LIKE CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="clientNO != null and clientNO != ''">
+			AND UPPER(client.number) LIKE CONCAT('%', '${clientNO}', '%')
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (ht.entityId = #{entityId} OR 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (ht.businessTypeId = #{businessTypeId} OR 0 = #{businessTypeId})
+		</if>
+		<if test="status != null and status != ''">
+			<!-- 1 新建状态 -->
+			<if test="status == 1">
+				AND 1 = 1
+			</if>
+			<!-- 3 已过帐 -->
+			<if test="status == 3">
+				AND 1 = 0
+			</if>
+		</if>
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+		<if	test="sortColumn == null or sortColumn == '' or sortOrder == null or sortOrder == ''">
+			ORDER BY monthly desc
+		</if>
+		
+	</select>
+	
+	<!-- 第二层 -->
+	<select id="getOrderBillDetailViewsByCondition" parameterType="orderBillHeaderView" resultMap="resultDetail">
+	SELECT d.itemId,d.billAmountCompany,d.costAmountPersonal ,sbd.amountPersonal as sbCostAmountPersonal,d.base,c.employeeContractId as contractId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,
+		c.employeeId,c.clientId,c.orderId,c.monthly,client.nameZH as clientNameZH,client.nameEN as clientNameEN,
+		sbd.baseCompany,sbd.basePersonal,sbd.rateCompany,sbd.ratePersonal,sbd.headerId as sbheaderId,c.entityId,c.businessTypeId
+	FROM hro_settle_order_contract c LEFT JOIN hro_settle_order_detail d ON c.contractId = d.contractId AND d.deleted = 1
+	LEFT JOIN hro_biz_employee e ON e.employeeId = c.employeeId
+	LEFT JOIN hro_sb_detail sbd ON sbd.detailId = d.detailId
+	LEFT JOIN hro_biz_client client on client.clientId = c.clientId
+	WHERE c.deleted = 1
+	AND c.accountId = #{accountId} 
+	AND c.clientId = #{clientId}
+	AND c.monthly = #{monthly}
+	AND 3 = #{status}
+	AND c.orderId = #{orderId}
+	<if test="contractId != null and contractId != ''">
+			AND c.employeeContractId = #{contractId}
+	</if>
+	<if test="itemId != null and itemId != ''">
+			AND d.itemId = #{itemId}
+	</if>
+	<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND e.nameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+	</if>
+	<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND UPPER(e.nameEN) LIKE CONCAT('%', '${employeeNameEN}', '%')
+	</if>
+		
+	UNION ALL
+	
+	SELECT ad.itemId,ad.billAmountCompany,ad.costAmountPersonal,null as sbCostAmountPersonal,ad.base ,ah.contractId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,
+		ah.employeeId,ah.clientId,ah.orderId,ah.monthly,client.nameZH as clientNameZH ,client.nameEN as clientNameEN,
+		null as baseCompany,null as basePersonal,null as rateCompany,null as ratePersonal,null as sbheaderId,ah.entityId,ah.businessTypeId
+	FROM hro_settle_adjustment_header ah LEFT JOIN hro_settle_adjustment_detail ad on ah.adjustmentHeaderId = ad.adjustmentHeaderId and ad.deleted = 1
+	LEFT JOIN hro_biz_employee e ON e.employeeId = ah.employeeId
+	LEFT JOIN hro_biz_client client on client.clientId = ah.clientId
+	WHERE ah.deleted = 1 
+	AND ah.accountId = #{accountId} 
+	AND ah.clientId = #{clientId}
+	AND ah.monthly = #{monthly}
+	AND ah.status = #{status}
+	AND ah.orderId = #{orderId}
+	<if test="contractId != null and contractId != ''">
+			AND ah.contractId = #{contractId}
+	</if>
+	<if test="itemId != null and itemId != ''">
+			AND ad.itemId = #{itemId}
+	</if>
+	<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND e.nameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+	</if>
+	<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND UPPER(e.nameEN) LIKE CONCAT('%', '${employeeNameEN}', '%')
+	</if>
+	
+	UNION ALL
+	
+	SELECT dt.itemId,dt.billAmountCompany,dt.costAmountPersonal,sbd.amountPersonal as sbCostAmountPersonal,dt.base,ct.employeeContractId as contractId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,
+		ct.employeeId,ct.clientId,ct.orderId,ct.monthly,client.nameZH as clientNameZH,client.nameEN as clientNameEN,
+		sbd.baseCompany,sbd.basePersonal,sbd.rateCompany,sbd.ratePersonal,sbd.headerId as sbheaderId,ct.entityId,ct.businessTypeId
+	FROM hro_settle_order_contract_temp ct LEFT JOIN hro_settle_order_detail_temp dt on ct.contractId = dt.contractId AND dt.deleted = 1
+	LEFT JOIN hro_biz_employee e ON e.employeeId = ct.employeeId
+	LEFT JOIN hro_sb_detail sbd ON sbd.detailId = dt.detailId
+	LEFT JOIN hro_biz_client client on client.clientId = ct.clientId
+	WHERE ct.deleted = 1
+	AND ct.accountId = #{accountId}  
+	AND ct.clientId = #{clientId}
+	AND ct.monthly = #{monthly}
+	AND 1 = #{status}
+	AND ct.orderId = #{orderId}
+	<if test="contractId != null and contractId != ''">
+			AND ct.employeeContractId = #{contractId}
+	</if>
+	<if test="itemId != null and itemId != ''">
+			AND dt.itemId = #{itemId}
+	</if>
+	<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND e.nameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+	</if>
+	<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND UPPER(e.nameEN) LIKE CONCAT('%', '${employeeNameEN}', '%')
+	</if>
+	
+	<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+	</if>
+	</select>
+	
+	
+	<!-- for export excel -->
+	<select id="getOrderBillDetailViewsByConditionForExport" parameterType="orderBillHeaderView" resultMap="resultDetail">
+	SELECT d.itemId,d.billAmountCompany,d.costAmountPersonal,sbd.amountCompany as sbBillAmountCompany,sbd.amountPersonal as sbCostAmountPersonal,sbh.personalSBBurden ,d.base,c.employeeContractId as contractId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,
+		c.employeeId,c.clientId,c.orderId,c.monthly,client.nameZH as clientNameZH,client.nameEN as clientNameEN,
+		sbd.baseCompany,sbd.basePersonal,sbd.rateCompany,sbd.ratePersonal,sbd.headerId as sbheaderId,c.entityId,c.businessTypeId,
+		case WHEN d.detailType = 1 THEN 2 ELSE 1 END as  isAdjustment,sbd.accountMonthly as sbMonthly
+	FROM hro_settle_order_contract c LEFT JOIN hro_settle_order_detail d ON c.contractId = d.contractId AND d.deleted = 1
+	LEFT JOIN hro_biz_employee e ON e.employeeId = c.employeeId
+	LEFT JOIN hro_sb_detail sbd ON sbd.detailId = d.detailId
+	LEFT JOIN hro_sb_header sbh on sbd.headerId = sbh.headerId
+	LEFT JOIN hro_biz_client client on client.clientId = c.clientId
+	WHERE c.deleted = 1
+	AND c.accountId = #{accountId} 
+	AND c.clientId = #{clientId}
+	AND c.monthly = #{monthly}
+	AND 3 = #{status}
+	AND c.orderId = #{orderId}
+	<if test="contractId != null and contractId != ''">
+			AND c.employeeContractId = #{contractId}
+	</if>
+	<if test="itemId != null and itemId != ''">
+			AND d.itemId = #{itemId}
+	</if>
+	<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND e.nameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+	</if>
+	<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND UPPER(e.nameEN) LIKE CONCAT('%', '${employeeNameEN}', '%')
+	</if>
+		
+	UNION ALL
+	
+	SELECT ad.itemId,ad.billAmountCompany,ad.costAmountPersonal,null as sbBillAmountCompany,null as sbCostAmountPersonal,null as personalSBBurden,ad.base ,ah.contractId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,
+		ah.employeeId,ah.clientId,ah.orderId,ah.monthly,client.nameZH as clientNameZH ,client.nameEN as clientNameEN,
+		null as baseCompany,null as basePersonal,null as rateCompany,null as ratePersonal,null as sbheaderId,ah.entityId,ah.businessTypeId,
+		1 as isAdjustment,null as sbMonthly
+	FROM hro_settle_adjustment_header ah LEFT JOIN hro_settle_adjustment_detail ad on ah.adjustmentHeaderId = ad.adjustmentHeaderId and ad.deleted = 1
+	LEFT JOIN hro_biz_employee e ON e.employeeId = ah.employeeId
+	LEFT JOIN hro_biz_client client on client.clientId = ah.clientId
+	WHERE ah.deleted = 1 
+	AND ah.accountId = #{accountId} 
+	AND ah.clientId = #{clientId}
+	AND ah.monthly = #{monthly}
+	AND ah.status = #{status}
+	AND ah.orderId = #{orderId}
+	<if test="contractId != null and contractId != ''">
+			AND ah.contractId = #{contractId}
+	</if>
+	<if test="itemId != null and itemId != ''">
+			AND ad.itemId = #{itemId}
+	</if>
+	<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND e.nameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+	</if>
+	<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND UPPER(e.nameEN) LIKE CONCAT('%', '${employeeNameEN}', '%')
+	</if>
+	
+	UNION ALL
+	
+	SELECT dt.itemId,dt.billAmountCompany,dt.costAmountPersonal,sbd.amountCompany as sbBillAmountCompany,sbd.amountPersonal as sbCostAmountPersonal,sbh.personalSBBurden,dt.base,ct.employeeContractId as contractId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,
+		ct.employeeId,ct.clientId,ct.orderId,ct.monthly,client.nameZH as clientNameZH,client.nameEN as clientNameEN,
+		sbd.baseCompany,sbd.basePersonal,sbd.rateCompany,sbd.ratePersonal,sbd.headerId as sbheaderId,ct.entityId,ct.businessTypeId,
+		case WHEN dt.detailType = 1 THEN 2 ELSE 1 END as  isAdjustment,sbd.accountMonthly as sbMonthly
+	FROM hro_settle_order_contract_temp ct LEFT JOIN hro_settle_order_detail_temp dt on ct.contractId = dt.contractId AND dt.deleted = 1
+	LEFT JOIN hro_biz_employee e ON e.employeeId = ct.employeeId
+	LEFT JOIN hro_sb_detail sbd ON sbd.detailId = dt.detailId
+	LEFT JOIN hro_sb_header sbh on sbh.headerId = sbd.headerId
+	LEFT JOIN hro_biz_client client on client.clientId = ct.clientId
+	WHERE ct.deleted = 1
+	AND ct.accountId = #{accountId}  
+	AND ct.clientId = #{clientId}
+	AND ct.monthly = #{monthly}
+	AND 1 = #{status}
+	AND ct.orderId = #{orderId}
+	<if test="contractId != null and contractId != ''">
+			AND ct.employeeContractId = #{contractId}
+	</if>
+	<if test="itemId != null and itemId != ''">
+			AND dt.itemId = #{itemId}
+	</if>
+	<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND e.nameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+	</if>
+	<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND UPPER(e.nameEN) LIKE CONCAT('%', '${employeeNameEN}', '%')
+	</if>
+	
+	<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+	</if>
+	</select>
+	
+</mapper>

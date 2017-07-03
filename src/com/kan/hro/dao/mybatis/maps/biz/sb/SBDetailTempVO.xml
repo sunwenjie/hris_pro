@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.sb.SBDetailTempVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.sb.SBDetailTempVO">
+		<result property="detailId" column="detailId" />
+		<result property="headerId" column="headerId" />
+		<result property="itemId" column="itemId" />
+		<result property="itemNo" column="itemNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="basePersonal" column="basePersonal" />
+		<result property="baseCompany" column="baseCompany" />
+		<result property="ratePersonal" column="ratePersonal" />
+		<result property="rateCompany" column="rateCompany" />
+		<result property="fixPersonal" column="fixPersonal" />
+		<result property="fixCompany" column="fixCompany" />
+		<result property="amountPersonal" column="amountPersonal" />
+		<result property="amountCompany" column="amountCompany" />
+		<result property="monthly" column="monthly" />
+		<result property="accountMonthly" column="accountMonthly" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="tempStatus" column="tempStatus" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="contractId" column="contractId" />
+		<result property="itemType" column="itemType" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="accountId" column="accountId" />
+		<result property="interest" column="interest" />
+		<result property="overdueFine" column="overdueFine" />
+		<result property="orderId" column="orderId" />
+		<result property="batchId" column="batchId" />
+		<result property="employeeSBId" column="employeeSBId" />
+		<result property="clientNo" column="clientNo" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="sbNumber" column="sbNumber" />
+	</resultMap>
+  	
+	<sql id="SBDetailTempColumns">
+		headerId, itemId, itemNo, nameZH, nameEN, basePersonal, baseCompany, ratePersonal, rateCompany, fixPersonal, fixCompany, amountPersonal, 
+		amountCompany, monthly, accountMonthly, description, deleted, status, tempStatus, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, 
+		modifyDate 
+	</sql>
+  	
+	<sql id="SBDetailTempColumns-for-join">
+		a.headerId, a.itemId, a.itemNo, a.nameZH, a.nameEN, a.basePersonal, a.baseCompany, a.ratePersonal, a.rateCompany, a.fixPersonal, a.fixCompany, 
+		a.amountPersonal, a.amountCompany, a.monthly, a.accountMonthly, a.description, a.deleted, a.status, a.tempStatus, a.remark1, a.remark2, a.remark3, a.remark4, 
+		a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countSBDetailTempVOsByCondition" parameterType="sbDetailTemp" resultType="int">
+		SELECT COUNT(*)
+		FROM hro_sb_detail_temp a
+			LEFT JOIN hro_mgt_item b ON a.itemId = b.itemId AND b.deleted = 1
+			LEFT JOIN hro_sb_header_temp c ON a.headerId = c.headerId AND c.deleted = 1
+			LEFT JOIN hro_common_batch d ON c.batchId = d.batchId AND d.deleted = 1
+		WHERE a.deleted = 1
+		<if test="headerId != null and headerId != ''">
+			AND a.headerId = #{headerId} 
+		</if>
+		<if test="detailId != null and detailId != ''">
+			AND a.detailId = #{detailId} 
+		</if>
+		<if test="accountId != null and accountId != ''">
+			AND c.accountId = #{accountId} 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND c.contractId = #{contractId} 
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND d.batchId = #{batchId} 
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		<if test="accountMonthly != null and accountMonthly != ''">
+			AND (a.accountMonthly = #{accountMonthly} or '0' = #{accountMonthly})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) or 0 = #{status})
+		</if>
+		<if test="tempStatus != null and tempStatus != ''">
+			AND (a.tempStatus = #{tempStatus} or '0' = #{tempStatus})
+		</if>
+	</select>
+
+	<select id="getSBDetailTempVOsByCondition" parameterType="sbHeader" resultMap="result">
+		SELECT a.detailId, <include refid="SBDetailTempColumns-for-join"/>, b.itemType, c.contractId, c.accountId, c.orderId, c.entityId, c.businessTypeId,
+			c.employeeSBId, c.clientNo, c.clientNameZH, c.clientNameEN, c.employeeId, c.employeeNameZH, c.employeeNameEN, c.sbNumber, d.batchId
+		FROM hro_sb_detail_temp a
+			LEFT JOIN hro_mgt_item b ON a.itemId = b.itemId AND b.deleted = 1
+			LEFT JOIN hro_sb_header_temp c ON a.headerId = c.headerId AND c.deleted = 1
+			LEFT JOIN hro_common_batch d ON c.batchId = d.batchId AND d.deleted = 1
+		WHERE a.deleted = 1
+		<if test="headerId != null and headerId != ''">
+			AND a.headerId = #{headerId} 
+		</if>
+		<if test="detailId != null and detailId != ''">
+			AND a.detailId = #{detailId} 
+		</if>
+		<if test="accountId != null and accountId != ''">
+			AND c.accountId = #{accountId} 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND c.contractId = #{contractId} 
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND d.batchId = #{batchId} 
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		<if test="accountMonthly != null and accountMonthly != ''">
+			AND (a.accountMonthly = #{accountMonthly} or '0' = #{accountMonthly})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) or 0 = #{status})
+		</if>
+		<if test="tempStatus != null and tempStatus != ''">
+			AND (a.tempStatus = #{tempStatus} or '0' = #{tempStatus})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getSBDetailTempVOByDetailId" parameterType="int" resultMap="result">
+		SELECT a.detailId, <include refid="SBDetailTempColumns-for-join"/>, b.itemType
+		FROM hro_sb_detail_temp a
+			LEFT JOIN hro_mgt_item b ON a.itemId = b.itemId AND b.deleted = 1
+	 	WHERE a.detailId = #{value}
+	</select>
+
+	<select id="getSBDetailTempVOsByHeaderId" parameterType="int" resultMap="result">
+		SELECT a.detailId, <include refid="SBDetailTempColumns-for-join"/>, b.itemType
+		FROM hro_sb_detail_temp a 
+			LEFT JOIN hro_mgt_item b ON a.itemId = b.itemId AND b.deleted = 1
+	 	WHERE a.deleted = 1 AND a.headerId = #{value} 
+	</select>
+
+	<select id="getSBDetailTempVOsByContractId" parameterType="int" resultMap="result">
+		SELECT a.detailId, <include refid="SBDetailTempColumns-for-join"/>, c.itemType
+		FROM hro_sb_detail_temp a 
+			LEFT JOIN hro_sb_header_temp b ON a.headerId = b.headerId AND b.deleted = 1
+			LEFT JOIN hro_mgt_item c ON a.itemId = c.itemId AND c.deleted = 1
+	 	WHERE a.deleted = 1 AND b.contractId = #{value} 
+	</select>
+
+	<update id="updateSBDetailTemp" parameterType="sbDetailTemp" >
+		UPDATE hro_sb_detail_temp set headerId = #{headerId}, itemId = #{itemId}, itemNo = #{itemNo}, nameZH = #{nameZH}, nameEN = #{nameEN}, 
+			basePersonal = #{basePersonal}, baseCompany = #{baseCompany}, ratePersonal = #{ratePersonal}, rateCompany = #{rateCompany}, 
+			fixPersonal = #{fixPersonal}, fixCompany = #{fixCompany}, amountPersonal = #{amountPersonal}, amountCompany = #{amountCompany}, 
+			monthly = #{monthly}, accountMonthly = #{accountMonthly}, description = #{description}, deleted = #{deleted}, status = #{status}, tempStatus = #{tempStatus}, 
+			remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, 
+			modifyDate = #{modifyDate}
+		WHERE detailId = #{detailId} 
+  	</update>
+
+	<insert id="insertSBDetailTemp" parameterType="sbDetailTemp" useGeneratedKeys="true" keyProperty="detailId">
+		INSERT INTO hro_sb_detail_temp( <include refid="SBDetailTempColumns" /> )
+		VALUES (#{headerId}, #{itemId}, #{itemNo}, #{nameZH}, #{nameEN}, #{basePersonal}, #{baseCompany}, #{ratePersonal}, #{rateCompany}, #{fixPersonal}, 
+			#{fixCompany}, #{amountPersonal}, #{amountCompany}, #{monthly}, #{accountMonthly}, #{description}, 1, #{status}, #{tempStatus}, #{remark1}, #{remark2}, 
+			#{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteSBDetailTemp" parameterType="int">
+		DELETE from hro_sb_detail_temp where detailId = #{value}
+  	</delete>
+</mapper>

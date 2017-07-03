@@ -1,0 +1,2641 @@
+@CHARSET "UTF-8"; 
+
+td {
+	word-break: keep-all;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+form p {
+	text-align: left;
+	margin: 12px 0px;
+}
+
+/* ================ Self design styles: Begin ================ */
+.commonlink {margin-top: 4px;}
+.commonlink:link {font-size: 13px; color: #3366CC; font-family: 黑体, Calibri; text-decoration: none;}
+.commonlink:visited {font-size: 13px; color: #993366; font-family: 黑体, Calibri; text-decoration: none;}
+.commonlink:hover {font-size: 13px; color: #FF0000; font-family: 黑体, Calibri; text-decoration: underline;}
+.highlineFont {font-size: 13px; font-family: 黑体, Calibri; 	color: #000033;}
+
+.noticeNumber {position: absolute; top: 4px; right: 0px; font-size: 13px; font-family: 黑体, Calibri; color: #FFF;}
+.noticeNumber li>img {padding: 1px 3px 0px 0px;}
+.noticeNumber li.info {padding: 0px 10px 0px 0px;}
+
+.highlight {font-size: 13px; font-family: 黑体, Calibri; color: #FF0000;}
+
+.agreelight {font-size: 13px; font-family: 黑体, Calibri; color: #33ac3f;}
+
+.inputRemarkFont_s {
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	color: #FF0000;
+}
+
+.inputRemarkFont {
+	position: absolute;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	color: #FF0000;
+	margin-top: -12px;
+}
+
+.welcome {
+	position: absolute;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	color: #5d5d5d;
+	margin-right: 10px;
+	padding-top: 18px;
+	right: 0;
+	top: 36px;
+}
+
+.welcome_s {
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	color: #5d5d5d;
+	padding-top: 18px;
+	float: right;
+}
+/* ================ Self design styles: End ================ */
+
+/* ================ Tab styles: Begin ================ */
+#tab {
+	margin-top: 10px;
+	padding: 0px;
+}
+
+.tabMenu {
+	height: 28px;
+	line-height: 28px;
+}
+
+.tabMenu ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+.tabMenu li {
+	float: left;
+	display: block;
+	cursor: pointer;
+	padding: 0px 20px;
+	text-align: center;
+	color: #5d5d5d;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	border: 1px solid #aaa;
+	border-left: none;
+	border-bottom: none;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.tabMenu li.hover {
+	border-bottom: none;
+	background: #eaeaea;
+}
+
+.tabMenu li.first {
+	border-left: 1px solid #aaa;
+}
+
+.tabContent {
+	clear: both;
+	margin-top: 0px;
+	padding: 0px;
+}
+
+.tabContent a {
+	color: #0033cc;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+}
+/* ================ Tab styles: End ================ */
+
+/* ================ Application container styles: Begin ================ */
+li {
+	list-style-type: none;
+}
+
+#wrapper {
+	overflow: hidden;
+}
+
+#content {
+	padding-top: 72px;
+}
+
+#footer {
+	text-align: center;
+	padding: 0 0 30px 0;
+	color: #777;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+}
+
+.box {
+	margin: 20px;
+	position: relative;
+}
+
+.box a {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.box a.inquiry {
+	margin-top: 6px;
+}
+
+.box div.top {
+	width: 100%;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #dedede;
+	padding-bottom: 13px;
+	overflow: hidden;
+}
+
+.box .inner {
+	background: #f7f6f6;
+	padding: 15px 15px 0px 15px;
+	border: 1px solid #dedede;
+	border-top: none;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	overflow: hidden;
+	margin: 0px;
+}
+
+.box .historyinner {
+	overflow: hidden;
+	margin: 0px;
+	background: #f7f6f6;
+	padding: 15px;
+	border: 1px solid #dedede;
+	border-top: none;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+.box .historyinner .odd {
+	background-color: #eaeaea;
+}
+
+.box .historyinner .even {
+	background-color: #ffffff;
+}
+
+.box .inner .top a {
+	color: #0033CC;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	text-decoration: none;
+}
+
+.box .head {
+	position: relative;
+	line-height: 37px;
+	padding: 0px 15px;
+	font-size: 15px;
+	font-family: 黑体, Calibri;
+	color: #5d5d5d;
+	background: #f3f3f3 url(../images/content/h1-bg.png) left bottom
+		repeat-x;
+	border: 1px solid #dedede;
+	-moz-border-radius-topleft: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+	overflow: hidden;
+}
+
+.box .head>label.recordId {font-size: 14px;}
+
+.box .head #history {
+	float: right;
+}
+
+.box>.inner>.top a.commonTools {
+	float: right;
+}
+
+.kantab {color: #5d5d5d; font-size: 13px; font-family: 黑体, Calibri; margin-bottom: 14px; padding: 10px; border: 1px solid #aaa; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; position: relative;}
+.kantab a {color: #0033cc; font-size: 13px; font-family: 黑体, Calibri;}
+.kantab a.disabled {color: #999999; font-size: 13px; font-family: 黑体, Calibri;}
+.kantab ol>li {margin: 5px 0px 0px 0px;}
+.kantab ol.static>li {margin: 5px 0px 0px 0px;}
+.kantab ol.auto>li {margin: 5px 0px 0px 0px;}
+.kantab ol.auto span:not(.noPosition) { position: absolute; top: 5px; }
+
+.kantree {}
+.kantree li.firstlevel {}
+.kantree li.secondlevel {padding-left: 30px;}
+.kantree li.thirdlevel {padding-left: 60px;}
+.kantree li.fourthlevel {padding-left: 90px;}
+.kantree li.fifthlevel {padding-left: 120px;}
+.kantree li.sixthlevel {padding-left: 150px;}
+.kantree li.seventhlevel {padding-left: 180px;}
+.kantree li.eighthlevel {padding-left: 210px;}
+.kantree li a {color: #0033cc; font-size: 13px; font-family: 黑体, Calibri; text-decoration: none;}
+.kantree li a.current {color: #000066; font-size: 13px; font-family: 黑体, Calibri; font-weight: bold; text-decoration: underline; }
+
+/*
+.kanMultipleChoice {color: #5d5d5d; font-size: 13px; font-family: 黑体, Calibri; margin: 0px; padding: 10px; border: 1px solid #aaa; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;}
+.kanMultipleChoice li {margin: 5px 0px; }
+
+.kanCombo {color: #5d5d5d; font-size: 13px; font-family: 黑体, Calibri; margin: 0px; padding: 10px; border: 1px solid #aaa; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;}
+.kanCombo li {margin: 5px 0px; }
+*/
+
+.box h2 {
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.box h3 {
+	font-weight: bold;
+	font-size: 13px;
+}
+
+.box form ol li {
+	margin: 0 0 12px 0;
+	width: 50%;
+}
+
+.box form ol li label {display: block; color: #5d5d5d; font-size: 13px; font-family: 黑体, Calibri; margin-top: 5px;}
+.box form ol li input[type=text] {float: left; width: 220px; font-size: 13px; font-family: 黑体, Calibri; margin-right: 5px;}
+.box form ol li input:focus,.box form ol li select:focus,.box form ol li textarea:focus {
+	transition: border  linear .2s, box-shadow linear .5s;
+	-o-transition: border linear .2s, -webkit-box-shadow linear .5s;
+	-moz-transition: border linear .2s, -moz-box-shadow  linear .5s;
+	-webkit-transition: border linear .2s, -webkit-box-shadow linear .5s;
+	outline: none;
+	border-color: rgba(81,71,73,.75);
+	box-shadow: 0 0 3px rgba(81,71,73,.5);
+	-o-box-shadow: 0 0 3px rgba(81,71,73,.5);
+	-moz-box-shadow: 0 0 3px rgba(81,71,73,.5);
+	-webkit-box-shadow: 0 0 3px rgba(81,71,73,3);
+}
+.box form ol li input[type=password] {float: left; width: 220px; font-size: 13px; font-family: 黑体, Calibri; margin-right: 5px;}
+.box form ol li input.error {background: #F1C6BD;}
+.box form ol li input.important {background: #FFFFE6;}
+.box form ol li input.extend {float: left; width: 440px; font-size: 13px; font-family: 黑体, Calibri;}
+.box form ol li input.small {float: left; width: 102px; font-size: 13px; font-family: 黑体, Calibri;}
+.box form ol li select {float: left; width: 230px; font-size: 13px; font-family: 黑体, Calibri; margin-right: 5px;}
+.box form ol li select.error {background: #F1C6BD;}
+.box form ol li select.extend {float: left; width: 450px; font-size: 13px; font-family: 黑体, Calibri;}
+.box form ol li select.small {float: left; width: 112px; font-size: 13px; font-family: 黑体, Calibri;}
+.box form ol li textarea {float: left; width: 220px; height: 100px; font-size: 13px; font-family: 黑体, Calibri;}
+.box form ol li input.calendar {width: 165px;}
+.box form ol li input[type=checkbox] {width: auto;}
+.box form ol li span.validation-error {font-size: 12px; font-family: 黑体, Calibri; 	color: #aa4935; display: block; float: left; margin-top: 1px; top: 44px; left: 0;}
+.box form ol li div {border: 1px solid #dedede; float: left; padding: 0px 5px 1px 8px; margin: 0px 5px 2px 0px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;}
+.box form ol li div.noBorder {border: 0px; float: left; padding: 0; margin: 0px 5px 2px 0px;}
+
+.box form input[type=text] {width: 220px; font-size: 13px; font-family: 黑体, Calibri;}
+.box form input.warning {background: #F1C6BD;}
+.box form input.extend {width: 440px; font-size: 13px; font-family: 黑体, Calibri;}
+.box form input.small {width: 102px; font-size: 13px; font-family: 黑体, Calibri;}
+.box form textarea.extend {width: 440px; height:60px;font-size: 13px; font-family: 黑体, Calibri;}
+.box form textarea.small {width: 102px; height:25px;font-size: 13px; font-family: 黑体, Calibri;}
+
+.noHeader .inner {border: 1px solid #dedede; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;}
+
+.box .toggle {
+	background: url(../images/content/toggle-down.png) no-repeat 99% 50%;
+	width: 9px;
+	height: 8px;
+	text-indent: -9999px;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 40px;
+}
+
+.box .toggle.activated {
+	background: url(../images/content/toggle-up.png) no-repeat 99% 50%;
+}
+
+.box ul.top {
+	float: right;
+	padding: 10px 0 0;
+}
+
+.box ul.bottom {
+	float: right;
+	padding: 15px 0 0;
+}
+
+.miniList p {
+	margin-bottom: 10px;
+	padding-top: 0;
+}
+/* ================ Application container styles: End ================ */
+
+/* ================ Login styles: Begin ================ */
+.login {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	overflow: hidden;
+	margin-left: -140px;
+	margin-top: -180px;
+}
+
+.login p {
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	width: 100%;
+	text-align: center;
+}
+
+.loginForm {
+	background: #f7f6f6 url(../images/logo/iclick-logo.png) no-repeat
+		85% 15%;
+	background-size: 88px 32px;
+	padding: 20px 20px 15px 20px;
+	border: 1px solid #dedede;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	width: 236px;
+	text-align: left;
+}
+
+.login label {
+	display: block;
+	color: #5d5d5d;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	margin: 8px 0px 3px 0px;
+}
+
+.login label.loginError {
+	color: #FF0000;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+}
+
+.login label.title {
+	font-size: 15px;
+	margin-bottom: 15px;
+}
+
+.login span {
+	color: #5d5d5d;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+}
+
+.login input[type=text] {
+	width: 220px;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+}
+
+.login input[type=password] {
+	width: 220px;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+}
+
+.login select {
+	width: 220px;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+}
+
+.login input[type=checkbox] {
+	width: auto;
+	margin: 6px 3px 0px 10px;
+}
+/* ================ Login styles: end ================ */
+
+/* ================ Branding styles: Begin ================ */
+#branding {
+	height: 80px;
+	padding: 0 25px 0 25px;
+}
+
+#branding img {
+	margin: 10px 0 0 0;
+}
+/* ================ Branding styles: End ================ */
+
+/* ================ Branding_s styles: Begin ================ */
+#branding_s {
+	padding: 40px 25px 0 25px;
+}
+
+#branding_s img {
+	margin: 10px 0 0 0;
+	-moz-force-broken-image-icon: 1;
+}
+/* ================ Branding_s styles: End ================ */
+
+/* ================ Subscribe styles: Begin ================ */
+.subscribe {
+	padding: 10px 15px 12px 15px;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	color: #fff;
+	text-decoration: none;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	background: rgb(40, 134, 49);
+	background: -moz-linear-gradient(90deg, rgb(40, 134, 49) 20%,
+		rgb(124, 202, 132) 100% );
+	background: -webkit-linear-gradient(90deg, rgb(40, 134, 49) 20%,
+		rgb(124, 202, 132) 100% );
+	background: -o-linear-gradient(90deg, rgb(40, 134, 49) 20%,
+		rgb(124, 202, 132) 100% );
+	background: -ms-linear-gradient(90deg, rgb(40, 134, 49) 20%,
+		rgb(124, 202, 132) 100% );
+	background: linear-gradient(90deg, rgb(40, 134, 49) 20%,
+		rgb(124, 202, 132) 100% );
+	float: right;
+}
+
+.subscribe:hover {
+	background: #288832;
+	color: #fff;
+}
+/* ================ Subscribe styles: End ================ */
+
+/* ================ Option menu styles: Begin ================ */
+.option {
+	color: #217FC4;
+	background: url(../images/header/help-down.png) no-repeat center right;
+	padding: 18px 12px 16px 1px;
+	text-decoration: none;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+}
+
+#wrapper .activated-option {
+	background: url(../images/header/help-up.png) no-repeat center right;
+}
+
+.option-menu {
+	position: absolute;
+	right: 20px;
+	top: 76px;
+	padding: 10px;
+	display: none;
+	background: #454648;
+	z-index: 100;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.option-menu ul {
+	borde: 0;
+	padding: 0;
+	margin: 0;
+}
+
+.option-menu li a {
+	color: #fff;
+	line-height: 20px;
+	text-decoration: none;
+}
+
+.option-menu li a:hover {
+	text-decoration: underline;
+}
+.option-position-menu {
+	position: absolute;
+	right: 72px;
+	top: 76px;
+	padding: 10px;
+	display: none;
+	background: #454648;
+	z-index: 100;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+.option-position-menu ul {
+	borde: 0;
+	padding: 0;
+	margin: 0;
+}
+
+.option-position-menu li a {
+	color: #fff;
+	line-height: 20px;
+	text-decoration: none;
+}
+
+.option-position-menu li a:hover {
+	text-decoration: underline;
+}
+/* ================ Option menu styles: End ================ */
+
+/* ================ Main menu styles: Begin ================ */
+.menu {
+	height: 40px;
+	width: 100%;
+	background: url(../images/menu/kan-nav-bg.png) left bottom repeat-x;
+	position: absolute;
+	z-index: 10;
+}
+
+.menu ul {
+	margin: 0;
+	list-style: none;
+	padding: 0 25px;
+}
+
+.menu>ul {
+	float: left;
+}
+
+.menu>ul>li {
+	float: left;
+	margin-right: 5px;
+}
+
+.menu>ul>li>a {
+	display: block;
+	color: #5d5d5d;
+	line-height: 40px;
+	background: transparent;
+	text-decoration: none;
+	padding: 0 10px;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	-moz-border-radius-topleft: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.menu>ul>li>a b {
+	font-weight: normal;
+}
+
+.menu>ul>li>ul {
+	position: absolute;
+	display: none;
+	left: 0;
+	height: 32px;
+	background: #d8d8d8;
+	padding: 4px 0px 0px 20px;
+	width: 100%;
+	-moz-transition: opacity 0.5s;
+	-ms-transition: opacity 0.5s;
+	-o-transition: opacity 0.5s;
+	-webkit-transition: opacity 0.5s;
+	transition: opacity 0.5s;
+}
+
+.menu>ul>li.current>a {
+	background: #217FC4;
+	color: #fff;
+}
+
+.menu>ul>li.current>ul {
+	display: block;
+	background: url(../images/menu/kan-sub-nav.png) left bottom repeat-x;
+}
+
+.menu>ul>li>ul>li {
+	float: left;
+}
+
+.menu>ul>li>ul>li>a {
+	display: block;
+	margin-right: 5px;
+	color: #333;
+	line-height: 26px;
+	text-decoration: none;
+	padding: 0 10px;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.menu>ul>li>ul>li>a.arrow {
+	padding: 0 20px 0 10px;
+	background: url(../images/menu/sub-nav-arrow-n.png) no-repeat 92% 48%;
+}
+
+.menu>ul>li.current>ul>li>a {
+	color: #fff;
+}
+
+.menu>ul>li.current>ul>li:hover>a {
+	background: #555657;
+}
+
+.menu>ul>li.current>ul>li>a.arrow {
+	background: url(../images/menu/kan-sub-nav-arrow.png) no-repeat 92% 48%;
+}
+
+.menu>ul>li.current>ul>li:hover>a.arrow {
+	background: #555657 url(../images/menu/sub-nav-arrow-s.png) no-repeat
+		92% 48%;
+}
+
+.menu>ul>li>ul>li>ul {
+	position: absolute;
+	display: none;
+	background: #555657;
+	padding: 10px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.menu>ul>li>ul>li:hover>ul {
+	display: block;
+}
+
+.menu>ul>li>ul>li:hover>a {
+	color: #fff;
+	background: #555657;
+}
+
+.menu>ul>li>ul>li.selected>a {
+	background: #555657;
+	color: #fff;
+}
+
+.menu>ul>li>ul>li.selected>a.arrow {
+	background: #555657 url(../images/menu/sub-nav-arrow-s.png) no-repeat
+		92% 48%;
+}
+
+.menu>ul>li>ul>li>ul>li>a {
+	display: block;
+	color: #fff;
+	text-decoration: none;
+	padding: 0 10px;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	line-height: 20px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.menu>ul>li>ul>li>ul>li:hover>a {
+	background: #999;
+}
+/* ================ Main menu styles: End ================ */
+
+/* ================ Main menu_s styles: Begin ================ */
+.menu_s {
+	height: 40px;
+	width: 100%;
+	background: url(../images/menu/kan-sub-nav.png) left bottom repeat-x;
+	position: absolute;
+	z-index: 10;
+}
+
+.menu_s ul {
+	margin: 0;
+	list-style: none;
+	padding: 0 20px;
+}
+
+.menu_s>ul>li {
+	float: left;
+	margin: 8px 0 7px 0;
+	display: inline;
+}
+
+.menu_s>ul>li>a {
+	color: #fff;
+	line-height: 26px;
+	text-decoration: none;
+	padding: 5px 12px 6px 12px;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	margin-right: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.menu_s>ul>li>a b {
+	font-weight: normal;
+}
+
+.menu_s>ul>li.current>a {
+	background: #555657;
+}
+
+.menu_s>ul>li:hover>a {
+	background: #555657;
+}
+
+.menu_s>ul>li>ul {
+	position: absolute;
+	display: none;
+	background: #555657;
+	padding: 10px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.menu_s>ul>li>ul>li>a {
+	display: block;
+	color: #fff;
+	text-decoration: none;
+	padding: 0 10px;
+	white-space: nowrap;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	line-height: 24px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.menu_s>ul>li>ul>li>a:hover {
+	background: #999999;
+}
+
+.menu_s>ul>li>ul>li>a.arrow {
+	background: #555657 url(../images/menu/sub-nav-arrow-s.png) no-repeat
+		92% 48%;
+	padding-right: 18px;
+}
+
+.menu_s>ul>li>ul>li.selected>a {
+	background: #999999;
+	color: #fff;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.menu_s>ul>li>ul>li.selected>a.arrow {
+	background: #555657 url(../images/menu/kan-sub-nav-arrow.png) no-repeat
+		92% 48%;
+	padding-right: 18px;
+}
+
+.menu_s>ul>li>ul>li>ul>li>a {
+	display: block;
+	color: #fff;
+	text-decoration: none;
+	padding: 0 10px;
+	white-space: nowrap;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	line-height: 24px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.menu_s>ul>li>ul>li>ul>li>a:hover {
+	background: #999999;
+}
+
+.menu_s>ul>li>ul>li>ul>li.selected>a {
+	background: #999999;
+	color: #fff;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+/* ================ Main menu_s styles: End ================ */
+
+/* ================ Main menu_s_s styles: Begin ================ */
+.menu_s_s {
+	position: absolute;
+	height: 40px;
+	width: 100%;
+	background: url(../images/menu/kan-sub-nav.png) left bottom repeat-x;
+	z-index: 10;
+}
+
+.menu_s_s>div {
+	padding: 4px 15px 4px 15px;
+}
+
+.menu_s_s>a {
+	padding: 5px 15px 6px 15px;
+	margin: 0px 0px 0px 20px;
+	background: #555657;
+	color: #fff;
+	line-height: 26px;
+	text-decoration: none;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	margin-right: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.menu_s_s>ul {
+	position: absolute;
+	display: none;
+	background: #555657;
+	margin: 0px 0px 0px 20px;
+	list-style: none;
+	padding: 5px 10px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.menu_s_s>ul>li>a {
+	display: block;
+	color: #fff;
+	text-decoration: none;
+	padding: 0 10px;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	line-height: 24px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.menu_s_s>ul>li>a b {
+	font-weight: normal;
+}
+
+.menu_s_s>ul>li>a:hover {
+	background: #999;
+}
+
+.menu_s_s>ul>li.selected>a {
+	background: #999;
+	color: #fff;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.menu_s_s>ul>li.selected>a.arrow {
+	background: #555657 url(../images/menu/kan-sub-nav-arrow.png) no-repeat
+		92% 48%;
+	padding-right: 18px;
+}
+
+.menu_s_s>ul>li>ul {
+	display: none;
+}
+
+.menu_s_s>ul>li.current>ul {
+	display: block;
+}
+
+.menu_s_s>ul>li>ul>li>a {
+	display: block;
+	color: #fff;
+	text-decoration: none;
+	padding: 0 10px;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	line-height: 24px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.menu_s_s>ul>li>ul>li>a:hover {
+	background: #999;
+}
+
+.menu_s_s>ul>li>ul>li>a.arrow {
+	background: #555657 url(../images/menu/sub-nav-arrow-s.png) no-repeat
+		92% 48%;
+	padding-right: 18px;
+}
+
+.menu_s_s>ul>li>ul>li.selected>a {
+	background: #999;
+	color: #fff;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.menu_s_s>ul>li>ul>li.selected>a.arrow {
+	background: #555657 url(../images/menu/kan-sub-nav-arrow.png) no-repeat
+		92% 48%;
+	padding-right: 18px;
+}
+
+.menu_s_s>ul>li>ul>li>ul>li>a {
+	display: block;
+	color: #fff;
+	text-decoration: none;
+	padding: 0 10px;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	line-height: 24px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.menu_s_s>ul>li>ul>li>ul>li>a:hover {
+	background: #999;
+}
+
+.menu_s_s>ul>li>ul>li>ul>li.selected>a {
+	background: #999;
+	color: #fff;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+/* ================ Main menu_s_s styles: End ================ */
+
+/* ================ Search Form styles: Begin ================ */
+div.searchForm ol li.required {clear: both;}
+.searchForm form ol li {margin: 0 0 12px 0; width: 25%;}
+.searchForm form ol li label {display: block; color: #5d5d5d; margin-bottom: 5px; width: 236px;}
+.searchForm form ol li input[type=text] {float: left; width: 225px;} 
+.searchForm form ol li select {float: left; width: 236px;}
+.searchForm form ol li select.small {float: left; width: 115px;}
+.searchForm form ol li textarea {float: left; width: 225px;}
+.searchForm form ol li input.calendar {width: 165px;}
+.searchForm form ol li input[type=checkbox] {width: auto;}
+.searchForm form ol li span.validation-error {font-size: 12px; color: #aa4935; display: block; float: left; margin-top: 1px; top: 44px; left: 0;}
+
+/* ================ Search Form styles: end ================ */
+
+/* ================ General class styles: Begin ================ */
+.normal {
+	margin: 0;
+	border: none;
+}
+
+.hide {
+	display: none;
+}
+
+.show {
+	display: block;
+}
+
+.fade {
+	opacity: 0;
+	-webkit-transition: opacity 0.15s linear;
+	-moz-transition: opacity 0.15s linear;
+	-ms-transition: opacity 0.15s linear;
+	-o-transition: opacity 0.15s linear;
+	transition: opacity 0.15s linear;
+}
+
+.inputFormatHint {
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	color: #A9A9A9;
+	text-align: left;
+}
+
+label.fieldHelpBottom {
+	display: block;
+	float: left;
+	color: #A9A9A9;
+	clear: left;
+	margin-left: 150px;
+	width: auto;
+}
+
+li.noLabel label.fieldHelpBottom {
+	margin-left: 0px;
+}
+
+.fieldHelpRight {
+	margin-left: 5px;
+}
+
+.boldText {
+	font-weight: bold;
+}
+
+.required {
+	color: #aa4935;
+}
+
+.helpText { /* Used in attendance/viewAttendanceRecord */
+	color: #a9a9a9;
+}
+
+.borderBottom {
+	padding-bottom: 10px;
+	border-bottom: 1px solid #dedede;
+}
+/* ================ General class styles: End ================ */
+
+/* ================ Form styles: Begin ================ */
+input:disabled,select:disabled,textarea:disabled {
+	background-color: #DDD;
+}
+
+form fieldset {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+form ol {
+	border-bottom: 1px solid #dedede;
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+}
+
+form ol.auto {
+	border: 0px;
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+}
+
+form ol.auto li a {color: #0033cc; font-size: 13px; font-family: 黑体, Calibri;}
+form ol.auto li a:disabled {color: #999999; font-size: 13px; font-family: 黑体, Calibri;}
+
+form ol li {
+	float: left;
+	position: relative;
+	list-style: none;
+}
+
+form ol.static {
+	border: 0px;
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+}
+
+form ol.static li {
+	width: 100%;
+}
+
+form ol li label {
+	display: block;
+	color: #5d5d5d;
+	width: 150px;
+	float: left;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+}
+
+form ol li label.auto {
+	width: auto;
+	margin-right: 10px;
+}
+
+form ol li span {
+	color: #5d5d5d;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+}
+
+form ol li label.error {
+	display: block;
+	color: #FF0000;
+	width: auto;
+	float: left;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	padding-left: 10px;
+	border: none;
+	background: none;
+}
+
+form ol li label.line {
+	width: auto;
+	margin-right: 10px;
+}
+/* eg: From label for date range. Left margin is 0 */
+form ol li label.sublabel1 {
+	width: auto;
+	margin-left: 0px;
+	margin-right: 10px;
+}
+/* eg: To label for date range */
+form ol li label.sublabel2 {
+	width: auto;
+	margin-left: 20px;
+	margin-right: 10px;
+}
+
+form ol li input[type=text] {
+	float: left;
+	width: 225px;
+}
+
+form ol li input[type=password] {
+	float: left;
+	width: 225px;
+}
+
+form input,form select,form textarea {
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	border: 1px solid #d2d1d1;
+	color: #5d5d5d;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	outline: none;
+	padding: 4px 4px;
+	background-color: #FFF;
+}
+
+form ol li select {
+	float: left;
+	width: 239px;
+	height: 25px;
+	margin-top: 1px;
+	padding: 4px 4px;
+}
+
+form ol li select.auto-width {
+	min-width: 239px;
+	width: auto;
+}
+
+form ol li textarea {
+	float: left;
+	width: 220px;
+	height: 100px;
+}
+
+form ol li input[type=text] {
+	height: 16px;
+}
+
+form ol li input[type="file"] {
+	margin-bottom: 5px;
+}
+
+form ol li input.calendar {
+	width: 165px;
+	float: left;
+}
+
+form ol li.line {
+	width: 100%;
+}
+
+form ol li.new {
+	clear: left;
+}
+
+form ol li.noLabel {
+	/*TODO: Check whether this is the proper way. Used in 'saveJobTitle' */
+	margin-left: 150px;
+}
+
+form ol li.noLabel .fieldHelpBottom {
+	left: 0;
+}
+
+form ol li.required {
+	float: left;
+	width: 100%;
+	color: #a9a9a9;
+	font-size: 12px;
+}
+
+form ol li.required em {
+	color: #aa4935;
+}
+
+form ol li label em {
+	color: #aa4935;
+}
+
+form ol li.helpText { /* Used in Recruitment > Add Job Vacancy */
+	float: left;
+	margin-top: 9px;
+	color: #a9a9a9;
+	font-size: 12px;
+}
+/* ------------- longLabels styles ------------- */
+form.longLabels ol li label {
+	/* Used in pim/viewMemberships, admin/listMailConfiguration*/
+	width: 180px;
+}
+
+form.longLabels ol li span.validation-error {
+	left: 180px;
+}
+/* ------------- Checkbox styles ------------- */
+form ol li.checkbox input { /* Used in Admin > Localization */
+	width: auto;
+	border: none;
+}
+
+form ol li.checkbox label {
+	display: inline;
+	margin-right: 25px;
+	line-height: 20px;
+	width: 90%;
+}
+
+form ol li.labelRight {
+	padding-left: 150px;
+}
+
+form ol li.labelRight label {
+	width: 90%;
+	line-height: 20px;
+}
+/* ------------- Radio styles ------------- */
+form ol li.radio input {
+	width: auto;
+	border: none;
+}
+
+form ol li.radio label {
+	display: inline;
+	line-height: 20px;
+}
+
+form ol li.radio input[type=radio] {
+	margin-left: 0px;
+}
+
+form ol li.radio {
+	margin-bottom: 0;
+}
+
+form ol li.radio label {
+	margin-top: 0px;
+}
+
+form ol li.radio ul.radio_list li {
+	display: inline;
+	width: auto;
+}
+
+form ol li.radio ul.radio_list li label {
+	width: auto;
+	margin-right: 10px;
+	margin-top: 0;
+}
+
+div.searchForm ol li.required {
+	clear: both;
+}
+
+/* ------------- File input styles ------------- */
+input[type="file"] {
+	height: 24px;
+}
+
+/* ------------- Button styles ------------- */
+input[type="button"],input[type="submit"],input[type="reset"] {
+	background: #33ac3f;
+	color: #fff;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	padding: 6px 20px;
+	border: none;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	margin: 0px 15px 0px 0px;
+}
+
+input.reset,input.cancel,input[type="reset"] {
+	background: #848484;
+}
+
+input.delete {
+	background: #aa4935;
+}
+
+input.function {
+	background: #DAA520;
+}
+
+/* ------------- Checkbox & Radio universal styles ------------- */
+input[type=checkbox] {
+	margin: 3px 3px 0 0;
+	width: auto;
+	border: none;
+	padding: 0;
+}
+
+input[type=radio] {
+	margin: 3px 3px 0 0;
+	border: none;
+	padding: 0;
+	background: transparent;
+}
+
+input[type=radio]:disabled {
+	background: transparent;
+}
+
+/* ------------- Full Name styles ------------- */
+form ol.fieldsInLine {
+	border: none;
+	margin: 0;
+	padding-bottom: 2px;
+	padding-top: 0;
+}
+
+form ol.fieldsInLine li {
+	width: 218px;
+}
+
+form ol.fieldsInLine li input[type=text] {
+	width: 192px;
+}
+
+form ol li.nameContainer {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+form ol li ol.fieldsInLine li {
+	text-align: center;
+}
+
+form ol li label.hasTopFieldHelp {
+	margin-top: 20px;
+}
+
+form ol li div.fieldDescription {
+	margin-bottom: 5px;
+	color: #a9a9a9;
+	font-size: 11px;
+}
+
+form ol li div.fieldDescription em {
+	color: #aa4935;
+}
+
+form ol li ol.fieldsInLine li span.validation-error {
+	left: 0;
+	top: 38px;
+}
+
+/* ------------- Button hovering styles ------------- */
+/* 
+ * Button hovering effects 
+ * Note: we are not using pure css using :hover because :hover applies to even disabled elements.
+ * The pseudo class :enabled is not supported in IE < 9.
+ */
+input[type=button].hover,input[type=submit].hover {
+	background-color: #086912;
+}
+
+input[type=button],input[type=submit] {
+	background-color: #33ac3f;
+}
+
+input[type=button].cancel.hover,input[type=submit].cancel.hover {
+	background-color: #4d4d4d;
+}
+
+input[type=button].cancel,input[type=submit].cancel {
+	background-color: #848484;
+}
+
+input[type=button].delete.hover,input[type=submit].delete.hover {
+	background-color: #782918;
+}
+
+input[type=button].delete,input[type=submit].delete {
+	background-color: #aa4935;
+}
+
+input[type=button].reset.hover,input[type=reset].reset.hover,input[type=submit].reset.hover
+	{
+	background-color: #4d4d4d;
+}
+
+input[type=button].reset,input[type=reset].reset,input[type=submit].reset
+	{
+	background-color: #848484;
+}
+
+input[type=button].function.hover,input[type=submit].function.hover {
+	background-color: #A47D17;
+}
+
+input[type=button].function,input[type=submit].function {
+	background-color: #DAA520;
+}
+/* ================ Form styles: End ================ */
+
+/* ================ Two column styles: Begin ================ */
+.twoColumn form ol li {
+	width: 50%;
+}
+
+.twoColumn form ol li.line {
+	width: 100%;
+}
+/* ================ Two column styles: End ================ */
+
+/* ================ Widget specific styles: Begin ================ */
+.ui-datepicker-trigger {
+	margin: 0 0 0 5px;
+	display: block;
+	float: left;
+}
+
+.searchForm form ol li label.date_range_label {
+	width: auto;
+	margin-left: 0px;
+	margin-right: 10px;
+	clear: both;
+}
+
+form ol li label.time_range_label {
+	width: auto;
+	margin-left: 20px;
+	margin-right: 10px;
+}
+
+form ol li select.timepicker {
+	width: 70px;
+	margin-left: 0px;
+	margin-right: 10px;
+}
+
+form ol li input.time_range_duration {
+	width: auto;
+	width: 60px;
+	margin-left: 0px;
+	margin-right: 10px;
+}
+/* ================ Widget specific styles: End ================ */
+
+/* ================ Paging styles: Begin ================ */
+.paging li {
+	display: inline;
+}
+
+.paging a {
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding: 3px 8px;
+	color: #5d5d5d;
+	text-decoration: none;
+	float: left;
+	margin: 0 2px;
+}
+
+.paging a:hover {
+	background: #eaeaea;
+}
+
+.paging a.current {
+	background: #33ac3f;
+	color: #fff;
+}
+
+.paging li.first a,.paging li.previous a,.paging li.next a,.paging li.last a
+	{
+	padding: 1px 8px;
+	text-indent: -9999px;
+}
+
+.paging li.first a {
+	background: url(../images/paging-first.png) no-repeat 0 0;
+	margin: 3px 0 0 0;
+}
+
+.paging li.previous a {
+	background: url(../images/paging-previous.png) no-repeat 0 0;
+	margin: 2px 0 0 5px;
+}
+
+.paging li.next a {
+	background: url(../images/paging-next.png) no-repeat 0 0;
+	margin: 2px 0 0 7px;
+}
+
+.paging li.last a {
+	background: url(../images/paging-last.png) no-repeat 0 0;
+	margin: 3px 0 0 0;
+}
+
+.paging li.desc {
+	float: left;
+	color: #666;
+	margin: 3px 0 0 0;
+	padding-right: 10px;
+}
+/* ================ Paging styles: End ================ */
+
+/* ================ Table styles: Begin ================ */
+table.historytable {
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+table.historytable td {
+	padding: 7px;
+	background: #fff;
+	line-height: 15px;
+}
+
+table.table {
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+table.table th {
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	background: #217FC4; /*#f28c38;*/
+	color: #fff;
+	padding: 7px;
+	border: 1px solid #fff;
+	text-align: left;
+}
+
+table.table th a {
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	color: #fff;
+	text-decoration: none;
+	display: inline-block;
+	width: 100%;
+}
+
+table.table th.center,table.table td.center {
+	text-align: center;
+}
+
+table.table td {
+	padding: 7px;
+	background: #fff;
+	line-height: 23px;
+}
+
+table.table td.comments input {
+	float: left;
+}
+
+table.table td.comments img {
+	float: left;
+	margin: 2px 0 0 2px;
+}
+
+table thead tr .header {
+	background-image: url(../images/table/tablesorter-bg.png);
+	background-repeat: no-repeat;
+	background-position: 95% 55%;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	font-weight: normal;
+	cursor: pointer;
+}
+
+table thead tr .header-nosort {
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	font-weight: normal;
+	cursor: default;
+}
+
+table.nosort thead tr .header {
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	font-weight: normal;
+	background-image: none;
+	cursor: default;
+}
+
+table tbody tr.odd td {
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	background-color: #eaeaea;
+}
+
+table tbody tr.odd td input.small {width: 102px;}
+table tbody tr.odd td input.small-ex {width: 60px;}
+table tbody tr.odd td select.small {width: 102px;}
+table tbody tr.odd td select.small-ex {width: 60px;}
+
+table tbody tr.even td {
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	background-color: #ffffff;
+}
+
+table tbody tr.even td input.small {width: 102px;}
+table tbody tr.even td input.small-ex {width: 60px;}
+table tbody tr.even td select.small {width: 102px;}
+table tbody tr.even td select.small-ex {width: 60px;}
+
+table tbody tr.total td {
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	background-color: #555657;
+	color: #fff;
+}
+
+table tbody tr td strong {
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	color: #333;
+	font-weight: bold;
+}
+
+table tbody tr td a {
+	color: #000099;
+}
+
+table tbody tr.total td strong {
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	font-weight: bold;
+	color: #fff;
+}
+
+table thead tr .headerSortUp {
+	background-image: url(../images/table/tablesorter-asc.png);
+}
+
+table thead tr .headerSortDown {
+	background-image: url(../images/table/tablesorter-dsc.png);
+}
+
+table.table th.checkbox-col {
+	width: 10px;
+}
+
+table.table td.right {
+	text-align: right;
+	white-space: nowrap;
+}
+
+table.table td left {
+	text-align: left;
+	white-space: nowrap;
+}
+
+table tfoot tr.total td {
+	background-color: #A8A9AA;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	color: #fff;
+}
+
+table tfoot tr.total td a {
+	color: #0033CC;
+	text-decoration: none;
+}
+
+table tfoot tr.total td a:hover {
+	text-decoration: underline;;
+}
+
+table tfoot tr td strong {
+	color: #333;
+	font-weight: bold;
+}
+
+table tfoot tr.total td strong {
+	font-weight: bold;
+	color: #fff;
+}
+
+table.hover tbody tr:hover,table.hover tbody tr:hover td,table.hover tbody tr:hover td table tbody tr,table.hover tbody tr:hover td table tbody tr td
+	{
+	background-color: #CCC;
+}
+
+table.data th { /* Used in performance/performanceReview */
+	background: #FFFFFF;
+	color: inherit;
+	border: none;
+	font-weight: bold;
+}
+
+/* ================ Table styles: End ================ */
+
+/* ================ Definition list styles: Begin ================ */
+dl.search-params dt {
+	clear: left;
+	float: left;
+	width: 150px;
+	margin: 0;
+	padding: 5px;
+	font-weight: bold;
+}
+
+dl.search-params dd {
+	margin-left: 150px;
+	padding: 5px;
+}
+
+dl.search-params dt.total {
+	
+}
+
+dl.search-params dd.total {
+	
+}
+
+/* ================ Definition list styles: End ================ */
+
+/* ================ List styles: Begin ================ */
+ul.disc { /* Used in admin/pimCsvImport */
+	list-style: disc;
+	margin-left: 13px;
+	line-height: 25px;
+}
+
+ul.helpList li { /* Used in admin/viewEmailNotification */
+	color: #a9a9a9;
+	font-size: 12px;
+	margin: 5px 0 0 0;
+}
+/* ================ List styles: End ================ */
+
+/* ================ Top level message styles: Begin ================ */
+.message {
+	position: relative;
+	letter-spacing: 1px;
+	padding: 10px 14px;
+	margin-bottom: 15px;
+	font-size: 15px;
+	font-family: 黑体, Calibri;
+	border: 1px solid #d2d1d1;
+	color: #5d5d5d;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.message a.messageCloseButton {
+	text-indent: -9999px;
+	width: 23px;
+	height: 23px;
+	position: absolute;
+	top: 8px;
+	right: 12px;
+}
+
+.warning {
+	border: 1px solid #f8e3a4;
+	color: #e79400;
+	background-color: #fff4c7;
+}
+
+.warning a {
+	background: url(../images/warning-btn-m.png) no-repeat;
+}
+
+.error {
+	border: 1px solid #d48574;
+	color: #aa4935;
+	background-color: #f1c6bd;
+}
+
+.error a {
+	background: url(../images/error-btn.png) no-repeat;
+}
+
+.success {
+	border: 1px solid #cdeba4;
+	color: #6ea800;
+	background-color: #e0f2c7;
+}
+
+.success a {
+	background: url(../images/success-btn.png) no-repeat;
+}
+
+div.message ol {
+	border-bottom: 0;
+	margin: 0;
+	padding: 0;
+}
+
+div.message ol li {
+	margin: 3px 0 10px;
+}
+
+/* ================ Top level message styles: End ================ */
+
+/* ================ Field level message styles: Begin ================ */
+form select.validation-error,form input.validation-error,form textarea.validation-error
+	{
+	border-color: #aa4935;
+	color: #aa4935;
+	background: #FFFFFE;
+}
+
+form span.validation-error {
+	color: #aa4935;
+}
+
+form ol li span.validation-error {
+	font-size: 12px;
+	display: block;
+	/*z-index:9999; This makes error to appear over menu */
+	position: absolute;
+	top: 21px;
+	left: 150px;
+	margin-top: 6px;
+}
+
+form table span.validation-error {
+	/* Used in performance/performanceReview */
+	font-size: 12px;
+	color: #aa4935;
+	display: block;
+}
+
+form ol li.largeTextBox span.validation-error {
+	top: 85px;
+}
+
+form ol li.fieldHelpContainer span.validation-error {
+	top: 33px;
+}
+
+form ol li.noLabel span.validation-error {
+	left: 0;
+}
+
+.searchForm form ol li span.validation-error {
+	font-size: 12px;
+	color: #aa4935;
+	display: block;
+	float: left;
+	margin-top: 1px;
+	top: 44px;
+	left: 0;
+}
+
+ul.error_list li {
+	/* For Symfony form errors. Used in PIM Define Reports */
+	color: #aa4935;
+}
+
+.score { /* Used for password strength indicator */
+	float: left;
+	margin-left: 5px;
+	padding: 2px;
+	margin-top: 5px;
+	font-weight: bold;
+	width: 100px;
+	text-align: center;
+}
+
+.scoreSec { /* Used for password strength indicator */
+	float: left;
+	margin-left: 5px;
+	padding: 2px;
+	margin-top: 5px;
+	font-weight: bold;
+	width: 100px;
+	text-align: center;
+}
+/* ================ Field level message styles: End ================ */
+
+/* ================ Modal box styles: Begin ================ */
+.close {
+	position: absolute;
+	right: 10px;
+	bottom: 80px;
+	display: none;
+}
+
+.modal-open .dropdown-menu {
+	z-index: 2050;
+}
+
+.modal-open .dropdown.open {
+	*z-index: 2050;
+}
+
+.modal-open .popover {
+	z-index: 2060;
+}
+
+.modal-open .tooltip {
+	z-index: 2070;
+}
+
+.modal-open form ol li span.validation-error {
+	font-size: 12px;
+	color: #aa4935;
+	display: block;
+	position: absolute;
+	top: 21px;
+	left: 115px;
+	margin-top: 6px;
+}
+
+.modal-open form ol li.largeTextBox span.validation-error {
+	font-size: 12px;
+	color: #aa4935;
+	display: block;
+	position: absolute;
+	top: 105px;
+	left: 115px;
+	margin-top: 6px;
+}
+
+.modal-backdrop {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1040;
+	background-color: #000000;
+}
+
+.modal-backdrop.fade {
+	opacity: 0;
+}
+
+.modal-backdrop,.modal-backdrop.fade.in {
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+}
+
+.modal {
+	position: fixed;
+	top: 50%;
+	left: 55%;
+	z-index: 9999;
+	width: 410px;
+	margin: -250px 0 0 -280px;
+	overflow: auto;
+	border: 1px solid #999;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+	/* hack to target IE6 and IE7 */
+	*border: 1px solid #999;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	-webkit-background-clip: padding-box;
+	-moz-background-clip: padding-box;
+	background-clip: padding-box;
+}
+
+.modal.fade {
+	top: -25%;
+	-webkit-transition: opacity 0.3s linear, top 0.3s ease-out;
+	-moz-transition: opacity 0.3s linear, top 0.3s ease-out;
+	-ms-transition: opacity 0.3s linear, top 0.3s ease-out;
+	-o-transition: opacity 0.3s linear, top 0.3s ease-out;
+	transition: opacity 0.3s linear, top 0.3s ease-out;
+}
+
+.modal.fade.in {
+	top: 50%;
+}
+
+.modal.midsize {
+	width: 600px;
+	left: 48%;
+}
+
+.modal.large {
+	width: 800px;
+	left: 40%;
+}
+
+.modal-header {
+	font-size: 15px;
+	color: #fff;
+	font-family: 黑体, Calibri;
+	padding: 12px 15px;
+	background-color: #217FC4;
+	-moz-border-radius-topleft: 4px;
+	-webkit-border-top-left-radius: 4px;
+	border-top-left-radius: 4px;
+	-moz-border-radius-topright: 4px;
+	-webkit-border-top-right-radius: 4px;
+	border-top-right-radius: 4px;
+}
+
+.modal-header .close {
+	background: url(../images/close.png) no-repeat 0 0;
+	display: block;
+	width: 22px;
+	height: 22px;
+	position: absolute;
+	top: 9px;
+	right: 10px;
+	text-indent: -9999px;
+	cursor: pointer;
+}
+
+.modal-body {
+	min-height: 50px;
+	max-height: 400px;
+	padding: 15px;
+	overflow-y: auto;
+	background-color: #f7f6f6;
+	color: #5d5d5d;
+	font-family: 黑体, Calibri;
+	font-size: 13px;
+}
+.modal-body-current-day {
+	height: 20px; 
+	padding: 15px;
+	overflow-y: auto;
+	background-color: #f7f6f6;
+	color: #5d5d5d;
+	font-family: 黑体, Calibri;
+	font-size: 18px;
+}
+
+.modal-body .top {width: 100%; margin-bottom: 10px; border-bottom: 1px solid #dedede; padding-bottom: 13px; overflow: hidden;}
+
+.modal-body-appand {
+	min-height: 0px;
+	max-height: 400px;
+	padding: 0px 15px 15px 15px;
+	overflow-y: auto;
+	background-color: #f7f6f6;
+	color: #5d5d5d;
+}
+
+.modal-body-appand .top {
+	width: 100%;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #dedede;
+	padding-bottom: 13px;
+	overflow: hidden;
+}
+
+.modal-body-appand .table>tbody>tr>td.day:hover {
+	cursor: pointer;
+	border-color: red;
+    border-style: solid;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+    border-left-width: 1px;
+}
+
+.modal-body-appand .table>tbody>tr>td.today {
+	cursor: pointer;
+	border-color: red;
+    border-style: solid;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+    border-left-width: 2px;
+}
+
+.modal-body-appand .table>tbody>tr>td.today1 {
+	cursor: pointer;
+	border-color: red;
+    border-style: solid;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+    border-left-width: 1px;
+}
+
+.current-select{
+	cursor: pointer;
+	border-color: red;
+    border-style: solid;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+    border-left-width: 1px;
+}
+
+.modal-body>form ol.static {
+	border: 0px;
+}
+
+.modal-body>form ol.auto {
+	border: 0px;
+}
+
+
+.modal-body>form span {
+	color: #5d5d5d;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+}
+
+
+.modal-body>form ol li {margin: 0 0 12px 0; font-size: 13px; color: #5d5d5d; font-family: 黑体, Calibri;}
+.modal-body>form ol li label {width: 220px;}
+.modal-body>form ol li input[type=text] {width: 220px;}
+.modal-body>form ol li input[type=password] {width: 220px;}
+.modal-body>form ol li textarea {width: 220px;}
+.modal-body>form ol li select {width: 230px;}
+.modal-body>form ol li.required {font-size: 13px; color: #5d5d5d; font-family: 黑体, Calibri;}
+.modal-form {margin-bottom: 0;}
+
+.modal-footer {
+	padding: 0 15px 15px 15px;
+	margin-bottom: 0;
+	text-align: left;
+	font-size:13px;
+	background-color: #f7f6f6;
+	-webkit-border-radius: 0 0 6px 6px;
+	-moz-border-radius: 0 0 6px 6px;
+	border-radius: 0 0 6px 6px;
+}
+
+.modal-footer:before,.modal-footer:after {
+	display: table;
+	content: "";
+}
+
+.modal-footer:after {
+	clear: both;
+}
+
+.modal-footer .btn+.btn {
+	margin-bottom: 0;
+}
+
+.modal-footer .btn-group .btn+.btn {
+	margin-left: -1px;
+}
+
+.modal form ol {
+	border-bottom: none;
+	margin: 0;
+	padding: 0;
+	border-bottom: 1px solid #DEDEDE;
+}
+
+.modal form ol li {
+	width: 360px;
+}
+
+.modal form ol li.line {
+	width: 100%;
+}
+
+.modal form ol label {
+	float: left;
+	width: 115px;
+	padding-top: 3px;
+}
+
+.modal form ol label.line {
+	width: auto;
+}
+
+.modal form ol input[type!=button] {
+	width: 220px;
+}
+
+.modal form ol input.calendar {
+	width: 190px;
+	float: left;
+}
+
+.modal form ol select {
+	width: 233px;
+}
+
+.modal form ol textarea {
+	width: 220px;
+	height: 100px;
+}
+
+.modal form ol li.required {
+	margin-top: 0;
+}
+
+.modal form ul.checkList li label {
+	width: 95%;
+}
+
+.modal form input[type=checkbox] {
+	margin: 3px 3px 0 0;
+	width: auto;
+	border: none;
+	padding: 0;
+}
+/* ================ Modal box styles: End ================ */
+
+/* ================ Hyperlink styles: Begin ================ */
+a.closeText {
+	color: #aa4935;
+	text-decoration: none;
+}
+/* ================ Hyperlink styles: End ================ */
+
+/* ================ Ajax loader styles: Begin ================ */
+.loading_message {
+	background: url('../images/loading.gif') right center no-repeat;
+	padding-right: 18px;
+}
+/* ================ Ajax loader styles: End ================ */
+
+/* ================ Timesheet styles: Begin ================ */
+.timesheet table.table td.right {
+	padding-right: 1px;
+}
+
+.timesheet table.table td.right.total {
+	padding-right: 17px;
+}
+
+.timesheet table.table tr.total td.right {
+	padding-right: 17px;
+}
+
+.timesheet table.table td.right span.commentIcon {
+	display: inline-block;
+	width: 14px;
+	margin-left: 2px;
+}
+
+.timesheet .top h3 {
+	font-size: 18px;
+	float: left;
+	margin-top: 2px;
+}
+
+.editTimesheet .top h3 {
+	font-size: 18px;
+	float: left;
+	margin: 0 0 10px 0;
+}
+
+.timesheet .top select {
+	width: 200px;
+	float: left;
+	height: 28px;
+	margin: 0 5px 0 10px;
+}
+
+.timesheet .top button {
+	float: left;
+	margin: 0 0 5px 10px;
+}
+
+.timesheet .bottom {
+	border-top: 1px solid #dedede;
+	margin-top: 10px;
+	padding-top: 10px;
+}
+
+.timesheet .bottom em {
+	font-size: 14px;
+	float: left;
+}
+
+.timesheet .bottom p {
+	text-align: right;
+}
+/*
+.editTimesheet input {
+	width:40px;
+}
+*/
+input.timeBox {
+	width: 40px;
+}
+/*
+.editTimesheet input.main-input {
+	width:150px;
+	float:left;
+}
+*/
+#projectColumn,#activityColumn { /* Used in view timesheets */
+	min-width: 200px;
+}
+
+div#timesheet table.table tbody tr td.comments,div#edit-timesheet table.table tbody tr td.comments
+	{
+	white-space: nowrap;
+	min-width: 70px;
+}
+
+.editTimesheet table.table td {
+	vertical-align: top;
+}
+
+.editTimesheet .toDelete {
+	margin-top: 6px;
+}
+
+.editTimesheet input[type="button"],.editTimesheet input[type="submit"]
+	{
+	margin-left: 5px;
+}
+
+.editTimesheet select,.editTimesheet input,.editTimesheet .checkbox-input
+	{
+	float: left;
+}
+
+.editTimesheet .checkbox-input {
+	clear: both;
+	margin: 0 0 10px 7px;
+}
+
+.editTimesheet .bottom {
+	border-top: 1px solid #dedede;
+	margin-top: 10px;
+	padding-top: 10px;
+}
+
+.editTimesheet .bottom .required {
+	float: left;
+	width: 425px;
+	color: #a9a9a9;
+	font-size: 11px;
+	text-align: left;
+}
+
+.editTimesheet .bottom .required em {
+	color: #aa4935;
+}
+
+.editTimesheet input.project {
+	width: 280px;
+}
+/* ================ Timesheet styles: End ================ */
+
+/* ================ PIM sidebar styles: Begin ================ */
+#sidebar {
+	width: 202px;
+	float: left;
+	margin: 0 17px 0 0;
+	min-height: 300px;
+}
+
+#sidebar #sidenav {
+	margin: 19px 0 0 0;
+	padding: 7px;
+	background: #217FC4 url(../images/sidebar-nav-bg.png) repeat-y top right;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+#sidebar #sidenav a {
+	color: #fff;
+	display: block;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding: 7px 7px;
+	width: 174px;
+	text-decoration: none;
+	margin-bottom: 5px;
+	border-bottom: 1px solid #f19a52;
+}
+
+#sidebar #sidenav a:hover {
+	background-color: #ce6d1d;
+}
+
+#sidebar #sidenav a.disabled {
+	background-color: #CE6D1D;
+}
+
+#sidebar #sidenav .selected a {
+	background-color: #555657;
+	color: #fff;
+	border-bottom: none;
+}
+/* ================ PIM sidebar styles: End ================ */
+
+/* ================ PIM styles: Begin ================ */
+.pimPane {
+	width: 97%;
+	float: left;
+}
+
+.pimPane .head,.pimPane .inner {
+	margin-left: 220px;
+}
+
+.pimPane #profile-pic h1 {
+	background: #f3f3f3 url(../images/h1-bg.png) left bottom repeat-x;
+	font-size: 14px;
+	color: #5d5d5d;
+	padding: 9px 15px;
+	line-height: 20px;
+	border: 1px solid #dedede;
+	-moz-border-radius-topleft: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.pimPane #profile-pic img {
+	border-top: none;
+}
+
+.pimPane form p.normal {
+	float: left;
+}
+
+.pimPane form p.required {
+	float: left;
+	width: 425px;
+	margin-top: 0px;
+	color: #a9a9a9;
+	font-size: 11px;
+}
+
+.pimPane form p.required em {
+	color: #aa4935;
+}
+
+.pimPane form ol li label { /* Used in attachments */
+	margin-top: 0;
+}
+
+.pimPane div.imageHolder {
+	height: 200px;
+	width: 200px;
+	text-align: center;
+	border: 1px solid #DEDEDE;
+	border-top: none;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+/* ================ PIM styles: End ================ */
+
+/* ================ Personal Details styles: Begin ================ */
+div.personalDetails {
+	min-width: 1190px;
+}
+
+.personalDetails form ol {
+	padding-top: 5px;
+	margin-bottom: 9px;
+	position: relative;
+}
+
+.personalDetails form ol li { /*float:left;*/
+	width: 435px;
+}
+
+.personalDetails form ol li input[type=text] {
+	width: 192px;
+}
+
+.personalDetails form ol li select {
+	width: 206px;
+}
+
+.personalDetails form ol li input.calendar {
+	width: 165px;
+}
+
+.personalDetails form ol li.line {
+	float: left;
+	width: 100%;
+}
+
+.personalDetails form ol li.long,.personalDetails form ol li.new {
+	clear: both;
+}
+
+.personalDetails form ol li.long label {
+	margin-top: 0px;
+}
+
+.personalDetails form ol li label {
+	width: 150px;
+}
+
+.personalDetails form ol li .block {
+	float: left;
+	margin-right: 12px;
+}
+
+.personalDetails form ol li .default {
+	color: #5d5d5d;
+}
+
+.personalDetails form ol li .defaulttext {
+	color: #a4a4a4;
+}
+
+.personalDetails form p {
+	padding-top: 0px;
+}
+
+.personalDetails form ol.fieldsInLine li {
+	width: 218px;
+	margin-bottom: 0;
+}
+
+.personalDetails form ol li label.hasTopFieldHelp {
+	margin-top: 23px;
+}
+/* ================ Personal Details styles: End ================ */
+
+/* ================ List styles: Start ================ */
+#scrollWrapper,#tableWrapper {
+	border: none;
+	overflow: auto;
+}
+
+#scrollContainer {
+	height: 1px;
+}
+
+#resultTable {
+	overflow: auto;
+}
+
+table.valueListCell td {
+	white-space: nowrap;
+}
+
+#resultTable thead tr th {
+	white-space: nowrap;
+}
+
+/* fix for ie9 hover bug*/
+div#tableWrapper {
+	min-height: 0%;
+}
+
+.cke_editor_manageLaborContractTemplate_content{
+	width:769px;
+}
+#cke_manageResignTemplate_content{
+	width:769px;
+}
+/* ================ List styles: End ================ */
+
+/* ================ Goto top styles: start ================ */
+/*默认样式，主要是position:fixed实现屏幕绝对定位*/ 
+#gotoTop{
+	display: none;
+	position: fixed;
+	top: 75%;
+	left: 50%;
+	cursor: pointer;
+	margin-top: -50px;
+	margin-left: 520px;
+	padding: 9px 4px;
+	width: 20px;
+	text-align: center;
+	font-size: 13px;
+	font-family: 黑体, Calibri;
+	border: 1px solid #e0e0e0;
+	background: #fff;
+} 
+/*用CSS表达式(expression)来实现ie6下position:fixed效果*/ 
+#gotoTop{_position:absolute;_top:expression(documentElement.scrollTop + documentElement.clientHeight * 3/4 + "px")} 
+/*鼠标进入的反馈效果*/ 
+#gotoTop.hover{background:#217FC4;color:#fff;text-decoration:none;} 
+/* ================ Goto top styles: end ================ */

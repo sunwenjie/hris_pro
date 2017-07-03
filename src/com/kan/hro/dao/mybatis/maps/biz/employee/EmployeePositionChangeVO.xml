@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeePositionChangeVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeePositionChangeVO">
+		<result property="positionChangeId" column="positionChangeId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="staffId" column="staffId" />
+		<result property="oldBranchId" column="oldBranchId" />
+		<result property="oldBranchNameZH" column="oldBranchNameZH" />
+		<result property="oldBranchNameEN" column="oldBranchNameEN" />
+		<result property="oldStaffPositionRelationId" column="oldStaffPositionRelationId" />
+		<result property="oldPositionId" column="oldPositionId" />
+		<result property="oldPositionNameZH" column="oldPositionNameZH" />
+		<result property="oldPositionNameEN" column="oldPositionNameEN" />
+		<result property="oldStartDate" column="oldStartDate" />
+		<result property="oldEndDate" column="oldEndDate" />
+		<result property="newBranchId" column="newBranchId" />
+		<result property="newBranchNameZH" column="newBranchNameZH" />
+		<result property="newBranchNameEN" column="newBranchNameEN" />
+		<result property="newPositionId" column="newPositionId" />
+		<result property="newPositionNameZH" column="newPositionNameZH" />
+		<result property="newPositionNameEN" column="newPositionNameEN" />
+		<result property="newStartDate" column="newStartDate" />
+		<result property="newEndDate" column="newEndDate" />
+		<result property="effectiveDate" column="effectiveDate" />
+		<result property="isImmediatelyEffective" column="isImmediatelyEffective" />
+		<result property="positionStatus" column="positionStatus" />
+		<result property="isChildChange" column="isChildChange" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="submitFlag" column="submitFlag" />
+		<result property="description" column="description" />
+		<result property="remark1" column="remark1"/>
+		<result property="remark2" column="remark2"/>
+		<result property="remark3" column="remark3"/>
+		<result property="remark4" column="remark4"/>
+		<result property="remark5" column="remark5"/>
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		
+		<result property="oldParentBranchId" column="oldParentBranchId" />
+		<result property="oldParentBranchNameZH" column="oldParentBranchNameZH" />
+		<result property="oldParentBranchNameEN" column="oldParentBranchNameEN" />
+		<result property="oldParentPositionId" column="oldParentPositionId" />
+		<result property="oldParentPositionNameZH" column="oldParentPositionNameZH" />
+		<result property="oldParentPositionNameEN" column="oldParentPositionNameEN" />
+		<result property="oldPositionGradeId" column="oldPositionGradeId" />
+		<result property="oldPositionGradeNameZH" column="oldPositionGradeNameZH" />
+		<result property="oldPositionGradeNameEN" column="oldPositionGradeNameEN" />
+		<result property="oldParentPositionOwnersZH" column="oldParentPositionOwnersZH" />
+		<result property="oldParentPositionOwnersEN" column="oldParentPositionOwnersEN" />
+		
+		<result property="newParentBranchId" column="newParentBranchId" />
+		<result property="newParentBranchNameZH" column="newParentBranchNameZH" />
+		<result property="newParentBranchNameEN" column="newParentBranchNameEN" />
+		<result property="newParentPositionId" column="newParentPositionId" />
+		<result property="newParentPositionNameZH" column="newParentPositionNameZH" />
+		<result property="newParentPositionNameEN" column="newParentPositionNameEN" />
+		<result property="newPositionGradeId" column="newPositionGradeId" />
+		<result property="newPositionGradeNameZH" column="newPositionGradeNameZH" />
+		<result property="newPositionGradeNameEN" column="newPositionGradeNameEN" />
+		<result property="newParentPositionOwnersZH" column="newParentPositionOwnersZH" />
+		<result property="newParentPositionOwnersEN" column="newParentPositionOwnersEN" />
+		
+		<result property="employeeNo" column="employeeNo" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="employeeCertificateNumber" column="employeeCertificateNumber" />
+		
+		<!-- For workflow -->
+		<result property="contractId" column="contractId" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="_tempPositionIds" column="_tempPositionIds" />
+		<result property="_tempBranchIds" column="_tempBranchIds" />
+		<result property="settlementBranch" column="settlementBranch" />
+		<result property="entityId" column="entityId" />
+		<result property="owner" column="owner" />
+		
+		
+	</resultMap>
+
+	<sql id="employeePositionColumns">
+		accountId,corpId,employeeId,staffId,oldBranchId,oldBranchNameZH,oldBranchNameEN
+		,oldStaffPositionRelationId,oldPositionId,oldPositionNameZH,oldPositionNameEN,oldStartDate,oldEndDate
+		,newBranchId,newBranchNameZH, newBranchNameEN, newPositionId, newPositionNameZH, newPositionNameEN
+		, newStartDate, newEndDate, effectiveDate, isImmediatelyEffective, positionStatus, isChildChange, deleted,status, submitFlag
+		, description, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+		, oldParentBranchId, oldParentBranchNameZH, oldParentBranchNameEN, oldParentPositionId, oldParentPositionNameZH
+		, oldParentPositionNameEN, oldPositionGradeId, oldPositionGradeNameZH, oldPositionGradeNameEN, oldParentPositionOwnersZH
+		,oldParentPositionOwnersEN, newParentBranchId, newParentBranchNameZH,newParentBranchNameEN,newParentPositionId,newParentPositionNameZH
+		,newParentPositionNameEN,newPositionGradeId,newPositionGradeNameZH,newPositionGradeNameEN,newParentPositionOwnersZH
+		,newParentPositionOwnersEN,employeeNo,employeeNameZH,employeeNameEN,employeeCertificateNumber
+	</sql>	
+	
+	<sql id="employeePositionColumns-for-join">
+		a.accountId,a.corpId,a.employeeId,a.staffId,a.oldBranchId,a.oldBranchNameZH,a.oldBranchNameEN,
+		a.oldStaffPositionRelationId,a.oldPositionId,a.oldPositionNameZH,a.oldPositionNameEN,a.oldStartDate,
+		a.oldEndDate,a.newBranchId,a.newBranchNameZH,a.newBranchNameEN,a.newPositionId,a.newPositionNameZH,
+		a.newPositionNameEN,a.newStartDate,a.newEndDate,a.effectiveDate,a.isImmediatelyEffective,a.positionStatus,a.isChildChange,a.deleted,
+		a.status,a.submitFlag,a.description,a.remark1,a.remark2,a.remark3,a.remark4,a.remark5,a.createBy,
+		a.createDate,a.modifyBy,a.modifyDate,a.oldParentBranchId,a.oldParentBranchNameZH,a.oldParentBranchNameEN,
+		a.oldParentPositionId,a.oldParentPositionNameZH,a.oldParentPositionNameEN,a.oldPositionGradeId,
+		a.oldPositionGradeNameZH,a.oldPositionGradeNameEN,a.oldParentPositionOwnersZH,a.oldParentPositionOwnersEN,a.newParentBranchId,
+		a.newParentBranchNameZH,a.newParentBranchNameEN,a.newParentPositionId,a.newParentPositionNameZH,
+		a.newParentPositionNameEN,a.newPositionGradeId,a.newPositionGradeNameZH,a.newPositionGradeNameEN,
+		a.newParentPositionOwnersZH,newParentPositionOwnersEN,a.employeeNo,a.employeeNameZH,a.employeeNameEN,a.employeeCertificateNumber
+	</sql>
+	
+	<select id="countEmployeePositionChangeVOsByCondition" parameterType="employeePositionChange" resultType="int">
+		SELECT COUNT(0)
+		FROM
+		(
+			SELECT
+				DISTINCT a.positionChangeId,
+				CASE 
+					WHEN h.objectType = 3 THEN 2
+					WHEN h.objectType = 31 THEN a.status
+					WHEN h.objectType = 32 THEN 4
+					WHEN h.objectType IS NULL THEN a.status
+					ELSE a.status
+				END workflowStatus	
+			FROM hro_biz_employee_positionChange a
+			LEFT JOIN hro_biz_employee b ON a.employeeId = b.employeeId
+			LEFT JOIN hro_biz_employee_contract c ON a.employeeId = c.employeeId AND c.employStatus = 1
+			LEFT JOIN 
+			(
+				SELECT workflowId, objectId, objectType
+				FROM hro_history WHERE deleted = 1 and accessAction = 'HRO_BIZ_EMPLOYEE_POSITION_CHANGES' ORDER BY historyId DESC	
+			) h ON a.positionChangeId = h.objectId
+			WHERE a.deleted = 1 AND a.accountId = #{accountId}
+			<if test="effectiveDateStart != null and effectiveDateStart != '' and effectiveDateEnd != null and effectiveDateEnd != ''">
+				AND a.effectiveDate between #{effectiveDateStart} and #{effectiveDateEnd}
+			</if>
+			<if test="positionChangeId != null and positionChangeId != ''">
+				AND a.positionChangeId = #{positionChangeId} 
+			</if>
+			<if test="searchEmployeeId != null and searchEmployeeId != ''">
+				AND a.employeeId = #{searchEmployeeId} 
+			</if>
+			<if test="employeeNo != null and employeeNo != ''">
+				AND a.employeeNo = #{employeeNo} 
+			</if>
+			<if test="employeeNameZH != null and employeeNameZH != ''">
+				AND a.employeeNameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+			</if>
+			<if test="employeeNameEN != null and employeeNameEN != ''">
+				AND a.employeeNameEN LIKE CONCAT('%', '${employeeNameEN}', '%')
+			</if>
+			<if test="employeeCertificateNumber != null and employeeCertificateNumber != ''">
+				AND a.employeeCertificateNumber = #{employeeCertificateNumber} 
+			</if>
+			<if test="positionStatus != null and positionStatus != ''">
+				AND ( a.positionStatus = #{positionStatus} or 0 = #{positionStatus} )
+			</if>
+			
+			<if test="rulePublic == 1">
+				AND ( false 
+				<if test="rulePrivateIds !=null">
+					 OR b.employeeId in
+					<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+		        		#{rulePrivateId}
+		     		</foreach>
+				</if>
+				<if test="rulePositionIds !=null">
+					OR b.owner in
+					<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+		        		#{rulePositionId}
+		     		</foreach>
+				</if>
+				<if test="ruleBranchIds !=null">
+					OR b._tempBranchIds in
+					<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+		        		#{ruleBranchId}
+		     		</foreach>
+				</if>
+				<if test="ruleBusinessTypeIds !=null">
+					OR b.businessTypeId in
+					<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+		        		#{ruleBusinessTypeId}
+		     		</foreach>
+				</if>
+				<if test="ruleEntityIds !=null">
+					OR c.entityId in
+					<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+		        		#{ruleEntityId}
+		     		</foreach>
+				</if>
+				)
+			</if>
+			
+			GROUP BY a.positionChangeId
+			<!-- // 0:请选择##1:新建##2:提交-待批准##3:批准##4:拒绝##5:已生效 -->
+			<if test="status != null and status != '' and status != 0">
+				HAVING workflowStatus = #{status}
+			</if>
+			) TEMP
+	</select>
+	
+	<select id="getEmployeePositionChangeVOsByCondition" parameterType="employeePositionChange" resultMap="result">
+		SELECT DISTINCT a.positionChangeId,
+			<include refid="employeePositionColumns-for-join" />,
+			h1.workflowId AS workflowId,
+			CASE 
+				WHEN h.objectType = 3 THEN 2
+				WHEN h.objectType = 31 THEN a.status
+				WHEN h.objectType = 32 THEN 4
+				WHEN h.objectType IS NULL THEN a.status
+				ELSE a.status
+			END workflowStatus	
+		FROM hro_biz_employee_positionChange a
+		LEFT JOIN hro_biz_employee b ON a.employeeId = b.employeeId
+		LEFT JOIN hro_biz_employee_contract c ON a.employeeId = c.employeeId AND c.employStatus = 1
+		LEFT JOIN hro_history h1 ON h1.objectId = a.positionChangeId AND h1.deleted = 1 AND h1.accessAction = 'HRO_BIZ_EMPLOYEE_POSITION_CHANGES' AND h1.objectType = 3
+		LEFT JOIN 
+		(
+			SELECT workflowId, objectId, objectType
+			FROM hro_history WHERE deleted = 1 and accessAction = 'HRO_BIZ_EMPLOYEE_POSITION_CHANGES' ORDER BY historyId DESC	
+		) h ON a.positionChangeId = h.objectId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="effectiveDateStart != null and effectiveDateStart != '' and effectiveDateEnd != null and effectiveDateEnd != ''">
+			AND a.effectiveDate between #{effectiveDateStart} and #{effectiveDateEnd}
+		</if>
+		<if test="positionChangeId != null and positionChangeId != ''">
+			AND a.positionChangeId = #{positionChangeId} 
+		</if>
+		<if test="searchEmployeeId != null and searchEmployeeId != ''">
+			AND a.employeeId = #{searchEmployeeId} 
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND a.employeeNo = #{employeeNo} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameEN LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="employeeCertificateNumber != null and employeeCertificateNumber != ''">
+			AND a.employeeCertificateNumber = #{employeeCertificateNumber} 
+		</if>
+		<if test="positionStatus != null and positionStatus != ''">
+			AND ( a.positionStatus = #{positionStatus} or 0 = #{positionStatus} )
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR b.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR b.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR b._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR b.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR c.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			
+			)
+		</if>
+		GROUP BY a.positionChangeId
+		<!-- // 0:请选择##1:新建##2:提交-待批准##3:批准##4:拒绝##5:已生效 -->
+		<if test="status != null and status != '' and status != 0">
+			HAVING workflowStatus = #{status}
+		</if>
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getEmployeePositionChangeVOByPositionChangeId" parameterType="int" resultMap="result">
+		SELECT DISTINCT a.positionChangeId,
+			<include refid="employeePositionColumns-for-join" />,
+			c.contractId as contractId,
+			c.startDate as startDate,
+			c.endDate as endDate,
+			b._tempPositionIds as _tempPositionIds,
+			b._tempBranchIds as _tempBranchIds,
+			b.`owner` as owner,
+			c.settlementBranch as settlementBranch,
+			c.entityId as entityId,
+			(
+				SELECT
+					MAX(h.workflowId)
+				FROM
+					hro_history h
+				WHERE
+				    h.objectType = 3 AND h.objectId = a.positionChangeId
+				AND h.objectId = a.positionChangeId
+				AND h.accessAction = 'HRO_BIZ_EMPLOYEE_POSITION_CHANGES'
+					
+			) AS workflowId
+			
+		FROM
+			hro_biz_employee_positionChange a
+		LEFT JOIN hro_biz_employee b ON a.employeeId = b.employeeId
+		LEFT JOIN hro_biz_employee_contract c ON b.employeeId = c.employeeId AND c.deleted = 1 AND c.employStatus = 1
+		WHERE a.deleted = 1
+		AND a.positionChangeId = #{positionChangeId}
+	</select>
+	
+	<insert id="insertEmployeePositionChange" parameterType="employeePositionChange" useGeneratedKeys="true" keyProperty="positionChangeId">
+		INSERT INTO hro_biz_employee_positionChange(<include refid="employeePositionColumns" />)
+		VALUES(
+				#{accountId},#{corpId},#{employeeId},#{staffId},#{oldBranchId},#{oldBranchNameZH},
+				#{oldBranchNameEN},#{oldStaffPositionRelationId},#{oldPositionId},#{oldPositionNameZH},
+				#{oldPositionNameEN},#{oldStartDate},#{oldEndDate},#{newBranchId},#{newBranchNameZH},
+				#{newBranchNameEN},#{newPositionId},#{newPositionNameZH},#{newPositionNameEN},#{newStartDate},
+				#{newEndDate},#{effectiveDate},#{isImmediatelyEffective},#{positionStatus},#{isChildChange},1,#{status},
+				#{submitFlag},#{description},#{remark1},#{remark2},#{remark3},#{remark4},#{remark5},
+				#{createBy},#{createDate},#{modifyBy},#{modifyDate},#{oldParentBranchId},#{oldParentBranchNameZH},
+				#{oldParentBranchNameEN},#{oldParentPositionId},#{oldParentPositionNameZH},#{oldParentPositionNameEN},
+				#{oldPositionGradeId},#{oldPositionGradeNameZH},#{oldPositionGradeNameEN},#{oldParentPositionOwnersZH},#{oldParentPositionOwnersEN},
+				#{newParentBranchId},#{newParentBranchNameZH},#{newParentBranchNameEN},#{newParentPositionId},
+				#{newParentPositionNameZH},#{newParentPositionNameEN},#{newPositionGradeId},#{newPositionGradeNameZH},
+				#{newPositionGradeNameEN},#{newParentPositionOwnersZH},#{newParentPositionOwnersEN},#{employeeNo},#{employeeNameZH},#{employeeNameEN},
+				#{employeeCertificateNumber}
+		      )
+	</insert>
+
+	<update id="updateEmployeePositionChange" parameterType="employeePositionChange">
+		UPDATE hro_biz_employee_positionChange 
+		SET 
+			employeeId=#{employeeId},staffId=#{staffId},oldBranchId=#{oldBranchId},
+			oldBranchNameZH=#{oldBranchNameZH},oldBranchNameEN=#{oldBranchNameEN},
+			oldStaffPositionRelationId=#{oldStaffPositionRelationId},oldPositionId=#{oldPositionId},
+			oldPositionNameZH=#{oldPositionNameZH},oldPositionNameEN=#{oldPositionNameEN},
+			oldStartDate=#{oldStartDate},oldEndDate=#{oldEndDate},newBranchId=#{newBranchId},
+			newBranchNameZH=#{newBranchNameZH},newBranchNameEN=#{newBranchNameEN},newPositionId=#{newPositionId},
+			newPositionNameZH=#{newPositionNameZH},newPositionNameEN=#{newPositionNameEN},
+			newStartDate=#{newStartDate},newEndDate=#{newEndDate},effectiveDate=#{effectiveDate},
+			isImmediatelyEffective=#{isImmediatelyEffective},positionStatus=#{positionStatus},isChildChange=#{isChildChange},deleted=#{deleted},status=#{status},
+			submitFlag=#{submitFlag},description=#{description},remark1=#{remark1},remark2=#{remark2},
+			remark3=#{remark3},remark4=#{remark4},remark5=#{remark5},createBy=#{createBy},createDate=#{createDate},
+			modifyBy=#{modifyBy},modifyDate=#{modifyDate},oldParentBranchId=#{oldParentBranchId},
+			oldParentBranchNameZH=#{oldParentBranchNameZH},oldParentBranchNameEN=#{oldParentBranchNameEN},
+			oldParentPositionId=#{oldParentPositionId},oldParentPositionNameZH=#{oldParentPositionNameZH},
+			oldParentPositionNameEN=#{oldParentPositionNameEN},oldPositionGradeId=#{oldPositionGradeId},
+			oldPositionGradeNameZH=#{oldPositionGradeNameZH},oldPositionGradeNameEN=#{oldPositionGradeNameEN},
+			oldParentPositionOwnersZH=#{oldParentPositionOwnersZH},
+			oldParentPositionOwnersEN=#{oldParentPositionOwnersEN},newParentBranchId=#{newParentBranchId},
+			newParentBranchNameZH=#{newParentBranchNameZH},newParentBranchNameEN=#{newParentBranchNameEN},
+			newParentPositionId=#{newParentPositionId},newParentPositionNameZH=#{newParentPositionNameZH},
+			newParentPositionNameEN=#{newParentPositionNameEN},newPositionGradeId=#{newPositionGradeId},
+			newPositionGradeNameZH=#{newPositionGradeNameZH},newPositionGradeNameEN=#{newPositionGradeNameEN},
+			newParentPositionOwnersZH=#{newParentPositionOwnersZH},
+			newParentPositionOwnersEN=#{newParentPositionOwnersEN},employeeNo=#{employeeNo},
+			employeeNameZH=#{employeeNameZH},employeeNameEN=#{employeeNameEN},
+			employeeCertificateNumber=#{employeeCertificateNumber}
+		WHERE positionChangeId = #{positionChangeId} 
+	</update>	
+	
+	<update id="updateEmployeePositionChangeStatus" parameterType="employeePositionChange">
+		UPDATE hro_biz_employee_positionChange 
+		SET 
+			status = #{status},
+			modifyBy = #{modifyBy}, 
+			modifyDate = #{modifyDate}
+		WHERE positionChangeId = #{positionChangeId} 
+	</update>
+	
+	<update id="deleteEmployeePositionChange" parameterType="int">
+		UPDATE hro_biz_employee_positionChange set deleted = 2 WHERE positionChangeId = #{positionChangeId}
+  	</update>
+  	
+  	<select id="getEmployeePositionChangeVOsByDateAndStatus" parameterType="employeePositionChange" resultMap="result">
+		SELECT
+			positionChangeId,
+			<include refid="employeePositionColumns" />
+		FROM
+			hro_biz_employee_positionChange 
+		WHERE 
+			status = #{status}
+		AND deleted = 1
+		<![CDATA[ AND effectiveDate <= #{effectiveDate} ]]>
+		ORDER BY positionChangeId
+	</select>
+	
+	<select id="getEffectivePositionChangeVOCountByEmployeeId" parameterType="employeePositionChange" resultType="int">
+		SELECT
+			COUNT(0)
+		FROM
+			hro_biz_employee_positionChange
+		WHERE deleted = 1
+		AND accountId = #{accountId}
+		AND status != #{status}
+	</select>
+</mapper>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.system.AccountVO">
+
+	<resultMap id="accountBaseView" type="com.kan.base.domain.system.AccountBaseView">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="entityName" column="entityName" />
+	</resultMap>
+	
+	<resultMap id="result" type="com.kan.base.domain.system.AccountVO">
+		<result property="accountId" column="accountId" />
+		<result property="nameCN" column="nameCN" />
+		<result property="nameEN" column="nameEN" />
+		<result property="entityName" column="entityName" />
+		<result property="accountType" column="accountType" />
+		<result property="linkman" column="linkman" />
+		<result property="salutation" column="salutation" />
+		<result property="title" column="title" />
+		<result property="department" column="department" />
+		<result property="bizPhone" column="bizPhone" />
+		<result property="personalPhone" column="personalPhone" />
+		<result property="bizMobile" column="bizMobile" />
+		<result property="personalMobile" column="personalMobile" />
+		<result property="otherPhone" column="otherPhone" />
+		<result property="fax" column="fax" />
+		<result property="bizEmail" column="bizEmail" />
+		<result property="personalEmail" column="personalEmail" />
+		<result property="website" column="website" />
+		<result property="canAdvBizEmail" column="canAdvBizEmail" />
+		<result property="canAdvPersonalEmail" column="canAdvPersonalEmail" />
+		<result property="canAdvBizSMS" column="canAdvBizSMS" />
+		<result property="canAdvPersonalSMS" column="canAdvPersonalSMS" />
+		<result property="cityId" column="cityId" />
+		<result property="address" column="address" />
+		<result property="postcode" column="postcode" />
+		<result property="bindIP" column="bindIP" />
+		<result property="imageFile" column="imageFile" />
+		<result property="description" column="description" />
+		<result property="comment" column="comment" />
+		<result property="initialized" column="initialized" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+  	
+  	<select id="getAccountBaseViews" resultType="accountBaseView">
+  		select accountId as id, (CASE WHEN nameEN != '' THEN CONCAT(nameCN, ' - ', nameEN) ELSE nameCN END) as name, entityName 
+  		from HRO_SYS_Account
+  		where initialized = 1 and accountId != 1
+  		order by id 
+  	</select>
+  	
+  	<sql id="accountColumns"> 
+  		nameCN, nameEN, entityName, accountType, linkman, salutation, title, department, bizPhone, personalPhone, bizMobile, personalMobile, otherPhone, fax, 
+  		bizEmail, personalEmail, website, canAdvBizEmail, canAdvPersonalEmail, canAdvBizSMS, canAdvPersonalSMS, cityId, address, postcode, bindIP, 
+  		 imageFile, description, comment, initialized, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, 
+  		modifyBy, modifyDate
+	</sql>
+	
+	<select id="countAccountVOsByCondition" parameterType="account" resultType="int">
+		select count(*) 
+		from HRO_SYS_Account
+		where deleted = 1
+		<if test="nameCN != null and nameCN != ''">
+			AND nameCN like CONCAT('%', '${nameCN}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="entityName != null and entityName != ''">
+			AND entityName like CONCAT('%', '${entityName}', '%') 
+		</if>
+		<if test="linkman != null and linkman != ''">
+			AND linkman like CONCAT('%', '${linkman}', '%') 
+		</if>
+		<if test="title != null and title != ''">
+			AND title like CONCAT('%', '${title}', '%') 
+		</if>
+		<if test="website != null and website != ''">
+			AND website like CONCAT('%', '${website}', '%') 
+		</if>
+		<if test="address != null and address != ''">
+			AND address like CONCAT('%', '${address}', '%') 
+		</if>
+		<if test="salutation != null and salutation != ''">
+			AND (salutation = #{salutation} or 0 = #{salutation})
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+  	
+	<select id="getAccountVOsByCondition" parameterType="account" resultMap="result">
+		select accountId, <include refid="accountColumns"/>  
+		from HRO_SYS_Account 
+		where deleted = 1
+		<if test="nameCN != null and nameCN != ''">
+			AND nameCN like CONCAT('%', '${nameCN}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="entityName != null and entityName != ''">
+			AND entityName like CONCAT('%', '${entityName}', '%') 
+		</if>
+		<if test="linkman != null and linkman != ''">
+			AND linkman like CONCAT('%', '${linkman}', '%') 
+		</if>
+		<if test="title != null and title != ''">
+			AND title like CONCAT('%', '${title}', '%') 
+		</if>
+		<if test="website != null and website != ''">
+			AND website like CONCAT('%', '${website}', '%') 
+		</if>
+		<if test="address != null and address != ''">
+			AND address like CONCAT('%', '${address}', '%') 
+		</if>
+		<if test="salutation != null and salutation != ''">
+			AND (salutation = #{salutation} or 0 = #{salutation})
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+  	
+  	<select id="getAccountVOByAccountId" parameterType="int" resultMap="result">
+		select accountId, <include refid="accountColumns"/>  
+		from HRO_SYS_Account 
+		where accountId = #{value}
+  	</select>
+  	
+  	<select id="getAccountVOByAccountName" parameterType="String" resultMap="result">
+		select accountId, <include refid="accountColumns"/>  
+		from HRO_SYS_Account 
+		where nameCN = #{value}
+  	</select>
+
+	<update id="updateAccount" parameterType="account">
+		update HRO_SYS_Account set nameCN = #{nameCN}, nameEN = #{nameEN}, entityName = #{entityName},accountType = #{accountType}, linkman = #{linkman}, salutation = #{salutation}, 
+			title = #{title}, department = #{department}, bizPhone = #{bizPhone}, personalPhone = #{personalPhone}, bizMobile = #{bizMobile}, 
+			personalMobile = #{personalMobile}, otherPhone = #{otherPhone}, fax = #{fax}, bizEmail = #{bizEmail}, personalEmail = #{personalEmail}, 
+			website = #{website}, canAdvBizEmail = #{canAdvBizEmail}, canAdvPersonalEmail = #{canAdvPersonalEmail}, canAdvBizSMS = #{canAdvBizSMS}, 
+			canAdvPersonalSMS = #{canAdvPersonalSMS}, cityId = #{cityId}, address = #{address}, postcode = #{postcode}, bindIP = #{bindIP}, 
+			imageFile = #{imageFile}, description = #{description}, comment = #{comment}, initialized = #{initialized}, 
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, 
+			remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where accountId = #{accountId} 
+  	</update>
+  	
+  	<insert id="insertAccount" parameterType="account" useGeneratedKeys="true" keyProperty="accountId">
+		insert into HRO_SYS_Account(<include refid="accountColumns"/>) 
+		values(#{nameCN}, #{nameEN}, #{entityName},#{accountType}, #{linkman}, #{salutation}, #{title}, #{department}, #{bizPhone}, #{personalPhone}, #{bizMobile}, 
+			#{personalMobile}, #{otherPhone}, #{fax}, #{bizEmail}, #{personalEmail}, #{website}, #{canAdvBizEmail}, #{canAdvPersonalEmail}, 
+			#{canAdvBizSMS}, #{canAdvPersonalSMS}, #{cityId}, #{address}, #{postcode}, #{bindIP}, #{imageFile}, #{description}, #{comment}, 
+			2, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+  	
+  	<delete id="deleteAccount" parameterType="account">
+		update HRO_SYS_Account set deleted = 2, modifyBy = #{modifyBy}, modifyDate = #{modifyDate} where accountId = #{accountId}
+  	</delete>
+	
+</mapper>

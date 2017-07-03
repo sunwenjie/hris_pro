@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="messageMailForm" type="com.kan.base.domain.message.MessageMailVO" />
+		<form-bean name="messageSmsForm" type="com.kan.base.domain.message.MessageSmsVO" />
+		<form-bean name="messageInfoForm" type="com.kan.base.domain.message.MessageInfoVO" />
+		<form-bean name="messageTemplateForm" type="com.kan.base.domain.message.MessageTemplateVO" />
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+		
+		<!-- MessageMail configuration actions start -->
+		<action parameter="proc" path="/messageMailAction" type="com.kan.base.web.actions.message.MessageMailAction" 
+			name="messageMailForm" scope="request" validate="false">
+			<forward name="listMessageMail" path="/jsp/message/mail/listMessageMail.jsp" />
+			<forward name="listMessageMailTable" path="/contents/message/mail/table/listMessageMailTable.jsp" />
+			<forward name="manageMessageMail" path="/jsp/message/mail/manageMessageMail.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- MessageSms configuration actions start -->
+		<action parameter="proc" path="/messageSmsAction" type="com.kan.base.web.actions.message.MessageSmsAction" 
+			name="messageSmsForm" scope="request" validate="false">
+			<forward name="listMessageSms" path="/jsp/message/sms/listMessageSms.jsp" />
+			<forward name="listMessageSmsTable" path="/contents/message/sms/table/listMessageSmsTable.jsp" />
+			<forward name="manageMessageSms" path="/jsp/message/sms/manageMessageSms.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- MessageInfo configuration actions start -->
+		<action parameter="proc" path="/messageInfoAction" type="com.kan.base.web.actions.message.MessageInfoAction" 
+			name="messageInfoForm" scope="request" validate="false">
+			<forward name="listMessageInfo" path="/jsp/message/info/listMessageInfo.jsp" />
+			<forward name="listMessageInfoTable" path="/contents/message/info/table/listMessageInfoTable.jsp" />
+			<forward name="listReceiveMessageInfo" path="/jsp/message/info/listReceiveMessageInfo.jsp" />
+			<forward name="listReceiveMessageInfoTable" path="/contents/message/info/table/listReceiveMessageInfoTable.jsp" />
+			<forward name="manageMessageInfo" path="/jsp/message/info/manageMessageInfo.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- MessageTemplate configuration actions start -->
+		<action parameter="proc" path="/messageTemplateAction" type="com.kan.base.web.actions.message.MessageTemplateAction" 
+			name="messageTemplateForm" scope="request" validate="false">
+			<forward name="listMessageTemplate" path="/jsp/message/template/listMessageTemplate.jsp" />
+			<forward name="manageMessageTemplate" path="/jsp/message/template/manageMessageTemplate.jsp" />
+			<forward name="listMessageTemplateTable" path="/contents/message/template/table/listMessageTemplateTable.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+	</action-mappings>
+
+	<message-resources parameter="MessageResources/Message/Message" key="message" />
+
+</struts-config>
+

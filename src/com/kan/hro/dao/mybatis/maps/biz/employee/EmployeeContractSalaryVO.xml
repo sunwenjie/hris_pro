@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeContractSalaryVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeContractSalaryVO">
+		<result property="employeeSalaryId" column="employeeSalaryId" />
+		<result property="contractId" column="contractId" />
+		<result property="itemId" column="itemId" />
+		<result property="salaryType" column="salaryType" />
+		<result property="divideType" column="divideType" />
+		<result property="divideTypeIncomplete" column="divideTypeIncomplete" />
+		<result property="excludeDivideItemIds" column="excludeDivideItemIds" />
+		<result property="base" column="base" />
+		<result property="baseFrom" column="baseFrom" />
+		<result property="percentage" column="percentage" />
+		<result property="fix" column="fix" />
+		<result property="quantity" column="quantity" />
+		<result property="discount" column="discount" />
+		<result property="multiple" column="multiple" />
+		<result property="cycle" column="cycle" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="resultCap" column="resultCap" />
+		<result property="resultFloor" column="resultFloor" />
+		<result property="formularType" column="formularType" />
+		<result property="formular" column="formular" />
+		<result property="showToTS" column="showToTS" />
+		<result property="probationUsing" column="probationUsing" />
+		<result property="isDeduct" column="isDeduct" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For Application -->
+		<result property="contractNameZH" column="contractNameZH" />
+		<result property="contractNameEN" column="contractNameEN" />
+		<result property="contractStartDate" column="contractStartDate" />
+		<result property="contractEndDate" column="contractEndDate" />
+		<result property="owner" column="owner" />
+		<result property="orderId" column="orderId" />
+		<result property="orderName" column="orderName" />
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="department" column="department" />
+		<result property="positionId" column="positionId" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="contractStatus" column="contractStatus" />
+		<result property="corpId" column="corpId" />
+		<result property="itemNameZH" column="itemNameZH" />
+		<result property="itemNameEN" column="itemNameEN" />
+		
+		<!-- For workflow -->
+		<result property="_tempPositionIds" column="_tempPositionIds" />
+		<result property="_tempBranchIds" column="_tempBranchIds" />
+		<result property="settlementBranch" column="settlementBranch" />
+		<result property="entityId" column="entityId" />
+	</resultMap>
+
+	<sql id="employeeContractSalaryColumns">
+		contractId, itemId, salaryType, divideType, divideTypeIncomplete, excludeDivideItemIds, base, baseFrom, percentage, fix, quantity, discount, multiple, cycle, startDate, endDate, 
+		resultCap, resultFloor, formularType, formular, showToTS, probationUsing,isDeduct, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, 
+		modifyDate
+	</sql>	
+	
+	<sql id="employeeContractSalaryColumns-for-join">
+		a.contractId, a.itemId, a.salaryType, a.divideType, a.divideTypeIncomplete, a.excludeDivideItemIds, a.base - getIncrement(getPublicCode(b.employeeId), 'PRIVATE_CODE') as base, a.baseFrom, a.percentage, 
+		a.fix, a.quantity, a.discount, a.multiple, a.cycle, a.startDate, a.endDate, a.resultCap, a.resultFloor, a.formularType, a.formular, a.showToTS,a.probationUsing,a.isDeduct, a.description, a.deleted, 
+		a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countEmployeeContractSalaryVOsByCondition" parameterType="employeeContractSalary" resultType="int">
+		SELECT COUNT(1)
+		FROM HRO_BIZ_Employee_Contract_Salary a LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId AND b.deleted = 1
+			LEFT JOIN hro_biz_employee c ON b.employeeId = c.employeeId AND c.deleted = 1
+			LEFT JOIN hro_biz_client d ON b.clientId = d.clientId AND d.deleted = 1
+			LEFT JOIN hro_biz_client_order_header e ON e.orderHeaderId =  b.orderId AND d.deleted = 1
+		WHERE a.deleted = 1 AND b.flag = 2
+		<if test="employeeSalaryId != null and employeeSalaryId != ''">
+			AND a.employeeSalaryId = #{employeeSalaryId} 
+		</if>
+		<if test="itemId != null and itemId != ''">
+			AND ( a.itemId = #{itemId} or 0 = #{itemId} )
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND b.contractId = #{contractId} 
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (b.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND b.corpId IS NULL 
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND b.orderId = #{orderId} 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND b.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND c.nameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND c.nameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND ( a.status = #{status} or 0 = #{status} )
+		</if>
+		<if test="contractStatus != null and contractStatus != ''">
+			AND ( b.status = #{contractStatus} or 0 = #{contractStatus} )
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR b.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR b.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR c._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR c.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR b.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+	</select>
+	
+	<select id="getEmployeeContractSalaryVOsByCondition" parameterType="employeeContractSalary" resultMap="result">
+		SELECT a.employeeSalaryId, <include refid="employeeContractSalaryColumns-for-join" />, b.clientId, b.nameZH AS contractNameZH, b.nameEN AS contractNameEN, b.corpId, e.description as orderName, 
+			b.orderId, b.employeeId, c.nameZH AS employeeNameZH, c.nameEN AS employeeNameEN, b.status AS contractStatus, d.nameZH AS clientNameZH, d.nameEN AS clientNameEN,
+			b.startDate AS contractStartDate, b.endDate AS contractEndDate
+		FROM HRO_BIZ_Employee_Contract_Salary a LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId AND b.deleted = 1
+			LEFT JOIN hro_biz_employee c ON b.employeeId = c.employeeId AND c.deleted = 1
+			LEFT JOIN hro_biz_client d ON b.clientId = d.clientId AND d.deleted = 1
+			LEFT JOIN hro_biz_client_order_header e ON e.orderHeaderId =  b.orderId AND d.deleted = 1
+		WHERE a.deleted = 1 AND b.flag = 2
+		<if test="employeeSalaryId != null and employeeSalaryId != ''">
+			AND a.employeeSalaryId = #{employeeSalaryId} 
+		</if>
+		<if test="itemId != null and itemId != ''">
+			AND ( a.itemId = #{itemId} or 0 = #{itemId} )
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND b.contractId = #{contractId} 
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (b.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND b.corpId IS NULL 
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND b.orderId = #{orderId} 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND b.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND c.nameZH like CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND c.nameEN like CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND ( a.status = #{status} or 0 = #{status} )
+		</if>
+		<if test="contractStatus != null and contractStatus != ''">
+			AND ( b.status = #{contractStatus} or 0 = #{contractStatus} )
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR b.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR b.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR c._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR c.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR b.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<!-- Modify by Kevin Jin at 2014-07-25 -->
+	<select id="getEmployeeContractSalaryVOByEmployeeSalaryId" parameterType="int" resultMap="result">
+		SELECT a.employeeSalaryId, <include refid="employeeContractSalaryColumns-for-join" />, b.clientId, b.nameZH AS contractNameZH, b.nameEN AS contractNameEN, b.corpId, b.orderId, 
+			b.owner AS owner, b.employeeId AS employeeId, c.nameZH AS employeeNameZH, c.nameEN AS employeeNameEN, b.status AS contractStatus, d.nameZH AS clientNameZH, d.nameEN AS clientNameEN, 
+			c.certificateNumber AS certificateNumber, b.startDate AS contractStartDate, b.endDate AS contractEndDate, 
+			CASE WHEN ISNULL(b.corpId) THEN c._tempBranchIds ELSE b.department END AS department, 
+			CASE WHEN ISNULL(b.corpId) THEN c._tempPositionIds ELSE b.positionId END AS positionId, MAX(h.workflowId) AS workflowId,
+			i.nameZH AS itemNameZH, i.nameEN AS itemNameEN,
+			c._tempPositionIds as _tempPositionIds,
+			c._tempBranchIds as _tempBranchIds,
+			b.settlementBranch as settlementBranch,
+			b.entityId as entityId
+		FROM HRO_BIZ_Employee_Contract_Salary a LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId 
+			LEFT JOIN HRO_BIZ_Employee c ON b.employeeId = c.employeeId	
+			LEFT JOIN hro_biz_client d ON b.clientId = d.clientId AND d.deleted = 1
+			LEFT JOIN hro_history h ON h.accessAction = 'HRO_BIZ_EMPLOYEE_CONTRACT_SALARY' AND h.objectType = 3 AND a.employeeSalaryId = h.objectId  
+			LEFT JOIN hro_mgt_item i ON a.itemId = i.itemId AND i.deleted = 1
+		WHERE a.deleted = 1 AND a.employeeSalaryId = #{value}
+	</select>
+	
+	<select id="getEmployeeContractSalaryVOsByContractId" parameterType="int"  resultMap="result">
+		SELECT a.employeeSalaryId, <include refid="employeeContractSalaryColumns-for-join" />, b.nameZH AS contractNameZH, b.nameEN AS contractNameEN
+		FROM HRO_BIZ_Employee_Contract_Salary a LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId 
+			LEFT JOIN HRO_BIZ_Employee c ON b.employeeId = c.employeeId	
+		WHERE a.deleted = 1 AND a.contractId = #{value}
+		ORDER BY a.employeeSalaryId
+	</select>
+	
+	
+	<select id="getEmployeeContractSalaryVOsByContractIds" parameterType="employeeContractSalary"  resultMap="result">
+	 	SELECT  a. itemId,a.contractId ,SUM(a.base - getIncrement(getPublicCode(b.employeeId), 'PRIVATE_CODE') ) as base
+		FROM HRO_BIZ_Employee_Contract_Salary a 
+		LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId AND b.deleted = 1
+		WHERE  a.deleted = 1 and   a.status = 1 
+		
+		
+		<if test="salaryEndDateEnd != null and salaryEndDateEnd != ''">
+				<![CDATA[
+			 and (a.endDate <=#{salaryEndDateEnd} or  a.endDate is null  )
+				]]>
+		</if>
+		<if test="salaryEndDateStart != null and salaryEndDateStart != ''">
+				<![CDATA[
+			 and (a.endDate >=#{salaryEndDateStart} or a.endDate is null  )
+				]]>
+		</if>
+		<if test="salaryStartDateEnd != null and salaryStartDateEnd != ''">
+				<![CDATA[
+				 and a.startDate<= #{salaryStartDateEnd} 
+				
+				]]>
+		</if>
+		
+		<if test="salaryStartDateStart != null and salaryStartDateStart != ''">
+				<![CDATA[
+				 and a.startDate>= #{salaryStartDateStart} 
+				
+				]]>
+		</if>
+		
+		<if test="(salaryStartDateStart == null or salaryStartDateStart == '') and  (salaryStartDateEnd == null or salaryStartDateEnd == '')">
+		<![CDATA[
+			and a.startDate <= DATE_ADD( now(), INTERVAL 15 DAY )
+		]]>
+		</if>
+				
+		<if test=" (salaryEndDateStart== null or salaryEndDateStart == '') and  (salaryEndDateEnd == null or salaryEndDateEnd == '')">
+		<![CDATA[
+			and (a.endDate >= DATE_ADD( now(), INTERVAL 15 DAY ) or  a.endDate is null )
+		]]>
+		</if>
+	
+			AND a.contractId in
+		<foreach collection="contractIds" item="contractIds" index="index" open="(" close=")" separator=",">
+			#{contractIds}
+	    </foreach>
+	    
+		GROUP by a.contractId ,a.itemId 
+	 
+	</select>
+	
+	<insert id="insertEmployeeContractSalary" parameterType="employeeContractSalary" useGeneratedKeys="true" keyProperty="employeeSalaryId">
+		INSERT INTO HRO_BIZ_Employee_Contract_Salary( <include refid="employeeContractSalaryColumns" /> )
+		VALUES( #{contractId}, #{itemId}, #{salaryType}, #{divideType}, #{divideTypeIncomplete}, #{excludeDivideItemIds}, #{base}, #{baseFrom}, #{percentage}, #{fix}, #{quantity}, #{discount}, 
+			#{multiple}, #{cycle}, #{startDate}, #{endDate}, #{resultCap}, #{resultFloor}, #{formularType}, #{formular}, #{showToTS}, #{probationUsing},#{isDeduct}, #{description}, 1, #{status}, #{remark1}, 
+			#{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate} )
+	</insert>
+
+	<update id="updateEmployeeContractSalary" parameterType="employeeContractSalary">
+		UPDATE HRO_BIZ_Employee_Contract_Salary set contractId = #{contractId}, itemId = #{itemId}, salaryType = #{salaryType}, divideType = #{divideType}, 
+			divideTypeIncomplete = #{divideTypeIncomplete}, excludeDivideItemIds = #{excludeDivideItemIds}, base = #{base}, baseFrom = #{baseFrom}, percentage = #{percentage}, fix = #{fix}, 
+			quantity = #{quantity}, discount = #{discount}, multiple = #{multiple}, cycle = #{cycle}, startDate = #{startDate}, endDate = #{endDate}, resultCap = #{resultCap}, 
+			resultFloor = #{resultFloor}, formularType = #{formularType}, formular = #{formular}, showToTS = #{showToTS}, probationUsing=#{probationUsing},isDeduct=#{isDeduct}, description = #{description}, 
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, 
+			createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE employeeSalaryId = #{employeeSalaryId} 
+	</update>	
+	
+	<update id="updateEmployeeContractSalaryStatus" parameterType="employeeContractSalary">
+		UPDATE HRO_BIZ_Employee_Contract_Salary SET
+			status = #{status},
+			modifyBy = #{modifyBy}, 
+			modifyDate = #{modifyDate}
+		WHERE employeeSalaryId = #{employeeSalaryId} 	
+	</update>
+	
+	<delete id="deleteEmployeeContractSalary" parameterType="int">
+		DELETE FROM HRO_BIZ_Employee_Contract_Salary WHERE employeeSalaryId = #{value}
+  	</delete>	
+  	
+  	<select id="getEmployeeContractSalaryVOsByContractIdAndItemId" parameterType="Map" resultMap="result">
+  		select a.employeeSalaryId, <include refid="employeeContractSalaryColumns-for-join" /> from HRO_BIZ_Employee_Contract_Salary a
+  			LEFT JOIN HRO_BIZ_Employee_Contract b ON a.contractId = b.contractId 
+			LEFT JOIN HRO_BIZ_Employee c ON b.employeeId = c.employeeId	
+  		where a.deleted = 1 and a.status = 1 and a.contractId = #{contractId} and a.itemId = #{itemId}
+  	</select>
+  	
+</mapper>

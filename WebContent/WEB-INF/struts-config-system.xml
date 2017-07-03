@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="accountForm" type="com.kan.base.domain.system.AccountVO" />
+		<form-bean name="moduleForm" type="com.kan.base.domain.system.ModuleVO" />
+		<form-bean name="rightForm" type="com.kan.base.domain.system.RightVO" />
+		<form-bean name="ruleForm" type="com.kan.base.domain.system.RuleVO" />
+		<form-bean name="workflowModuleForm" type="com.kan.base.domain.system.WorkflowModuleVO" />
+		<form-bean name="countryForm" type="com.kan.base.domain.system.CountryVO"></form-bean>
+		<form-bean name="provinceForm" type="com.kan.base.domain.system.ProvinceVO"></form-bean>
+		<form-bean name="cityForm" type="com.kan.base.domain.system.CityVO"></form-bean>
+		<form-bean name="smsConfigForm" type="com.kan.base.domain.system.SMSConfigVO"></form-bean>
+		<form-bean name="moduleDTOForm" type="com.kan.hro.domain.system.ModuleDTO" />
+		<form-bean name="socialBenefitHeaderForm" type="com.kan.base.domain.system.SocialBenefitHeaderVO" />
+		<form-bean name="socialBenefitDetailForm" type="com.kan.base.domain.system.SocialBenefitDetailVO" />
+		<form-bean name="constantForm" type="com.kan.base.domain.system.ConstantVO" />
+		<form-bean name="incomeTaxBaseForm" type="com.kan.base.domain.system.IncomeTaxBaseVO" />
+		<form-bean name="incomeTaxRangeHeaderForm" type="com.kan.base.domain.system.IncomeTaxRangeHeaderVO" />
+		<form-bean name="incomeTaxRangeDetailForm" type="com.kan.base.domain.system.IncomeTaxRangeDetailVO" />
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+
+		<!-- Account actions start -->
+		<action parameter="proc" path="/accountAction" type="com.kan.base.web.actions.system.AccountAction" name="accountForm" scope="request" 
+			validate="false">
+			<forward name="listAccount" path="/jsp/system/account/listAccount.jsp" />
+			<forward name="listAccountTable" path="/contents/system/account/table/listAccountTable.jsp" />
+			<forward name="manageAccount" path="/jsp/system/account/manageAccount.jsp" />
+			<forward name="manageAccountInternal" path="/jsp/system/account/manageAccountInternal.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Module actions start -->
+		<action parameter="proc" path="/moduleAction" type="com.kan.base.web.actions.system.ModuleAction" name="moduleForm" scope="request" 
+			validate="false">
+			<forward name="listModule" path="/jsp/system/module/listModule.jsp" />
+			<forward name="listModuleTable" path="/contents/system/module/table/listModuleTable.jsp" />
+			<forward name="manageModule" path="/jsp/system/module/manageModule.jsp" />
+			<forward name="manageModulePopup" path="/popup/security/rightRulePopup.jsp" />
+			<forward name="accountSetting" path="/jsp/system/module/accountSetting.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Right actions start -->
+		<action parameter="proc" path="/rightAction" type="com.kan.base.web.actions.system.RightAction" name="rightForm" scope="request" 
+			validate="false">
+			<forward name="listRight" path="/jsp/system/right/listRight.jsp" />
+			<forward name="listRightTable" path="/contents/system/right/table/listRightTable.jsp" />
+			<forward name="manageRight" path="/jsp/system/right/manageRight.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Rule actions start -->
+		<action parameter="proc" path="/ruleAction" type="com.kan.base.web.actions.system.RuleAction" name="ruleForm" scope="request" 
+			validate="false">
+			<forward name="listRule" path="/jsp/system/rule/listRule.jsp" />
+			<forward name="listRuleTable" path="/contents/system/rule/table/listRuleTable.jsp" />
+			<forward name="manageRule" path="/jsp/system/rule/manageRule.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Workflow actions start -->
+		<action parameter="proc" path="/workflowModuleAction" type="com.kan.base.web.actions.system.WorkflowModuleAction" 
+			name="workflowModuleForm" scope="request" validate="false">
+			<forward name="listWorkflowModule" path="/jsp/system/workflow/listWorkflowModule.jsp" />
+			<forward name="listWorkflowModuleTable" path="/contents/system/workflow/table/listWorkflowModuleTable.jsp" />
+			<forward name="manageWorkflowModule" path="/jsp/system/workflow/manageWorkflowModule.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Country actions start -->
+		<action parameter="proc" path="/countryAction" type="com.kan.base.web.actions.system.CountryAction" name="countryForm" scope="request" 
+			validate="false">
+			<forward name="listCountry" path="/jsp/system/country/listCountry.jsp"></forward>
+			<forward name="listCountryTable" path="/contents/system/country/table/listCountryTable.jsp"></forward>
+			<forward name="listProvince" path="/jsp/system/province/listProvince.jsp"></forward>
+			<forward name="manageCountry" path="/jsp/system/country/manageCountry.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Province actions start -->
+		<action parameter="proc" path="/provinceAction" type="com.kan.base.web.actions.system.ProvinceAction" name="provinceForm" scope="request" 
+			validate="false">
+			<forward name="listProvince" path="/jsp/system/province/listProvince.jsp"></forward>
+			<forward name="listProvinceTable" path="/contents/system/province/table/listProvinceTable.jsp"></forward>
+			<forward name="listCity" path="/jsp/system/city/listCity.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- City actions start -->
+		<action parameter="proc" path="/cityAction" type="com.kan.base.web.actions.system.CityAction" name="cityForm" scope="request" validate="false">			
+			<forward name="listCity" path="/jsp/system/city/listCity.jsp"></forward>
+			<forward name="listCityTable" path="/contents/system/city/table/listCityTable.jsp"></forward>
+			<forward name="manageCity" path="/jsp/system/city/manageCity.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- SMSConfig actions start -->
+		<action parameter="proc" path="/smsConfigAction" type="com.kan.base.web.actions.system.SMSConfigAction" name="smsConfigForm" scope="request" 
+			validate="false">
+			<forward name="listSMSConfig" path="/jsp/system/smsConfig/listSMSConfig.jsp" />
+			<forward name="listSMSConfigTable" path="/contents/system/smsConfig/table/listSMSConfigTable.jsp" />
+			<forward name="manageSMSConfig" path="/jsp/system/smsConfig/manageSMSConfig.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- SocialBenefitHeader actions start -->
+		<action parameter="proc" path="/socialBenefitHeaderAction" type="com.kan.base.web.actions.system.SocialBenefitHeaderAction" name="socialBenefitHeaderForm" scope="request" 
+			validate="false">
+			<forward name="listSocialBenefitHeader" path="/jsp/system/socialBenefit/header/listSocialBenefitHeader.jsp" />
+			<forward name="listSocialBenefitHeaderTable" path="/contents/system/socialBenefit/header/table/listSocialBenefitHeaderTable.jsp" />
+			<forward name="manageSocialBenefitHeader" path="/jsp/system/socialBenefit/detail/listSocialBenefitDetail.jsp" />
+			<forward name="listSocialBenefitDetail" path="/jsp/system/socialBenefit/detail/listSocialBenefitDetail.jsp" />
+			<forward name="error" path="/jsp/error.jsp" /> 
+		</action>
+		
+		<!-- SocialBenefitDetail actions start -->
+		<action parameter="proc" path="/socialBenefitDetailAction" type="com.kan.base.web.actions.system.SocialBenefitDetailAction" name="socialBenefitDetailForm" scope="request" 
+			validate="false">
+			<forward name="listSocialBenefitDetail" path="/jsp/system/socialBenefit/detail/listSocialBenefitDetail.jsp" />
+			<forward name="listSocialBenefitDetailTable" path="/contents/system/socialBenefit/detail/table/listSocialBenefitDetailTable.jsp" />
+			<forward name="manageSocialBenefitDetailForm" path="/contents/system/socialBenefit/detail/form/manageSocialBenefitDetailForm.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Constant actions start -->
+		<action parameter="proc" path="/constantAction" type="com.kan.base.web.actions.system.ConstantAction" name="constantForm"  scope="request"
+			validate="false">
+			<forward name="listConstant" path="/jsp/system/constant/listConstant.jsp"/>
+			<forward name="listConstantTable" path="/contents/system/constant/table/listConstantTable.jsp"/>
+			<forward name="manageConstant" path="/jsp/system/constant/manageConstant.jsp"/>
+			<forward name="error" path="/jsp/error.jsp"/>
+		</action>
+		
+		<!-- IncomeTaxBase actions start -->
+		<action parameter="proc" path="/incomeTaxBaseAction" type="com.kan.base.web.actions.system.IncomeTaxBaseAction" name="incomeTaxBaseForm" scope="request" 
+			validate="false">
+			<forward name="listIncomeTaxBase" path="/jsp/system/incomeTaxBase/listIncomeTaxBase.jsp" />
+			<forward name="listIncomeTaxBaseTable" path="/contents/system/incomeTaxBase/table/listIncomeTaxBaseTable.jsp" />
+			<forward name="manageIncomeTaxBase" path="/jsp/system/incomeTaxBase/manageIncomeTaxBase.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- IncomeTaxRangeHeader actions start -->
+		<action parameter="proc" path="/incomeTaxRangeHeaderAction" type="com.kan.base.web.actions.system.IncomeTaxRangeHeaderAction" name="incomeTaxRangeHeaderForm" scope="request" 
+			validate="false">
+			<forward name="listIncomeTaxRangeHeader" path="/jsp/system/incomeTaxRange/header/listIncomeTaxRangeHeader.jsp" />
+			<forward name="listIncomeTaxRangeHeaderTable" path="/contents/system/incomeTaxRange/header/table/listIncomeTaxRangeHeaderTable.jsp" />
+			<forward name="manageIncomeTaxRangeHeader" path="/jsp/system/incomeTaxRange/detail/listIncomeTaxRangeDetail.jsp" />
+			<forward name="listIncomeTaxRangeDetail" path="/jsp/system/incomeTaxRange/detail/listIncomeTaxRangeDetail.jsp" />
+			<forward name="error" path="/jsp/error.jsp" /> 
+		</action>
+		
+		<!-- IncomeTaxRangeDetail actions start -->
+		<action parameter="proc" path="/incomeTaxRangeDetailAction" type="com.kan.base.web.actions.system.IncomeTaxRangeDetailAction" name="incomeTaxRangeDetailForm" scope="request" 
+			validate="false">
+			<forward name="listIncomeTaxRangeDetail" path="/jsp/system/incomeTaxRange/detail/listIncomeTaxRangeDetail.jsp" />
+			<forward name="listIncomeTaxRangeDetailTable" path="/contents/system/incomeTaxRange/detail/table/listIncomeTaxRangeDetailTable.jsp" />
+			<forward name="manageIncomeTaxRangeDetailForm" path="/contents/system/incomeTaxRange/detail/from/manageIncomeTaxRangeDetailForm.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+	</action-mappings>
+
+	<message-resources parameter="MessageResources/System/System" key="system" />
+
+</struts-config>
+

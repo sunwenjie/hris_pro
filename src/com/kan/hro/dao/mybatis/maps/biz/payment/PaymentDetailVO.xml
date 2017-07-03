@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.payment.PaymentDetailVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.payment.PaymentDetailVO">
+		<result property="paymentDetailId" column="paymentDetailId" />
+		<result property="paymentHeaderId" column="paymentHeaderId" />
+		<result property="orderDetailId" column="orderDetailId" />
+		<result property="itemId" column="itemId" />
+		<result property="itemNo" column="itemNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="baseCompany" column="baseCompany" />
+		<result property="basePersonal" column="basePersonal" />
+		<result property="billRateCompany" column="billRateCompany" />
+		<result property="billRatePersonal" column="billRatePersonal" />
+		<result property="costRateCompany" column="costRateCompany" />
+		<result property="costRatePersonal" column="costRatePersonal" />
+		<result property="billFixCompany" column="billFixCompany" />
+		<result property="billFixPersonal" column="billFixPersonal" />
+		<result property="costFixCompany" column="costFixCompany" />
+		<result property="costFixPersonal" column="costFixPersonal" />
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+		<result property="addtionalBillAmountPersonal" column="addtionalBillAmountPersonal" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="batchId" column="batchId" />
+		<result property="itemType" column="itemType" />
+		<result property="employeeId" column="employeeId" />
+	</resultMap>
+  	
+	<sql id="paymentDetailColumns">
+		paymentHeaderId, orderDetailId, itemId, itemNo, nameZH, nameEN, baseCompany, basePersonal, billRateCompany, 
+		billRatePersonal, costRateCompany, costRatePersonal, billFixCompany, billFixPersonal, costFixCompany, costFixPersonal, 
+		billAmountCompany, billAmountPersonal, costAmountCompany, costAmountPersonal, addtionalBillAmountPersonal, description, deleted, status, remark1, 
+		remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<sql id="paymentDetailColumns-for-join">
+		a.paymentHeaderId, a.orderDetailId, a.itemId, a.itemNo, a.nameZH, a.nameEN, 
+		a.baseCompany, a.basePersonal, a.billRateCompany, a.billRatePersonal, a.costRateCompany, 
+		a.costRatePersonal, a.billFixCompany, a.billFixPersonal, a.costFixCompany, a.costFixPersonal, 
+		a.billAmountCompany - getIncrement(getPublicCode(b.employeeId), 'PRIVATE_CODE') as billAmountCompany, 
+		a.billAmountPersonal - getIncrement(getPublicCode(b.employeeId), 'PRIVATE_CODE') as billAmountPersonal, 
+		a.costAmountCompany - getIncrement(getPublicCode(b.employeeId), 'PRIVATE_CODE') as costAmountCompany, 
+		a.costAmountPersonal - getIncrement(getPublicCode(b.employeeId), 'PRIVATE_CODE') as costAmountPersonal, 
+		a.addtionalBillAmountPersonal - getIncrement(getPublicCode(b.employeeId), 'PRIVATE_CODE') as addtionalBillAmountPersonal, 
+		a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, 
+		a.createBy, a.createDate, a.modifyBy, a.modifyDate,b.employeeId
+	</sql>
+	
+	<sql id="paymentDetailColumns-for-join-encode">
+		a.paymentHeaderId, a.orderDetailId, a.itemId, a.itemNo, a.nameZH, a.nameEN, 
+		a.baseCompany, a.basePersonal, a.billRateCompany, a.billRatePersonal, a.costRateCompany, 
+		a.costRatePersonal, a.billFixCompany, a.billFixPersonal, a.costFixCompany, a.costFixPersonal, 
+		a.billAmountCompany, a.billAmountPersonal, a.costAmountCompany , a.costAmountPersonal, a.addtionalBillAmountPersonal, 
+		a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, 
+		a.createBy, a.createDate, a.modifyBy, a.modifyDate,b.employeeId
+	</sql>
+	
+	<select id="countPaymentDetailVOsByCondition" parameterType="paymentDetail" resultType="int">
+		SELECT COUNT( DISTINCT CONCAT_WS('-', a.paymentHeaderId, a.itemId) )
+		FROM hro_payment_detail a 
+			LEFT JOIN hro_payment_header b ON a.paymentHeaderId = b.paymentHeaderId AND b.deleted = 1
+			LEFT JOIN hro_payment_batch c ON b.batchId = c.batchId AND c.deleted = 1
+			LEFT JOIN hro_biz_employee_contract hbizemp ON b.contractId = hbizemp.contractId and hbizemp.deleted = 1
+			LEFT JOIN Hro_Biz_Employee hbe ON hbe.employeeId = b.employeeId and hbe.deleted = 1
+		WHERE a.deleted = 1
+		<if test="paymentHeaderId != null and paymentHeaderId != ''">
+			AND a.paymentHeaderId = #{paymentHeaderId}
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND c.batchId = #{batchId}
+		</if>
+		<if test="itemId != null and itemId != ''">
+			AND a.itemId = #{itemId}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) OR '0' = '${status}')
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR hbe._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR hbe.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+	</select>
+
+	<select id="getPaymentDetailVOsByCondition" parameterType="paymentDetail" resultMap="result">
+		SELECT a.paymentDetailId, <include refid="paymentDetailColumns-for-join" />, d.itemType AS itemType
+		FROM hro_payment_detail a 
+			LEFT JOIN hro_payment_header b ON a.paymentHeaderId = b.paymentHeaderId AND b.deleted = 1
+			LEFT JOIN hro_payment_batch c ON b.batchId = c.batchId AND c.deleted = 1
+			LEFT JOIN hro_mgt_item d ON a.itemId = d.itemId AND d.deleted = 1
+			LEFT JOIN hro_biz_employee_contract hbizemp ON b.contractId = hbizemp.contractId and hbizemp.deleted = 1
+			LEFT JOIN Hro_Biz_Employee hbe ON hbe.employeeId = b.employeeId and hbe.deleted = 1
+		WHERE a.deleted = 1
+		<if test="paymentHeaderId != null and paymentHeaderId != ''">
+			AND a.paymentHeaderId = #{paymentHeaderId}
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND c.batchId = #{batchId}
+		</if>
+		<if test="itemId != null and itemId != ''">
+			AND a.itemId = #{itemId}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) OR '0' = '${status}')
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR hbe._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR hbe.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		ORDER BY d.itemType, d.itemId
+	</select>
+	
+	<select id="getPaymentDetailVOByDetailId" parameterType="int" resultMap="result">
+		SELECT a.paymentDetailId, <include refid="paymentDetailColumns-for-join" />, c.itemType
+		FROM hro_payment_detail a 
+		LEFT JOIN hro_mgt_item c ON a.itemId = c.itemId AND c.deleted = 1
+		LEFT JOIN hro_payment_header b ON a.paymentHeaderId = b.paymentHeaderId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.paymentDetailId = #{value}
+	</select>
+	
+	<select id="getPaymentDetailVOsByHeaderId" parameterType="int" resultMap="result">
+		SELECT a.paymentDetailId, <include refid="paymentDetailColumns-for-join"/>, c.itemType
+		FROM hro_payment_detail a 
+		LEFT JOIN hro_payment_header b ON a.paymentHeaderId = b.paymentHeaderId AND b.deleted = 1
+		LEFT JOIN hro_mgt_item c ON a.itemId = c.itemId AND c.deleted = 1
+	 	WHERE a.deleted = 1 AND a.paymentHeaderId = #{value} 
+	</select>
+
+	<select id="getPaymentDetailVOsByContractId" parameterType="int" resultMap="result">
+		SELECT a.paymentDetailId, <include refid="paymentDetailColumns-for-join"/>, c.itemType
+		FROM hro_payment_detail a LEFT JOIN hro_payment_header b ON a.paymentHeaderId = b.paymentHeaderId AND b.deleted = 1
+		LEFT JOIN hro_mgt_item c ON a.itemId = c.itemId AND c.deleted = 1
+	 	WHERE a.deleted = 1 AND b.contractId = #{value} 
+	</select>
+
+	<select id="getPaymentDetailVOsByBatchVO" parameterType="paymentBatch" resultMap="result">
+		SELECT a.paymentDetailId, <include refid="paymentDetailColumns-for-join"/>, d.itemType
+		FROM hro_payment_detail a LEFT JOIN hro_payment_header b ON a.paymentHeaderId = b.paymentHeaderId AND b.deleted = 1
+			LEFT JOIN hro_payment_batch c ON b.batchId = c.batchId AND c.deleted = 1
+			LEFT JOIN hro_mgt_item d ON a.itemId = d.itemId AND d.deleted = 1
+	 	WHERE a.deleted = 1 AND b.batchId = #{batchId} 
+	 	<if test="status != null and status != ''">
+			AND a.status = #{status}
+		</if>
+	</select>
+	
+	<update id="updatePaymentDetail" parameterType="paymentDetail">
+		UPDATE hro_payment_detail SET paymentHeaderId = #{paymentHeaderId}, orderDetailId = #{orderDetailId}, itemId = #{itemId}, itemNo = #{itemNo}, 
+			nameZH = #{nameZH}, nameEN = #{nameEN}, baseCompany = #{baseCompany}, basePersonal = #{basePersonal}, billRateCompany = #{billRateCompany}, 
+			billRatePersonal = #{billRatePersonal}, costRateCompany = #{costRateCompany}, costRatePersonal = #{costRatePersonal}, 
+			billFixCompany = #{billFixCompany}, billFixPersonal = #{billFixPersonal}, costFixCompany = #{costFixCompany}, 
+			costFixPersonal = #{costFixPersonal}, billAmountCompany = #{billAmountCompany}, billAmountPersonal = #{billAmountPersonal},
+			costAmountCompany = #{costAmountCompany}, costAmountPersonal = #{costAmountPersonal}, addtionalBillAmountPersonal = #{addtionalBillAmountPersonal}, 
+			description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, 
+			remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate} 
+		WHERE paymentDetailId = #{paymentDetailId} 
+  	</update>
+  	
+	<insert id="insertPaymentDetail" parameterType="paymentDetail" useGeneratedKeys="true" keyProperty="paymentDetailId">
+		INSERT INTO hro_payment_detail( <include refid="paymentDetailColumns" /> )
+		VALUES (#{paymentHeaderId}, #{orderDetailId}, #{itemId}, #{itemNo}, #{nameZH}, #{nameEN}, #{baseCompany}, #{basePersonal}, #{billRateCompany},
+			#{billRatePersonal}, #{costRateCompany}, #{costRatePersonal}, #{billFixCompany}, #{billFixPersonal}, #{costFixCompany}, #{costFixPersonal},
+			#{billAmountCompany}, #{billAmountPersonal}, #{costAmountCompany}, #{costAmountPersonal}, #{addtionalBillAmountPersonal}, #{description}, 1, 
+			#{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+  	
+  	<delete id="deletePaymentDetail" parameterType="int">
+		DELETE FROM hro_payment_detail WHERE paymentDetailId = #{value}
+  	</delete>
+  	
+  	<select id="getPaymentDetailVOsByPaymentHeaderCond" parameterType="paymentHeader" resultMap="result">
+		SELECT a.paymentDetailId, <include refid="paymentDetailColumns-for-join" />
+		FROM hro_payment_detail a RIGHT JOIN hro_payment_header b  on a.paymentHeaderId = b.paymentHeaderId and a.deleted = 1
+		where b.deleted =1
+		and b.employeeId = #{employeeId}
+		and b.monthly = #{monthly}
+	</select>
+	
+	<select id="getEncodePaymentDetailVOsByCondition" parameterType="paymentDetail" resultMap="result">
+		SELECT a.paymentDetailId, <include refid="paymentDetailColumns-for-join-encode" />, d.itemType AS itemType
+		FROM hro_payment_detail a 
+			LEFT JOIN hro_payment_header b ON a.paymentHeaderId = b.paymentHeaderId AND b.deleted = 1
+			LEFT JOIN hro_payment_batch c ON b.batchId = c.batchId AND c.deleted = 1
+			LEFT JOIN hro_mgt_item d ON a.itemId = d.itemId AND d.deleted = 1
+			LEFT JOIN hro_biz_employee_contract hbizemp ON b.contractId = hbizemp.contractId and hbizemp.deleted = 1
+			LEFT JOIN Hro_Biz_Employee hbe ON hbe.employeeId = b.employeeId and hbe.deleted = 1
+		WHERE a.deleted = 1
+		<if test="paymentHeaderId != null and paymentHeaderId != ''">
+			AND a.paymentHeaderId = #{paymentHeaderId}
+		</if>
+		<if test="batchId != null and batchId != ''">
+			AND c.batchId = #{batchId}
+		</if>
+		<if test="itemId != null and itemId != ''">
+			AND a.itemId = #{itemId}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) OR '0' = '${status}')
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR hbe._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR hbe.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		ORDER BY d.itemType, d.itemId
+	</select>
+
+</mapper>

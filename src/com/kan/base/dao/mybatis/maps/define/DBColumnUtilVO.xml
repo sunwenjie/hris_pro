@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.define.DBColumnUtilVO">
+
+	<resultMap id="result" type="com.kan.base.domain.define.DBColumnUtilVO">
+		<result property="haveEmployeeId" column="haveEmployeeId"/>
+		<result property="haveOwner" column="haveOwner"/>
+		<result property="haveBranch" column="haveBranch"/>
+		<result property="haveBusinessTypeId" column="haveBusinessTypeId"/>
+		<result property="tableName" column="tableName"/>
+	</resultMap>
+	<select id="getDBColumnUtilVOByCondition" parameterType="com.kan.base.domain.define.DBColumnUtilVO" resultType="com.kan.base.domain.define.DBColumnUtilVO">
+		select count(if(column_name='employeeId',true,null )) as haveEmployeeId,
+		count(if(column_name='owner',true,null )) as haveOwner,
+		count(if(column_name='branch',true,null )) as haveBranch,
+		count(if(column_name='businessTypeId',true,null )) as haveBusinessTypeId,
+		count(if(column_name='entityId',true,null )) as haveEntityId
+		from information_schema.columns c
+		join (select DATABASE() as table_schema) t on t.table_schema = c.table_schema
+		where 1=1 						
+		<if test="tableName != null and tableName != ''">
+			AND c.table_name = #{tableName}
+		</if>
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.client.ClientContractVO">
+
+	<resultMap id="clientContractBaseView" type="com.kan.hro.domain.biz.client.ClientContractBaseView">
+		<result property="id" column="id" />
+		<result property="accountId" column="accountId" />
+		<result property="name" column="name" />
+	</resultMap>
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.client.ClientContractVO">
+		<result property="contractId" column="contractId" />
+		<result property="clientId" column="clientId" />
+		<result property="clientName" column="clientName" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="templateId" column="templateId" />
+		<result property="contractNo" column="contractNo" />
+		<result property="versionType" column="versionType" />
+		<result property="masterContractId" column="masterContractId" />
+		<result property="invoiceAddressId" column="invoiceAddressId" />
+		<result property="invoiceAddress" column="invoiceAddress" />
+		<result property="content" column="content" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="period" column="period" />
+		<result property="attachment" column="attachment" />
+		<result property="branch" column="branch" />
+		<result property="owner" column="owner" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="clientNumber" column="clientNumber" />
+	</resultMap>
+	
+  	<select id="getClientContractBaseViews" parameterType="String" resultType="clientContractBaseView">
+  		select contractId as id, CONCAT(nameZH , ' - ', nameEN) as name, accountId
+  		from HRO_BIZ_Client_Contract
+  		where deleted = 1 and accountId = ${value}
+  		order by name
+  	</select>
+  	
+	<sql id="clientContractColumns">
+		clientId, accountId,corpId, entityId, businessTypeId, nameZH, nameEN, templateId, contractNo, versionType, masterContractId, invoiceAddressId, content, 
+		startDate, endDate, period, attachment, branch, owner, description, deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="clientContractColumns-for-join">
+		a.clientId, a.accountId,a.corpId, a.entityId, a.businessTypeId, a.nameZH, a.nameEN, a.templateId, a.contractNo, a.versionType, a.masterContractId, 
+		a.invoiceAddressId, a.content, a.startDate, a.endDate, a.period, a.attachment, a.branch, a.owner, a.description, a.deleted, a.status, a.remark1, 
+		a.remark2, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countClientContractVOsByCondition" parameterType="clientContract" resultType="int">
+		SELECT COUNT(1) 
+		FROM HRO_BIZ_Client_Contract a LEFT OUTER JOIN HRO_BIZ_Client b ON a.clientId = b.clientId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="contractNo != null and contractNo != ''">
+			AND a.contractNo like CONCAT('%', '${contractNo}', '%') 
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="clientNumber != null and clientNumber != ''">
+			AND b.number like CONCAT('%', '${clientNumber}', '%') 
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND b.nameEN like CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND b.nameZH like CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>
+		<if test="templateId != null and templateId != ''">
+			AND (a.templateId = #{templateId} or 0 = #{templateId})
+		</if>
+		<if test="versionType != null and versionType != ''">
+			AND (a.versionType = #{versionType} or 0 = #{versionType})
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="branch != null and branch != ''">
+			AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+	</select>
+
+	<select id="getClientContractVOsByCondition" parameterType="clientContract" resultMap="result">
+		SELECT CASE WHEN ((COUNT(c.orderHeaderId) != 0) OR (a.`status` != 1 AND a.`status` != 4)) THEN 1 ELSE 2 END AS `extended`, a.contractId, <include refid="clientContractColumns-for-join" />,
+			b.nameZH AS clientNameZH, b.nameEN AS clientNameEN, b.number AS clientNumber, MAX(h.workflowId) AS workflowId		
+		FROM HRO_BIZ_Client_Contract a LEFT OUTER JOIN HRO_BIZ_Client b ON a.clientId = b.clientId AND b.deleted = 1
+			LEFT OUTER JOIN hro_biz_client_order_header c ON a.contractId = c.contractId AND c.deleted = 1
+			LEFT JOIN hro_history h ON h.accessAction = 'HRO_BIZ_CLIENT_CONTRACT' AND h.objectType = 2 AND a.contractId = h.objectId 
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="contractNo != null and contractNo != ''">
+			AND a.contractNo like CONCAT('%', '${contractNo}', '%') 
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="clientNumber != null and clientNumber != ''">
+			AND b.number like CONCAT('%', '${clientNumber}', '%') 
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND b.nameEN like CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND b.nameZH like CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>
+		<if test="templateId != null and templateId != ''">
+			AND (a.templateId = #{templateId} or 0 = #{templateId})
+		</if>
+		<if test="versionType != null and versionType != ''">
+			AND (a.versionType = #{versionType} or 0 = #{versionType})
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="branch != null and branch != ''">
+			AND (a.branch = #{branch} or 0 = #{branch})
+		</if>
+		GROUP BY a.contractId
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getClientContractVOsByClientId" parameterType="clientContract" resultMap="result">
+		SELECT a.contractId, <include refid="clientContractColumns-for-join" />, b.nameZH AS clientNameZH, b.nameEN AS clientNameEN, 
+			b.number AS clientNumber		
+		FROM HRO_BIZ_Client_Contract a LEFT OUTER JOIN HRO_BIZ_Client b ON a.clientId = b.clientId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.clientId = #{value}
+		ORDER BY a.contractId DESC
+	</select>
+
+	<select id="getClientContractVOByContractId" parameterType="int" resultMap="result">
+		SELECT a.contractId, <include refid="clientContractColumns-for-join" />, b.nameZH AS clientNameZH, b.nameEN AS clientNameEN, 
+			b.number AS clientNumber, MAX(h.workflowId) AS workflowId		
+		FROM HRO_BIZ_Client_Contract a LEFT OUTER JOIN HRO_BIZ_Client b ON a.clientId = b.clientId AND b.deleted = 1
+		LEFT JOIN hro_history h ON h.accessAction = 'HRO_BIZ_CLIENT_CONTRACT' AND h.objectType = 2 AND a.contractId = h.objectId 
+		WHERE a.contractId = #{value}
+	</select>
+
+	<update id="updateClientContract" parameterType="clientContract">
+		update HRO_BIZ_Client_Contract set clientId = #{clientId}, accountId = #{accountId},corpId=#{corpId}, entityId = #{entityId}, businessTypeId = #{businessTypeId}, 
+			nameZH = #{nameZH}, nameEN = #{nameEN}, templateId = #{templateId}, contractNo = #{contractNo}, versionType = #{versionType}, 
+			masterContractId = #{masterContractId}, invoiceAddressId = #{invoiceAddressId}, content = #{content}, startDate = #{startDate}, 
+			endDate = #{endDate}, period = #{period}, attachment = #{attachment}, branch = #{branch}, owner = #{owner}, description = #{description},
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where contractId = #{contractId} 
+  	</update>
+
+	<insert id="insertClientContract" parameterType="clientContract" useGeneratedKeys="true" keyProperty="contractId">
+		insert into HRO_BIZ_Client_Contract( <include refid="clientContractColumns" /> )
+		values(#{clientId}, #{accountId},#{corpId}, #{entityId}, #{businessTypeId}, #{nameZH}, #{nameEN}, #{templateId}, #{contractNo}, #{versionType}, 
+			#{masterContractId}, #{invoiceAddressId}, #{content}, #{startDate}, #{endDate}, #{period}, #{attachment}, #{branch}, #{owner}, #{description},
+			1, #{status}, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteClientContract" parameterType="int">
+		delete from HRO_BIZ_Client_Contract where contractId = #{value}
+  	</delete>
+  	
+  	<select id="getArchiveClientContractCount" parameterType="String" resultType="int">
+		select count(1) as count from hro_biz_client_contract where status = 6 and clientId = #{value}
+	</select>
+
+</mapper>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.performance.BudgetSettingHeaderVO">
+
+	<resultMap type="com.kan.hro.domain.biz.performance.BudgetSettingHeaderVO" id="result">
+		<result property="headerId" column="headerId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="year" column="year" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="startDate_bl" column="startDate_bl" />
+		<result property="endDate_bl" column="endDate_bl" />
+		<result property="startDate_pm" column="startDate_pm" />
+		<result property="endDate_pm" column="endDate_pm" />
+		<result property="startDate_final" column="startDate_final" />
+		<result property="endDate_final" column="endDate_final" />
+		<result property="startDate_bu" column="startDate_bu" />
+		<result property="endDate_bu" column="endDate_bu" />
+		<result property="maxInvitation" column="maxInvitation" />
+		<result property="noticeLetterTemplate" column="noticeLetterTemplate" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />	
+	</resultMap>
+	
+	<sql id="budgetSettingHeaderColumns">
+		accountId, corpId, year, startDate, endDate, startDate_bl, endDate_bl, startDate_pm, endDate_pm, 
+		startDate_final, endDate_final, startDate_bu, endDate_bu, maxInvitation, noticeLetterTemplate, description,
+		deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<select id="countBudgetSettingHeaderVOsByCondition" parameterType="budgetSettingHeader" resultType="int">
+		select 
+			count(1) 
+		from hro_pm_budget_setting_header
+		where deleted = 1 and accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="year != null and year != ''">
+			AND (year = #{year} or 0 = #{year})
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+
+	<select id="getBudgetSettingHeaderVOsByCondition" parameterType="budgetSettingHeader" resultMap="result">
+		select 
+			headerId, <include refid="budgetSettingHeaderColumns" />
+		from hro_pm_budget_setting_header 
+		where deleted = 1 and accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="year != null and year != ''">
+			AND (year = #{year} or 0 = #{year})
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+  	
+  	<select id="getBudgetSettingHeaderVOByHeaderId" parameterType="String" resultMap="result">
+		select headerId, <include refid="budgetSettingHeaderColumns" />
+		from hro_pm_budget_setting_header where headerId = #{value}
+	</select>
+	
+	<insert id="insertBudgetSettingHeader" parameterType="budgetSettingHeader" useGeneratedKeys="true" keyProperty="headerId">
+  		insert into hro_pm_budget_setting_header(<include refid="budgetSettingHeaderColumns"/>)		
+  		values(
+  			#{accountId}, #{corpId}, #{year}, #{startDate}, #{endDate}, #{startDate_bl}, #{endDate_bl}, #{startDate_pm}, #{endDate_pm}, #{startDate_final}, #{endDate_final},
+  			#{startDate_bu}, #{endDate_bu}, #{maxInvitation}, #{noticeLetterTemplate}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate}
+  		)
+  	</insert>
+  	
+  	<update id="updateBudgetSettingHeader" parameterType="budgetSettingHeader">
+  		update hro_pm_budget_setting_header set
+  			year = #{year}, startDate = #{startDate}, endDate = #{endDate}, 
+  			startDate_bl = #{startDate_bl}, endDate_bl = #{endDate_bl}, startDate_pm = #{startDate_pm}, endDate_pm = #{endDate_pm}, description = #{description},
+  			startDate_final = #{startDate_final}, endDate_final = #{endDate_final},
+  			startDate_bu = #{startDate_bu}, endDate_bu = #{endDate_bu}, 
+  			maxInvitation = #{maxInvitation}, noticeLetterTemplate = #{noticeLetterTemplate},
+  			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy},
+  			modifyDate =#{modifyDate},
+  			startDate_final = #{startDate_final}, endDate_final = #{endDate_final}
+  		where headerId = #{headerId}	
+  	</update>
+	
+	<delete id="deleteBudgetSettingHeader" parameterType="int">
+		delete from hro_pm_budget_setting_header where headerId = #{value}
+	</delete>
+	
+	<select id="getBudgetSettingHeaderVOsByMapParameter" parameterType="Map" resultMap="result">
+		select headerId,<include refid="budgetSettingHeaderColumns"/>
+		from hro_pm_budget_setting_header where deleted = 1
+		<if test="accountId != null and accountId != ''">
+			AND accountId = #{accountId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND corpId = #{corpId}
+		</if>
+		<if test="year != null and year != ''">
+			AND year = #{year}
+		</if>
+	</select>
+
+</mapper>

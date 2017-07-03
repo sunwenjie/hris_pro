@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.system.WorkflowModuleVO">
+
+	<resultMap id="result" type="com.kan.base.domain.system.WorkflowModuleVO">
+		<result property="workflowModuleId" column="workflowModuleId" />
+		<result property="systemId" column="systemId"/>
+		<result property="moduleId" column="moduleId"/>
+		<result property="scopeType" column="scopeType"/>
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="rightIds" column="rightIds" />
+		<result property="includeViewObjJsp" column="includeViewObjJsp" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<result property="moduleTitle" column="moduleTitle" />
+	</resultMap>
+  	
+  	<sql id="workflowModules"> 
+  		systemId, moduleId,scopeType, nameZH, nameEN,rightIds,includeViewObjJsp, description, deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="workflowModules-for-join"> 
+  		a.systemId, a.moduleId,a.scopeType, a.nameZH, a.nameEN,a.rightIds,a.includeViewObjJsp, a.description, a.deleted, a.status, a.remark1, a.remark2, a.createBy, a.createDate, a.modifyBy, 
+  		a.modifyDate 
+	</sql>
+	
+	<select id="countWorkflowModuleVOsByCondition" parameterType="workflowModule" resultType="int">
+		select count(*) 
+		from HRO_Sys_Workflow a left outer join HRO_SYS_Module b on a.moduleId = b.moduleId
+		where a.deleted = 1
+		<if test="moduleId != null and moduleId != ''">
+			AND a.moduleId = #{moduleId} 
+		</if>
+		<if test="scopeType != null and scopeType != ''">
+			AND (a.scopeType = #{scopeType} or  0= #{scopeType})
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="includeViewObjJsp != null and includeViewObjJsp != ''">
+			AND a.includeViewObjJsp like CONCAT('%', '${includeViewObjJsp}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+  	
+	<select id="getWorkflowModuleVOsByCondition" parameterType="workflowModule" resultMap="result">
+		select  a.workflowModuleId, <include refid="workflowModules-for-join"/>, CONCAT(b.titleZH, ' - ', b.titleEN) as moduleTitle  
+		from HRO_Sys_Workflow a left outer join HRO_SYS_Module b on a.moduleId = b.moduleId
+		where a.deleted = 1
+		<if test="moduleId != null and moduleId != ''">
+			AND a.moduleId = #{moduleId} 
+		</if>
+		<if test="scopeType != null and scopeType != ''">
+			AND (a.scopeType = #{scopeType} or  0= #{scopeType})
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="includeViewObjJsp != null and includeViewObjJsp != ''">
+			AND a.includeViewObjJsp like CONCAT('%', '${includeViewObjJsp}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+	
+  	<select id="getWorkflowModuleVOByModuleId" parameterType="int" resultMap="result">
+		select workflowModuleId, <include refid="workflowModules"/>  
+		from HRO_Sys_Workflow 
+		where workflowModuleId = #{value}
+  	</select> 	
+  	
+	<update id="updateWorkflowModule" parameterType="workflowModule">
+		update HRO_Sys_Workflow set systemId = #{systemId}, moduleId = #{moduleId},scopeType = #{scopeType}, nameZH = #{nameZH}, nameEN = #{nameEN},rightIds = #{rightIds}, includeViewObjJsp=#{includeViewObjJsp}, description = #{description}, 
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where workflowModuleId = #{workflowModuleId} 
+  	</update>
+  	
+  	<insert id="insertWorkflowModule" parameterType="workflowModule" useGeneratedKeys="true" keyProperty="workflowModuleId">
+		insert into HRO_Sys_Workflow(<include refid="workflowModules"/>) 
+		values(#{systemId}, #{moduleId},#{scopeType},#{nameZH}, #{nameEN},#{rightIds},#{includeViewObjJsp}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, 
+			#{modifyDate})
+  	</insert>
+  	
+  	<delete id="deleteWorkflowModule" parameterType="int">
+		delete from HRO_Sys_Workflow where workflowModuleId = #{values}
+  	</delete>
+	
+	<select id="listWorkflowModuleVO" resultMap="result">
+		select workflowModuleId, <include refid="workflowModules"/>  
+		from HRO_Sys_Workflow 
+		where deleted = 1
+	</select>
+	
+	<!-- for  load not use workflow sys module -->
+	<select id="getNotUseWorkflowModule" resultType="map">
+		SELECT sm.workflowModuleId , sm.parentModuleId ,sm.nameZH ,sm.nameEN,sm.includeViewObjJsp
+		from hro_sys_module sm 
+		LEFT JOIN HRO_Sys_Workflow wfm 
+		ON sm.workflowModuleId = wfm.moduleId 
+		where wfm.workflowModuleId is  null
+	</select>
+	
+	<select id="listUseWorkflowModuleByAccountId" resultMap="result" parameterType="int">
+		SELECT workflowModuleId, <include refid="workflowModules"/>  
+		FROM HRO_Sys_Workflow m
+		WHERE
+		EXISTS (
+			SELECT * from hro_workflow_define  
+			where m.workflowModuleId = workflowModuleId 
+			AND deleted=1
+			AND accountId=#{accountId}  
+		)
+	</select>
+
+</mapper>

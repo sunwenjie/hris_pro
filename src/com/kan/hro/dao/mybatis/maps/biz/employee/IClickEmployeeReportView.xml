@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.IClickEmployeeReportView">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.IClickEmployeeReportView">
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="contractId" column="contractId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="employStatus" column="employStatus" />
+		<result property="entityNameZH" column="entityNameZH" />
+		<result property="entityNameEN" column="entityNameEN" />
+		<result property="entityTitle" column="entityTitle" />
+		<result property="settlementBranch" column="settlementBranch" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="nationNality" column="nationNality" />
+		<result property="salutation" column="salutation" />
+		<result property="certificateType" column="certificateType" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="certificateEndDate" column="certificateEndDate" />
+		<result property="birthday" column="birthday" />
+		<result property="maritalStatus" column="maritalStatus" />
+		<result property="highestEducation" column="highestEducation" />
+		<result property="schoolNames" column="schoolNames" />
+		<result property="majors" column="majors" />
+		<result property="graduateDates" column="graduateDates" />
+		<result property="residencyAddress" column="residencyAddress" />
+		<result property="residencyType" column="residencyType" />
+		<result property="personalAddress" column="personalAddress" />
+		<result property="mobile1" column="mobile1" />
+		<result property="phone1" column="phone1" />
+		<result property="emergencyNames" column="emergencyNames" />
+		<result property="relationshipIds" column="relationshipIds" />
+		<result property="phones" column="phones" />
+		<result property="mobiles" column="mobiles" />
+		<result property="bizEmail" column="bizEmail" />
+		<result property="personalEmail" column="personalEmail" />
+		<result property="bankId" column="bankId" />
+		<result property="bankAccount" column="bankAccount" />
+		<result property="startWorkDate" column="startWorkDate" />
+		<result property="contractStartDate" column="contractStartDate" />
+		<result property="probationEndDate" column="probationEndDate" />
+		<result property="residencyCityId" column="residencyCityId" />
+		<result property="resignDate" column="resignDate" />
+		<result property="leaveReasons" column="leaveReasons" />
+		<result property="_tempParentBranchIds" column="_tempParentBranchIds" />
+		<result property="_tempBranchIds" column="_tempBranchIds" />
+		<result property="_tempPositionGradeIds" column="_tempPositionGradeIds" />
+		<result property="_tempParentPositionOwners" column="_tempParentPositionOwners" />
+		<result property="employeeRemark1" column="employeeRemark1" />
+		<result property="employeeContractRemark1" column="employeeContractRemark1" />
+		<result property="contractStatus" column="contractStatus" />
+		<result property="workflowId" column="workflowId" />
+	</resultMap>
+	
+	<sql id="employeeReportViewColumns">
+			`contract`.`accountId` AS `accountId`, `contract`.`corpId` AS `corpId`, `contract`.`contractId` AS `contractId`,
+			`contract`.`employeeId` AS `employeeId`, `employee`.`nameZH` AS `employeeNameZH`, `employee`.`nameEN` AS `employeeNameEN`,
+			`contract`.`employStatus` AS `employStatus`, `entity`.`nameZH` AS `entityNameZH`, `entity`.`nameEN` AS `entityNameEN`,
+			`entity`.`title` AS `entityTitle`, `contract`.`settlementBranch` AS `settlementBranch`, `contract`.`businessTypeId` AS `businessTypeId`,
+			`employee`.`nationNality` AS `nationNality`, `employee`.`salutation` AS `salutation`, `employee`.`certificateType` AS `certificateType`,
+			`employee`.`certificateNumber` AS `certificateNumber`, `employee`.`certificateEndDate` AS `certificateEndDate`,
+			`employee`.`birthday` AS `birthday`, `employee`.`maritalStatus` AS `maritalStatus`, `employee`.`highestEducation` AS `highestEducation`,
+			`employee`.`residencyAddress` AS `residencyAddress`, `employee`.`residencyType` AS `residencyType`, `employee`.`personalAddress` AS `personalAddress`,
+			`employee`.`residencyType` AS `residencyType`, `employee`.`email1` AS `bizEmail`, `employee`.`email2` AS `personalEmail`,
+			`employee`.`bankId` AS `bankId`, `employee`.`bankAccount` AS `bankAccount`, `employee`.`startWorkDate` AS `startWorkDate`,
+			`contract`.`startDate` AS `contractStartDate`, `contract`.`probationEndDate` AS `probationEndDate`, `employee`.`residencyCityId` AS `residencyCityId`,
+			`contract`.`resignDate` AS `resignDate`, `contract`.`leaveReasons` AS `leaveReasons`, 
+			`employee`.`_tempParentBranchIds` AS `_tempParentBranchIds`, `employee`.`_tempBranchIds` AS `_tempBranchIds`, `employee`.`_tempParentPositionOwners` AS `_tempParentPositionOwners`,
+			`employee`.`_tempPositionGradeIds` AS _tempPositionGradeIds, `employee`.`remark1` AS `employeeRemark1`, `contract`.`remark1` AS `employeeContractRemark1`,
+			group_concat(DISTINCT `education`.`schoolName` SEPARATOR '、') AS `schoolNames`,
+			group_concat(DISTINCT `education`.`major` SEPARATOR '、') AS `majors`,
+			group_concat(DISTINCT `education`.`endDate` SEPARATOR '、') AS `graduateDates`,
+			group_concat(DISTINCT `emergency`.`name` SEPARATOR '??') AS `emergencyNames`,
+			group_concat(DISTINCT `emergency`.`relationshipId` SEPARATOR '、') AS `relationshipIds`,
+			group_concat(DISTINCT `emergency`.`phone` SEPARATOR '??') AS `phones`,
+			group_concat(DISTINCT `emergency`.`mobile` SEPARATOR '??') AS `mobiles`,
+			`contract`.`status` AS contractStatus
+	</sql>
+	
+	<!--获取人员完整信息报表-->
+	<select id="countFullEmployeeReportViewsByCondition" parameterType="iClickEmployeeReport" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM(	
+			SELECT 
+				COUNT(1)
+			FROM `hro_biz_employee_contract` `contract`
+				LEFT JOIN `hro_biz_employee` `employee` ON `contract`.`employeeId` = `employee`.`employeeId` AND `employee`.`deleted` = 1
+				LEFT JOIN `hro_sec_entity` `entity` ON `contract`.`entityId` = `entity`.`entityId` AND `entity`.`deleted` = 1
+				LEFT JOIN `hro_biz_employee_education` `education` ON `employee`.`employeeId` = `education`.`employeeId` AND `education`.`deleted` = 1
+				LEFT JOIN `hro_biz_employee_emergency` `emergency` ON `employee`.`employeeId` = `emergency`.`employeeId` AND `emergency`.`deleted` = 1
+				LEFT JOIN `hro_biz_client_order_header` `orderheader` ON `contract`.`orderId` = `orderheader`.`orderHeaderId` AND `orderheader`.`deleted` = 1
+			WHERE `contract`.`deleted` = 1 AND `contract`.`accountId` = #{accountId}
+			<if test="corpId == null or corpId == ''">
+				AND `contract`.`corpId`  IS NULL
+			</if>
+			<if test="corpId != null and corpId != ''">
+				AND `contract`.`corpId` = #{corpId}
+			</if> 
+			<if test="entityId != null and entityId != ''">
+				AND (`contract`.`entityId` = #{entityId} OR 0 = #{entityId})
+			</if>	
+			<if test="employeeId != null and employeeId != ''">
+				AND `employee`.`employeeId` = #{employeeId}
+			</if>	
+			<if test="employeeNameZH != null and employeeNameZH != ''">
+				AND `employee`.`nameZH` LIKE CONCAT('%', '${employeeNameZH}', '%')
+			</if>
+			<if test="employeeNameEN != null and employeeNameEN != ''">
+				AND UPPER(`employee`.`nameEN`) LIKE CONCAT('%', '${employeeNameEN}', '%')
+			</if>
+			<if test="remark1Set != null and remark1Set != ''">
+				AND 
+				<foreach collection="remark1Set" item="rmk1"  open="" separator="and" close="" >   
+	        	 	`employee`.`remark1` LIKE #{rmk1}
+	     		</foreach>
+			</if>
+			<if test="remark2Set != null and remark2Set != ''">
+				AND 
+				<foreach collection="remark2Set" item="rmk2"  open="" separator="and" close="" >   
+	        	 	`contract`.`remark1` LIKE #{rmk2}
+	     		</foreach>
+			</if>
+			
+			<if test="rulePublic == 1">
+				AND ( false 
+				<if test="rulePrivateIds != null">
+					OR `contract`.`employeeId` in
+					<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+		        		#{rulePrivateId}
+		     		</foreach>
+				</if>
+				<if test="rulePositionIds != null">
+					OR `employee`.`owner` in
+					<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+		        		#{rulePositionId}
+		     		</foreach>
+				</if>
+				<if test="rulePositionIds != null">
+					OR `contract`.`owner` in
+					<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+		        		#{rulePositionId}
+		     		</foreach>
+				</if>
+				<if test="ruleBranchIds != null">
+					OR `employee`.`_tempBranchIds` in
+					<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+		        		#{ruleBranchId}
+		     		</foreach>
+				</if>
+				<if test="ruleBusinessTypeIds !=null">
+					OR `employee`.`businessTypeId` in
+					<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+		        		#{ruleBusinessTypeId}
+		     		</foreach>
+				</if>
+				<if test="ruleEntityIds !=null">
+					OR `contract`.`entityId` in
+					<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+		        		#{ruleEntityId}
+		     		</foreach>
+				</if>
+				)
+			</if>	
+			GROUP BY `contract`.`contractId` 
+		) TEMP	
+	</select>
+	
+	<!--获取人员完整信息报表-->
+	<select id="getFullEmployeeReportViewsByCondition" parameterType="iClickEmployeeReport" resultMap="result">
+		SELECT 
+			<include refid="employeeReportViewColumns" />,
+			(
+				SELECT
+					MAX(h.workflowId)
+				FROM
+					hro_history h
+				WHERE
+					h.objectType = 2 AND deleted = 1
+				AND h.objectId = `contract`.`contractId` AND `contract`.`corpId` IS NOT NULL AND h.accessAction = 'HRO_BIZ_EMPLOYEE_SERVICE_CONTRACT_IN_HOUSE'
+			) AS workflowId
+		FROM `hro_biz_employee_contract` `contract`
+			LEFT JOIN `hro_biz_employee` `employee` ON `contract`.`employeeId` = `employee`.`employeeId` AND `employee`.`deleted` = 1
+			LEFT JOIN `hro_sec_entity` `entity` ON `contract`.`entityId` = `entity`.`entityId` AND `entity`.`deleted` = 1
+			LEFT JOIN `hro_biz_employee_education` `education` ON `employee`.`employeeId` = `education`.`employeeId` AND `education`.`deleted` = 1
+			LEFT JOIN `hro_biz_employee_emergency` `emergency` ON `employee`.`employeeId` = `emergency`.`employeeId` AND `emergency`.`deleted` = 1
+			LEFT JOIN `hro_biz_client_order_header` `orderheader` ON `contract`.`orderId` = `orderheader`.`orderHeaderId` AND `orderheader`.`deleted` = 1
+		WHERE `contract`.`deleted` = 1 AND `contract`.`accountId` = #{accountId}
+		<if test="corpId == null or corpId == ''">
+			AND `contract`.`corpId`  IS NULL
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND `contract`.`corpId` = #{corpId}
+		</if> 
+		<if test="entityId != null and entityId != ''">
+			AND (`contract`.`entityId` = #{entityId} OR 0 = #{entityId})
+		</if>		
+		<if test="employeeId != null and employeeId != ''">
+			AND `employee`.`employeeId` = #{employeeId}
+		</if>	
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND `employee`.`nameZH` LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND UPPER(`employee`.`nameEN`) LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="remark1Set != null and remark1Set != ''">
+			AND 
+			<foreach collection="remark1Set" item="rmk1"  open="" separator="and" close="" >   
+        	 	`employee`.`remark1` LIKE #{rmk1}
+     		</foreach>
+		</if>
+		<if test="remark2Set != null and remark2Set != ''">
+			AND 
+			<foreach collection="remark2Set" item="rmk2"  open="" separator="and" close="" >   
+        	 	`contract`.`remark1` LIKE #{rmk2}
+     		</foreach>
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds != null">
+				OR `contract`.`employeeId` in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds != null">
+				OR `employee`.`owner` in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds != null">
+				OR `contract`.`owner` in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds != null">
+				OR `employee`.`_tempBranchIds` in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR `employee`.`businessTypeId` in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR `contract`.`entityId` in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>	
+		GROUP BY `contract`.`contractId` 
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<!--获取人员完整信息报表 Role > 地方招聘人员-->
+	<select id="countFullEmployeeReportViewsByCondition_r4" parameterType="iClickEmployeeReport" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM(	
+			SELECT 
+				COUNT(1)
+			FROM `hro_biz_employee_contract` `contract`
+				LEFT JOIN `hro_biz_employee` `employee` ON `contract`.`employeeId` = `employee`.`employeeId` AND `employee`.`deleted` = 1
+				LEFT JOIN `hro_sec_entity` `entity` ON `contract`.`entityId` = `entity`.`entityId` AND `entity`.`deleted` = 1
+				LEFT JOIN `hro_biz_employee_education` `education` ON `employee`.`employeeId` = `education`.`employeeId` AND `education`.`deleted` = 1
+				LEFT JOIN `hro_biz_employee_emergency` `emergency` ON `employee`.`employeeId` = `emergency`.`employeeId` AND `emergency`.`deleted` = 1
+				LEFT JOIN `hro_biz_client_order_header` `orderheader` ON `contract`.`orderId` = `orderheader`.`orderHeaderId` AND `orderheader`.`deleted` = 1
+			WHERE `contract`.`deleted` = 1 AND `contract`.`accountId` = #{accountId}
+			<if test="corpId == null or corpId == ''">
+				AND `contract`.`corpId`  IS NULL
+			</if>
+			<if test="corpId != null and corpId != ''">
+				AND `contract`.`corpId` = #{corpId}
+			</if> 
+			<if test="entityId != null and entityId != ''">
+				AND (`contract`.`entityId` = #{entityId} OR 0 = #{entityId})
+			</if>	
+			<if test="employeeId != null and employeeId != ''">
+				AND `employee`.`employeeId` = #{employeeId}
+			</if>	
+			<if test="employeeNameZH != null and employeeNameZH != ''">
+				AND `employee`.`nameZH` LIKE CONCAT('%', '${employeeNameZH}', '%')
+			</if>
+			<if test="employeeNameEN != null and employeeNameEN != ''">
+				AND UPPER(`employee`.`nameEN`) LIKE CONCAT('%', '${employeeNameEN}', '%')
+			</if>
+			<if test="remark1Set != null and remark1Set != ''">
+				AND 
+				<foreach collection="remark1Set" item="rmk1"  open="" separator="and" close="" >   
+	        	 	`employee`.`remark1` LIKE #{rmk1}
+	     		</foreach>
+			</if>
+			<if test="remark2Set != null and remark2Set != ''">
+				AND 
+				<foreach collection="remark2Set" item="rmk2"  open="" separator="and" close="" >   
+	        	 	`contract`.`remark1` LIKE #{rmk2}
+	     		</foreach>
+			</if>
+			<if test="createBy != null and createBy != ''">
+				AND `employee`.`createBy` = #{createBy} AND `contract`.`createBy` = #{createBy}
+			</if>
+			
+			GROUP BY `contract`.`contractId` 
+		) TEMP	
+	</select>
+	
+	
+	<!--获取人员完整信息报表 Role > 地方招聘人员-->
+	<select id="getFullEmployeeReportViewsByCondition_r4" parameterType="iClickEmployeeReport" resultMap="result">
+		SELECT 
+			<include refid="employeeReportViewColumns" />,
+			(
+				SELECT
+					MAX(h.workflowId)
+				FROM
+					hro_history h
+				WHERE
+					h.objectType = 2 AND deleted = 1
+				AND h.objectId = `contract`.`contractId` AND `contract`.`corpId` IS NOT NULL AND h.accessAction = 'HRO_BIZ_EMPLOYEE_SERVICE_CONTRACT_IN_HOUSE'
+			) AS workflowId
+		FROM `hro_biz_employee_contract` `contract`
+			LEFT JOIN `hro_biz_employee` `employee` ON `contract`.`employeeId` = `employee`.`employeeId` AND `employee`.`deleted` = 1
+			LEFT JOIN `hro_sec_entity` `entity` ON `contract`.`entityId` = `entity`.`entityId` AND `entity`.`deleted` = 1
+			LEFT JOIN `hro_biz_employee_education` `education` ON `employee`.`employeeId` = `education`.`employeeId` AND `education`.`deleted` = 1
+			LEFT JOIN `hro_biz_employee_emergency` `emergency` ON `employee`.`employeeId` = `emergency`.`employeeId` AND `emergency`.`deleted` = 1
+			LEFT JOIN `hro_biz_client_order_header` `orderheader` ON `contract`.`orderId` = `orderheader`.`orderHeaderId` AND `orderheader`.`deleted` = 1
+		WHERE `contract`.`deleted` = 1 AND `contract`.`accountId` = #{accountId}
+		<if test="corpId == null or corpId == ''">
+			AND `contract`.`corpId`  IS NULL
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND `contract`.`corpId` = #{corpId}
+		</if> 
+		<if test="entityId != null and entityId != ''">
+			AND (`contract`.`entityId` = #{entityId} OR 0 = #{entityId})
+		</if>		
+		<if test="employeeId != null and employeeId != ''">
+			AND `employee`.`employeeId` = #{employeeId}
+		</if>	
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND `employee`.`nameZH` LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND UPPER(`employee`.`nameEN`) LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="remark1Set != null and remark1Set != ''">
+			AND 
+			<foreach collection="remark1Set" item="rmk1"  open="" separator="and" close="" >   
+        	 	`employee`.`remark1` LIKE #{rmk1}
+     		</foreach>
+		</if>
+		<if test="remark2Set != null and remark2Set != ''">
+			AND 
+			<foreach collection="remark2Set" item="rmk2"  open="" separator="and" close="" >   
+        	 	`contract`.`remark1` LIKE #{rmk2}
+     		</foreach>
+		</if>
+		<if test="createBy != null and createBy != ''">
+			AND `employee`.`createBy` = #{createBy} AND `contract`.`createBy` = #{createBy}
+		</if>
+		GROUP BY `contract`.`contractId` 
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+</mapper>

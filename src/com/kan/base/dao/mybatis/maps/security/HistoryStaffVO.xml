@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.security.StaffVO">
+	
+	<resultMap id="historyResult" type="com.kan.base.domain.security.StaffVO">
+		<result property="staffId" column="staffId" />
+		<result property="accountId" column="accountId" />
+		<result property="staffNo" column="staffNo" />
+		<result property="salutation" column="salutation" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="birthday" column="birthday" />
+		<result property="bizPhone" column="bizPhone" />
+		<result property="bizExt" column="bizExt" />
+		<result property="personalPhone" column="personalPhone" />
+		<result property="bizMobile" column="bizMobile" />
+		<result property="personalMobile" column="personalMobile" />
+		<result property="otherPhone" column="otherPhone" />
+		<result property="fax" column="fax" />
+		<result property="bizEmail" column="bizEmail" />
+		<result property="personalEmail" column="personalEmail" />
+		<result property="certificateType" column="certificateType" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="maritalStatus" column="maritalStatus" />
+		<result property="registrationHometown" column="registrationHometown" />
+		<result property="registrationAddress" column="registrationAddress" />
+		<result property="personalAddress" column="personalAddress" />
+		<result property="personalPostcode" column="personalPostcode" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<result property="historyId" column="historyId" />
+		<result property="workflowId" column="workflowId" />
+		<result property="hisTitle" column="hisTitle" />
+		<result property="hisDescription" column="hisDescription" />
+		<result property="holdedObject"  column="holdedObject" />
+	</resultMap>
+
+	<sql id="HistoryStaffColumns"> 
+  		staffId,workflowId,hisTitle,hisDescription,accountId, staffNo, salutation, nameZH, nameEN, birthday, bizPhone, bizExt, personalPhone, bizMobile, personalMobile, otherPhone, fax, bizEmail, personalEmail, certificateType, certificateNumber, maritalStatus, registrationHometown, registrationAddress, personalAddress, personalPostcode, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+
+  	
+  	<select id="getHistoryStaffVOByHistoryId" parameterType="int" resultMap="historyResult">
+		select  <include refid="HistoryStaffColumns"/> ,holdedObject
+		from hro_history_sec_staff 
+		where historyId = #{value}
+  	</select>
+  	
+  	<insert id="insertHistoryStaff" parameterType="staff" useGeneratedKeys="true" keyProperty="historyId">
+		insert into hro_history_sec_staff(<include refid="HistoryStaffColumns"/>,holdedObject) 
+		values (#{staffId},#{workflowId},#{hisTitle},#{hisDescription},#{accountId}, #{staffNo}, #{salutation}, #{nameZH}, #{nameEN}, #{birthday}, #{bizPhone}, #{bizExt}, #{personalPhone}, #{bizMobile},
+			#{personalMobile}, #{otherPhone}, #{fax}, #{bizEmail}, #{personalEmail}, #{certificateType}, #{certificateNumber}, #{maritalStatus}, #{registrationHometown},
+			#{registrationAddress}, #{personalAddress}, #{personalPostcode}, #{description},
+		 	1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, 
+			#{createBy}, #{createDate}, #{modifyBy}, #{modifyDate} ,#{holdedObject})
+  	</insert>
+  	
+	<update id="updateHistoryStaff" parameterType="staff">
+		update hro_history_sec_staff set staffId=#{staffId}, accountId = #{accountId}, staffNo = #{staffNo}, salutation = #{salutation}, nameZH = #{nameZH}, nameEN = #{nameEN},
+			birthday = #{birthday}, bizPhone = #{bizPhone}, bizExt = #{bizExt}, personalPhone = #{personalPhone}, bizMobile = #{bizMobile},
+			personalMobile = #{personalMobile}, otherPhone = #{otherPhone}, fax = #{fax}, bizEmail = #{bizEmail}, personalEmail = #{personalEmail},
+			certificateType = #{certificateType}, certificateNumber = #{certificateNumber}, maritalStatus = #{maritalStatus}, registrationHometown = #{registrationHometown},
+			registrationAddress = #{registrationAddress}, personalAddress = #{personalAddress}, personalPostcode = #{personalPostcode}, description = #{description},
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate},
+			workflowId = #{workflowId},	hisTitle = #{hisTitle},	hisDescription = #{hisDescription},	holdedObject = #{holdedObject}
+			where historyId = #{historyId} 
+  	</update>
+  	
+  	<delete id="deleteHistoryStaff" parameterType="staff">
+		update hro_history_sec_staff set deleted = 2, modifyBy = #{modifyBy}, modifyDate = #{modifyDate} where historyId = #{historyId}
+  	</delete>
+	  	
+	<select id="getHistoryStaffVOsByWorkflowId" parameterType="String" resultMap="historyResult">
+		select historyId, <include refid="HistoryStaffColumns"/>  
+		from hro_history_sec_staff 
+		where deleted = 1 AND status = 1 AND accountId = #{value} 
+		order by historyId
+  	</select>
+</mapper>

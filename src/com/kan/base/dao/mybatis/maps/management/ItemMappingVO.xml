@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.management.ItemMappingVO">
+
+	<resultMap id="result" type="com.kan.base.domain.management.ItemMappingVO" >
+		<result property="mappingId" column="mappingId"/>
+		<result property="accountId" column="accountId"/>
+		<result property="corpId" column="corpId"/>
+		<result property="itemId" column="itemId"/>
+		<result property="entityId" column="entityId"/>
+		<result property="businessTypeId" column="businessTypeId"/>
+		<result property="saleDebit" column="saleDebit"/>
+		<result property="saleDebitBranch" column="saleDebitBranch"/>
+		<result property="saleCredit" column="saleCredit"/>
+		<result property="saleCreditBranch" column="saleCreditBranch"/>
+		<result property="costDebit" column="costDebit"/>
+		<result property="costDebitBranch" column="costDebitBranch"/>
+		<result property="costCredit" column="costCredit"/>
+		<result property="costCreditBranch" column="costCreditBranch"/>
+		<result property="description" column="description"/>
+		<result property="deleted" column="deleted"/>
+		<result property="status" column="status"/>
+		<result property="remark1" column="remark1"/>
+		<result property="remark2" column="remark2"/>
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+	
+	<sql id="itemMappingColumns">
+		accountId, corpId, itemId, entityId, businessTypeId, saleDebit, saleDebitBranch, saleCredit, 
+		saleCreditBranch, costDebit, costDebitBranch, costCredit ,costCreditBranch,
+		description, deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate
+	</sql>  	 	
+	
+	<select id="countItemMappingVOsByCondition" parameterType="itemMapping" resultType="int">
+		select count(1) 
+		from Hro_MGT_Item_Mapping
+		where deleted = 1 AND accountId= #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="itemId != null and itemId != ''">
+			AND (itemId = #{itemId} or 0 = #{itemId})
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+
+	<select id="getItemMappingVOsByCondition" parameterType="itemMapping" resultMap="result">
+		select mappingId, <include refid="itemMappingColumns"/>  
+		from Hro_MGT_Item_Mapping 
+		where deleted = 1 AND accountId= #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="itemId != null and itemId != ''">
+			AND (itemId = #{itemId} or 0 = #{itemId})
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>			
+  	</select>
+  	
+  	<select id="getItemMappingVOByMappingId" parameterType="int" resultMap="result">
+  		select mappingId, <include refid="itemMappingColumns"/>
+  		from Hro_MGT_Item_Mapping
+  		where mappingId = #{value}
+  	</select>
+  	
+  	<insert id="insertItemMapping" parameterType="itemMapping" useGeneratedKeys="true" keyProperty="mappingId">
+  		insert into Hro_MGT_Item_Mapping(<include refid="itemMappingColumns"/>)		
+  		values(	#{accountId}, #{corpId}, #{itemId}, #{entityId}, #{businessTypeId}, #{saleDebit}, #{saleDebitBranch}, #{saleCredit}, 
+  				#{saleCreditBranch}, #{costDebit}, #{costDebitBranch}, #{costCredit}, #{costCreditBranch}, 
+  				#{description}, 1, #{status}, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate}) 	
+  	</insert>
+  	
+  	<update id="updateItemMapping" parameterType="itemMapping">  							
+  		update Hro_MGT_Item_Mapping set 
+  				 itemId = #{itemId}, entityId = #{entityId}, businessTypeId = #{businessTypeId}, saleDebit = #{saleDebit}, saleDebitBranch = #{saleDebitBranch}, saleCredit = #{saleCredit}, 
+  				 saleCreditBranch = #{saleCreditBranch}, costDebit = #{costDebit}, costDebitBranch = #{costDebitBranch}, costCredit = #{costCredit}, costCreditBranch = #{costCreditBranch}, 
+  				 description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, createBy = #{createBy}, 
+  				 createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+  		where mappingId = #{mappingId}  		
+  	</update>  	
+  	
+  	<delete id="deleteItemMapping" parameterType="int">
+  		delete from Hro_MGT_Item_Mapping where mappingId = #{value} 
+  	</delete>
+  	
+  	<select id="getItemMappingVOsByAccountId" parameterType="int" resultMap="result">
+  		select mappingId, <include refid="itemMappingColumns"/>
+  		from Hro_MGT_Item_Mapping
+  		where deleted = 1 AND accountId = #{value}
+  	</select>
+</mapper>

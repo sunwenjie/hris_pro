@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.sb.SBDetailVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.sb.SBDetailVO">
+		<result property="detailId" column="detailId" />
+		<result property="headerId" column="headerId" />
+		<result property="itemId" column="itemId" />
+		<result property="itemNo" column="itemNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="basePersonal" column="basePersonal" />
+		<result property="baseCompany" column="baseCompany" />
+		<result property="ratePersonal" column="ratePersonal" />
+		<result property="rateCompany" column="rateCompany" />
+		<result property="fixPersonal" column="fixPersonal" />
+		<result property="fixCompany" column="fixCompany" />
+		<result property="amountPersonal" column="amountPersonal" />
+		<result property="amountCompany" column="amountCompany" />
+		<result property="monthly" column="monthly" />
+		<result property="accountMonthly" column="accountMonthly" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="contractId" column="contractId" />
+		<result property="itemType" column="itemType" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="accountId" column="accountId" />
+		<result property="orderId" column="orderId" />
+		<result property="batchId" column="batchId" />
+		<result property="employeeSBId" column="employeeSBId" />
+		<result property="clientNo" column="clientNo" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="sbNumber" column="sbNumber" />
+	</resultMap>
+  	
+	<sql id="SBDetailColumns">
+		headerId, itemId, itemNo, nameZH, nameEN, basePersonal, baseCompany, ratePersonal, rateCompany, fixPersonal, fixCompany, amountPersonal, 
+		amountCompany, monthly, accountMonthly, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, 
+		modifyDate 
+	</sql>
+  	
+	<sql id="SBDetailColumns-for-join">
+		a.headerId, a.itemId, a.itemNo, a.nameZH, a.nameEN, a.basePersonal, a.baseCompany, a.ratePersonal, a.rateCompany, a.fixPersonal, a.fixCompany, 
+		a.amountPersonal, a.amountCompany, a.monthly, a.accountMonthly, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, 
+		a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countSBDetailVOsByCondition" parameterType="sbDetail" resultType="int">
+		SELECT COUNT(*)
+		FROM hro_sb_detail a
+			LEFT JOIN hro_mgt_item b ON a.itemId = b.itemId AND b.deleted = 1
+			LEFT JOIN hro_sb_header c ON a.headerId = c.headerId AND c.deleted = 1
+		WHERE a.deleted = 1
+		<if test="headerId != null and headerId != ''">
+			AND a.headerId = #{headerId} 
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (c.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND c.corpId IS NULL 
+		</if>
+		<if test="detailId != null and detailId != ''">
+			AND a.detailId = #{detailId} 
+		</if>
+		<if test="accountId != null and accountId != ''">
+			AND c.accountId = #{accountId} 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND c.contractId = #{contractId} 
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		<if test="accountMonthly != null and accountMonthly != ''">
+			AND (a.accountMonthly = #{accountMonthly} or '0' = #{accountMonthly})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) or 0 = #{status})
+		</if>
+	</select>
+
+	<select id="getSBDetailVOsByCondition" parameterType="sbHeader" resultMap="result">
+		SELECT a.detailId, <include refid="SBDetailColumns-for-join"/>, b.itemType, c.contractId, c.accountId, c.orderId, c.entityId, c.businessTypeId,
+			c.employeeSBId, c.clientNo, c.clientNameZH, c.clientNameEN, c.employeeId, c.employeeNameZH, c.employeeNameEN, c.sbNumber
+		FROM hro_sb_detail a
+			LEFT JOIN hro_mgt_item b ON a.itemId = b.itemId AND b.deleted = 1
+			LEFT JOIN hro_sb_header c ON a.headerId = c.headerId AND c.deleted = 1
+		WHERE a.deleted = 1
+		<if test="headerId != null and headerId != ''">
+			AND a.headerId = #{headerId} 
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (c.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND c.corpId IS NULL 
+		</if>
+		<if test="detailId != null and detailId != ''">
+			AND a.detailId = #{detailId} 
+		</if>
+		<if test="accountId != null and accountId != ''">
+			AND c.accountId = #{accountId} 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND c.contractId = #{contractId} 
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or '0' = #{monthly})
+		</if>
+		<if test="accountMonthly != null and accountMonthly != ''">
+			AND (a.accountMonthly = #{accountMonthly} or '0' = #{accountMonthly})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+	<select id="getSBDetailVOByDetailId" parameterType="int" resultMap="result">
+		SELECT a.detailId, <include refid="SBDetailColumns-for-join"/>, b.itemType
+		FROM hro_sb_detail a
+			LEFT JOIN hro_mgt_item b ON a.itemId = b.itemId AND b.deleted = 1
+	 	WHERE a.detailId = #{value}
+	</select>
+
+	<select id="getSBDetailVOsByHeaderId" parameterType="int" resultMap="result">
+		SELECT a.detailId, <include refid="SBDetailColumns-for-join"/>, b.itemType
+		FROM hro_sb_detail a 
+			LEFT JOIN hro_mgt_item b ON a.itemId = b.itemId AND b.deleted = 1
+			LEFT JOIN hro_sb_header sb ON a.headerId = sb.headerId AND sb.deleted = 1
+			LEFT JOIN hro_biz_employee_contract hbizemp ON sb.contractId = hbizemp.contractId and hbizemp.deleted = 1
+			LEFT JOIN Hro_Biz_Employee hbe ON hbe.employeeId = sb.employeeId and hbe.deleted = 1
+	 	WHERE a.deleted = 1 AND a.headerId = #{headerId} 
+	 	
+	 	<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR hbe._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR hbe.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+	</select>
+
+	<select id="getSBDetailVOsByContractId" parameterType="int" resultMap="result">
+		SELECT a.detailId, <include refid="SBDetailColumns-for-join"/>, c.itemType
+		FROM hro_sb_detail a 
+			LEFT JOIN hro_sb_header b ON a.headerId = b.headerId AND b.deleted = 1
+			LEFT JOIN hro_mgt_item c ON a.itemId = c.itemId AND c.deleted = 1
+	 	WHERE a.deleted = 1 AND b.contractId = #{value} 
+	</select>
+	
+	
+	<resultMap id="batchResult" type="com.kan.hro.domain.biz.sb.SBDetailVO">
+		<result property="detailId" column="detailId" />
+		<result property="headerId" column="headerId" />
+		<result property="itemId" column="itemId" />
+		<result property="itemNo" column="itemNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="basePersonal" column="basePersonal" />
+		<result property="baseCompany" column="baseCompany" />
+		<result property="ratePersonal" column="ratePersonal" />
+		<result property="rateCompany" column="rateCompany" />
+		<result property="fixPersonal" column="fixPersonal" />
+		<result property="fixCompany" column="fixCompany" />
+		<result property="amountPersonal" column="amountPersonal" />
+		<result property="amountCompany" column="amountCompany" />
+		<result property="monthly" column="monthly" />
+		<result property="accountMonthly" column="accountMonthly" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="itemType" column="itemType" />
+		<result property="accountId" column="accountId" />
+		
+		<!-- fix bug #196 -->
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		
+	</resultMap>
+
+	<select id="getSBDetailVOsByBatchId" parameterType="sbBatch" resultMap="batchResult">
+		SELECT a.detailId, <include refid="SBDetailColumns-for-join"/>, d.itemType, b.employeeId, b.employeeNameZH, b.employeeNameEN
+		FROM hro_sb_detail a 
+			LEFT JOIN hro_sb_header b ON a.headerId = b.headerId AND b.deleted = 1
+			LEFT JOIN hro_sb_batch c ON b.batchId = c.batchId AND c.deleted = 1
+			LEFT JOIN hro_mgt_item d ON a.itemId = d.itemId AND d.deleted = 1
+			LEFT JOIN hro_biz_employee_contract hbizemp ON b.contractId = hbizemp.contractId and hbizemp.deleted = 1
+			LEFT JOIN Hro_Biz_Employee hbe ON hbe.employeeId = b.employeeId and hbe.deleted = 1
+	 	WHERE a.deleted = 1 AND c.batchId = #{batchId}
+	 	
+	 	<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR hbe._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR hbe.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+	 	
+	</select>
+
+	<update id="updateSBDetail" parameterType="sbDetail" >
+		UPDATE hro_sb_detail set headerId = #{headerId}, itemId = #{itemId}, itemNo = #{itemNo}, nameZH = #{nameZH}, nameEN = #{nameEN}, 
+			basePersonal = #{basePersonal}, baseCompany = #{baseCompany}, ratePersonal = #{ratePersonal}, rateCompany = #{rateCompany}, 
+			fixPersonal = #{fixPersonal}, fixCompany = #{fixCompany}, amountPersonal = #{amountPersonal}, amountCompany = #{amountCompany}, 
+			monthly = #{monthly}, accountMonthly = #{accountMonthly}, description = #{description}, deleted = #{deleted}, status = #{status}, 
+			remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, 
+			modifyDate = #{modifyDate}
+		WHERE detailId = #{detailId} 
+  	</update>
+
+	<insert id="insertSBDetail" parameterType="sbDetail" useGeneratedKeys="true" keyProperty="detailId">
+		INSERT INTO hro_sb_detail( <include refid="SBDetailColumns" /> )
+		VALUES (#{headerId}, #{itemId}, #{itemNo}, #{nameZH}, #{nameEN}, #{basePersonal}, #{baseCompany}, #{ratePersonal}, #{rateCompany}, #{fixPersonal}, 
+			#{fixCompany}, #{amountPersonal}, #{amountCompany}, #{monthly}, #{accountMonthly}, #{description}, 1, #{status}, #{remark1}, #{remark2}, 
+			#{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteSBDetail" parameterType="int">
+		DELETE from hro_sb_detail where detailId = #{value}
+  	</delete>
+  	
+  	<select id="getSBDetailVOsBySbHeaderCond" parameterType="sbHeader" resultMap="result">
+		SELECT a.detailId,<include refid="SBDetailColumns-for-join" />,h.accountId
+		FROM hro_sb_header h LEFT JOIN hro_sb_detail a on h.headerId = a.headerId and a.deleted = 1
+		WHERE h.deleted =1
+		and h.employeeId = #{employeeId}
+		and h.monthly = #{monthly}
+	</select>
+
+</mapper>

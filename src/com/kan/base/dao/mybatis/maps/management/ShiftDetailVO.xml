@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.management.ShiftDetailVO">
+
+	<resultMap id="result" type="com.kan.base.domain.management.ShiftDetailVO" >
+		<result property="detailId" column="detailId"/>
+		<result property="headerId" column="headerId"/>
+		<result property="nameZH" column="nameZH"/>
+		<result property="nameEN" column="nameEN"/>
+		<result property="dayIndex" column="dayIndex"/>
+		<result property="shiftDay" column="shiftDay"/>
+		<result property="shiftPeriod" column="shiftPeriod"/>
+		<result property="description" column="description"/>
+		<result property="deleted" column="deleted"/>
+		<result property="status" column="status"/>
+		<result property="remark1" column="remark1"/>
+		<result property="remark2" column="remark2"/>
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+	
+	<sql id="shiftDetailColumns">
+		 headerId, nameZH, nameEN, dayIndex, shiftDay, shiftPeriod, description, deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate
+	</sql>  	 	
+	
+	<select id="countShiftDetailVOsByCondition" parameterType="shiftDetail" resultType="int">
+		select count(*) 
+		from HRO_MGT_Shift_Detail
+		where deleted = 1 AND headerId = #{headerId}
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+
+	<select id="getShiftDetailVOsByCondition" parameterType="shiftDetail" resultMap="result">
+		select detailId, <include refid="shiftDetailColumns"/>  
+		from HRO_MGT_Shift_Detail 
+		where deleted = 1 AND headerId = #{headerId}
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>			
+  	</select>
+  	
+  	<select id="getShiftDetailVOByDetailId" parameterType="int" resultMap="result">
+  		select detailId, <include refid="shiftDetailColumns"/>
+  		from HRO_MGT_Shift_Detail
+  		where detailId = #{value}
+  	</select>
+  	
+  	<insert id="insertShiftDetail" parameterType="shiftDetail" useGeneratedKeys="true" keyProperty="detailId">
+  		insert into HRO_MGT_Shift_Detail(<include refid="shiftDetailColumns"/>)		
+  		values(#{headerId}, #{nameZH}, #{nameEN}, #{dayIndex}, #{shiftDay}, #{shiftPeriod}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate}) 	
+  	</insert>
+  	
+  	<update id="updateShiftDetail" parameterType="shiftDetail">  							
+  		update HRO_MGT_Shift_Detail set nameZH = #{nameZH}, nameEN = #{nameEN}, dayIndex = #{dayIndex}, shiftDay = #{shiftDay}, shiftPeriod = #{shiftPeriod},
+  			description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, 
+  			createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+  		where detailId = #{detailId}  		
+  	</update>  	
+  	
+  	<delete id="deleteShiftDetail" parameterType="shiftDetail">
+  		delete from HRO_MGT_Shift_Detail where detailId = #{detailId} 
+  	</delete>
+  	
+  	<select id="getShiftDetailVOsByHeaderId" parameterType="int" resultMap="result">
+  		select detailId, <include refid="shiftDetailColumns"/>
+  		from HRO_MGT_Shift_Detail
+  		where deleted = 1 AND status = 1 AND headerId = #{value}
+  	</select>
+  	
+</mapper>	

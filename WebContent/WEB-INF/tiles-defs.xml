@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config.dtd">
+
+<tiles-definitions>
+
+	<definition name="com.kan.hro.logon" path="/layouts/hroLogonLayout.jsp">
+        <put name="title"  value="" />
+        <put name="header" value="/common/logonHeader.jsp" />
+        <put name="body"   value="" />
+        <put name="footer" value="/common/footer.jsp" />
+    </definition>
+    
+    <definition name="com.kan.hro.classical" path="/layouts/hroClassicalLayout.jsp">
+        <put name="title"  value="" />
+        <put name="header" value="/common/header.jsp" />
+        <put name="menu"   value="/common/menu.jsp" />
+        <put name="body"   value="" />
+        <put name="footer" value="/common/footer.jsp" />
+    </definition>
+
+</tiles-definitions>

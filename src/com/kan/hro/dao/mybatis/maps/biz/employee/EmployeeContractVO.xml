@@ -1,0 +1,1299 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeContractVO">
+
+	<resultMap id="employeeContractBaseView" type="com.kan.hro.domain.biz.employee.EmployeeContractBaseView" >
+		<result property="id" column="id" />
+		<result property="accountId" column="accountId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="clientId" column="clientId" />
+		<result property="clientName" column="clientName" />
+		<result property="orderId" column="orderId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="name" column="name" />
+	</resultMap>
+	
+	<resultMap id="clientBaseView" type="com.kan.hro.domain.biz.client.ClientBaseView">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+	</resultMap>
+	
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeContractVO">
+		<result property="batchId" column="batchId"/>
+		<result property="contractId" column="contractId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="clientId" column="clientId" />
+		<result property="orderId" column="orderId" />
+		<result property="department" column="department" />
+		<result property="positionId" column="positionId" />
+		<result property="additionalPosition" column="additionalPosition" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="templateId" column="templateId" />
+		<result property="contractNo" column="contractNo" />
+		<result property="masterContractId" column="masterContractId" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="content" column="content" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="applyOTFirst" column="applyOTFirst" />
+		<result property="otLimitByDay" column="otLimitByDay" />
+		<result property="otLimitByMonth" column="otLimitByMonth" />
+		<result property="workdayOTItemId" column="workdayOTItemId" />
+		<result property="weekendOTItemId" column="weekendOTItemId" />
+		<result property="holidayOTItemId" column="holidayOTItemId" />
+		<result property="attendanceCheckType" column="attendanceCheckType" />
+		<result property="resignDate" column="resignDate" />
+		<result property="lastWorkDate" column="lastWorkDate" />
+		<result property="employStatus" column="employStatus" />
+		<result property="leaveReasons" column="leaveReasons" />
+		<result property="calendarId" column="calendarId" />
+		<result property="shiftId" column="shiftId" />
+		<result property="sickLeaveSalaryId" column="sickLeaveSalaryId" />
+		<result property="flag" column="flag" />
+		<result property="medicalNumber" column="medicalNumber" />	
+		<result property="sbNumber" column="sbNumber" />	
+		<result property="fundNumber" column="fundNumber" />
+		<result property="hsNumber" column="hsNumber" />	
+		<result property="attachment" column="attachment" />
+		<result property="branch" column="branch" />
+		<result property="owner" column="owner" />
+		<result property="settlementBranch" column="settlementBranch" />
+		<result property="locked" column="locked" />
+		<result property="description" column="description" />
+		<result property="currency" column="currency"/>
+		<result property="salaryVendorId" column="salaryVendorId" />
+		<result property="incomeTaxBaseId" column="incomeTaxBaseId" />
+		<result property="incomeTaxRangeHeaderId" column="incomeTaxRangeHeaderId" />
+		<result property="probationMonth" column="probationMonth" />
+		<result property="probationEndDate" column="probationEndDate" />
+		<result property="isRetained" column="isRetained" />
+		<result property="isContinued" column="isContinued" />
+		<result property="continueNeeded" column="continueNeeded" />
+		<result property="payment" column="payment" />
+		<result property="hireAgain" column="hireAgain" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For Application -->
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="employeeNo" column="employeeNo" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="monthly" column="monthly" />
+		<result property="clientNumber" column="clientNumber" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="clientName" column="clientName" />
+		<result property="extended" column="extended" />
+		<result property="contractNameZH" column="contractNameZH" />
+		<result property="contractNameEN" column="contractNameEN" />
+		<result property="bizEmail" column="bizEmail" />
+		<result property="personalEmail" column="personalEmail" />
+		<result property="_tempPositionIds" column="_tempPositionIds" />
+		<result property="_tempBranchIds" column="_tempBranchIds" />
+		<result property="orderName" column="orderName" />
+		<result property="orderShiftId" column="orderShiftId" />
+		<result property="orderAttendanceGenerate" column="orderAttendanceGenerate" />
+		<result property="employeeRemark1" column="employeeRemark1" />
+	</resultMap>
+  	
+	<sql id="employeeContractColumns">
+		accountId, employeeId, clientId, corpId, orderId, department, positionId, additionalPosition, entityId, businessTypeId, templateId,lineManagerId,approveType, contractNo, masterContractId, 
+		nameZH, nameEN, content, startDate, endDate, period, applyOTFirst, otLimitByDay, otLimitByMonth, workdayOTItemId, weekendOTItemId, holidayOTItemId, attendanceCheckType, resignDate,lastWorkDate, employStatus, leaveReasons, 
+		calendarId, shiftId, sickLeaveSalaryId, flag,medicalNumber, sbNumber, fundNumber, hsNumber, attachment, branch, owner, settlementBranch, locked, description,currency, salaryVendorId, incomeTaxBaseId, 
+		incomeTaxRangeHeaderId, probationMonth, probationEndDate, isRetained, isContinued, continueNeeded,payment,hireAgain ,deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, 
+		modifyDate 
+	</sql>
+	
+	<sql id="employeeContractColumns-for-join">
+		a.accountId, a.employeeId, a.clientId, a.corpId, a.orderId, a.department, a.positionId, a.additionalPosition, a.entityId, a.businessTypeId, a.templateId, a.lineManagerId, a.approveType, a.contractNo, 
+		a.masterContractId, a.nameZH, a.nameEN, a.content, a.startDate, a.endDate, a.period, a.applyOTFirst, a.otLimitByDay, a.otLimitByMonth, a.workdayOTItemId, a.weekendOTItemId, a.holidayOTItemId, 
+		a.attendanceCheckType, a.resignDate,a.lastWorkDate, a.employStatus, a.leaveReasons, a.calendarId, a.shiftId, a.sickLeaveSalaryId, a.flag, a.medicalNumber, a.sbNumber, a.fundNumber, a.hsNumber, a.attachment, a.branch, a.owner, 
+		a.settlementBranch, a.locked, a.description,a.currency, a.salaryVendorId, a.incomeTaxBaseId, a.incomeTaxRangeHeaderId, a.probationMonth, a.probationEndDate, a.isRetained, a.isContinued, a.continueNeeded,a.payment, a.hireAgain,
+		a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+
+	<select id="countEmployeeContractVOsByCondition" parameterType="employeeContract" resultType="int">
+		SELECT count(a.contractId)
+		FROM HRO_BIZ_Employee_Contract a LEFT JOIN HRO_BIZ_Employee b on a.employeeId = b.employeeId
+			LEFT JOIN HRO_Biz_Client c ON a.clientId = c.clientId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId} 
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN LIKE CONCAT('%', '${nameEN}', '%')
+		</if>
+		
+		<if test="remark1 != null and remark1 != ''">
+			AND a.`remark1` LIKE #{remark1}
+		</if>
+		<if test="employeeShortName != null and employeeShortName != ''">
+			AND b.`remark1` LIKE CONCAT('%', '${employeeShortName}', '%')
+		</if>
+		
+		<if test="contractNo != null and contractNo != ''">
+			AND a.contractNo LIKE CONCAT('%',  '${contractNo}','%')
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND ( a.clientId = #{clientId} or 0 = #{clientId} )
+		</if>
+		<if test="clientNumber != null and clientNumber != ''">
+			AND c.number like CONCAT('%', '${clientNumber}', '%') 
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND c.nameZH LIKE CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND c.nameEN LIKE CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId} 
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId}) 
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId}) 
+		</if>
+		<if test="positionId != null and positionId != ''">
+			AND a.positionId = #{positionId} 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND b.nameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND b.nameEN LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND b.employeeNo LIKE CONCAT('%', '${employeeNo}', '%')
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber LIKE CONCAT('%', '${certificateNumber}', '%')
+		</if>
+		<if test="startDateFrom != null and startDateFrom != ''">
+			<![CDATA[
+				AND (a.startDate >= #{startDateFrom})
+			]]>
+		</if>
+		<if test="startDateTo != null and startDateTo != ''">
+			<![CDATA[
+				AND (a.startDate <= #{startDateTo})
+			]]>
+		</if>
+		<if test="endDateFrom != null and endDateFrom != ''">
+			<![CDATA[
+				AND (case when a.resignDate is not null then a.resignDate else a.endDate end) >= #{endDateFrom}
+			]]>
+		</if>
+		<if test="endDateTo != null and endDateTo != ''">
+			<![CDATA[
+				AND (case when a.resignDate is not null then a.resignDate else a.endDate end) <= #{endDateTo}
+			]]>
+		</if>
+		<if test="branch != null and branch != ''">
+		   AND (b.branch = #{branch} or 0 = #{branch})
+		</if>
+		<if test="employStatus != null and employStatus != ''">
+			AND (a.employStatus = #{employStatus} or 0 = #{employStatus})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) or '0' = '${status}')
+		</if>
+		<!-- 批准及以上状态的合同 -->
+		<if test="searchField.validateStatus != null and searchField.validateStatus != ''">
+			AND a.status IN ('3','5','6') 
+		</if>
+		<if test="flag != null and flag != ''">
+			AND a.flag = #{flag} 
+		</if>
+		<!-- See 休假情况报表 -->
+		<if test="remark3 != null and remark3 != '' and remark4 != null and remark4 != ''">
+			<![CDATA[ 
+				AND (a.resignDate IS NULL or ( a.resignDate IS NOT NULL AND a.resignDate >= #{remark3} ))
+				AND a.startDate <= #{remark4}
+			]]> 
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR a.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR a.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR b._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR b.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR a.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+	</select>
+
+	<select id="getEmployeeContractVOsByCondition" parameterType="employeeContract" resultMap="result">
+		SELECT a.contractId, <include refid="employeeContractColumns-for-join"/>, b.nameZH AS employeeNameZH, b.nameEN AS employeeNameEN, b.employeeNo, 
+			o.shiftId AS orderShiftId, b.remark1 as employeeRemark1,
+			b._tempBranchIds AS _tempBranchIds, b._tempPositionIds AS _tempPositionIds,
+			b.certificateNumber, CONCAT(b.nameZH, ' - ', b.nameEN) AS employeeName,CONCAT(c.nameZH,' - ',c.nameEN) AS clientName, c.number AS clientNumber,
+			MAX(h.workflowId) AS workflowId,
+			c.nameZH as clientNameZH,
+			<![CDATA[ 
+			CASE
+				WHEN (select count(d.contractId) from hro_biz_employee_contract_extended_view d WHERE d.contractId = a.contractId) > 0 THEN
+					1
+				WHEN a. STATUS IN (2, 3, 5, 6, 7) THEN
+					1
+				ELSE
+					2
+				END AS EXTENDED
+				 ]]>
+		FROM HRO_BIZ_Employee_Contract a LEFT JOIN  HRO_BIZ_Employee b on a.employeeId = b.employeeId
+		LEFT JOIN HRO_Biz_Client c ON a.clientId = c.clientId
+		LEFT JOIN HRO_Biz_Client_Order_Header o ON a.orderId = o.orderHeaderId
+		LEFT JOIN 
+		(
+			SELECT workflowId, objectId FROM hro_history h 
+			WHERE h.deleted = 1 AND h.accessAction = 'HRO_BIZ_EMPLOYEE_SERVICE_CONTRACT_IN_HOUSE' AND h.objectType = 2
+		) h ON a.contractId = h.objectId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL 
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId} 
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH LIKE CONCAT('%', '${nameZH}', '%')
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN LIKE CONCAT('%', '${nameEN}', '%')
+		</if>
+		
+		<if test="remark1 != null and remark1 != ''">
+			AND a.`remark1` LIKE #{remark1}
+		</if>
+		<if test="employeeShortName != null and employeeShortName != ''">
+			AND b.`remark1` LIKE CONCAT('%', '${employeeShortName}', '%')
+		</if>
+		
+
+		<if test="contractNo != null and contractNo != ''">
+			AND a.contractNo LIKE CONCAT('%',  '${contractNo}','%')
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND ( a.clientId = #{clientId} or 0 = #{clientId} )
+		</if>
+		<if test="clientNumber != null and clientNumber != ''">
+			AND c.number like CONCAT('%', '${clientNumber}', '%') 
+		</if>
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND c.nameZH LIKE CONCAT('%', '${clientNameZH}', '%')
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND c.nameEN LIKE CONCAT('%', '${clientNameEN}', '%')
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId} 
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId}) 
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId}) 
+		</if>
+		<if test="positionId != null and positionId != ''">
+			AND a.positionId = #{positionId} 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND b.nameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND b.nameEN LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="employeeNo != null and employeeNo != ''">
+			AND b.employeeNo LIKE CONCAT('%', '${employeeNo}', '%')
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			AND b.certificateNumber LIKE CONCAT('%', '${certificateNumber}', '%')
+		</if>
+		<if test="startDateFrom != null and startDateFrom != ''">
+			<![CDATA[
+				AND (a.startDate >= #{startDateFrom})
+			]]>
+		</if>
+		<if test="startDateTo != null and startDateTo != ''">
+			<![CDATA[
+				AND (a.startDate <= #{startDateTo})
+			]]>
+		</if>
+		<if test="endDateFrom != null and endDateFrom != ''">
+			<![CDATA[
+				AND (case when a.resignDate is not null then a.resignDate else a.endDate end) >= #{endDateFrom}
+			]]>
+		</if>
+		<if test="endDateTo != null and endDateTo != ''">
+			<![CDATA[
+				AND (case when a.resignDate is not null then a.resignDate else a.endDate end) <= #{endDateTo}
+			]]>
+		</if>
+		<if test="branch != null and branch != ''">
+		   AND (b.branch = #{branch} or 0 = #{branch})
+		</if>
+		<if test="employStatus != null and employStatus != ''">
+			AND (a.employStatus = #{employStatus} or 0 = #{employStatus})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) or '0' = '${status}')
+		</if>
+		<!-- 批准及以上状态的合同 -->
+		<if test="searchField.validateStatus != null and searchField.validateStatus != ''">
+			AND a.status IN ('3','5','6') 
+		</if>
+		<if test="flag != null and flag != ''">
+			AND a.flag = #{flag} 
+		</if>
+		<if test="orderAttendanceGenerate != null and orderAttendanceGenerate != ''">
+			AND o.attendanceGenerate not in (${orderAttendanceGenerate}) 
+		</if>
+		
+		<!-- See 休假情况报表 -->
+		<if test="remark3 != null and remark3 != '' and remark4 != null and remark4 != ''">
+			<![CDATA[ 
+				AND (a.resignDate IS NULL or ( a.resignDate IS NOT NULL AND a.resignDate >= #{remark3} ))
+				AND a.startDate <= #{remark4}
+			]]> 
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR a.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR a.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR b._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR b.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR a.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		GROUP BY a.contractId
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY workflowId DESC, ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<!-- 提取符合条件的服务协议 - 结算处理，FLAG:2表示服务协议 -->
+	<select id="getSettlementEmployeeContractVOsByCondition" parameterType="employeeContract" resultMap="result">
+		SELECT DISTINCT a.contractId, <include refid="employeeContractColumns-for-join"/>
+		FROM HRO_BIZ_Employee_Contract a 
+		LEFT JOIN (
+				SELECT c.clientId, CASE WHEN c.settlementConditionSC > 0 THEN c.settlementConditionSC ELSE d.settlementConditionSC END 
+					as settlementConditionSC
+				FROM HRO_BIZ_Client c LEFT JOIN HRO_MGT_Options d ON c.accountId = d.accountId 
+			) e ON a.clientId = e.clientId 
+		LEFT JOIN Hro_Biz_Employee hbe ON hbe.employeeId = a.employeeId and hbe.deleted = 1
+		WHERE a.deleted = 1 AND a.flag = 2 AND (a.locked is NULL OR a.locked != 1) AND a.orderId = #{orderId} 
+			AND ((1 = e.settlementConditionSC AND (a.status = 3 OR a.status = 5 OR a.status = 6 OR a.status = 7)) 
+				OR (2 = e.settlementConditionSC AND (a.status = 5 OR a.status = 6 OR a.status = 7)) OR (3 = e.settlementConditionSC AND (a.status = 6 OR a.status = 7)))
+		<!-- 服务协议ID当月社保未处理 -->
+			AND a.contractId not in (select employeeContractId from hro_settle_order_contract_temp where accountId = #{accountId})
+		<!-- 过滤不计算工资的数据-->
+			 AND (a.payment != 2 or a.payment is  null)
+			
+		<!-- 按照单个服务协议ID提取 -->
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId} 
+		</if>
+		<!-- 按照客户ID提取 -->
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<!-- 按照订单ID提取 -->
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId} 
+		</if>
+		<!-- 按照法务实体ID提取 -->
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} OR 0 = #{entityId}) 
+		</if>
+		<!-- 按照业务类型ID提取 -->
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} OR 0 = #{businessTypeId}) 
+		</if>
+		<!-- 按照雇员ID提取 -->
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<!-- 参考时间，主要用于结束的合同最多往前推3个月 -->
+		<if test="bufferDate != null and bufferDate != ''">
+			AND ( (a.resignDate is null AND (a.endDate is null OR a.endDate > #{bufferDate})) OR (a.resignDate is not null AND a.resignDate > #{bufferDate}) )
+		</if>
+		<!-- 身份判断 -->
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL 
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR a.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR a.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR hbe._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR hbe.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR a.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		ORDER BY a.contractId
+	</select>
+	
+	<!-- 提取符合条件的服务协议 - 社保处理 -->
+	<select id="getSBEmployeeContractVOsByCondition" parameterType="employeeContract" resultMap="result">
+		SELECT distinct a.contractId, <include refid="employeeContractColumns-for-join"/>
+		FROM HRO_BIZ_Employee_Contract a 
+			LEFT JOIN hro_biz_employee_contract_sb b ON a.contractId = b.contractId 
+			LEFT JOIN Hro_Biz_Employee hbe ON hbe.employeeId = a.employeeId and hbe.deleted = 1
+			LEFT JOIN hro_mgt_social_benefit_solution_header c on b.sbSolutionId = c.headerId 
+			LEFT JOIN hro_sys_social_benefit_header d ON c.sysHeaderId = d.headerId 
+			LEFT JOIN HRO_BIZ_Client_Order_Header e ON a.orderId = e.orderHeaderId 
+			LEFT JOIN (
+				SELECT f.clientId, 
+					CASE WHEN f.sbGenerateCondition > 0 THEN f.sbGenerateCondition ELSE g.sbGenerateCondition END as sbGenerateCondition, 
+					CASE WHEN f.sbGenerateConditionSC > 0 THEN f.sbGenerateConditionSC ELSE g.sbGenerateConditionSC END as sbGenerateConditionSC
+				FROM HRO_BIZ_Client f LEFT JOIN HRO_MGT_Options g ON f.accountId = g.accountId 
+				WHERE f.accountId = #{accountId}
+			) h ON a.clientId = h.clientId 
+		where a.deleted = 1 AND a.flag = 2 AND (a.locked is NULL OR a.locked != 1) AND a.accountId = #{accountId} 
+			AND ( ( b.status = 2 AND <![CDATA[ b.startDate <= #{sbStartDate} ]]> ) 
+				OR ( b.status = 3 AND ((a.endDate IS NULL AND b.endDate IS NULL ) OR <![CDATA[ a.endDate >= #{sbEndDate} ]]> OR <![CDATA[ b.endDate >= #{sbEndDate} ]]>) 
+					AND <![CDATA[ b.startDate <= #{sbStartDate} ]]> ) 
+				OR ( b.status = 5 AND <![CDATA[ b.endDate >= #{sbEndDate} ]]> ) ) 
+			AND ((1 = h.sbGenerateCondition AND (e.status = 3 OR e.status = 5)) OR (2 = h.sbGenerateCondition AND e.status = 5)) 
+			AND ((1 = h.sbGenerateConditionSC AND (a.status = 3 OR a.status = 5 OR a.status = 6 OR a.status = 7)) 
+				OR (2 = h.sbGenerateConditionSC AND (a.status = 5 OR a.status = 6 OR a.status = 7)) OR (3 = h.sbGenerateConditionSC AND (a.status = 6 OR a.status = 7)))
+		
+		<!-- 过滤不计算工资的数据-->
+			 AND (a.payment != 2 or a.payment is  null)
+		<!-- 社保方案ID当月社保未处理 -->
+			AND b.employeeSBId not in (select employeeSBId from hro_sb_header where accountId = #{accountId} AND monthly = #{monthly})
+			
+		<!-- 按照单个服务协议ID提取 -->
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId} 
+		</if>
+		<!-- 按照客户ID提取 -->
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<!-- 按照订单ID提取 -->
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId} 
+		</if>
+		<!-- 按照法务实体ID提取 -->
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} OR 0 = #{entityId}) 
+		</if>
+		<!-- 按照业务类型ID提取 -->
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} OR 0 = #{businessTypeId}) 
+		</if>
+		<!-- 按照雇员ID提取 -->
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<!-- 按照社保城市ID提取 -->
+		<if test="sbCityId != null and sbCityId != ''">
+			AND (d.cityId = #{sbCityId} OR 0 = #{sbCityId}) 
+		</if>
+		<!-- 参考时间，主要用于结束的合同最多往前推3个月 -->
+		<if test="bufferDate != null and bufferDate != ''">
+			AND ( (a.resignDate is null AND (a.endDate is null OR a.endDate > #{bufferDate})) OR (a.resignDate is not null AND a.resignDate > #{bufferDate}) )
+		</if>
+		<!-- 身份判断 -->
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL 
+		</if>
+		<if test="sbType != null or sbType != ''">
+			AND (c.sbType = #{sbType} OR 0 = #{sbType}) 
+		</if>
+		<if test="sbStatusArray != null">
+			AND b.status in 
+				<foreach  item="statuss" index="index" collection="sbStatusArray" open="(" close=")" separator=",">
+            		#{statuss}
+     	   		</foreach>
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR a.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR a.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR hbe._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR hbe.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR a.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		ORDER BY a.contractId
+	</select>
+	
+	<!-- 提取符合条件的服务协议 - 商保处理 -->
+	<select id="getCBEmployeeContractVOsByCondition" parameterType="employeeContract" resultMap="result">
+		SELECT distinct a.contractId, <include refid="employeeContractColumns-for-join"/>
+		FROM HRO_BIZ_Employee_Contract a 
+			LEFT JOIN hro_biz_employee_contract_cb b ON a.contractId = b.contractId 
+			LEFT JOIN Hro_Biz_Employee hbe ON hbe.employeeId = a.employeeId and hbe.deleted = 1
+			LEFT JOIN HRO_MGT_Commercial_Benefit_Solution_Header c ON b.solutionId = c.headerId 
+			LEFT JOIN HRO_BIZ_Client_Order_Header d ON a.orderId = d.orderHeaderId 
+			LEFT JOIN (
+				SELECT f.clientId, 
+					CASE WHEN f.sbGenerateCondition > 0 THEN f.sbGenerateCondition ELSE g.sbGenerateCondition END as sbGenerateCondition, 
+					CASE WHEN f.sbGenerateConditionSC > 0 THEN f.sbGenerateConditionSC ELSE g.sbGenerateConditionSC END as sbGenerateConditionSC
+				FROM HRO_BIZ_Client f LEFT JOIN HRO_MGT_Options g ON f.accountId = g.accountId 
+				WHERE f.accountId = #{accountId} 
+			) h ON a.clientId = h.clientId 
+		where a.deleted = 1 AND a.flag = 2 AND (a.locked is NULL OR a.locked != 1) AND a.accountId = #{accountId} 
+			AND ( ( b.status = 2 AND <![CDATA[ b.startDate <= #{cbStartDate} ]]> ) OR b.status = 3 
+				OR ( b.status = 5 AND <![CDATA[ b.endDate >= #{cbEndDate} ]]> ) ) 
+			AND ((1 = h.sbGenerateCondition AND (d.status = 3 OR d.status = 5)) OR (2 = h.sbGenerateCondition AND d.status = 5)) 
+			AND ((1 = h.sbGenerateConditionSC AND (a.status = 3 OR a.status = 5 OR a.status = 6 OR a.status = 7)) 
+				OR (2 = h.sbGenerateConditionSC AND (a.status = 5 OR a.status = 6 OR a.status = 7)) OR (3 = h.sbGenerateConditionSC AND (a.status = 6 OR a.status = 7)))
+		<!-- 过滤不计算工资的数据-->
+			 AND (a.payment != 2 or a.payment is  null)
+		
+		<!-- 商保方案ID当月商保未处理 -->
+			AND b.employeeCBId not in (select employeeCBId from hro_cb_header where accountId = #{accountId} AND monthly = #{monthly})
+			
+		<!-- 按照单个服务协议ID提取 -->
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId} 
+		</if>
+		<!-- 按照客户ID提取 -->
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<!-- 按照订单ID提取 -->
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId} 
+		</if>
+		<!-- 按照法务实体ID提取 -->
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} OR 0 = #{entityId}) 
+		</if>
+		<!-- 按照业务类型ID提取 -->
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} OR 0 = #{businessTypeId}) 
+		</if>
+		<!-- 按照雇员ID提取 -->
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<!-- 按照商保方案ID提取 -->
+		<if test="cbId != null and cbId != ''">
+			AND (c.headerId = #{cbId} OR 0 = #{cbId}) 
+		</if>
+		<!-- 参考时间，主要用于结束的合同最多往前推3个月 -->
+		<if test="bufferDate != null and bufferDate != ''">
+			AND ( (a.resignDate is null AND (a.endDate is null OR a.endDate > #{bufferDate})) OR (a.resignDate is not null AND a.resignDate > #{bufferDate}) )
+		</if>
+		<!-- 身份判断 -->
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL 
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR a.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR a.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR hbe._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR hbe.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR a.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		ORDER BY a.contractId
+	</select>
+	
+	<!-- 提取符合条件的服务协议 - 考勤生成，FLAG:2表示服务协议，TS-ContractId:null表示未生成过目标月TS -->
+	<select id="getTSEmployeeContractVOsByCondition" parameterType="employeeContract" resultMap="result">
+		SELECT distinct a.contractId, <include refid="employeeContractColumns-for-join"/>, b.monthly
+		FROM HRO_BIZ_Employee_Contract a LEFT JOIN HRO_BIZ_Attendance_Timesheet_Header b ON a.contractId = b.contractId AND b.monthly = #{monthly} AND b.deleted = 1
+			LEFT JOIN HRO_BIZ_Client_Order_Header c ON a.orderId = c.orderHeaderId 
+			LEFT JOIN Hro_Biz_Employee hbe ON hbe.employeeId = a.employeeId and hbe.deleted = 1
+		WHERE a.deleted = 1 AND a.flag = 2 AND ( a.status = 3 OR a.status = 5 OR a.status = 6 OR a.status = 7 ) 
+		AND c.attendanceGenerate not in(3)
+		<!-- 按照账户ID提取 -->
+		<if test="accountId != null and accountId != ''">
+			AND a.accountId = #{accountId} 
+		</if>
+		<!-- 按照单个服务协议ID提取 -->
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId} 
+		</if>
+		<!-- 按照客户ID提取 -->
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<!-- 按照订单ID提取 -->
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId} 
+		</if>
+		<!-- 按照法务实体ID提取 -->
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} OR 0 = #{entityId})
+		</if>
+		<!-- 按照业务类型ID提取 -->
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} OR 0 = #{businessTypeId})
+		</if>
+		<!-- 按照雇员ID提取 -->
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<!-- 按照计薪开始周期提取 -->
+		<if test="circleStartDay != null and circleStartDay != ''">
+			AND c.attendanceGenerate = 1 AND c.circleStartDay = #{circleStartDay} 
+		</if>
+		<!-- 按照计薪结束周期提取 -->
+		<if test="circleEndDay != null and circleEndDay != ''">
+			AND c.attendanceGenerate = 2 AND c.circleEndDay = #{circleEndDay} 
+		</if>
+		<!-- 考勤结算预留时间，默认考勤表允许派送协议结束后3个月内存生成有效的月份 -->
+		<if test="bufferDate != null and bufferDate != ''">
+			AND ((a.resignDate is null AND (a.endDate is null OR a.endDate > #{bufferDate} )) OR (a.resignDate is not null AND a.resignDate > #{bufferDate} ))
+		</if>
+		<!-- 身份判断 -->
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} OR 0 = #{corpId}) 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL 
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR a.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR a.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR hbe._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR hbe.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR a.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		ORDER BY a.contractId
+	</select>
+	
+	<select id="getServiceEmployeeContractVOsByOrderId" parameterType="int" resultMap="result">
+		SELECT a.contractId, <include refid="employeeContractColumns-for-join"/>, b.nameZH AS employeeNameZH, b.nameEN AS employeeNameEN, b.employeeNo, 
+			b.certificateNumber 
+		FROM HRO_BIZ_Employee_Contract a LEFT JOIN HRO_BIZ_Employee b ON a.employeeId = b.employeeId
+		WHERE a.deleted = 1 AND a.flag = 2 AND a.orderId = #{value} 
+		ORDER BY a.contractId DESC
+	</select>
+
+	<select id="getEmployeeContractVOByContractId" parameterType="int" resultMap="result">
+		SELECT a.contractId, <include refid="employeeContractColumns-for-join"/>, 
+			b.nameZH AS employeeNameZH, b.nameEN AS employeeNameEN, b.certificateNumber AS certificateNumber, c.nameZH AS clientNameZH, c.nameEN AS clientNameEN, MAX(h.workflowId) AS workflowId,
+			d.nameZH AS lineManagerNameZH, d.nameEN AS lineManagerNameEN,
+			b._tempPositionIds AS _tempPositionIds,
+			b._tempBranchIds AS _tempBranchIds,
+			e.description as orderName,
+			e.attendanceGenerate AS orderAttendanceGenerate
+		FROM HRO_BIZ_Employee_Contract a LEFT JOIN HRO_BIZ_Employee b ON a.employeeId = b.employeeId
+			LEFT JOIN HRO_BIZ_Client c ON a.clientId = c.clientId
+			LEFT JOIN HRO_BIZ_Client_Contact d ON a.lineManagerId = d.clientContactId
+			LEFT JOIN hro_history h ON ( (a.corpId IS null AND h.accessAction = 'HRO_BIZ_EMPLOYEE_SERVICE_CONTRACT') OR (a.corpId IS not null AND h.accessAction = 'HRO_BIZ_EMPLOYEE_SERVICE_CONTRACT_IN_HOUSE') ) 
+			AND h.objectType = 2 AND a.contractId = h.objectId
+			LEFT JOIN HRO_BIZ_Client_Order_Header e ON e.orderHeaderId = a.orderId
+		WHERE a.deleted = 1 AND a.contractId = #{value}
+	</select>
+	
+	<select id="getEmployeeContractVOsByEmployeeId" parameterType="int" resultMap="result">
+		SELECT contractId, <include refid="employeeContractColumns"/>
+		FROM HRO_BIZ_Employee_Contract 
+		WHERE deleted = 1 AND employeeId = #{value}  ORDER BY startDate DESC
+	</select>
+	
+	<select id="getEmployeeContractBaseViewsByAccountId" parameterType="int" resultMap="employeeContractBaseView">
+		SELECT contractId id, CONCAT(concat_ws(' - ', nameZH, nameEN), ' (', concat_ws('/', contractId, contractNo ), ')') AS name
+		FROM HRO_BIZ_Employee_Contract 
+		WHERE deleted = 1 AND accountId = #{value}
+	</select>
+
+	<update id="updateEmployeeContract" parameterType="employeeContract">
+		UPDATE HRO_BIZ_Employee_Contract set accountId = #{accountId},employeeId = #{employeeId}, clientId = #{clientId}, orderId = #{orderId}, department = #{department}, positionId = #{positionId}, 
+			additionalPosition=#{additionalPosition},entityId = #{entityId}, businessTypeId = #{businessTypeId}, templateId = #{templateId}, lineManagerId = #{lineManagerId}, approveType = #{approveType}, 
+			contractNo = #{contractNo}, contractNo = #{contractNo}, masterContractId = #{masterContractId}, nameZH = #{nameZH}, nameEN = #{nameEN}, content = #{content}, startDate = #{startDate}, 
+			endDate = #{endDate}, period = #{period}, applyOTFirst = #{applyOTFirst}, otLimitByDay = #{otLimitByDay}, otLimitByMonth = #{otLimitByMonth}, workdayOTItemId = #{workdayOTItemId}, 
+			weekendOTItemId = #{weekendOTItemId}, holidayOTItemId = #{holidayOTItemId}, attendanceCheckType = #{attendanceCheckType}, resignDate = #{resignDate},lastWorkDate = #{lastWorkDate} ,employStatus = #{employStatus}, leaveReasons = #{leaveReasons}, 
+			calendarId = #{calendarId}, shiftId = #{shiftId}, sickLeaveSalaryId = #{sickLeaveSalaryId}, flag = #{flag}, attachment = #{attachment}, branch = #{branch}, owner = #{owner}, 
+			settlementBranch = #{settlementBranch}, locked = #{locked}, description = #{description},currency =#{currency} ,salaryVendorId = #{salaryVendorId}, incomeTaxBaseId = #{incomeTaxBaseId}, 
+			incomeTaxRangeHeaderId = #{incomeTaxRangeHeaderId}, probationMonth = #{probationMonth}, probationEndDate = #{probationEndDate}, isRetained = #{isRetained}, isContinued = #{isContinued}, 
+			continueNeeded = #{continueNeeded}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, 
+			createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}, medicalNumber = #{medicalNumber}, sbNumber = #{sbNumber}, fundNumber = #{fundNumber}, 
+			hsNumber = #{hsNumber},payment=#{payment},hireAgain=#{hireAgain}
+		WHERE contractId = #{contractId}
+	</update>
+
+	<insert id="insertEmployeeContract" parameterType="employeeContract" useGeneratedKeys="true" keyProperty="contractId">
+		INSERT INTO HRO_BIZ_Employee_Contract(<include refid="employeeContractColumns" />)
+		VALUES (#{accountId}, #{employeeId}, #{clientId}, #{corpId}, #{orderId}, #{department}, #{positionId}, #{additionalPosition}, #{entityId}, #{businessTypeId}, #{templateId}, #{lineManagerId}, 
+			#{approveType}, #{contractNo}, #{masterContractId}, #{nameZH}, #{nameEN}, #{content}, #{startDate}, #{endDate}, #{period}, #{applyOTFirst}, #{otLimitByDay}, #{otLimitByMonth}, #{workdayOTItemId}, 
+			#{weekendOTItemId}, #{holidayOTItemId}, #{attendanceCheckType}, #{resignDate},#{lastWorkDate}, #{employStatus}, #{leaveReasons}, #{calendarId}, #{shiftId}, #{sickLeaveSalaryId}, #{flag}, #{medicalNumber}, #{sbNumber}, #{fundNumber}, 
+			#{hsNumber}, #{attachment}, #{branch}, #{owner}, #{settlementBranch}, 2, #{description},#{currency}, #{salaryVendorId}, #{incomeTaxBaseId}, #{incomeTaxRangeHeaderId}, #{probationMonth}, #{probationEndDate}, 
+			2, 2, 1, #{payment},#{hireAgain},1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<delete id="deleteEmployeeContract" parameterType="int">
+		DELETE FROM HRO_BIZ_Employee_Contract WHERE contractId = #{value}
+  	</delete>
+  	
+  	<!-- SiuVan 根据客户ID获得服务协议 -->
+  	<select id="getEmployeeContractBaseViewsByClientId" parameterType="employeeContractBaseView" resultMap="employeeContractBaseView">
+  		SELECT contractId AS id, concat_ws( ' - ',nameZH, nameEN) AS `name`
+  		FROM hro_biz_employee_contract
+  		WHERE deleted = 1 AND flag = 2 AND accountId = #{accountId} 
+  		<if test="entityId != null and entityId != ''">
+			AND (entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>
+  		<if test="clientId != null and clientId != ''">
+			AND clientId = #{clientId} 
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND orderId = #{orderId} 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND employeeId = #{employeeId} 
+		</if>
+		<!-- 身份判断 -->
+		AND corpId IS NULL 
+  	</select>
+  	
+  	<!-- iori 根据客户ID获得服务协议 -->
+  	<select id="getEmployeeContractVOsByClientId" parameterType="employeeContractBaseView" resultMap="result">
+  		SELECT  contractId,<include refid="employeeContractColumns"/>
+  		FROM hro_biz_employee_contract
+  		WHERE deleted = 1 AND flag = 2 AND accountId = #{accountId} AND employeeId = #{employeeId} AND clientId = #{clientId}
+  		<!-- 身份判断 -->
+		AND corpId IS NULL 
+  	</select>
+  	
+	<!-- SiuVan -->
+	<select id="getEmployeeContractBaseViewByContractId" parameterType="int" resultMap="employeeContractBaseView">
+		SELECT 
+			a.accountId, a.entityId, a.businessTypeId, a.employeeId, a.orderId, a.clientId,
+			b.nameZH as employeeNameZH, b.nameEN as employeeNameEN,
+			CONCAT( c.nameZH, ' - ', c.nameEN ) AS clientName
+		FROM 
+		HRO_BIZ_Employee_Contract a LEFT JOIN HRO_BIZ_Employee b 
+		ON a.employeeId = b.employeeId LEFT JOIN HRO_BIZ_Client c
+		ON a.clientId = c.clientId
+		WHERE a.deleted = 1 AND a.contractId = #{value}
+	</select>
+	
+	<!-- 删除时判断是否在服务期内 -->
+	<select id="getEmployeeContractsDuringService"  resultMap="result">
+		SELECT <include refid="employeeContractColumns-for-join"/> from hro_biz_employee_contract a
+		WHERE a.employeeId IN 
+		<foreach collection="list" item="selectedId" index="index"
+            open="(" close=")" separator=",">
+            #{selectedId}
+          </foreach>
+		<![CDATA[ AND  a.startDate < now() and a.endDate > now() AND a.deleted = 1 ]]>
+		GROUP BY a.employeeId
+	</select>
+	
+	<!--  根据雇员ID获得服务协议-->
+  	<select id="getEmployeeContractBaseViewsByEmployeeId" parameterType="employeeContract" resultMap="employeeContractBaseView">
+  		SELECT a.contractId AS id ,CONCAT( a.nameZH, ' - ', a.nameEN ) AS `name` 
+  		FROM HRO_BIZ_Employee_Contract a
+  		WHERE a.deleted = 1 AND a.flag = 2 AND a.employeeId = #{employeeId}
+  	</select>
+  	
+  	<!-- 获取将过期的劳动合同 -->
+  	<select id="getToNoticeContractList1" parameterType="int"  resultMap="result">
+  		SELECT c.contractId,c.orderId,e.employeeId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,e.employeeNo,c.contractNo, c.employStatus, c.leaveReasons,
+  				c.nameZH as contractNameZH,c.nameEN as contractNameEN,c.`owner`,s.bizEmail,s.personalEmail,c.accountId,c.startDate,c.endDate,h.probationMonth,
+  				h.description as orderName
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h ON c.orderId = h.orderHeaderId and h.deleted = 1
+		LEFT JOIN hro_biz_employee e on c.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeExpire LIKE '%1%'
+		AND c.endDate
+  		BETWEEN 
+  			STR_TO_DATE(CONCAT( left( date_add(now(),interval 3 month) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT( left( date_add(now(),interval 3 month) , 10 ) ,' 23:59:59' ) ,'%Y-%m-%d %H:%i:%s')
+		GROUP BY c.contractId
+  	</select>
+  	
+  	<select id="getToNoticeContractList2" parameterType="int"  resultMap="result">
+  		SELECT c.contractId,c.orderId,e.employeeId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,e.employeeNo,c.contractNo, c.employStatus, c.leaveReasons,
+  				c.nameZH as contractNameZH,c.nameEN as contractNameEN,c.`owner`,s.bizEmail,s.personalEmail,c.accountId,c.startDate,c.endDate,h.probationMonth,
+  				h.description as orderName
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h ON c.orderId = h.orderHeaderId and h.deleted = 1
+		LEFT JOIN hro_biz_employee e on c.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeExpire LIKE '%2%'
+		AND c.endDate
+  		BETWEEN 
+  			STR_TO_DATE(CONCAT( left( date_add(now(),interval 1 month) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT( left( date_add(now(),interval 1 month) , 10 ) ,' 23:59:59' ) ,'%Y-%m-%d %H:%i:%s')
+		GROUP BY c.contractId
+  	</select>
+  	
+  	<select id="getToNoticeContractList3" parameterType="int"  resultMap="result">
+  		SELECT c.contractId,c.orderId,e.employeeId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,e.employeeNo,c.contractNo, c.employStatus, c.leaveReasons,
+  				c.nameZH as contractNameZH,c.nameEN as contractNameEN,c.`owner`,s.bizEmail,s.personalEmail,c.accountId,c.startDate,c.endDate,h.probationMonth,
+  				h.description as orderName
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h ON c.orderId = h.orderHeaderId and h.deleted = 1
+		LEFT JOIN hro_biz_employee e on c.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeExpire LIKE '%3%'
+		AND c.endDate
+  		BETWEEN 
+  			STR_TO_DATE(CONCAT( left( date_add(now(),interval 15 day) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT( left( date_add(now(),interval 15 day) , 10 ) ,' 23:59:59' ) ,'%Y-%m-%d %H:%i:%s')
+		GROUP BY c.contractId
+  	</select>
+  	
+  	<select id="getToNoticeContractList4" parameterType="int"  resultMap="result">
+  		SELECT c.contractId,c.orderId,e.employeeId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,e.employeeNo,c.contractNo, c.employStatus, c.leaveReasons,
+  				c.nameZH as contractNameZH,c.nameEN as contractNameEN,c.`owner`,s.bizEmail,s.personalEmail,c.accountId,c.startDate,c.endDate,h.probationMonth,
+  				h.description as orderName
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h ON c.orderId = h.orderHeaderId and h.deleted = 1
+		LEFT JOIN hro_biz_employee e on c.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeExpire LIKE '%4%'
+		AND c.endDate
+  		BETWEEN 
+  			STR_TO_DATE(CONCAT( left( date_add(now(),interval 0 day) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT( left( date_add(now(),interval 7 day) , 10 ) ,' 23:59:59' ) ,'%Y-%m-%d %H:%i:%s')
+		GROUP BY c.contractId
+  	</select>
+  	
+  	<select id="getToNoticeContractList5" parameterType="int"  resultMap="result">
+  		SELECT c.contractId,c.orderId,e.employeeId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,e.employeeNo,c.contractNo, c.employStatus, c.leaveReasons,
+  				c.nameZH as contractNameZH,c.nameEN as contractNameEN,c.`owner`,s.bizEmail,s.personalEmail,c.accountId,c.startDate,c.endDate,h.probationMonth,
+  				h.description as orderName
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h ON c.orderId = h.orderHeaderId and h.deleted = 1
+		LEFT JOIN hro_biz_employee e on c.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeExpire LIKE '%5%'
+		AND c.endDate
+  		BETWEEN 
+  			STR_TO_DATE(CONCAT( left( date_add(now(),interval 4 month) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT( left( date_add(now(),interval 4 month) , 10 ) ,' 23:59:59' ) ,'%Y-%m-%d %H:%i:%s')
+		GROUP BY c.contractId
+  	</select>
+  	
+  	
+  	<!-- 合同试用期到期提取 -->
+  	<select id="getToNoticeProbationContractList1" parameterType="int"  resultMap="result">
+  		SELECT c.contractId,c.orderId,e.employeeId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,e.employeeNo,c.contractNo,
+  				c.nameZH as contractNameZH,c.nameEN as contractNameEN,c.`owner`,s.bizEmail,s.personalEmail,c.accountId,c.startDate,c.endDate,h.probationMonth
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h ON c.orderId = h.orderHeaderId and h.deleted = 1
+		LEFT JOIN hro_biz_employee e on c.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeProbationExpire LIKE '%1%'
+<!-- 		AND date_add(c.startDate, interval c.probationMonth month) -->
+<!-- 		add by steven 2015-03-13 -->
+		AND c.probationEndDate
+  		BETWEEN 
+  			STR_TO_DATE(CONCAT( left( date_add(now(),interval 3 month) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT( left( date_add(now(),interval 3 month) , 10 ) ,' 23:59:59' ) ,'%Y-%m-%d %H:%i:%s')
+		GROUP BY c.contractId
+  	</select>
+  	
+  	<select id="getToNoticeProbationContractList2" parameterType="int"  resultMap="result">
+  		SELECT c.contractId,c.orderId,e.employeeId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,e.employeeNo,c.contractNo,
+  				c.nameZH as contractNameZH,c.nameEN as contractNameEN,c.`owner`,s.bizEmail,s.personalEmail,c.accountId,c.startDate,c.endDate,h.probationMonth
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h ON c.orderId = h.orderHeaderId and h.deleted = 1
+		LEFT JOIN hro_biz_employee e on c.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeProbationExpire LIKE '%2%'
+		AND c.probationEndDate
+  		BETWEEN 
+  			STR_TO_DATE(CONCAT( left( date_add(now(),interval 1 month) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT( left( date_add(now(),interval 1 month) , 10 ) ,' 23:59:59' ) ,'%Y-%m-%d %H:%i:%s')
+		GROUP BY c.contractId
+  	</select>
+  	
+  	<select id="getToNoticeProbationContractList3" parameterType="int"  resultMap="result">
+  		SELECT c.contractId,c.orderId,e.employeeId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,e.employeeNo,c.contractNo,
+  				c.nameZH as contractNameZH,c.nameEN as contractNameEN,c.`owner`,s.bizEmail,s.personalEmail,c.accountId,c.startDate,c.endDate,h.probationMonth
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h ON c.orderId = h.orderHeaderId and h.deleted = 1
+		LEFT JOIN hro_biz_employee e on c.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeProbationExpire LIKE '%3%'
+		AND c.probationEndDate
+  		BETWEEN 
+  			STR_TO_DATE(CONCAT( left( date_add(now(),interval 15 day) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT( left( date_add(now(),interval 15 day) , 10 ) ,' 23:59:59' ) ,'%Y-%m-%d %H:%i:%s')
+		GROUP BY c.contractId
+  	</select>
+  	
+  	<select id="getToNoticeProbationContractList4" parameterType="int"  resultMap="result">
+  		SELECT c.contractId,c.orderId,e.employeeId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,e.employeeNo,c.contractNo,
+  				c.nameZH as contractNameZH,c.nameEN as contractNameEN,c.`owner`,s.bizEmail,s.personalEmail,c.accountId,c.startDate,c.endDate,h.probationMonth
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h ON c.orderId = h.orderHeaderId and h.deleted = 1
+		LEFT JOIN hro_biz_employee e on c.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeProbationExpire LIKE '%4%'
+		AND c.probationEndDate
+  		BETWEEN 
+  			STR_TO_DATE(CONCAT( left( date_add(now(),interval 0 day) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT( left( date_add(now(),interval 7 day) , 10 ) ,' 23:59:59' ) ,'%Y-%m-%d %H:%i:%s')
+		GROUP BY c.contractId
+  	</select>
+  	
+  	<!-- 5是4个月 -->
+  	<select id="getToNoticeProbationContractList5" parameterType="int"  resultMap="result">
+  		SELECT c.contractId,c.orderId,e.employeeId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,e.employeeNo,c.contractNo,
+  				c.nameZH as contractNameZH,c.nameEN as contractNameEN,c.`owner`,s.bizEmail,s.personalEmail,c.accountId,c.startDate,c.endDate,h.probationMonth
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h ON c.orderId = h.orderHeaderId and h.deleted = 1
+		LEFT JOIN hro_biz_employee e on c.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeProbationExpire LIKE '%5%'
+		AND c.probationEndDate
+  		BETWEEN 
+  			STR_TO_DATE(CONCAT( left( date_add(now(),interval 4 month) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT( left( date_add(now(),interval 4 month) , 10 ) ,' 23:59:59' ) ,'%Y-%m-%d %H:%i:%s')
+		GROUP BY c.contractId
+  	</select>
+  	
+  	<!-- ******************************* -->
+  	
+  	<select id="getEmployeeContractVOsByContractIds" parameterType="int" resultMap="result">
+		SELECT a.contractId,<include refid="employeeContractColumns-for-join"/>, 
+			CONCAT(b.nameZH, ' - ', b.nameEN, ' (', b.employeeId, '/', b.employeeNo, ')') AS employeeName
+		FROM HRO_BIZ_Employee_Contract a LEFT JOIN  HRO_BIZ_Employee b ON a.employeeId = b.employeeId
+		WHERE a.deleted = 1 AND a.contractId  in 
+		<foreach collection="list" item="selectedId" index="index"
+            open="(" close=")" separator=",">
+            #{selectedId}
+        </foreach>
+	</select>
+	
+  	<!-- 香港社保缴纳开始提取 -->
+  	<select id="getToNoticeHKSBContractList2" parameterType="int"  resultMap="result">
+  		SELECT c.contractId,c.orderId,e.employeeId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,e.employeeNo,c.contractNo,
+  				c.nameZH as contractNameZH,c.nameEN as contractNameEN,c.`owner`,s.bizEmail,s.personalEmail,c.accountId,c.startDate,c.endDate,h.probationMonth
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h ON c.orderId = h.orderHeaderId and h.deleted = 1
+		LEFT JOIN hro_biz_employee e on c.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeHKSB LIKE '%1%'
+		AND date_add(c.startDate, interval c.probationMonth month)
+  		BETWEEN 
+  			STR_TO_DATE(CONCAT( left( date_add(now(),interval 1 month) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT( left( date_add(now(),interval 1 month) , 10 ) ,' 23:59:59' ) ,'%Y-%m-%d %H:%i:%s')
+		GROUP BY c.contractId
+  	</select>
+  	
+  	<select id="getToNoticeHKSBContractList3" parameterType="int"  resultMap="result">
+  		SELECT c.contractId,c.orderId,e.employeeId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,e.employeeNo,c.contractNo,
+  				c.nameZH as contractNameZH,c.nameEN as contractNameEN,c.`owner`,s.bizEmail,s.personalEmail,c.accountId,c.startDate,c.endDate,h.probationMonth
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h ON c.orderId = h.orderHeaderId and h.deleted = 1
+		LEFT JOIN hro_biz_employee e on c.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeHKSB LIKE '%2%'
+		AND date_add(c.startDate, interval c.probationMonth month)
+  		BETWEEN 
+  			STR_TO_DATE(CONCAT( left( date_add(now(),interval 15 day) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT( left( date_add(now(),interval 15 day) , 10 ) ,' 23:59:59' ) ,'%Y-%m-%d %H:%i:%s')
+		GROUP BY c.contractId
+  	</select>
+  	
+  	<select id="getToNoticeHKSBContractList4" parameterType="int"  resultMap="result">
+  		SELECT c.contractId,c.orderId,e.employeeId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,e.employeeNo,c.contractNo,
+  				c.nameZH as contractNameZH,c.nameEN as contractNameEN,c.`owner`,s.bizEmail,s.personalEmail,c.accountId,c.startDate,c.endDate,h.probationMonth
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h ON c.orderId = h.orderHeaderId and h.deleted = 1
+		LEFT JOIN hro_biz_employee e on c.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeHKSB LIKE '%3%'
+		AND date_add(c.startDate, interval c.probationMonth month)
+  		BETWEEN 
+  			STR_TO_DATE(CONCAT( left( date_add(now(),interval 0 day) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT( left( date_add(now(),interval 7 day) , 10 ) ,' 23:59:59' ) ,'%Y-%m-%d %H:%i:%s')
+		GROUP BY c.contractId
+  	</select>
+  	
+  	<select id="getToNoticeHKSBContractList5" parameterType="int"  resultMap="result">
+  		SELECT c.contractId,c.orderId,e.employeeId,e.nameZH as employeeNameZH,e.nameEN as employeeNameEN,e.employeeNo,c.contractNo,
+  				c.nameZH as contractNameZH,c.nameEN as contractNameEN,c.`owner`,s.bizEmail,s.personalEmail,c.accountId,c.startDate,c.endDate,h.probationMonth
+		FROM hro_biz_employee_contract c LEFT JOIN hro_biz_client_order_header h ON c.orderId = h.orderHeaderId and h.deleted = 1
+		LEFT JOIN hro_biz_employee e on c.employeeId = e.employeeId AND e.deleted = 1
+		LEFT JOIN hro_sec_position p on p.positionId = c.`owner` AND p.deleted = 1
+		LEFT JOIN hro_sec_position_staff_relation r on r.positionId = p.positionId AND r.deleted = 1
+		LEFT JOIN hro_sec_staff s ON s.staffId = r.staffId AND s.deleted = 1
+		WHERE c.deleted = 1
+		AND h.noticeHKSB LIKE '%5%'
+		AND date_add(c.startDate, interval c.probationMonth month)
+  		BETWEEN 
+  			STR_TO_DATE(CONCAT( left( date_add(now(),interval 4 month) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND STR_TO_DATE(CONCAT( left( date_add(now(),interval 4 month) , 10 ) ,' 23:59:59' ) ,'%Y-%m-%d %H:%i:%s')
+		GROUP BY c.contractId
+  	</select>
+	
+	<!-- 获取近三天过期的合同 -->
+	<select id="getRecent3DaysExpiredContracts" parameterType="int" resultMap="result">
+		SELECT contractId,  <include refid="employeeContractColumns"/>
+		from hro_biz_employee_contract 
+		WHERE endDate BETWEEN STR_TO_DATE(CONCAT( left( date_add(now(),interval -3 day) , 10 ) ,' 00:00:00' ) ,'%Y-%m-%d %H:%i:%s')
+		AND now();
+	</select>
+	
+	<!-- 获取结束时间在今天后的合同数  配合getRecent3DaysExpiredContracts查询 -->
+	<select id="countExpiredContractsAfterNow" parameterType="int" resultType="int">
+		SELECT count(0) FROM
+		hro_biz_employee_contract WHERE deleted = 1 
+		AND endDate > now()
+		AND employeeId = #{value}
+	</select>
+
+	<!-- 转换HR对接人 -->
+    <update id="transferEmployeeContractHROwner" parameterType="map">
+        update 
+            hro_biz_employee_contract a, hro_sec_position b 
+            set a.owner = #{newHROwner}, a.branch = b.branchId
+        where a.deleted = 1
+        <if test="newHROwner != null and newHROwner != ''">
+            and b.positionId = #{newHROwner}
+        </if>
+        <if test="oldHROwner != null and oldHROwner != ''">
+            and a.owner = #{oldHROwner}
+        </if>
+        <if test="entityId != null and entityId != ''">
+            and a.entityId = #{entityId}
+        </if>
+    </update>
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.system.CityVO">
+
+	<resultMap id="result" type="com.kan.base.domain.system.CityVO" >
+		<result property="cityId" column="cityId"/>
+		<result property="provinceId" column="provinceId"/>
+		<result property="cityNameZH" column="cityNameZH"/>
+		<result property="cityNameEN" column="cityNameEN"/>
+		<result property="cityCode" column="cityCode"/>
+		<result property="cityISO3" column="cityISO3"/>
+		<result property="deleted" column="deleted"/>
+		<result property="status" column="status"/>
+		<result property="remark1" column="remark1"/>
+		<result property="remark2" column="remark2"/>
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+	
+	<sql id="cityColumns">
+		provinceId, cityNameZH, cityNameEN, cityCode, cityISO3, deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate
+	</sql>  	 	
+	
+	<select id="countCityVOByCondition" parameterType="city" resultType="int">
+		select count(*) 
+		from HRO_SYS_City
+		where deleted = 1 and provinceId = #{provinceId}	
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+	
+	<select id="getCityVOByCondition" parameterType="city" resultMap="result">
+		select cityId, <include refid="cityColumns"/>  
+		from HRO_SYS_City 
+		where deleted = 1 and provinceId = #{provinceId}	
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+			
+  	</select>
+  	
+  	<select id="getCityVOByCityId" parameterType="int" resultMap="result">
+  		select cityId, <include refid="cityColumns"/>
+  		from HRO_SYS_City
+  		where cityId = #{value}
+  	</select>
+  	
+  	<insert id="insertCity" parameterType="city" useGeneratedKeys="true" keyProperty="cityId">
+  		insert into HRO_SYS_City(<include refid="cityColumns"/>)
+  		values(#{provinceId}, #{cityNameZH}, #{cityNameEN}, #{cityCode}, #{cityISO3}, 1, #{status}, #{remark1}, #{remark2}, #{createBy}, #{createDate}, 
+  			#{modifyBy}, #{modifyDate}) 	
+  	</insert>
+  	
+  	<delete id="deleteCity" parameterType="city">
+  		update HRO_SYS_City set deleted = 2, modifyBy = #{modifyBy}, modifyDate = #{modifyDate} 
+  		where cityId = #{cityId}
+  	</delete>
+  	
+  	<update id="updateCity" parameterType="city">
+  		update HRO_SYS_City set provinceId = #{provinceId}, cityNameZH = #{cityNameZH}, cityNameEN = #{cityNameEN}, cityCode=#{cityCode}, cityISO3=#{cityISO3},
+  			 deleted = #{deleted}, status = #{status}, remark1 = #{remark1},remark2 = #{remark2}, createBy = #{createBy}, createDate = #{createDate}, 
+  			 modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+  		where cityId = #{cityId}
+  	</update>
+  	
+	<select id="getCityVOsByProvinceId" parameterType="int" resultMap="result">
+		select cityId, <include refid="cityColumns"/> 
+		from HRO_SYS_City  
+		where deleted = 1 and provinceId = #{value}
+		order by cityNameEN
+	</select>
+	
+</mapper>

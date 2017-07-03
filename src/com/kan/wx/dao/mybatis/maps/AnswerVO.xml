@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.wx.domain.AnswerVO">
+
+	<resultMap id="result" type="com.kan.wx.domain.AnswerVO" >
+		<result property="answerId" column="answerId"/>
+		<result property="headerId" column="headerId"/>
+		<result property="weChatId" column="weChatId"/>
+		<result property="answer" column="answer"/>
+		<result property="submitDate" column="submitDate"/>
+		<result property="deleted" column="deleted"/>
+		<result property="status" column="status"/>
+		<result property="remark1" column="remark1"/>
+		<result property="remark2" column="remark2"/>
+		
+		<!-- For Application -->
+		<result property="employeeNameZH" column="employeeNameZH"/>
+		<result property="employeeNameEN" column="employeeNameEN"/>
+		<result property="buFunction" column="buFunction"/>
+		<result property="department" column="department"/>
+		<result property="bizEmail" column="bizEmail"/>
+		<result property="employeeRemark1" column="employeeRemark1"/>
+	</resultMap>
+	
+	<sql id="answerColumns">
+		headerId, weChatId, answer, submitDate, deleted, status, remark1, remark2
+	</sql>
+	
+	<sql id="answerColumns-for-join">
+		a.headerId, a.weChatId, a.answer, a.submitDate, a.deleted, a.status, a.remark1, a.remark2
+	</sql>
+	
+	<select id="countAnswerVOsByCondition" parameterType="answer" resultType="int">
+		SELECT COUNT(1) FROM hro_answer
+		WHERE deleted = 1 AND headerId = #{headerId}
+		<if test="weChatId != null and weChatId != ''">
+			AND weChatId = #{weChatId}
+		</if>
+		<if test="answer != null and answer != ''">
+			AND answer = #{answer}
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+	</select> 
+	
+	<select id="getAnswerVOsByCondition" parameterType="answer" resultMap="result">
+		SELECT 
+			a.answerId,<include refid="answerColumns-for-join" />,
+			b.nameZH AS employeeNameZH, b.nameEN AS employeeNameEN,
+			b._tempParentBranchIds AS buFunction, b._tempBranchIds AS department,
+			b.email1 AS bizEmail, b.remark1 AS employeeRemark1
+		FROM hro_answer a LEFT JOIN hro_biz_employee b ON a.weChatId = substring_index(b.email1,'@',1) AND b.deleted = 1 AND b.accountId = 100017
+		WHERE a.deleted = 1 AND a.headerId = #{headerId}
+		<if test="weChatId != null and weChatId != ''">
+			AND a.weChatId = #{weChatId}
+		</if>
+		<if test="answer != null and answer != ''">
+			AND a.answer = #{answer}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>	
+	</select>   	
+	
+	<insert id="insertAnswer" parameterType="answer" useGeneratedKeys="true" keyProperty="answerId">
+  		INSERT INTO hro_answer(<include refid="answerColumns"/>)		
+  		VALUES(
+  			#{headerId}, #{weChatId}, #{answer}, #{submitDate}, #{deleted}, #{status}, #{remark1}, #{remark2}
+  			) 	
+  	</insert> 	
+  	
+  	<select id="getAnswerVOByAnswerId" parameterType="int" resultMap="result">
+  		select answerId, <include refid="answerColumns"/> from hro_answer
+  		WHERE answerId = #{value}  
+  	</select>
+  	
+  	<select id="getAnswerVOByWXUserIdAndQuestionId" parameterType="answer" resultMap="result">
+  		select answerId, <include refid="answerColumns"/> from hro_answer
+  		WHERE headerId = #{headerId} and weChatId = #{weChatId}  
+  	</select>
+  	
+  	<select id="getAnswerVOsByHeaderId" parameterType="String" resultMap="result">
+  		select answerId, <include refid="answerColumns"/> from hro_answer
+  		WHERE headerId = #{headerId}
+  	</select>
+  	
+  	<delete id="deleteAnswer" parameterType="answer">
+  		delete from hro_answer where detailId = #{detailId}
+  	</delete>
+  	
+</mapper>

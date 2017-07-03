@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.payment.PaymentAdjustmentHeaderVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.payment.PaymentAdjustmentHeaderVO">
+		<result property="adjustmentHeaderId" column="adjustmentHeaderId" />
+		<result property="accountId" column="accountId" />
+		<result property="orderId" column="orderId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="clientId" column="clientId" />
+		<result property="corpId" column="corpId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="itemGroupId" column="itemGroupId"/>
+		<result property="contractId" column="contractId" />
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+		<result property="taxAmountPersonal" column="taxAmountPersonal" />
+		<result property="addtionalBillAmountPersonal" column="addtionalBillAmountPersonal" />
+		<result property="monthly" column="monthly" />
+		<result property="taxFlag" column="taxFlag" />
+		<result property="vendorId" column="vendorId" />
+		<result property="vendorNameZH" column="vendorNameZH" />
+		<result property="vendorNameEN" column="vendorNameEN" />
+		<result property="vendorServiceIds" column="vendorServiceIds" />
+		<result property="vendorServiceFee" column="vendorServiceFee" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+  	
+	<sql id="PaymentAdjustmentHeaderColumns">
+		accountId, orderId, entityId, businessTypeId, clientId, corpId, employeeId, employeeNameZH, employeeNameEN,itemGroupId, contractId, billAmountPersonal, costAmountPersonal, taxAmountPersonal, 
+		addtionalBillAmountPersonal,taxAgentAmountPersonal, monthly, taxFlag, vendorId, vendorNameZH, vendorNameEN, vendorServiceIds, vendorServiceFee, description, deleted, status, remark1, remark2, remark3, remark4,  remark5, 
+		createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<sql id="PaymentAdjustmentHeaderColumns-for-join">
+		a.accountId, a.orderId, a.entityId, a.businessTypeId, a.clientId, a.corpId, a.employeeId, a.employeeNameZH, a.employeeNameEN,a.itemGroupId, a.contractId, 
+		a.billAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') as billAmountPersonal,
+		a.costAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') as costAmountPersonal,
+		a.taxAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') as taxAmountPersonal,
+		a.addtionalBillAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') as addtionalBillAmountPersonal,
+		a.taxAgentAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') as taxAgentAmountPersonal,
+		a.monthly, a.taxFlag, a.vendorId, a.vendorNameZH, a.vendorNameEN, a.vendorServiceIds, a.vendorServiceFee, a.description, a.deleted, a.status, a.remark1, 
+		a.remark2, a.remark3, a.remark4,  a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+
+	<select id="countPaymentAdjustmentHeaderVOsByCondition" parameterType="paymentAdjustmentHeader" resultType="int">
+		SELECT COUNT(DISTINCT adjustmentHeaderId)
+		FROM hro_payment_adjustment_header a
+		LEFT JOIN hro_biz_employee_contract hbizemp ON a.contractId = hbizemp.contractId and hbizemp.deleted = 1
+		LEFT JOIN Hro_Biz_Employee hbe ON hbe.employeeId = a.employeeId and hbe.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="adjustmentHeaderId != null and adjustmentHeaderId != ''">
+			AND a.adjustmentHeaderId = #{adjustmentHeaderId} 
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId}
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND upper(a.employeeNameZH) like upper(CONCAT('%', '${employeeNameZH}', '%'))
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND upper(a.employeeNameEN) like upper(CONCAT('%', '${employeeNameEN}', '%'))
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or 0 = #{monthly})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) or '0' = '${status}')
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR hbe._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR hbe.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+	</select>
+	
+	<select id="getPaymentAdjustmentHeaderVOsByCondition" parameterType="paymentAdjustmentHeader" resultMap="result">
+		SELECT a.adjustmentHeaderId, <include refid="PaymentAdjustmentHeaderColumns-for-join" />
+		FROM hro_payment_adjustment_header a
+		LEFT JOIN hro_biz_employee_contract hbizemp ON a.contractId = hbizemp.contractId and hbizemp.deleted = 1
+		LEFT JOIN Hro_Biz_Employee hbe ON hbe.employeeId = a.employeeId and hbe.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}
+		<if test="adjustmentHeaderId != null and adjustmentHeaderId != ''">
+			AND a.adjustmentHeaderId = #{adjustmentHeaderId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="orderId != null and orderId != ''">
+			AND a.orderId = #{orderId}
+		</if>
+		<if test="entityId != null and entityId != ''">
+			AND (a.entityId = #{entityId} or 0 = #{entityId})
+		</if>
+		<if test="businessTypeId != null and businessTypeId != ''">
+			AND (a.businessTypeId = #{businessTypeId} or 0 = #{businessTypeId})
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND a.clientId = #{clientId} 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId} 
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND upper(a.employeeNameZH) like upper(CONCAT('%', '${employeeNameZH}', '%'))
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND upper(a.employeeNameEN) like upper(CONCAT('%', '${employeeNameEN}', '%'))
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId}
+		</if>
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or 0 = #{monthly})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status in (${status}) or '0' = '${status}')
+		</if>
+		
+		<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR hbizemp.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR hbizemp.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR hbe._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR hbe.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR hbizemp.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+		</if>
+		
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getPaymentAdjustmentHeaderVOByAdjustmentHeaderId" parameterType="int" resultMap="result">
+		SELECT a.adjustmentHeaderId, <include refid="PaymentAdjustmentHeaderColumns-for-join" />
+		FROM hro_payment_adjustment_header a 
+		WHERE a.deleted = 1 AND a.adjustmentHeaderId = #{value}
+	</select>
+	
+	<update id="updatePaymentAdjustmentHeader" parameterType="paymentAdjustmentHeader">
+		UPDATE hro_payment_adjustment_header set entityId = #{entityId}, businessTypeId = #{businessTypeId}, clientId = #{clientId}, employeeId = #{employeeId}, 
+			employeeNameZH = #{employeeNameZH}, employeeNameEN = #{employeeNameEN}, itemGroupId = #{itemGroupId}, contractId = #{contractId}, billAmountPersonal = #{billAmountPersonal}, 
+			costAmountPersonal = #{costAmountPersonal}, taxAmountPersonal = #{taxAmountPersonal}, addtionalBillAmountPersonal = #{addtionalBillAmountPersonal}, taxAgentAmountPersonal=#{taxAgentAmountPersonal},monthly = #{monthly}, taxFlag = #{taxFlag}, 
+			vendorId = #{vendorId}, vendorNameZH = #{vendorNameZH}, vendorNameEN = #{vendorNameEN}, vendorServiceIds = #{vendorServiceIds}, vendorServiceFee = #{vendorServiceFee}, description = #{description}, 
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate}, 
+			modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE adjustmentHeaderId = #{adjustmentHeaderId}
+	</update>
+	
+	<insert id="insertPaymentAdjustmentHeader" parameterType="paymentAdjustmentHeader" useGeneratedKeys="true" keyProperty="adjustmentHeaderId">
+		INSERT INTO hro_payment_adjustment_header (	<include refid="PaymentAdjustmentHeaderColumns" /> )values(
+			#{accountId}, #{orderId}, #{entityId}, #{businessTypeId}, #{clientId}, #{corpId}, #{employeeId}, #{employeeNameZH}, #{employeeNameEN}, #{itemGroupId}, #{contractId}, #{billAmountPersonal}, 
+			#{costAmountPersonal}, #{taxAmountPersonal}, #{addtionalBillAmountPersonal},#{taxAgentAmountPersonal}, #{monthly}, #{taxFlag}, #{vendorId}, #{vendorNameZH}, #{vendorNameEN}, #{vendorServiceIds}, #{vendorServiceFee}, 
+			#{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+	
+	<select id="getGroupPaymentAdjustmentHeaderVOsByCondition" parameterType="paymentAdjustmentHeader" resultMap="result">
+		SELECT contractId, 
+			SUM(taxAmountPersonal-getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE')) AS taxAmountPersonal, 
+			contractId, employeeId, monthly, CASE WHEN `status` = 3 THEN 2 WHEN `status` = 5 THEN 3 ELSE `status` END AS `status`
+			FROM hro_payment_adjustment_header WHERE `status` IN (3, 5) AND deleted = 1 GROUP BY contractId, employeeId, monthly, `status`
+	</select>
+	
+	<select id="getEmployeeGroupPaymentAdjustmentHeaderVOsByCondition" parameterType="paymentAdjustmentHeader" resultMap="result">
+		SELECT contractId, 
+			SUM(taxAmountPersonal-getIncrement(getPublicCode(employeeId), 'PRIVATE_CODE')) AS taxAmountPersonal, 
+			monthly, employeeId, CASE WHEN `status` = 3 THEN 2 WHEN `status` = 5 THEN 3 ELSE `status` END AS `status`
+			FROM hro_payment_adjustment_header WHERE `status` IN (3, 5) AND deleted = 1 GROUP BY monthly, employeeId, `status`
+	</select>
+	
+</mapper>

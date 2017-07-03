@@ -1,0 +1,960 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.sb.SBBillDetailView">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.sb.SBBillDetailView">
+		<result property="batchId" column="batchId" />
+		<result property="headerId" column="headerId" />
+		<result property="adjustmentHeaderId" column="adjustmentHeaderId" />
+		<result property="accountId" column="accountId" />
+		<result property="itemId" column="itemId" />
+		<result property="itemType" column="itemType" />
+		<result property="itemNo" column="itemNo" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="amountCompany" column="amountCompany" />
+		<result property="amountPersonal" column="amountPersonal" />
+		<result property="status" column="status" />
+		<result property="pseudoStatus" column="pseudoStatus" />
+		<result property="groupColumn" column="groupColumn" />
+		<result property="basePersonal" column="basePersonal" />
+		<result property="baseCompany" column="baseCompany" />
+		<result property="ratePersonal" column="ratePersonal" />
+		<result property="rateCompany" column="rateCompany" />
+		
+		<!-- For Application -->
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="corpId" column="corpId" />
+		<result property="clientId" column="clientId" />
+		<result property="clientNo" column="clientNo" />
+		<result property="clientNameZH" column="clientNameZH" />
+		<result property="clientNameEN" column="clientNameEN" />
+		<result property="orderId" column="orderId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="employStatus" column="employStatus" />
+		<result property="contractId" column="contractId" />
+		<result property="contractStatus" column="contractStatus" />
+		<result property="employeeSBId" column="employeeSBId" />
+		<result property="employeeSBNameZH" column="employeeSBNameZH" />
+		<result property="employeeSBNameEN" column="employeeSBNameEN" />
+		<result property="medicalNumber" column="medicalNumber" />
+		<result property="sbNumber" column="sbNumber" />
+		<result property="fundNumber" column="fundNumber" />
+		<result property="sbSolutionId" column="sbSolutionId" />
+		<result property="sbStatus" column="sbStatus" /> 
+		<result property="vendorId" column="vendorId" />
+		<result property="vendorNameZH" column="vendorNameZH" />
+		<result property="vendorNameEN" column="vendorNameEN" />
+		<result property="monthly" column="monthly" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="accountMonthly" column="accountMonthly" />
+		<result property="sbType" column="sbType" />
+		<result property="description" column="description" />
+		<result property="employeeRemark1" column="employeeRemark1" />
+		<result property="contractRemark1" column="contractRemark1" />
+	</resultMap>
+	
+	<!-- getSBBillHeaderViewsByCondition -->
+	<select id="getSBBillHeaderViewsByCondition" parameterType="sbBillView" resultMap="result">
+		<!-- SELECT 
+			headerId, adjustmentHeaderId, accountId, monthly, entityId, businessTypeId, corpId, orderId, employeeId, employeeNameZH, employeeNameEN, contractId, employeeSBId,
+			employeeSBNameZH, employeeSBNameEN, vendorId, vendorNameZH, vendorNameEN, sbStatus, employStatus, `status`,
+			SUM(amountCompany) AS amountCompany, SUM(amountPersonal) AS amountPersonal, contractStatus,
+			clientId, clientNo, clientNameZH, clientNameEN, pseudoStatus, sbSolutionId
+		FROM 
+		( -->
+			SELECT
+				a.headerId, "" AS adjustmentHeaderId, a.accountId, a.monthly,a.startDate, a.entityId, a.businessTypeId, a.corpId, a.orderId, a.employeeId, a.employeeNameZH, a.employeeNameEN, a.certificateNumber, a.contractId, a.employeeSBId,
+				a.employeeSBNameZH, a.employeeSBNameEN, a.vendorId, a.vendorNameZH, a.vendorNameEN, a.sbStatus AS sbStatus, e.status AS employStatus, a.status AS `status`,
+				SUM(b.amountCompany) AS amountCompany, SUM(b.amountPersonal) AS amountPersonal, 
+				hbizemp.`status` AS contractStatus, a.clientId AS clientId, a.clientNo AS clientNo, a.clientNameZH AS clientNameZH, a.clientNameEN AS clientNameEN, 
+				a.status AS pseudoStatus, b.accountMonthly AS accountMonthly, a.description AS description,
+				e.headerId AS sbSolutionId,
+				hbizemp.medicalNumber AS medicalNumber, hbizemp.sbNumber AS sbNumber, hbizemp.fundNumber AS fundNumber,
+				MAX(sbDetail.basePersonal) AS basePersonal,
+				f.remark1 AS employeeRemark1, hbizemp.remark1 AS contractRemark1
+			FROM HRO_SB_Header AS a	
+			LEFT JOIN HRO_SB_Detail AS b ON a.headerId = b.headerId AND b.deleted = 1
+			LEFT JOIN HRO_MGT_Item AS c ON b.itemId = c.itemId
+			LEFT JOIN HRO_BIZ_Employee_Contract_SB AS d ON a.employeeSBId = d.employeeSBId
+			LEFT JOIN HRO_BIZ_Employee_Contract_SB_Detail AS sbDetail ON sbDetail.employeeSBId = d.employeeSBId AND sbDetail.deleted = 1
+			LEFT JOIN HRO_MGT_Social_Benefit_Solution_Header AS e ON d.sbSolutionId = e.headerId
+			LEFT JOIN HRO_BIZ_Employee AS f ON a.employeeId = f.employeeId
+			LEFT JOIN hro_biz_employee_contract AS hbizemp ON d.contractId = hbizemp.contractId
+			WHERE a.deleted = 1 AND a.accountId = #{accountId} AND b.detailId IS NOT NULL
+			<if test="corpId != null and corpId != ''">
+				AND a.corpId = #{corpId} 
+			</if>
+			<if test="corpId == null or corpId == ''">
+				AND a.corpId IS NULL
+			</if>
+			<if test="batchId != null and batchId != ''">
+				AND a.batchId IN (${batchId})
+			</if>
+			<if test="contractId != null and contractId != ''">
+				AND a.contractId = #{contractId} 
+			</if>
+			<if test="employeeId != null and employeeId != ''">
+				AND a.employeeId = #{employeeId}
+			</if>
+			<if test="employeeNameZH != null and employeeNameZH != ''">
+				AND a.employeeNameZH like CONCAT('%', '${employeeNameZH}', '%') 
+			</if> 
+			<if test="employeeNameEN != null and employeeNameEN != ''">
+				AND a.employeeNameEN like CONCAT('%', '${employeeNameEN}', '%') 
+			</if> 
+			<if test="employeeSBId != null and employeeSBId != ''">
+				AND (e.headerId = #{employeeSBId} or 0 = #{employeeSBId})
+			</if>
+			<if test="vendorId != null and vendorId != ''">
+				AND (a.vendorId = #{vendorId} or 0 = #{vendorId})
+			</if>
+			<if test="vendorNameZH != null and vendorNameZH != ''">
+				AND a.vendorNameZH like CONCAT('%', '${vendorNameZH}', '%') 
+			</if> 
+			<if test="vendorNameEN != null and vendorNameEN != ''">
+				AND a.vendorNameEN like CONCAT('%', '${vendorNameEN}', '%') 
+			</if> 
+			<if test="monthly != null and monthly != ''">
+				AND (a.monthly = #{monthly} or 0 = #{monthly})
+			</if>
+			<if test="clientId != null and clientId  != ''">
+				AND a.clientId = #{clientId }
+			</if>
+			<if test="clientNo != null and clientNo != ''">
+				AND a.clientNo like CONCAT('%', '${clientNo}', '%') 
+			</if> 
+			<if test="clientNameZH != null and clientNameZH != ''">
+				AND a.clientNameZH like CONCAT('%', '${clientNameZH}', '%') 
+			</if>
+			<if test="clientNameEN != null and clientNameEN != ''">
+				AND a.clientNameEN like CONCAT('%', '${clientNameEN}', '%') 
+			</if>  
+			<if test="sbStatus != null and sbStatus != ''">
+				AND a.sbStatus IN (${sbStatus})
+			</if>
+			<if test="sbType != null and sbType != ''">
+				AND (e.sbType = #{sbType} or 0 = #{sbType})
+			</if>
+			<if test="flag !=null and flag == 1 and flag != 0">
+				AND a.flag = 1
+			</if>
+			<if test="flag !=null and flag != 1 and flag != 0">
+				AND (a.flag IS NULL OR  a.flag != 1)
+			</if>
+			<if test="status != null and status != ''">
+				AND (a.status= #{status} or 0 = #{status})
+			</if>
+			<if test="contractStatus != null and contractStatus != ''">
+				AND (hbizemp.`status` = #{contractStatus} or 0 = #{contractStatus})
+			</if>
+			<if test="role == 4 or role == 5 ">
+				AND (a.status in (3,4,5))
+			</if>
+			
+			<if test="rulePublic == 1">
+				AND ( false 
+				<if test="rulePrivateIds !=null">
+					 OR hbizemp.employeeId in
+					<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+		        		#{rulePrivateId}
+		     		</foreach>
+				</if>
+				<if test="rulePositionIds !=null">
+					OR hbizemp.owner in
+					<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+		        		#{rulePositionId}
+		     		</foreach>
+				</if>
+				<if test="ruleBranchIds !=null">
+					OR f._tempBranchIds in
+					<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+		        		#{ruleBranchId}
+		     		</foreach>
+				</if>
+				<if test="ruleBusinessTypeIds !=null">
+					OR f.businessTypeId in
+					<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+		        		#{ruleBusinessTypeId}
+		     		</foreach>
+				</if>
+				<if test="ruleEntityIds !=null">
+					OR hbizemp.entityId in
+					<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+		        		#{ruleEntityId}
+		     		</foreach>
+				</if>
+				)
+			</if>
+			
+			<if test="groupColumn == null or groupColumn == '' or groupColumn == 0">
+				GROUP BY a.employeeId, a.contractId, a.monthly, accountMonthly, a.employeeSBId, sbStatus, pseudoStatus
+			</if>
+			<if test="groupColumn != 0 and groupColumn == 1">
+				GROUP BY a.clientId
+			</if>
+			<if test="groupColumn != 0 and groupColumn == 2">
+				GROUP BY e.headerId
+			</if>
+				
+			UNION ALL
+			
+			SELECT
+				"" AS headerId, a.adjustmentHeaderId, a.accountId, a.monthly,d.startDate, a.entityId, a.businessTypeId, a.corpId, a.orderId, a.employeeId, a.employeeNameZH, a.employeeNameEN, f.certificateNumber, a.contractId, a.employeeSBId,
+				e.nameZH AS employeeSBNameZH, e.nameEN AS employeeSBNameEN, "" AS vendorId, "" AS vendorNameZH, "" AS vendorNameEN, "" AS sbStatus, e.status AS employStatus, a.status as `status`,
+				SUM(b.amountCompany) AS amountCompany, SUM(b.amountPersonal) AS amountPersonal,
+			    hbizemp.`status` AS contractStatus, a.clientId AS clientId, a.clientNo AS clientNo, a.clientNameZH AS clientNameZH, a.clientNameEN AS clientNameEN, 
+				CASE WHEN a.status = 4 THEN 1 WHEN a.status = 3 THEN 4 ELSE a.status END AS `pseudoStatus`, b.accountMonthly AS accountMonthly, a.description AS description,
+				e.headerId AS sbSolutionId,
+				hbizemp.medicalNumber AS medicalNumber, hbizemp.sbNumber AS sbNumber, hbizemp.fundNumber AS fundNumber,
+				MAX(sbDetail.basePersonal) AS basePersonal,
+				f.remark1 AS employeeRemark1, hbizemp.remark1 AS contractRemark1
+			FROM HRO_SB_Adjustment_Header AS a
+			LEFT JOIN HRO_SB_Adjustment_Detail AS b ON a.adjustmentHeaderId = b.adjustmentHeaderId AND b.deleted = 1
+			LEFT JOIN HRO_MGT_Item AS c ON b.itemId = c.itemId	
+			LEFT JOIN HRO_BIZ_Employee_Contract_SB AS d ON a.employeeSBId = d.employeeSBId
+			LEFT JOIN HRO_BIZ_Employee_Contract_SB_Detail AS sbDetail ON sbDetail.employeeSBId = d.employeeSBId AND sbDetail.deleted = 1
+			LEFT JOIN HRO_MGT_Social_Benefit_Solution_Header AS e ON d.sbSolutionId = e.headerId	
+			LEFT JOIN HRO_BIZ_Employee AS f ON a.employeeId = f.employeeId
+			LEFT JOIN hro_biz_employee_contract AS hbizemp ON d.contractId = hbizemp.contractId
+			WHERE a.deleted = 1 AND a.accountId = #{accountId} AND b.adjustmentDetailId IS NOT NULL	
+			<if test="corpId != null and corpId != ''">
+				AND a.corpId = #{corpId} 
+			</if>
+			<if test="corpId == null or corpId == ''">
+				AND a.corpId IS NULL
+			</if>
+			<if test="batchId != null and batchId != ''">
+				AND a.adjustmentHeaderId = -1
+			</if>
+			<if test="contractId != null and contractId != ''">
+				AND a.contractId = #{contractId} 
+			</if>
+			<if test="employeeId != null and employeeId != ''">
+				AND a.employeeId = #{employeeId}
+			</if>
+			<if test="employeeNameZH != null and employeeNameZH != ''">
+				AND a.employeeNameZH like CONCAT('%', '${employeeNameZH}', '%') 
+			</if> 
+			<if test="employeeNameEN != null and employeeNameEN != ''">
+				AND a.employeeNameEN like CONCAT('%', '${employeeNameEN}', '%') 
+			</if> 
+			<if test="employeeSBId != null and employeeSBId != ''">
+				AND (e.headerId = #{employeeSBId} or 0 = #{employeeSBId})
+			</if>
+			<if test="vendorId != null and vendorId != ''">
+				AND (a.vendorId = #{vendorId} or 0 = #{vendorId})
+			</if>
+			<if test="vendorNameZH != null and vendorNameZH != ''">
+				AND a.vendorNameZH like CONCAT('%', '${vendorNameZH}', '%') 
+			</if> 
+			<if test="vendorNameEN != null and vendorNameEN != ''">
+				AND a.vendorNameEN like CONCAT('%', '${vendorNameEN}', '%') 
+			</if> 
+			<if test="monthly != null and monthly != ''">
+				AND (a.monthly = #{monthly} or 0 = #{monthly})
+			</if>
+			<if test="clientId != null and clientId  != ''">	
+				AND a.clientId = #{clientId }
+			</if>
+			<if test="clientNo != null and clientNo != ''">
+				AND a.clientNo like CONCAT('%', '${clientNo}', '%') 
+			</if> 
+			<if test="clientNameZH != null and clientNameZH != ''">
+				AND a.clientNameZH like CONCAT('%', '${clientNameZH}', '%') 
+			</if>
+			<if test="clientNameEN != null and clientNameEN != ''">
+				AND a.clientNameEN like CONCAT('%', '${clientNameEN}', '%') 
+			</if>  
+			<!-- <if test="sbStatus != null and sbStatus != ''">
+				AND a.sbStatus IN (${sbStatus})
+			</if> -->
+			<if test="sbType != null and sbType != ''">
+				AND (e.sbType = #{sbType} or 0 = #{sbType})
+			</if>
+			<if test="status != null and status != ''">
+				AND (a.status= #{status} or 0 = #{status})
+			</if>
+			<if test="status == null or status == '' ">
+				AND a.status in (1,3,4,5)
+			</if>
+			<if test="contractStatus != null and contractStatus != ''">
+				AND (hbizemp.`status` = #{contractStatus} or 0 = #{contractStatus})
+			</if>
+			<if test="role == 4 or role == 5 ">
+				AND (a.status in (3,5))
+			</if>
+			
+			<if test="rulePublic == 1">
+				AND ( false 
+				<if test="rulePrivateIds !=null">
+					 OR hbizemp.employeeId in
+					<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+		        		#{rulePrivateId}
+		     		</foreach>
+				</if>
+				<if test="rulePositionIds !=null">
+					OR hbizemp.owner in
+					<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+		        		#{rulePositionId}
+		     		</foreach>
+				</if>
+				<if test="ruleBranchIds !=null">
+					OR f._tempBranchIds in
+					<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+		        		#{ruleBranchId}
+		     		</foreach>
+				</if>
+				<if test="ruleBusinessTypeIds !=null">
+					OR f.businessTypeId in
+					<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+		        		#{ruleBusinessTypeId}
+		     		</foreach>
+				</if>
+				<if test="ruleEntityIds !=null">
+					OR hbizemp.entityId in
+					<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+		        		#{ruleEntityId}
+		     		</foreach>
+				</if>
+				)
+			</if>
+			
+			<if test="groupColumn == null or groupColumn == '' or groupColumn == 0">
+				GROUP BY a.employeeId, a.contractId, a.monthly, accountMonthly, a.employeeSBId, pseudoStatus
+			</if>
+			<if test="groupColumn != 0 and groupColumn == 1">
+				GROUP BY a.clientId
+			</if>
+			<if test="groupColumn != 0 and groupColumn == 2">
+				GROUP BY e.headerId
+			</if>
+		<!-- 	
+		)
+		AS sb
+		<if test="groupColumn == null or groupColumn == '' or groupColumn == 0">
+			GROUP BY employeeId, contractId, monthly, employeeSBId, sbStatus, pseudoStatus
+		</if>
+		<if test="groupColumn != 0 and groupColumn == 1">
+			GROUP BY clientId
+		</if>
+		<if test="groupColumn != 0 and groupColumn == 2">
+			GROUP BY sbSolutionId
+		</if>
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>  -->
+	</select>
+	
+	
+	
+	<select id="countSBBillHeaderViewsByCondition" parameterType="sbBillView" resultType="int">
+		select count(1) from 
+			( SELECT
+				a.headerId, "" AS adjustmentHeaderId, a.accountId, a.monthly, a.entityId, a.businessTypeId, a.corpId, a.orderId, a.employeeId, a.employeeNameZH, a.employeeNameEN, a.certificateNumber, a.contractId, a.employeeSBId,
+				a.employeeSBNameZH, a.employeeSBNameEN, a.vendorId, a.vendorNameZH, a.vendorNameEN, a.sbStatus AS sbStatus, e.status AS employStatus, a.status AS `status`,
+				SUM(b.amountCompany) AS amountCompany, SUM(b.amountPersonal) AS amountPersonal, 
+				hbizemp.`status` AS contractStatus, a.clientId AS clientId, a.clientNo AS clientNo, a.clientNameZH AS clientNameZH, a.clientNameEN AS clientNameEN, 
+				a.status AS pseudoStatus, b.accountMonthly AS accountMonthly, a.description AS description,
+				e.headerId AS sbSolutionId,
+				hbizemp.medicalNumber AS medicalNumber, hbizemp.sbNumber AS sbNumber, hbizemp.fundNumber AS fundNumber,
+				MAX(sbDetail.basePersonal) AS basePersonal
+			FROM HRO_SB_Header AS a	
+			LEFT JOIN HRO_SB_Detail AS b ON a.headerId = b.headerId AND b.deleted = 1
+			LEFT JOIN HRO_MGT_Item AS c ON b.itemId = c.itemId
+			LEFT JOIN HRO_BIZ_Employee_Contract_SB AS d ON a.employeeSBId = d.employeeSBId
+			LEFT JOIN HRO_BIZ_Employee_Contract_SB_Detail AS sbDetail ON sbDetail.employeeSBId = d.employeeSBId AND sbDetail.deleted = 1
+			LEFT JOIN HRO_MGT_Social_Benefit_Solution_Header AS e ON d.sbSolutionId = e.headerId
+			LEFT JOIN HRO_BIZ_Employee AS f ON a.employeeId = f.employeeId
+			LEFT JOIN hro_biz_employee_contract AS hbizemp ON d.contractId = hbizemp.contractId
+			WHERE a.deleted = 1 AND a.accountId = #{accountId} AND b.detailId IS NOT NULL
+			<if test="corpId != null and corpId != ''">
+				AND a.corpId = #{corpId} 
+			</if>
+			<if test="corpId == null or corpId == ''">
+				AND a.corpId IS NULL
+			</if>
+			<if test="batchId != null and batchId != ''">
+				AND a.batchId IN (${batchId})
+			</if>
+			<if test="contractId != null and contractId != ''">
+				AND a.contractId = #{contractId} 
+			</if>
+			<if test="employeeId != null and employeeId != ''">
+				AND a.employeeId = #{employeeId}
+			</if>
+			<if test="employeeNameZH != null and employeeNameZH != ''">
+				AND a.employeeNameZH like CONCAT('%', '${employeeNameZH}', '%') 
+			</if> 
+			<if test="employeeNameEN != null and employeeNameEN != ''">
+				AND a.employeeNameEN like CONCAT('%', '${employeeNameEN}', '%') 
+			</if> 
+			<if test="employeeSBId != null and employeeSBId != ''">
+				AND (e.headerId = #{employeeSBId} or 0 = #{employeeSBId})
+			</if>
+			<if test="vendorId != null and vendorId != ''">
+				AND (a.vendorId = #{vendorId} or 0 = #{vendorId})
+			</if>
+			<if test="vendorNameZH != null and vendorNameZH != ''">
+				AND a.vendorNameZH like CONCAT('%', '${vendorNameZH}', '%') 
+			</if> 
+			<if test="vendorNameEN != null and vendorNameEN != ''">
+				AND a.vendorNameEN like CONCAT('%', '${vendorNameEN}', '%') 
+			</if> 
+			<if test="monthly != null and monthly != ''">
+				AND (a.monthly = #{monthly} or 0 = #{monthly})
+			</if>
+			<if test="clientId != null and clientId  != ''">
+				AND a.clientId = #{clientId }
+			</if>
+			<if test="clientNo != null and clientNo != ''">
+				AND a.clientNo like CONCAT('%', '${clientNo}', '%') 
+			</if> 
+			<if test="clientNameZH != null and clientNameZH != ''">
+				AND a.clientNameZH like CONCAT('%', '${clientNameZH}', '%') 
+			</if>
+			<if test="clientNameEN != null and clientNameEN != ''">
+				AND a.clientNameEN like CONCAT('%', '${clientNameEN}', '%') 
+			</if>  
+			<if test="sbStatus != null and sbStatus != ''">
+				AND a.sbStatus IN (${sbStatus})
+			</if>
+			<if test="role == 4 or role == 5 ">
+				AND (a.status in (3,4,5))
+			</if>
+			<if test="sbType != null and sbType != ''">
+				AND (e.sbType = #{sbType} or 0 = #{sbType})
+			</if>
+			<if test="flag !=null and flag == 1 and flag != 0">
+				AND a.flag = 1
+			</if>
+			<if test="flag !=null and flag != 1 and flag != 0">
+				AND (a.flag IS NULL OR  a.flag != 1)
+			</if>
+			<if test="status != null and status != ''">
+				AND (a.status= #{status} or 0 = #{status})
+			</if>
+			<if test="contractStatus != null and contractStatus != ''">
+				AND (hbizemp.`status` = #{contractStatus} or 0 = #{contractStatus})
+			</if>
+			
+			<if test="rulePublic == 1">
+				AND ( false 
+				<if test="rulePrivateIds !=null">
+					 OR hbizemp.employeeId in
+					<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+		        		#{rulePrivateId}
+		     		</foreach>
+				</if>
+				<if test="rulePositionIds !=null">
+					OR hbizemp.owner in
+					<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+		        		#{rulePositionId}
+		     		</foreach>
+				</if>
+				<if test="ruleBranchIds !=null">
+					OR f._tempBranchIds in
+					<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+		        		#{ruleBranchId}
+		     		</foreach>
+				</if>
+				<if test="ruleBusinessTypeIds !=null">
+					OR f.businessTypeId in
+					<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+		        		#{ruleBusinessTypeId}
+		     		</foreach>
+				</if>
+				<if test="ruleEntityIds !=null">
+					OR hbizemp.entityId in
+					<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+		        		#{ruleEntityId}
+		     		</foreach>
+				</if>
+				)
+			</if>
+			
+			<if test="groupColumn == null or groupColumn == '' or groupColumn == 0">
+				GROUP BY a.employeeId, a.contractId, a.monthly, accountMonthly, a.employeeSBId, sbStatus, pseudoStatus
+			</if>
+			<if test="groupColumn != 0 and groupColumn == 1">
+				GROUP BY a.clientId
+			</if>
+			<if test="groupColumn != 0 and groupColumn == 2">
+				GROUP BY e.headerId
+			</if>
+				
+			UNION ALL
+			
+			SELECT
+				"" AS headerId, a.adjustmentHeaderId, a.accountId, a.monthly, a.entityId, a.businessTypeId, a.corpId, a.orderId, a.employeeId, a.employeeNameZH, a.employeeNameEN, f.certificateNumber, a.contractId, a.employeeSBId,
+				e.nameZH AS employeeSBNameZH, e.nameEN AS employeeSBNameEN, "" AS vendorId, "" AS vendorNameZH, "" AS vendorNameEN, "" AS sbStatus, e.status AS employStatus, a.status as `status`,
+				SUM(b.amountCompany) AS amountCompany, SUM(b.amountPersonal) AS amountPersonal,
+			    hbizemp.`status` AS contractStatus, a.clientId AS clientId, "" AS clientNo, "" AS clientNameZH, "" AS clientNameEN, 
+				CASE WHEN a.status = 4 THEN 1 WHEN a.status = 3 THEN 4 ELSE a.status END AS `pseudoStatus`, b.accountMonthly AS accountMonthly, a.description AS description,
+				e.headerId AS sbSolutionId,
+				hbizemp.medicalNumber AS medicalNumber, hbizemp.sbNumber AS sbNumber, hbizemp.fundNumber AS fundNumber,
+				MAX(sbDetail.basePersonal) AS basePersonal
+			FROM HRO_SB_Adjustment_Header AS a
+			LEFT JOIN HRO_SB_Adjustment_Detail AS b ON a.adjustmentHeaderId = b.adjustmentHeaderId AND b.deleted = 1
+			LEFT JOIN HRO_MGT_Item AS c ON b.itemId = c.itemId	
+			LEFT JOIN HRO_BIZ_Employee_Contract_SB AS d ON a.employeeSBId = d.employeeSBId
+			LEFT JOIN HRO_BIZ_Employee_Contract_SB_Detail AS sbDetail ON sbDetail.employeeSBId = d.employeeSBId AND sbDetail.deleted = 1
+			LEFT JOIN HRO_MGT_Social_Benefit_Solution_Header AS e ON d.sbSolutionId = e.headerId	
+			LEFT JOIN HRO_BIZ_Employee AS f ON a.employeeId = f.employeeId
+			LEFT JOIN hro_biz_employee_contract AS hbizemp ON d.contractId = hbizemp.contractId
+			WHERE a.deleted = 1 AND a.accountId = #{accountId} AND b.adjustmentDetailId IS NOT NULL	
+			<if test="corpId != null and corpId != ''">
+				AND a.corpId = #{corpId} 
+			</if>
+			<if test="corpId == null or corpId == ''">
+				AND a.corpId IS NULL
+			</if>
+			<if test="batchId != null and batchId != ''">
+				AND a.adjustmentHeaderId = -1
+			</if>
+			<if test="contractId != null and contractId != ''">
+				AND a.contractId = #{contractId} 
+			</if>
+			<if test="employeeId != null and employeeId != ''">
+				AND a.employeeId = #{employeeId}
+			</if>
+			<if test="employeeNameZH != null and employeeNameZH != ''">
+				AND a.employeeNameZH like CONCAT('%', '${employeeNameZH}', '%') 
+			</if> 
+			<if test="employeeNameEN != null and employeeNameEN != ''">
+				AND a.employeeNameEN like CONCAT('%', '${employeeNameEN}', '%') 
+			</if> 
+			<if test="employeeSBId != null and employeeSBId != ''">
+				AND (e.headerId = #{employeeSBId} or 0 = #{employeeSBId})
+			</if>
+			<if test="vendorId != null and vendorId != ''">
+				AND (a.vendorId = #{vendorId} or 0 = #{vendorId})
+			</if>
+			<if test="vendorNameZH != null and vendorNameZH != ''">
+				AND a.vendorNameZH like CONCAT('%', '${vendorNameZH}', '%') 
+			</if> 
+			<if test="vendorNameEN != null and vendorNameEN != ''">
+				AND a.vendorNameEN like CONCAT('%', '${vendorNameEN}', '%') 
+			</if> 
+			<if test="monthly != null and monthly != ''">
+				AND (a.monthly = #{monthly} or 0 = #{monthly})
+			</if>
+			<if test="clientId != null and clientId  != ''">	
+				AND a.clientId = #{clientId }
+			</if>
+			<if test="clientNo != null and clientNo != ''">
+				AND a.clientNo like CONCAT('%', '${clientNo}', '%') 
+			</if> 
+			<if test="clientNameZH != null and clientNameZH != ''">
+				AND a.clientNameZH like CONCAT('%', '${clientNameZH}', '%') 
+			</if>
+			<if test="clientNameEN != null and clientNameEN != ''">
+				AND a.clientNameEN like CONCAT('%', '${clientNameEN}', '%') 
+			</if>  
+			<!-- <if test="sbStatus != null and sbStatus != ''">
+				AND a.sbStatus IN (${sbStatus})
+			</if> -->
+			<if test="role == 4 or role == 5 ">
+				AND (a.status in (3,5))
+			</if>
+			<if test="sbType != null and sbType != ''">
+				AND (e.sbType = #{sbType} or 0 = #{sbType})
+			</if>
+			<if test="status != null and status != ''">
+				AND (a.status= #{status} or 0 = #{status})
+			</if>
+			<if test="status == null or status == '' ">
+				AND a.status in (1,3,4,5)
+			</if>
+			<if test="contractStatus != null and contractStatus != ''">
+				AND (hbizemp.`status` = #{contractStatus} or 0 = #{contractStatus})
+			</if>
+			
+			
+			<if test="rulePublic == 1">
+				AND ( false 
+				<if test="rulePrivateIds !=null">
+					 OR hbizemp.employeeId in
+					<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+		        		#{rulePrivateId}
+		     		</foreach>
+				</if>
+				<if test="rulePositionIds !=null">
+					OR hbizemp.owner in
+					<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+		        		#{rulePositionId}
+		     		</foreach>
+				</if>
+				<if test="ruleBranchIds !=null">
+					OR f._tempBranchIds in
+					<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+		        		#{ruleBranchId}
+		     		</foreach>
+				</if>
+				<if test="ruleBusinessTypeIds !=null">
+					OR f.businessTypeId in
+					<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+		        		#{ruleBusinessTypeId}
+		     		</foreach>
+				</if>
+				<if test="ruleEntityIds !=null">
+					OR hbizemp.entityId in
+					<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+		        		#{ruleEntityId}
+		     		</foreach>
+				</if>
+				)
+			</if>
+			
+			<if test="groupColumn == null or groupColumn == '' or groupColumn == 0">
+				GROUP BY a.employeeId, a.contractId, a.monthly, accountMonthly, a.employeeSBId, pseudoStatus
+			</if>
+			<if test="groupColumn != 0 and groupColumn == 1">
+				GROUP BY a.clientId
+			</if>
+			<if test="groupColumn != 0 and groupColumn == 2">
+				GROUP BY e.headerId
+			</if>
+			) a
+		
+	</select>
+	
+	
+	<!-- getSBBillDetailViewsByCondition -->
+	<select id="getSBBillDetailViewsByCondition" parameterType="sbBillView" resultMap="result">
+		<!-- SELECT 
+			accountId, itemId, itemType, SUM(amountCompany) AS amountCompany , SUM(amountPersonal) AS amountPersonal, sbSolutionId, clientId
+			FROM
+			( -->
+				SELECT 
+					b.accountId AS accountId, a.itemId AS itemId, c.itemType AS itemType, SUM(a.amountCompany) AS amountCompany, SUM(a.amountPersonal) AS amountPersonal,
+					b.`status` AS pseudoStatus, e.headerId AS sbSolutionId, b.clientId AS clientId, b.sbStatus AS sbStatus,
+					a.baseCompany AS baseCompany, a.basePersonal AS basePersonal, a.rateCompany AS rateCompany, a.ratePersonal AS ratePersonal 
+				FROM hro_sb_detail AS a
+				LEFT JOIN hro_sb_header AS b ON a.headerId = b.headerId
+				LEFT JOIN HRO_MGT_Item AS c ON a.itemId = c.itemId
+				LEFT JOIN HRO_BIZ_Employee_Contract_SB AS d ON b.employeeSBId = d.employeeSBId
+				LEFT JOIN HRO_MGT_Social_Benefit_Solution_Header AS e ON d.sbSolutionId = e.headerId
+				LEFT JOIN HRO_BIZ_Employee AS f ON b.employeeId = f.employeeId
+				LEFT JOIN hro_biz_employee_contract AS hbizemp ON b.contractId = hbizemp.contractId
+				WHERE a.deleted = 1 AND b.accountId = #{accountId}
+				<if test="corpId != null and corpId != ''">
+					AND b.corpId = #{corpId} 
+				</if>
+				<if test="corpId == null or corpId == ''">
+					AND b.corpId IS NULL
+				</if>
+				<if test="employeeId != null and employeeId != ''">
+					AND b.employeeId = #{employeeId}
+				</if>
+				<if test="contractId != null and contractId != ''">
+					AND b.contractId = #{contractId} 
+				</if>
+				<if test="monthly != null and monthly != ''">
+					AND (b.monthly = #{monthly} or 0 = #{monthly})
+				</if>
+				<if test="accountMonthly != null and accountMonthly != ''">
+					AND a.accountMonthly = #{accountMonthly} 
+				</if>
+				<if test="sbSolutionId != null and sbSolutionId != ''">
+					AND (e.headerId = #{sbSolutionId} or 0 = #{sbSolutionId})
+				</if>
+				<if test="clientId != null and clientId  != ''">
+					AND b.clientId = #{clientId }
+				</if>
+				<if test="sbStatus != null and sbStatus != ''">
+					AND sbStatus IN (${sbStatus})
+				</if>
+				<if test="sbStatus == null or sbStatus == ''">
+					AND sbStatus IS NULL
+				</if>
+				<if test="status != null and status != ''">
+					AND (b.status= #{status} or 0 = #{status})
+				</if>
+				<if test="contractStatus != null and contractStatus != ''">
+					AND (hbizemp.`status` = #{contractStatus} or 0 = #{contractStatus})
+				</if>
+				<if test="hasIn != null and hasIn != ''">
+					AND hbizemp.OWNER  IN (#{hasIn})
+				</if>
+				<if test="notIn != null and notIn != ''">
+					AND hbizemp.OWNER NOT IN (#{notIn})
+				</if>
+				<if test="groupColumn == null or groupColumn == '' or groupColumn == 0">
+					GROUP BY b.employeeId, b.contractId, b.monthly, b.employeeSBId, pseudoStatus, a.itemId
+				</if>
+				<if test="groupColumn != 0 and groupColumn == 1">
+					GROUP BY b.clientId, a.itemId
+				</if>
+				<if test="groupColumn != 0 and groupColumn == 2">
+					GROUP BY e.headerId, a.itemId
+				</if>
+			
+				UNION ALL
+				
+				SELECT 
+					b.accountId AS accountId, a.itemId AS itemId, c.itemType AS itemType, SUM(a.amountCompany) AS amountCompany, SUM(a.amountPersonal) AS amountPersonal,
+					CASE WHEN a.status = 4 THEN 1 WHEN a.status = 3 THEN 4 ELSE a.status END AS `pseudoStatus`, e.headerId AS sbSolutionId, b.clientId AS clientId, "" AS sbStatus,
+					0 AS baseCompany, 0 AS basePersonal, 0 AS rateCompany, 0 AS ratePersonal  
+				FROM hro_sb_adjustment_detail AS a
+				LEFT JOIN hro_sb_adjustment_header AS b ON a.adjustmentHeaderId = b.adjustmentHeaderId
+				LEFT JOIN HRO_MGT_Item AS c ON a.itemId = c.itemId
+				LEFT JOIN HRO_BIZ_Employee_Contract_SB AS d ON b.employeeSBId = d.employeeSBId
+				LEFT JOIN HRO_MGT_Social_Benefit_Solution_Header AS e ON d.sbSolutionId = e.headerId
+				LEFT JOIN HRO_BIZ_Employee AS f ON b.employeeId = f.employeeId
+				LEFT JOIN hro_biz_employee_contract AS hbizemp ON b.contractId = hbizemp.contractId
+				WHERE a.deleted = 1 AND b.accountId = #{accountId}
+				<if test="corpId != null and corpId != ''">
+					AND b.corpId = #{corpId} 
+				</if>
+				<if test="corpId == null or corpId == ''">
+					AND b.corpId IS NULL
+				</if>
+				<if test="employeeId != null and employeeId != ''">
+					AND b.employeeId = #{employeeId}
+				</if>
+				<if test="contractId != null and contractId != ''">
+					AND b.contractId = #{contractId} 
+				</if>
+				<if test="monthly != null and monthly != ''">
+				    AND (b.monthly = #{monthly} or 0 = #{monthly})
+				</if>
+				<if test="accountMonthly != null and accountMonthly != ''">
+					AND a.accountMonthly = #{accountMonthly} 
+				</if>
+				<if test="sbSolutionId != null and sbSolutionId != ''">
+					AND (e.headerId = #{sbSolutionId} or 0 = #{sbSolutionId})
+				</if>
+				<if test="clientId != null and clientId  != ''">
+					AND b.clientId = #{clientId }
+				</if>
+				<if test="sbStatus != null and sbStatus != ''">
+					AND a.adjustmentDetailId = -1
+				</if>
+				<if test="status != null and status != ''">
+					AND (b.status= #{status} or 0 = #{status})
+				</if>
+				<if test="status == null or status == '' ">
+					AND b.status in (1,3,4,5)
+				</if>
+				<if test="contractStatus != null and contractStatus != ''">
+					AND (hbizemp.`status` = #{contractStatus} or 0 = #{contractStatus})
+				</if>
+				<if test="hasIn != null and hasIn != ''">
+					AND hbizemp.OWNER  IN (#{hasIn})
+				</if>
+				<if test="notIn != null and notIn != ''">
+					AND hbizemp.OWNER NOT IN (#{notIn})
+				</if>
+				<if test="groupColumn == null or groupColumn == '' or groupColumn == 0">
+					GROUP BY b.employeeId, b.contractId, b.monthly, b.employeeSBId, pseudoStatus, a.itemId
+				</if>
+				<if test="groupColumn != 0 and groupColumn == 1">
+					GROUP BY b.clientId, a.itemId
+				</if>
+				<if test="groupColumn != 0 and groupColumn == 2">
+					GROUP BY e.headerId, a.itemId
+				</if>
+			<!-- )
+		    sb_tb
+			<if test="groupColumn == null or groupColumn == '' or groupColumn == 0">
+				GROUP BY itemId
+			</if>
+			<if test="groupColumn != 0 and groupColumn == 1">
+				GROUP BY clientId, itemId
+			</if>
+			<if test="groupColumn != 0 and groupColumn == 2">
+				GROUP BY sbSolutionId, itemId
+			</if>
+			<if test="groupColumn == null or groupColumn == '' or groupColumn == 0">
+				ORDER BY itemId
+			</if>
+			<if test="groupColumn != 0 and groupColumn == 1">
+				ORDER BY clientId, itemId
+			</if>
+			<if test="groupColumn != 0 and groupColumn == 2">
+				ORDER BY sbSolutionId, itemId
+			</if> -->
+	</select>
+	
+	<select id="getSBBillViewsByCondition_back" parameterType="sbBillView" resultMap="result">
+		SELECT
+			a.headerId, "" AS adjustmentHeaderId, a.accountId, a.monthly, a.entityId, a.businessTypeId, a.corpId, a.orderId, a.employeeId, a.employeeNameZH, a.employeeNameEN, a.contractId, a.employeeSBId,
+			a.employeeSBNameZH, a.employeeSBNameEN, a.vendorId, a.vendorNameZH, a.vendorNameEN, a.sbStatus AS sbStatus, e.status AS employStatus, a.status AS `status`,
+			b.itemId, c.itemType AS itemType, c.itemNo AS itemNo, c.nameZH AS nameZH, c.nameEN AS nameEN, b.amountCompany, b.amountPersonal, hbizemp.`status` AS contractStatus,
+			a.clientId AS clientId, a.clientNo AS clientNo, a.clientNameZH AS clientNameZH, a.clientNameEN AS clientNameEN, a.status AS pseudoStatus
+		FROM HRO_SB_Header a
+			LEFT JOIN HRO_SB_Detail b 
+			
+				ON a.headerId = b.headerId
+			LEFT JOIN HRO_MGT_Item c
+				ON b.itemId = c.itemId	
+			LEFT JOIN HRO_BIZ_Employee_Contract_SB d
+				ON a.employeeSBId = d.employeeSBId
+			LEFT JOIN HRO_MGT_Social_Benefit_Solution_Header e
+				ON d.sbSolutionId = e.headerId		
+			LEFT JOIN HRO_BIZ_Employee f
+				ON a.employeeId = f.employeeId
+			LEFT JOIN hro_biz_employee_contract hbizemp ON d.contractId = hbizemp.contractId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId} AND b.detailId IS NOT NULL
+		<if test="corpId != null and corpId != ''">
+			AND a.corpId = #{corpId} 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId} 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH like CONCAT('%', '${employeeNameZH}', '%') 
+		</if> 
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameEN like CONCAT('%', '${employeeNameEN}', '%') 
+		</if> 
+		<if test="employeeSBId != null and employeeSBId != ''">
+			AND (e.headerId = #{employeeSBId} or 0 = #{employeeSBId})
+		</if>
+		<if test="vendorId != null and vendorId != ''">
+			AND (a.vendorId = #{vendorId} or 0 = #{vendorId})
+		</if>
+		<if test="vendorNameZH != null and vendorNameZH != ''">
+			AND a.vendorNameZH like CONCAT('%', '${vendorNameZH}', '%') 
+		</if> 
+		<if test="vendorNameEN != null and vendorNameEN != ''">
+			AND a.vendorNameEN like CONCAT('%', '${vendorNameEN}', '%') 
+		</if> 
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or 0 = #{monthly})
+		</if>
+		<if test="clientId != null and clientId  != ''">
+			AND a.clientId = #{clientId }
+		</if>
+		<if test="clientNo != null and clientNo != ''">
+			AND a.clientNo like CONCAT('%', '${clientNo}', '%') 
+		</if> 
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND a.clientNameZH like CONCAT('%', '${clientNameZH}', '%') 
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND a.clientNameEN like CONCAT('%', '${clientNameEN}', '%') 
+		</if>  
+		<if test="sbStatus != null and sbStatus != ''">
+			AND a.sbStatus IN (${sbStatus})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status= #{status} or 0 = #{status})
+		</if>
+		<if test="contractStatus != null and contractStatus != ''">
+			AND (hbizemp.`status` = #{contractStatus} or 0 = #{contractStatus})
+		</if>
+		<if test="hasIn != null and hasIn != ''">
+			 AND hbizemp.OWNER  IN (#{hasIn})
+		</if>
+		<if test="notIn != null and notIn != ''">
+			AND hbizemp.OWNER NOT IN (#{notIn})
+		</if>
+		
+		UNION ALL
+		
+		SELECT
+			"" AS headerId, a.adjustmentHeaderId, a.accountId, a.monthly, a.entityId, a.businessTypeId, a.corpId, a.orderId, a.employeeId, a.employeeNameZH, a.employeeNameEN, a.contractId, a.employeeSBId,
+			"" AS employeeSBNameZH, "" AS employeeSBNameEN, "" AS vendorId, "" AS vendorNameZH, "" AS vendorNameEN, "" AS sbStatus, e.status AS employStatus, a.status as `status`,
+			b.itemId, c.itemType AS itemType, c.itemNo AS itemNo, c.nameZH AS nameZH, c.nameEN AS nameEN, b.amountCompany, b.amountPersonal, hbizemp.`status` AS contractStatus,
+			a.clientId AS clientId, "" AS clientNo, "" AS clientNameZH, "" AS clientNameEN, 
+			CASE 
+				WHEN a.status = 4 THEN 1
+				WHEN a.status = 3 THEN 4
+				ELSE a.status
+			END AS `pseudoStatus`
+		FROM HRO_SB_Adjustment_Header a
+			LEFT JOIN HRO_SB_Adjustment_Detail b
+				ON a.adjustmentHeaderId = b.adjustmentHeaderId
+			LEFT JOIN HRO_MGT_Item c
+				ON b.itemId = c.itemId	
+			LEFT JOIN HRO_BIZ_Employee_Contract_SB d
+				ON a.employeeSBId = d.employeeSBId
+			LEFT JOIN HRO_MGT_Social_Benefit_Solution_Header e
+				ON d.sbSolutionId = e.headerId	
+			LEFT JOIN HRO_BIZ_Employee f
+				ON a.employeeId = f.employeeId
+			LEFT JOIN hro_biz_employee_contract hbizemp ON d.contractId = hbizemp.contractId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId} AND b.adjustmentDetailId IS NOT NULL	
+		<if test="corpId != null and corpId != ''">
+			AND a.corpId = #{corpId} 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND a.contractId = #{contractId} 
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND a.employeeId = #{employeeId}
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH like CONCAT('%', '${employeeNameZH}', '%') 
+		</if> 
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameEN like CONCAT('%', '${employeeNameEN}', '%') 
+		</if> 
+		<if test="employeeSBId != null and employeeSBId != ''">
+			AND (e.headerId = #{employeeSBId} or 0 = #{employeeSBId})
+		</if>
+		<if test="vendorId != null and vendorId != ''">
+			AND (a.vendorId = #{vendorId} or 0 = #{vendorId})
+		</if>
+		<if test="vendorNameZH != null and vendorNameZH != ''">
+			AND a.vendorNameZH like CONCAT('%', '${vendorNameZH}', '%') 
+		</if> 
+		<if test="vendorNameEN != null and vendorNameEN != ''">
+			AND a.vendorNameEN like CONCAT('%', '${vendorNameEN}', '%') 
+		</if> 
+		<if test="monthly != null and monthly != ''">
+			AND (a.monthly = #{monthly} or 0 = #{monthly})
+		</if>
+		<if test="clientId != null and clientId  != ''">
+			AND a.clientId = #{clientId }
+		</if>
+		<if test="clientNo != null and clientNo != ''">
+			AND a.clientNo like CONCAT('%', '${clientNo}', '%') 
+		</if> 
+		<if test="clientNameZH != null and clientNameZH != ''">
+			AND a.clientNameZH like CONCAT('%', '${clientNameZH}', '%') 
+		</if>
+		<if test="clientNameEN != null and clientNameEN != ''">
+			AND a.clientNameEN like CONCAT('%', '${clientNameEN}', '%') 
+		</if>  
+		<!-- <if test="sbStatus != null and sbStatus != ''">
+			AND a.sbStatus IN (${sbStatus})
+		</if> -->
+		<if test="status != null and status != ''">
+			AND (a.status= #{status} or 0 = #{status})
+		</if>
+		<if test="status == null or status == '' ">
+			AND a.status in (1,3,4,5)
+		</if>
+		<if test="contractStatus != null and contractStatus != ''">
+			AND (hbizemp.`status` = #{contractStatus} or 0 = #{contractStatus})
+		</if>
+		<if test="hasIn != null and hasIn != ''">
+			AND hbizemp.OWNER  IN (#{hasIn})
+		</if>
+		<if test="notIn != null and notIn != ''">
+			AND hbizemp.OWNER NOT IN (#{notIn}) 
+		</if>
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+
+</mapper>

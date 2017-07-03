@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.payment.IncomeTaxYearView">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.payment.IncomeTaxYearView">
+		<result property="accountId" column="accountId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="contractId" column="contractId" />
+		<result property="orderId" column="orderId" />
+		<result property="corpId" column="corpId" />
+		<result property="year" column="year" />
+		<result property="inputDate" column="inputDate" />
+		<result property="money" column="money" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+  	 	<result property="certificateType" column="certificateType" />
+		<result property="certificateNumber" column="certificateNumber" />
+		<result property="clientId" column="clientId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="positionGradeId" column="positionGradeId" />
+		<result property="gradeName" column="gradeName" />
+		<result property="positionId" column="positionId" />
+		<result property="positionName" column="positionName" />
+		<result property="personalAddress" column="personalAddress" />
+		<result property="personalPostcode" column="personalPostcode" />
+		<result property="phone1" column="phone1" />
+		<result property="billAmountCompany" column="billAmountCompany" />
+		<result property="billAmountPersonal" column="billAmountPersonal" />
+		<result property="costAmountCompany" column="costAmountCompany" />
+		<result property="costAmountPersonal" column="costAmountPersonal" />
+		<result property="taxAmountPersonal" column="taxAmountPersonal" />
+		<result property="addtionalBillAmountPersonal" column="addtionalBillAmountPersonal" />
+		<result property="deleted" column="deleted" />
+		<result property="taxAmountPersonalMax" column="taxAmountPersonalMax" />
+		<result property="taxAmountPersonalMin" column="taxAmountPersonalMin" />
+	</resultMap>
+	
+	<select id="getIncomeTaxYearViewsByCondition" parameterType="incomeTaxYearView" resultMap="result">
+		SELECT employeeId, contractId, `year`, corpId, orderId, inputDate, employeeNameZH, employeeNameEN, certificateType, certificateNumber, entityId, clientId, businessTypeId,
+			positionGradeId, gradeName, positionId, positionName, personalAddress, phone1, SUM(billAmountCompany) AS billAmountCompany, SUM(billAmountPersonal) AS billAmountPersonal,
+			SUM(costAmountCompany) AS costAmountCompany, SUM(costAmountPersonal) AS costAmountPersonal, SUM(taxAmountPersonal) AS taxAmountPersonal,
+			SUM(addtionalBillAmountPersonal) AS addtionalBillAmountPersonal, deleted, accountId
+		FROM
+		(
+			SELECT a.employeeId, a.contractId AS contractId,a.corpId as corpId, g.orderId AS orderId, LEFT( monthly, 4 ) AS `year`, NOW() AS inputDate, a.employeeNameZH, a.employeeNameEN, 
+				a.certificateType, a.certificateNumber, a.entityId, a.clientId, a.businessTypeId, f.positionGradeId AS positionGradeId, f.gradeNameZH AS gradeName, e.positionId, 
+				e.titleZH AS positionName, b.personalAddress AS personalAddress, b.phone1 AS phone1, 
+				a.billAmountCompany - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS billAmountCompany, 
+				a.billAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS billAmountPersonal, 
+				a.costAmountCompany - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS costAmountCompany, 
+				a.costAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS costAmountPersonal, 
+				a.taxAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS taxAmountPersonal, 
+				a.addtionalBillAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS addtionalBillAmountPersonal,
+				a.deleted AS deleted, a.accountId AS accountId
+			FROM HRO_Payment_Header a LEFT JOIN HRO_BIZ_Employee b ON a.employeeId = b.employeeId
+				LEFT JOIN HRO_BIZ_Employee_Contract g ON a.employeeId = g.employeeId	
+				LEFT JOIN HRO_SEC_Staff c ON a.employeeId = c.employeeId
+				LEFT JOIN HRO_SEC_Position_Staff_Relation d ON c.staffId = d.staffId and staffType='1'
+				LEFT JOIN HRO_SEC_Position e ON d.positionId = e.positionId
+				LEFT JOIN HRO_SEC_Position_Grade f ON e.positionGradeId = f.positionGradeId
+			WHERE a.deleted = 1 
+			<if test="year != null and year != ''">
+				AND LEFT( monthly, 4 ) = #{year}
+			</if> 	
+			<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR g.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR g.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR b._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR b.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR g.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+			</if>
+			GROUP BY contractId, `year`
+		
+			UNION ALL
+		
+			SELECT a.employeeId, a.contractId AS contractId,a.corpId as corpId, g.orderId AS orderId, LEFT( monthly, 4 ) AS `year`, NOW() AS inputDate, a.employeeNameZH, a.employeeNameEN, 
+				b.certificateType, b.certificateNumber, a.entityId, a.clientId, a.businessTypeId, f.positionGradeId AS positionGradeId, f.gradeNameZH AS gradeName, e.positionId, 
+				e.titleZH AS positionName, b.personalAddress AS personalAddress, b.phone1 AS phone1, 
+				0.0 AS billAmountCompany, 
+				a.billAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS billAmountPersonal, 
+				0.0 AS costAmountCompany, 
+				a.costAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS costAmountPersonal, 
+				a.taxAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS taxAmountPersonal, 
+				a.addtionalBillAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS addtionalBillAmountPersonal,
+				a.deleted AS deleted, a.accountId AS accountId
+			FROM HRO_Payment_Adjustment_Header a LEFT JOIN HRO_BIZ_Employee b ON a.employeeId = b.employeeId
+				LEFT JOIN HRO_BIZ_Employee_Contract g ON a.employeeId = g.employeeId	
+				LEFT JOIN HRO_SEC_Staff c ON a.employeeId = c.employeeId
+				LEFT JOIN HRO_SEC_Position_Staff_Relation d ON c.staffId = d.staffId and staffType='1'
+				LEFT JOIN HRO_SEC_Position e ON d.positionId = e.positionId
+				LEFT JOIN HRO_SEC_Position_Grade f ON e.positionGradeId = f.positionGradeId
+			WHERE a.deleted = 1
+			<if test="year != null and year != ''">
+				AND LEFT( monthly, 4 ) = #{year}
+			</if> 
+			<if test="rulePublic == 1">
+			AND ( false 
+			<if test="rulePrivateIds !=null">
+				 OR g.employeeId in
+				<foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+	        		#{rulePrivateId}
+	     		</foreach>
+			</if>
+			<if test="rulePositionIds !=null">
+				OR g.owner in
+				<foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+	        		#{rulePositionId}
+	     		</foreach>
+			</if>
+			<if test="ruleBranchIds !=null">
+				OR b._tempBranchIds in
+				<foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+	        		#{ruleBranchId}
+	     		</foreach>
+			</if>
+			<if test="ruleBusinessTypeIds !=null">
+				OR b.businessTypeId in
+				<foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+	        		#{ruleBusinessTypeId}
+	     		</foreach>
+			</if>
+			<if test="ruleEntityIds !=null">
+				OR g.entityId in
+				<foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+	        		#{ruleEntityId}
+	     		</foreach>
+			</if>
+			)
+			</if>
+			GROUP BY contractId, `year`
+		) tempView
+		WHERE deleted = 1
+		<if test="accountId != null and accountId != ''">
+			AND accountId = #{accountId}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			AND employeeId = #{employeeId}
+		</if>
+		<if test="contractId != null and contractId != ''">
+			AND contractId = #{contractId}
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} OR 0=#{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND employeeNameZH like CONCAT('%', '${employeeNameZH}', '%') 
+		</if> 
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND employeeNameEN like CONCAT('%', '${employeeNameEN}', '%') 
+		</if> 
+		<if test="taxAmountPersonalMin != null and taxAmountPersonalMin != ''">
+			<![CDATA[ AND taxAmountPersonal >= #{taxAmountPersonalMin} ]]>
+		</if> 
+		<if test="taxAmountPersonalMax != null and taxAmountPersonalMax != ''">
+			<![CDATA[ AND taxAmountPersonal <= #{taxAmountPersonalMax} ]]>
+		</if> 
+		GROUP BY contractId, `year`			
+		<if	test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>			
+	</select>
+	
+	<select id="getIncomeTaxYearViewByCondition" parameterType="incomeTaxYearView" resultMap="result">
+		SELECT employeeId, contractId , `year`, personalPostcode, inputDate, employeeNameZH, employeeNameEN, certificateType, certificateNumber, entityId, clientId, businessTypeId,
+			positionGradeId, gradeName, positionId, positionName, personalAddress, phone1, SUM(billAmountCompany) AS billAmountCompany, SUM(billAmountPersonal) AS billAmountPersonal,
+			SUM(costAmountCompany) AS costAmountCompany, SUM(costAmountPersonal) AS costAmountPersonal, SUM(taxAmountPersonal) AS taxAmountPersonal, SUM(addtionalBillAmountPersonal) AS addtionalBillAmountPersonal
+		FROM
+		(	
+			SELECT a.employeeId, a.contractId AS contractId, b.personalPostcode AS personalPostcode, LEFT( monthly, 4 ) AS `year`, NOW() AS inputDate, a.employeeNameZH, a.employeeNameEN, 
+				a.certificateType, a.certificateNumber, a.entityId, a.clientId, a.businessTypeId, f.positionGradeId AS positionGradeId, f.gradeNameZH AS gradeName, e.positionId, e.titleZH AS positionName,
+				b.personalAddress AS personalAddress, b.phone1 AS phone1, a.billAmountCompany AS billAmountCompany, 
+				a.billAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS billAmountPersonal, 
+				a.costAmountCompany - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS costAmountCompany, 
+				a.costAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS costAmountPersonal, 
+				a.taxAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS taxAmountPersonal, 
+				a.addtionalBillAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS addtionalBillAmountPersonal,
+				a.deleted AS deleted, a.accountId AS accountId
+			FROM HRO_Payment_Header a LEFT JOIN HRO_BIZ_Employee b ON a.employeeId = b.employeeId
+				LEFT JOIN HRO_SEC_Staff c ON a.employeeId = c.employeeId
+				LEFT JOIN HRO_SEC_Position_Staff_Relation d ON c.staffId = d.staffId and staffType='1'
+				LEFT JOIN HRO_SEC_Position e ON d.positionId = e.positionId
+				LEFT JOIN HRO_SEC_Position_Grade f ON e.positionGradeId = f.positionGradeId
+			WHERE a.deleted = 1 AND contractId = #{contractId} AND LEFT( monthly, 4 ) = #{year} 
+			GROUP BY contractId, `year`	
+
+			UNION ALL
+		
+			SELECT a.employeeId, a.contractId AS contractId, b.personalPostcode AS personalPostcode, LEFT( monthly, 4 ) AS `year`, NOW() AS inputDate, a.employeeNameZH, a.employeeNameEN, 
+				b.certificateType, b.certificateNumber, a.entityId, a.clientId, a.businessTypeId, f.positionGradeId AS positionGradeId, f.gradeNameZH AS gradeName, e.positionId, e.titleZH AS positionName,
+				b.personalAddress AS personalAddress, b.phone1 AS phone1, 
+				0.0 AS billAmountCompany, 
+				a.billAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS billAmountPersonal,
+				0.0 AS costAmountCompany, 
+				a.costAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS costAmountPersonal, 
+				a.taxAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE')  AS taxAmountPersonal,
+				a.addtionalBillAmountPersonal - getIncrement(getPublicCode(a.employeeId), 'PRIVATE_CODE') AS addtionalBillAmountPersonal, 
+				a.deleted AS deleted, a.accountId AS accountId
+			FROM HRO_Payment_Adjustment_Header a LEFT JOIN HRO_BIZ_Employee b ON a.employeeId = b.employeeId
+				LEFT JOIN HRO_SEC_Staff c ON a.employeeId = c.employeeId
+				LEFT JOIN HRO_SEC_Position_Staff_Relation d ON c.staffId = d.staffId and staffType='1'
+				LEFT JOIN HRO_SEC_Position e ON d.positionId = e.positionId
+				LEFT JOIN HRO_SEC_Position_Grade f ON e.positionGradeId = f.positionGradeId
+			WHERE a.deleted = 1 AND contractId = #{contractId} AND LEFT( monthly, 4 ) = #{year} 
+			GROUP BY contractId, `year`
+		) tempView						
+	</select>
+	
+</mapper>

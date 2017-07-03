@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.security.UserVO">
+
+	<resultMap id="result" type="com.kan.base.domain.security.UserVO">
+		<result property="userId" column="userId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="staffId" column="staffId" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="bindIP" column="bindIP" />
+		<result property="lastLogin" column="lastLogin" />
+		<result property="lastLoginIP" column="lastLoginIP" />
+		<result property="userIds" column="userIds" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<result property="staffName" column="staffName" />
+		<result property="encryptPassword" column="encryptPassword" />
+		<result property="salt" column="salt" />
+	</resultMap>
+  	
+  	<resultMap id="resultClients" type="com.kan.hro.domain.biz.client.ClientVO">
+		<result property="corpId" column="corpId" />
+		<result property="groupId" column="groupId" />
+		<result property="accountId" column="accountId" />
+		<result property="number" column="number" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="cityId" column="cityId" />
+		<result property="address" column="address" />
+		<result property="postcode" column="postcode" />
+		<result property="mainContact" column="mainContact" />
+		<result property="phone" column="phone" />
+		<result property="mobile" column="mobile" />
+		<result property="fax" column="fax" />
+		<result property="email" column="email" />
+		<result property="im1Type" column="im1Type" />
+		<result property="im1" column="im1" />
+		<result property="im2Type" column="im2Type" />
+		<result property="im2" column="im2" />
+		<result property="website" column="website" />
+		<result property="invoiceDate" column="invoiceDate" />
+		<result property="paymentTerms" column="paymentTerms" />
+		<result property="industry" column="industry" />
+		<result property="type" column="type" />
+		<result property="size" column="size" />
+		<result property="description" column="description" />
+		<result property="recommendPerson" column="recommendPerson" />
+		<result property="recommendBranch" column="recommendBranch" />
+		<result property="recommendPosition" column="recommendPosition" />
+		<result property="legalEntity" column="legalEntity" />
+		<result property="branch" column="branch" />
+		<result property="owner" column="owner" />
+		<result property="orderBindContract" column="orderBindContract" />
+		<result property="sbGenerateCondition" column="sbGenerateCondition" />
+		<result property="cbGenerateCondition" column="cbGenerateCondition" />
+		<result property="settlementCondition" column="settlementCondition" />
+		<result property="sbGenerateConditionSC" column="sbGenerateConditionSC" />
+		<result property="cbGenerateConditionSC" column="cbGenerateConditionSC" />
+		<result property="settlementConditionSC" column="settlementConditionSC" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+		<!-- For App -->
+		<result property="groupName" column="groupName" />
+		<result property="groupNumber" column="groupNumber" />
+	</resultMap>
+  	
+  	<sql id="userColumns"> 
+  		accountId,corpId, staffId, username, password, bindIP, lastLogin, lastLoginIP,userIds, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, 
+  		createDate, modifyBy, modifyDate ,encryptPassword, salt
+	</sql>
+	
+	<sql id="userColumns-for-join"> 
+  		a.accountId,a.corpId, a.staffId, a.username, a.password, a.bindIP, a.lastLogin, a.lastLoginIP,a.userIds, a.deleted, a.status, a.remark1, a.remark2, a.remark3, 
+  		a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate, a.encryptPassword, a.salt
+	</sql>
+	
+	<sql id="userHistoryColumns"> 
+  		userId, accountId, staffId, username, password, bindIP, lastLogin, lastLoginIP,userIds, deleted, status, remark1, remark2, remark3, remark4, 
+  		remark5, modifyBy, modifyDate 
+	</sql>
+	
+	
+	<sql id="clientColumns">
+		b.groupId, b.accountId, b.number, b.nameZH, b.nameEN, b.cityId, b.address, b.postcode, b.mainContact, b.phone, b.mobile, b.fax, b.email, b.im1Type,
+		b.im1, b.im2Type, b.im2, b.website, b.invoiceDate, b.paymentTerms, b.industry, b.type, b.size, b.description, b.recommendPerson, b.recommendBranch, b.recommendPosition,
+		b.legalEntity, b.branch, b.owner, b.orderBindContract, b.sbGenerateCondition, b.cbGenerateCondition, b.settlementCondition, b.sbGenerateConditionSC, b.cbGenerateConditionSC, 
+		b.settlementConditionSC, b.deleted, b.status, b.remark1, b.remark2, b.remark3, b.remark4, b.remark5, b.createBy, b.createDate, b.modifyBy, b.modifyDate 
+	</sql>
+	
+	<select id="countUserVOsByCondition" parameterType="user" resultType="int">
+		SELECT COUNT(0) FROM
+		(
+			SELECT 0 
+			FROM HRO_SEC_User a LEFT OUTER JOIN HRO_SEC_Staff b ON a.staffId = b.staffId
+			WHERE a.deleted = 1 AND a.accountId = #{accountId} 
+			<if test="username != null and username != ''">
+				AND a.username like CONCAT('%', '${username}', '%') 
+			</if>
+			<!-- 
+			<if test="corpId != null and corpId != ''">
+				AND a.corpId = #{corpId}
+			</if>
+			-->
+			<if test="corpId == null or corpId == ''">
+				AND a.corpId IS NULL
+			</if>
+			<if test="staffId != null and staffId != ''">
+				AND a.staffId = #{staffId}
+			</if>
+			<if test="status != null and status != ''">
+				AND (a.status = #{status} or 0 = #{status})
+			</if>
+			GROUP BY a.userId
+		) t
+  	</select>
+  	
+	<select id="getUserVOsByCondition" parameterType="user" resultMap="result">
+		SELECT a.userId, <include refid="userColumns-for-join"/>, CONCAT(b.nameZH, ' - ', b.nameEN) as staffName 
+		FROM HRO_SEC_User a LEFT OUTER JOIN HRO_SEC_Staff b ON a.staffId = b.staffId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId} 
+		<if test="username != null and username != ''">
+			AND a.username like CONCAT('%', '${username}', '%') 
+		</if>
+		<if test="corpId != null and corpId != ''">
+			AND a.corpId = #{corpId}
+		</if>
+		<!-- 
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		 -->
+		<if test="staffId != null and staffId != ''">
+			AND a.staffId = #{staffId}
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		GROUP BY a.userId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+  	
+  	<select id="getUserVOByUserId" parameterType="int" resultMap="result">
+		SELECT userId, <include refid="userColumns"/>  
+		FROM HRO_SEC_User 
+		WHERE deleted = 1 AND userId = #{value}
+  	</select>
+  	
+  	<select id="getUserVOByStaffId" parameterType="int" resultMap="result">
+		SELECT userId, <include refid="userColumns"/>  
+		FROM HRO_SEC_User 
+		WHERE  deleted = 1 AND staffId = #{value}
+  	</select>
+  	
+  	<select id="getUserVOsByCorpId" parameterType="int" resultMap="result">
+		SELECT a.userId, <include refid="userColumns-for-join"/>,CONCAT(b.nameZH,' - ',b.nameEN) as staffName  
+		FROM HRO_SEC_User a LEFT JOIN HRO_SEC_STAFF b on a.staffId = b.staffId AND b.deleted = 1 
+		WHERE  a.deleted = 1 AND a.corpId = #{value}
+  	</select>
+	
+	<select id="login" parameterType="user" resultMap="result">
+		SELECT userId, <include refid="userColumns"/>  
+		FROM HRO_SEC_User 
+		WHERE deleted = 1 AND Upper(username) = Upper(#{username}) AND corpId is NULL  AND (accountId = #{accountId} OR Upper(username) = Upper('super'))
+  	</select>
+  	
+  	<select id="login_inHouse" parameterType="user" resultMap="result">
+		SELECT userId, <include refid="userColumns"/>  
+		FROM HRO_SEC_User 
+		WHERE deleted = 1 AND Upper(username) = Upper(#{username}) AND corpId = #{corpId}
+  	</select>
+  	
+	<update id="updateUser" parameterType="user">
+		UPDATE HRO_SEC_User set  staffId = #{staffId}, username = #{username}, password = #{password}, bindIP = #{bindIP}, 
+			lastLogin = #{lastLogin}, lastLoginIP = #{lastLoginIP},userIds = #{userIds}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, 
+			remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}, encryptPassword = #{encryptPassword}, salt = #{salt}
+		WHERE userId = #{userId} 
+  	</update>
+  	
+  	<update id="updatePassWord" parameterType="user">
+		UPDATE HRO_SEC_User set  encryptPassword = #{encryptPassword}, salt = #{salt}
+		WHERE userId = #{userId} 
+  	</update>
+  	
+  	
+  	<insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="userId">
+		INSERT into HRO_SEC_User(<include refid="userColumns"/>) 
+		VALUES(#{accountId},#{corpId}, #{staffId}, #{username}, #{password}, #{bindIP}, #{lastLogin}, #{lastLoginIP},#{userIds}, 1, #{status}, #{remark1}, #{remark2}, 
+			#{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate}, #{encryptPassword}, #{salt})
+  	</insert>
+  	
+  	<delete id="deleteUser" parameterType="user">
+		UPDATE HRO_SEC_User SET deleted = 2, modifyBy = #{modifyBy}, modifyDate = #{modifyDate} WHERE userId = #{userId}
+  	</delete>
+  	
+  	<insert id="backupUser" parameterType="user" useGeneratedKeys="true" >
+		insert into HRO_HISTORY_User(<include refid="userHistoryColumns"/>) 
+			select  userId, accountId, staffId, username, password, bindIP, lastLogin, lastLoginIP,userIds, deleted, status, remark1, remark2, 
+				remark3, remark4, remark5, modifyBy, modifyDate 
+			from HRO_SEC_User 
+			where userId = #{userId}
+  	</insert>
+  	
+  	<select id="getHistoryUserVOsByUserId" parameterType="int" resultMap="result">
+		SELECT historyId, <include refid="userHistoryColumns"/>  
+		FROM HRO_HISTORY_User 
+		WHERE userId = #{value}
+		ORDER BY modifyDate desc 
+		LIMIT 0, 50 
+  	</select>
+  	
+  	<select id="getHistoryUserVOByHistoryId" parameterType="int" resultMap="result">
+		SELECT historyId, <include refid="userHistoryColumns"/>  
+		FROM HRO_HISTORY_User 
+		WHERE historyId = #{historyId}
+  	</select>
+  	
+  	<select id="getClientVOs"  resultMap="resultClients" >
+		SELECT b.corpId, <include refid="clientColumns"/> 
+		FROM hro_sec_user a , hro_biz_client b
+		WHERE a.deleted = 1 AND b.deleted = 1 AND a.corpId = b.corpId 
+		GROUP BY b.corpId
+  	</select>
+  	
+  	<!-- for checking username -->
+  	<select id="countUsersByUserName"  parameterType="string" resultType="int" >
+		SELECT COUNT(0) from hro_sec_user
+		WHERE UPPER(username) = #{value}
+  	</select>
+
+	<!-- for wx logon  -->
+	<select id="getUserVOByRemark1" parameterType="string" resultMap="result">
+		SELECT userId, <include refid="userColumns"/>  
+		FROM HRO_SEC_User 
+		WHERE deleted = 1 AND remark1 = #{remark1}
+  	</select>
+  	
+  	<!-- 获取所有能登陆的用户,仅仅用一次 -->
+  	<select id="getAccessLoginUser" parameterType="String" resultMap="result">
+  		select  e.employeeid as remark1,u.userid as userid from hro_biz_employee e 
+		left join hro_sec_staff s on s.employeeid = e.employeeid and s.deleted = 1
+		left join hro_sec_user u on u.staffid = s.staffid and u.deleted = 1
+		where e.accountid = 100017 and e.deleted  = 1
+		and e.status = 1
+	</select>
+	
+	<!-- 用于重置密码 -->
+	<select id="getUserVOByRemark5" parameterType="String" resultMap="result">
+		SELECT userId, <include refid="userColumns"/>  
+		FROM HRO_SEC_User 
+		WHERE deleted = 1 
+		AND date_add(remark4,interval 3 day) >= now()
+		AND remark5 = #{value}
+  	</select>
+</mapper>

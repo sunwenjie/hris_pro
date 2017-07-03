@@ -1,0 +1,6 @@
+/applicationContext-rmi.xml
+/applicationContext-timer.xml
+/jdbc.properties
+/memcached.properties
+/rmi.properties
+/applicationContext.xml

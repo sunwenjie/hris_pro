@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.define.BankTemplateHeaderVO">
+
+	<resultMap id="result" type="com.kan.base.domain.define.BankTemplateHeaderVO">
+		<result property="templateHeaderId" column="templateHeaderId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="bankId" column="bankId" />
+		<result property="nameZH" column="nameZH" />		
+		<result property="nameEN" column="nameEN" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />	
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />		
+	</resultMap>
+	
+	<sql id="bankTemplateHeaderColumns">
+		accountId, corpId, bankId, nameZH, nameEN, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<select id="countBankTemplateHeaderVOsByCondition" parameterType="bankTemplateHeader" resultType="int">
+		SELECT count(1)
+		FROM Hro_Def_Bank_Template_Header
+		WHERE deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="bankId != null and bankId != ''">
+			AND (bankId = #{bankId} or 0 = #{bankId})
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>	
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getBankTemplateHeaderVOsByCondition" parameterType="bankTemplateHeader" resultMap="result">
+		SELECT templateHeaderId, <include refid="bankTemplateHeaderColumns" />
+		FROM Hro_Def_Bank_Template_Header
+		WHERE deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="bankId != null and bankId != ''">
+			AND (bankId = #{bankId} or 0 = #{bankId})
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>	
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getBankTemplateHeaderVOByTemplateHeaderId" parameterType="int" resultMap="result">
+		SELECT templateHeaderId, <include refid="bankTemplateHeaderColumns" />
+		FROM Hro_Def_Bank_Template_Header
+		WHERE templateHeaderId = #{value}
+	</select>
+	
+	<insert id="insertBankTemplateHeader" parameterType="bankTemplateHeader" useGeneratedKeys="true" keyProperty="templateHeaderId">
+		INSERT INTO Hro_Def_Bank_Template_Header(<include refid="bankTemplateHeaderColumns" />)
+		VALUES(#{accountId}, #{corpId}, #{bankId}, #{nameZH}, #{nameEN}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+	
+  	<update id="updateBankTemplateHeader" parameterType="bankTemplateHeader">
+		UPDATE Hro_Def_Bank_Template_Header SET
+		     bankId = #{bankId}, nameZH = #{nameZH}, nameEN = #{nameEN}, 
+			description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, 
+			remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, 
+		    modifyDate = #{modifyDate}
+		WHERE templateHeaderId = #{templateHeaderId} 		
+  	</update>
+  	
+  	<delete id="deleteBankTemplateHeader" parameterType="int">
+		DELETE from Hro_Def_Bank_Template_Header WHERE templateHeaderId = #{value}
+  	</delete>
+  	
+  	<select id="getBankTemplateHeaderVOsByAccountId" parameterType="int" resultMap="result">
+		SELECT templateHeaderId, <include refid="bankTemplateHeaderColumns" />
+		FROM Hro_Def_Bank_Template_Header
+		WHERE deleted = 1 AND status = 1 AND accountId = #{value}
+	</select>
+	
+</mapper>

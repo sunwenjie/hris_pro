@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.performance.SelfAssessmentVO">
+
+	<resultMap type="com.kan.hro.domain.biz.performance.SelfAssessmentVO" id="result">
+		<result property="assessmentId" column="assessmentId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="year" column="year" />
+		<result property="parentBranchId" column="parentBranchId" />
+		<result property="selfPositionId" column="selfPositionId" />
+		<result property="parentPositionId" column="parentPositionId" />
+		<result property="bizLeaderPositionId" column="bizLeaderPositionId" />
+		<result property="buLeaderPositionId" column="buLeaderPositionId" />
+		<result property="hrOwnerPositionId" column="hrOwnerPositionId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="employeeNameZH" column="employeeNameZH" />
+		<result property="employeeNameEN" column="employeeNameEN" />
+		<result property="directLeaderNameZH" column="directLeaderNameZH" />
+		<result property="directLeaderNameEN" column="directLeaderNameEN" />
+		<result property="accomplishments" column="accomplishments" />
+		<result property="areasOfStrengths" column="areasOfStrengths" />
+		<result property="areasOfImprovement" column="areasOfImprovement" />
+		<result property="nextYearGoals" column="nextYearGoals" />
+		<result property="nextYearPlans" column="nextYearPlans" />
+		<result property="successors" column="successors" />
+		<result property="otherComments" column="otherComments" />
+		
+		<result property="accomplishments_bm" column="accomplishments_bm" />
+		<result property="areasOfStrengths_bm" column="areasOfStrengths_bm" />
+		<result property="areasOfImprovement_bm" column="areasOfImprovement_bm" />
+		<result property="nextYearGoalsAndPlans_bm" column="nextYearGoalsAndPlans_bm" />
+   		<result property="isPromotion_bm" column="isPromotion_bm" />
+   		<result property="promotionReason_bm" column="promotionReason_bm" />
+   		<result property="successors_bm" column="successors_bm" />
+   			
+   		
+		<result property="accomplishments_pm" column="accomplishments_pm" />
+		<result property="areasOfStrengths_pm" column="areasOfStrengths_pm" />
+		<result property="areasOfImprovement_pm" column="areasOfImprovement_pm" />
+		<result property="nextYearGoalsAndPlans_pm" column="nextYearGoalsAndPlans_pm" />
+   		<result property="isPromotion_pm" column="isPromotion_pm" />
+   		<result property="promotionReason_pm" column="promotionReason_pm" />
+   		<result property="successors_pm" column="successors_pm" />
+   		<result property="rating_pm" column="rating_pm" />
+   		
+   		
+   		<result property="accomplishments_bu" column="accomplishments_bu" />
+		<result property="areasOfStrengths_bu" column="areasOfStrengths_bu" />
+		<result property="areasOfImprovement_bu" column="areasOfImprovement_bu" />
+		<result property="nextYearGoalsAndPlans_bu" column="nextYearGoalsAndPlans_bu" />
+   		<result property="isPromotion_bu" column="isPromotion_bu" />
+   		<result property="promotionReason_bu" column="promotionReason_bu" />
+   		<result property="successors_bu" column="successors_bu" />
+   		<result property="rating_bu" column="rating_bu" />
+   		<result property="rating_final" column="rating_final" />
+   		
+   		<result property="pm1PositionId" column="pm1PositionId" />
+		<result property="pm2PositionId" column="pm2PositionId" />
+		<result property="pm3PositionId" column="pm3PositionId" />
+		<result property="pm4PositionId" column="pm4PositionId" />
+		
+		<result property="pm1Content" column="pm1Content" />
+		<result property="pm2Content" column="pm2Content" />
+		<result property="pm3Content" column="pm3Content" />
+		<result property="pm4Content" column="pm4Content" />
+		
+		<result property="status_pm1" column="status_pm1" />
+		<result property="status_pm2" column="status_pm2" />
+		<result property="status_pm3" column="status_pm3" />
+		<result property="status_pm4" column="status_pm4" />
+ 
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="status_bm" column="status_bm" />
+		<result property="status_pm" column="status_pm" />
+		<result property="status_bu" column="status_bu" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />	
+	</resultMap>
+	
+	<sql id="salfAssessmentColumns">
+		accountId, corpId, year, parentBranchId, selfPositionId, parentPositionId, bizLeaderPositionId, buLeaderPositionId, hrOwnerPositionId,
+		employeeId, employeeNameZH, employeeNameEN, directLeaderNameZH, directLeaderNameEN, 
+		accomplishments, areasOfStrengths, areasOfImprovement, nextYearGoals, nextYearPlans, successors, otherComments, 
+		accomplishments_bm, areasOfStrengths_bm, areasOfImprovement_bm, nextYearGoalsAndPlans_bm, isPromotion_bm, promotionReason_bm, successors_bm,
+		accomplishments_pm, areasOfStrengths_pm, areasOfImprovement_pm, nextYearGoalsAndPlans_pm, isPromotion_pm, promotionReason_pm, successors_pm, rating_pm,
+		accomplishments_bu, areasOfStrengths_bu, areasOfImprovement_bu, nextYearGoalsAndPlans_bu, isPromotion_bu, promotionReason_bu, successors_bu, rating_bu,
+		rating_final,
+		pm1PositionId, pm2PositionId, pm3PositionId, pm4PositionId,
+		pm1Content, pm2Content, pm3Content, pm4Content,
+		status_pm1, status_pm2, status_pm3, status_pm4,
+		deleted, status, status_bm,status_pm, status_bu, remark1, remark2, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<sql id="salfAssessmentColumns-for-join">
+		a.accountId, a.corpId, a.year, a.parentBranchId, a.selfPositionId, a.parentPositionId, a.bizLeaderPositionId, a.buLeaderPositionId, a.hrOwnerPositionId,
+		a.employeeId, a.employeeNameZH, a.employeeNameEN, a.directLeaderNameZH, a.directLeaderNameEN, 
+		a.accomplishments, a.areasOfStrengths, a.areasOfImprovement, a.nextYearGoals, a.nextYearPlans, a.successors, a.otherComments,
+		a.accomplishments_bm, a.areasOfStrengths_bm, a.areasOfImprovement_bm, a.nextYearGoalsAndPlans_bm, a.isPromotion_bm, a.promotionReason_bm, a.successors_bm, 
+		a.accomplishments_pm, a.areasOfStrengths_pm, a.areasOfImprovement_pm, a.nextYearGoalsAndPlans_pm, a.isPromotion_pm, a.promotionReason_pm, a.successors_pm, a.rating_pm, 
+		a.accomplishments_bu, a.areasOfStrengths_bu, a.areasOfImprovement_bu, a.nextYearGoalsAndPlans_bu, a.isPromotion_bu, a.promotionReason_bu, a.successors_bu, a.rating_bu,
+	    a.rating_final,
+	    a.pm1PositionId, a.pm2PositionId, a.pm3PositionId, a.pm4PositionId,
+	    a.status_pm1, a.status_pm2, a.status_pm3, a.status_pm4,
+		a.pm1Content, a.pm2Content, a.pm3Content, a.pm4Content,
+		a.deleted, a.status, a.status_bm, a.status_pm,a.status_bu, a.remark1, a.remark2, a.createBy, a.createDate, a.modifyBy, a.modifyDate
+	</sql>
+	
+	<select id="countSelfAssessmentVOsByCondition" parameterType="selfAssessment" resultType="int">
+	select count(1) from(
+		select count(1) 
+		from hro_pm_self_assessment a left join hro_biz_employee b 
+			on a.employeeId = b.employeeId 
+				left join hro_biz_employee_contract c
+			on b.employeeId = c.employeeId	
+		where a.deleted = 1 and a.accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameZH LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="isDirectSub != null and isDirectSub != '' and isDirectSub == 1">
+			AND a.parentPositionId = #{selfPositionId}
+		</if>
+		<if test="year != null and year != ''">
+			AND (a.year = #{year} or 0 = #{year})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="rulePublic == 1">
+            AND ( false 
+            <if test="rulePrivateIds !=null">
+                 OR b.employeeId in
+                <foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+                    #{rulePrivateId}
+                </foreach>
+            </if>
+            <if test="rulePositionIds !=null">
+                OR b.owner in
+                <foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+                    #{rulePositionId}
+                </foreach>
+            </if>
+            <if test="rulePositionIds !=null">
+                OR c.owner in
+                <foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+                    #{rulePositionId}
+                </foreach>
+            </if>
+            <if test="ruleBranchIds !=null">
+                OR b._tempBranchIds in
+                <foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+                    #{ruleBranchId}
+                </foreach>
+            </if>
+            <if test="ruleBusinessTypeIds !=null">
+                OR b.businessTypeId in
+                <foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+                    #{ruleBusinessTypeId}
+                </foreach>
+            </if>
+            <if test="ruleEntityIds !=null">
+                OR c.entityId in
+                <foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+                    #{ruleEntityId}
+                </foreach>
+            </if>
+            <if test="selfPositionId != null and selfPositionId != ''">
+            OR 
+            (
+                (a.employeeId = #{employeeId} and a.selfPositionId=#{selfPositionId})
+                    or
+                ( 
+                    a.status > 1 and
+                    (
+                        #{selfPositionId} in
+                        (
+                            a.bizLeaderPositionId,
+                            a.parentPositionId,
+                            a.buLeaderPositionId,
+                            a.hrOwnerPositionId,
+                            a.pm1PositionId,
+                            a.pm2PositionId,
+                            a.pm3PositionId,
+                            a.pm4PositionId
+                        )
+                    )
+                )   
+            )
+        </if>
+            
+            
+            )
+        </if>
+		group by a.assessmentId
+	) temp
+  	</select>
+
+	<select id="getSelfAssessmentVOsByCondition" parameterType="selfAssessment" resultMap="result">
+		select a.assessmentId, <include refid="salfAssessmentColumns-for-join" />
+		from hro_pm_self_assessment a left join hro_biz_employee b 
+			on a.employeeId = b.employeeId 
+				left join hro_biz_employee_contract c
+			on b.employeeId = c.employeeId	
+		where a.deleted = 1 and a.accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND (a.corpId = #{corpId} or 0 = #{corpId})
+		</if>
+		<if test="employeeNameZH != null and employeeNameZH != ''">
+			AND a.employeeNameZH LIKE CONCAT('%', '${employeeNameZH}', '%')
+		</if>
+		<if test="employeeNameEN != null and employeeNameEN != ''">
+			AND a.employeeNameZH LIKE CONCAT('%', '${employeeNameEN}', '%')
+		</if>
+		<if test="isDirectSub != null and isDirectSub != '' and isDirectSub == 1">
+			AND a.parentPositionId = #{selfPositionId}
+		</if>
+		<if test="year != null and year != ''">
+			AND (a.year = #{year} or 0 = #{year})
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		
+		<if test="rulePublic == 1">
+            AND ( false 
+            <if test="rulePrivateIds !=null">
+                 OR b.employeeId in
+                <foreach collection="rulePrivateIds" item="rulePrivateId"  open="(" separator="," close=")">  
+                    #{rulePrivateId}
+                </foreach>
+            </if>
+            <if test="rulePositionIds !=null">
+                OR b.owner in
+                <foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+                    #{rulePositionId}
+                </foreach>
+            </if>
+            <if test="rulePositionIds !=null">
+                OR c.owner in
+                <foreach collection="rulePositionIds" item="rulePositionId"  open="(" separator="," close=")">  
+                    #{rulePositionId}
+                </foreach>
+            </if>
+            <if test="ruleBranchIds !=null">
+                OR b._tempBranchIds in
+                <foreach collection="ruleBranchIds" item="ruleBranchId"  open="(" separator="," close=")">  
+                    #{ruleBranchId}
+                </foreach>
+            </if>
+            <if test="ruleBusinessTypeIds !=null">
+                OR b.businessTypeId in
+                <foreach collection="ruleBusinessTypeIds" item="ruleBusinessTypeId"  open="(" separator="," close=")">  
+                    #{ruleBusinessTypeId}
+                </foreach>
+            </if>
+            <if test="ruleEntityIds !=null">
+                OR c.entityId in
+                <foreach collection="ruleEntityIds" item="ruleEntityId"  open="(" separator="," close=")">  
+                    #{ruleEntityId}
+                </foreach>
+            </if>
+            <if test="selfPositionId != null and selfPositionId != ''">
+            OR 
+            (
+                (a.employeeId = #{employeeId} and a.selfPositionId=#{selfPositionId})
+                    or
+                ( 
+                    a.status > 1 and
+                    (
+                        #{selfPositionId} in
+                        (
+                            a.bizLeaderPositionId,
+                            a.parentPositionId,
+                            a.buLeaderPositionId,
+                            a.hrOwnerPositionId,
+                            a.pm1PositionId,
+                            a.pm2PositionId,
+                            a.pm3PositionId,
+                            a.pm4PositionId
+                        )
+                    )
+                )   
+            )
+        </if>
+            
+            
+            )
+        </if>
+		group by a.assessmentId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+	
+	<insert id="insertSelfAssessment" parameterType="selfAssessment" useGeneratedKeys="true" keyProperty="assessmentId">
+  		insert into hro_pm_self_assessment(<include refid="salfAssessmentColumns"/>)		
+  		values(
+  			#{accountId}, #{corpId}, #{year}, #{parentBranchId}, #{selfPositionId}, #{parentPositionId}, #{bizLeaderPositionId}, #{buLeaderPositionId}, #{hrOwnerPositionId},
+  			#{employeeId}, #{employeeNameZH}, #{employeeNameEN}, #{directLeaderNameZH}, #{directLeaderNameEN}, 
+  			#{accomplishments}, #{areasOfStrengths}, #{areasOfImprovement}, #{nextYearGoals}, #{nextYearPlans}, #{successors}, #{otherComments},
+			#{accomplishments_bm}, #{areasOfStrengths_bm}, #{areasOfImprovement_bm}, #{nextYearGoalsAndPlans_bm}, #{isPromotion_bm}, #{promotionReason_bm}, #{successors_bm}, 
+			#{accomplishments_pm}, #{areasOfStrengths_pm}, #{areasOfImprovement_pm}, #{nextYearGoalsAndPlans_pm}, #{isPromotion_pm}, #{promotionReason_pm}, #{successors_pm}, #{rating_pm},
+			#{accomplishments_bu}, #{areasOfStrengths_bu}, #{areasOfImprovement_bu}, #{nextYearGoalsAndPlans_bu}, #{isPromotion_bu}, #{promotionReason_bu}, #{successors_bu}, #{rating_bu},
+			#{rating_final},
+			#{pm1PositionId}, #{pm2PositionId}, #{pm3PositionId}, #{pm4PositionId},
+			#{pm1Content}, #{pm2Content}, #{pm3Content}, #{pm4Content}, 1, 1, 1, 1,
+			1, #{status}, 1, 1,1, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate}
+  		)
+  	</insert>
+  	
+  	<update id="updateSelfAssessment" parameterType="selfAssessment">
+  		update hro_pm_self_assessment set
+  			accomplishments = #{accomplishments},
+  			areasOfStrengths = #{areasOfStrengths},
+  			areasOfImprovement = #{areasOfImprovement},
+  			nextYearGoals = #{nextYearGoals},
+  			nextYearPlans = #{nextYearPlans},
+  			successors = #{successors},
+  			otherComments = #{otherComments},
+  			
+  			accomplishments_bm = #{accomplishments_bm},
+  			areasOfStrengths_bm = #{areasOfStrengths_bm},
+  			areasOfImprovement_bm = #{areasOfImprovement_bm},
+  			nextYearGoalsAndPlans_bm = #{nextYearGoalsAndPlans_bm},
+  			isPromotion_bm = #{isPromotion_bm},
+  			promotionReason_bm = #{promotionReason_bm},
+  			successors_bm = #{successors_bm},
+  			
+  			accomplishments_pm = #{accomplishments_pm},
+  			areasOfStrengths_pm = #{areasOfStrengths_pm},
+  			areasOfImprovement_pm = #{areasOfImprovement_pm},
+  			nextYearGoalsAndPlans_pm = #{nextYearGoalsAndPlans_pm},
+  			isPromotion_pm = #{isPromotion_pm},
+  			promotionReason_pm = #{promotionReason_pm},
+  			successors_pm = #{successors_pm},
+  			rating_pm = #{rating_pm},
+  			
+  			accomplishments_bu = #{accomplishments_bu},
+  			areasOfStrengths_bu = #{areasOfStrengths_bu},
+  			areasOfImprovement_bu = #{areasOfImprovement_bu},
+  			nextYearGoalsAndPlans_bu = #{nextYearGoalsAndPlans_bu},
+  			isPromotion_bu = #{isPromotion_bu},
+  			promotionReason_bu = #{promotionReason_bu},
+  			successors_bu = #{successors_bu},
+  			rating_bu = #{rating_bu},
+  			
+  			rating_final = #{rating_final},
+  			
+  			pm1PositionId = #{pm1PositionId}, pm2PositionId = #{pm2PositionId}, pm3PositionId = #{pm3PositionId}, pm4PositionId = #{pm4PositionId},
+			pm1Content = #{pm1Content}, pm2Content = #{pm2Content}, pm3Content = #{pm3Content}, pm4Content = #{pm4Content},
+			status_pm1 = #{status_pm1}, status_pm2 = #{status_pm2}, status_pm3 = #{status_pm3}, status_pm4 = #{status_pm4},
+  			
+  			deleted = #{deleted},
+  			status = #{status},
+  			status_bm = #{status_bm},
+  			status_pm = #{status_pm},
+  			status_bu = #{status_bu},
+  			remark1 = #{remark1},
+  			remark2 = #{remark2},
+  			createBy = #{createBy},
+  			createDate = #{createDate},
+  			modifyBy = #{modifyBy},
+  			modifyDate =#{modifyDate}
+  		where assessmentId = #{assessmentId}	
+  	</update>
+	
+	<select id="getSelfAssessmentVOByAssessmentId" parameterType="String" resultMap="result">
+		select assessmentId, <include refid="salfAssessmentColumns" />
+		from hro_pm_self_assessment where assessmentId = #{value}
+	</select>
+	
+	<select id="getSelfAssessmentVOsByMapParameter" parameterType="Map" resultMap="result">
+		select assessmentId, <include refid="salfAssessmentColumns" />
+		from hro_pm_self_assessment where deleted = 1
+		<if test="year != null and year != ''">
+			and year = #{year}
+		</if>
+		<if test="employeeId != null and employeeId != ''">
+			and employeeId = #{employeeId}
+		</if>
+		<if test="remark2 != null and remark2 != ''">
+			and (
+				remark2 is null
+				 or
+				 (remark2 is not null and remark2 = #{remark2})
+			)
+		</if>
+	</select>
+
+
+</mapper>

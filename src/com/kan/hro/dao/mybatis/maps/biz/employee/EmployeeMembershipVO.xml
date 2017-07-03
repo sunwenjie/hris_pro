@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.hro.domain.biz.employee.EmployeeMembershipVO">
+
+	<resultMap id="result" type="com.kan.hro.domain.biz.employee.EmployeeMembershipVO">
+		<result property="employeeMembershipId" column="employeeMembershipId" />
+		<result property="employeeId" column="employeeId" />
+		<result property="membershipId" column="membershipId" />
+		<result property="name" column="name" />
+		<result property="activeFrom" column="activeFrom" />
+		<result property="activeTo" column="activeTo" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+
+	<sql id="employeeMembershipColumns">
+		employeeId, membershipId, activeFrom,activeTo,description, 
+		deleted, status, remark1, remark2, remark3, remark4, remark5, createBy,
+		createDate, modifyBy, modifyDate
+	</sql>	
+	
+	<sql id="employeeMembershipColumns-for-join">
+		e.employeeMembershipId,e.employeeId, e.membershipId, e.activeFrom,e.activeTo,e.description, 
+		e.deleted, e.status, e.remark1, e.remark2, e.remark3, e.remark4, e.remark5, e.createBy,
+		e.createDate, e.modifyBy, e.modifyDate
+	</sql>	
+	
+	<select id="countEmployeeMembershipVOsByCondition" parameterType="employeeMembership" resultType="int">
+		SELECT COUNT(0)
+		FROM HRO_BIZ_Employee_Membership 
+		WHERE deleted = 1
+		<if test="employeeId != null and employeeId != ''">
+				AND (employeeId = #{employeeId} OR 0 = #{employeeId})
+		</if>
+		
+		<if test="status != null and status != ''">
+			AND (status = #{status} OR 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getEmployeeMembershipVOsByCondition" parameterType="employeeMembership" resultMap="result">
+		
+		SELECT employeeMembershipId,<include refid="employeeMembershipColumns" />
+		FROM HRO_BIZ_Employee_Membership
+		WHERE deleted = 1 
+		<if test="employeeId != null and employeeId != ''">
+			AND (employeeId = #{employeeId} OR 0 = #{employeeId})
+		</if>
+		
+		<if test="status != null and status != ''">
+			AND (status = #{status} OR 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getEmployeeMembershipVOByEmployeeMembershipId" parameterType="int" resultMap="result">
+		SELECT employeeMembershipId,<include refid="employeeMembershipColumns" />
+		FROM HRO_BIZ_Employee_Membership
+		WHERE deleted = 1 
+		AND employeeMembershipId = #{value}
+	</select>
+	
+	<select id="getEmployeeMembershipVOsByEmployeeId" parameterType="int"  resultMap="result">
+		SELECT employeeMembershipId,<include refid="employeeMembershipColumns" />
+		FROM HRO_BIZ_Employee_Membership
+		WHERE deleted = 1 AND employeeId = #{value}
+	</select>
+	
+	<insert id="insertEmployeeMembership" parameterType="employeeMembership" useGeneratedKeys="true" keyProperty="employeeMembershipId">
+		INSERT INTO HRO_BIZ_Employee_Membership(<include refid="employeeMembershipColumns" />)
+		VALUES(#{employeeId}, #{membershipId},#{activeFrom},#{activeTo},#{description}, 
+			   1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, 
+		       #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+
+	<update id="updateEmployeeMembership" parameterType="employeeMembership">
+		UPDATE HRO_BIZ_Employee_Membership SET employeeId=#{employeeId}, membershipId=#{membershipId}, activeFrom=#{activeFrom},activeTo=#{activeTo}, description = #{description}, deleted = #{deleted},
+			status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5},
+			createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE employeeMembershipId = #{employeeMembershipId} 
+	</update>	
+	
+	<delete id="deleteEmployeeMembership" parameterType="int">
+		DELETE FROM HRO_BIZ_Employee_Membership WHERE employeeMembershipId = #{value}
+  	</delete>	
+</mapper>

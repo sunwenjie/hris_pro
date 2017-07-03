@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.define.ImportHeaderVO">
+
+	<resultMap id="result" type="com.kan.base.domain.define.ImportHeaderVO">
+		<result property="importHeaderId" column="importHeaderId"/>
+		<result property="parentId" column="parentId"/>
+		<result property="accountId" column="accountId"/>
+		<result property="corpId" column="corpId"/>
+		<result property="tableId" column="tableId"/>
+		<result property="nameZH" column="nameZH"/>		
+		<result property="nameEN" column="nameEN"/>
+		<result property="positionIds" column="positionIds"/>
+		<result property="positionGradeIds" column="positionGradeIds"/>
+		<result property="positionGroupIds" column="positionGroupIds"/>
+		<result property="needBatchId" column="needBatchId"/>
+		<result property="matchConfig" column="matchConfig"/>
+		<result property="handlerBeanId" column="handlerBeanId"/>
+		<result property="description" column="description"/>
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />	
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />		
+	</resultMap>
+	
+	<sql id="importHeaderColumns">
+		parentId,accountId,corpId, tableId, nameZH, nameEN, positionIds, positionGradeIds, positionGroupIds,needBatchId,matchConfig,handlerBeanId, description, deleted, status, remark1, 
+		remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate
+	</sql>
+	
+	<select id="countImportHeaderVOsByCondition" parameterType="importHeader" resultType="int">
+		SELECT count(0)
+		FROM Hro_Def_Import_Header
+		WHERE deleted = 1 and accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND   corpId = #{corpId} 
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="parentId != null and parentId != ''">
+			AND (parentId = #{parentId} or 0 = #{parentId})
+		</if>
+		<if test="tableId != null and tableId != ''">
+			AND (tableId = #{tableId} or 0 = #{tableId})
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>	
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+	</select>
+	
+	<select id="getImportHeaderVOsByCondition" parameterType="importHeader"	resultMap="result">
+		SELECT importHeaderId, <include refid="importHeaderColumns" />
+		FROM Hro_Def_Import_Header
+		WHERE deleted = 1 and accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND  corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND corpId IS NULL
+		</if>
+		<if test="parentId != null and parentId != ''">
+			AND (parentId = #{parentId} or 0 = #{parentId})
+		</if>
+		<if test="tableId != null and tableId != ''">
+			AND (tableId = #{tableId} or 0 = #{tableId})
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>	
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="handlerBeanId != null and handlerBeanId != ''">
+			AND handlerBeanId = #{handlerBeanId} 
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+	</select>
+	
+	<select id="getImportHeaderVOsByAccountId" parameterType="int" resultMap="result">
+		SELECT importHeaderId, <include refid="importHeaderColumns" />
+		FROM Hro_Def_Import_Header
+		WHERE deleted = 1  and accountId = #{value}
+	</select>
+	
+	<select id="getImportHeaderVOByImportHeaderId" parameterType="int" resultMap="result">
+		SELECT importHeaderId, <include refid="importHeaderColumns" />
+		FROM Hro_Def_Import_Header
+		WHERE deleted = 1 and importHeaderId = #{value}
+	</select>
+	
+	<insert id="insertImportHeader" parameterType="importHeader" useGeneratedKeys="true" keyProperty="importHeaderId">
+		INSERT INTO Hro_Def_Import_Header(<include refid="importHeaderColumns" />)
+		VALUES(#{parentId},#{accountId},#{corpId}, #{tableId}, #{nameZH}, #{nameEN},#{positionIds}, #{positionGradeIds}, #{positionGroupIds},#{needBatchId},#{matchConfig},#{handlerBeanId}, 
+			#{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+	</insert>
+	
+  	<update id="updateImportHeader" parameterType="importHeader">
+		UPDATE Hro_Def_Import_Header set tableId = #{tableId},parentId=#{parentId},  nameZH = #{nameZH}, nameEN = #{nameEN},positionIds = #{positionIds}, positionGradeIds = #{positionGradeIds}, positionGroupIds = #{positionGroupIds},needBatchId=#{needBatchId},matchConfig=#{matchConfig},handlerBeanId=#{handlerBeanId}, 
+			description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, 
+			remark3 = #{remark3}, remark4 = #{remark4}, remark5 = #{remark5}, createBy = #{createBy}, createDate = #{createDate}, modifyBy = #{modifyBy}, 
+		    modifyDate = #{modifyDate}
+		WHERE importHeaderId = #{importHeaderId} 		
+  	</update>
+  	
+  	<delete id="deleteImportHeader" parameterType="int">
+		DELETE from Hro_Def_Import_Header WHERE importHeaderId = #{value}
+  	</delete>
+	
+</mapper>

@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>							
+		<form-bean name="vendorForm" type="com.kan.hro.domain.biz.vendor.VendorVO"></form-bean>
+		<form-bean name="vendorServiceForm" type="com.kan.hro.domain.biz.vendor.VendorServiceVO"></form-bean>
+		<form-bean name="vendorUserForm" type="com.kan.hro.domain.biz.vendor.VendorUserVO"></form-bean>
+		<form-bean name="vendorContactForm" type="com.kan.hro.domain.biz.vendor.VendorContactVO"></form-bean>
+		<form-bean name="clientForm" type="com.kan.hro.domain.biz.client.ClientVO"></form-bean>
+		<form-bean name="clientGroupForm" type="com.kan.hro.domain.biz.client.ClientGroupVO"></form-bean>
+		<form-bean name="clientContactForm" type="com.kan.hro.domain.biz.client.ClientContactVO"></form-bean>
+		<form-bean name="clientUserForm" type="com.kan.hro.domain.biz.client.ClientUserVO"></form-bean>
+		<form-bean name="clientContractForm" type="com.kan.hro.domain.biz.client.ClientContractVO"></form-bean>
+		<form-bean name="clientContractPropertyForm" type="com.kan.hro.domain.biz.client.ClientContractPropertyVO"></form-bean>
+		<form-bean name="clientInvoiceForm" type="com.kan.hro.domain.biz.client.ClientInvoiceVO"></form-bean>
+		<form-bean name="clientOrderHeaderForm" type="com.kan.hro.domain.biz.client.ClientOrderHeaderVO"></form-bean>
+		<form-bean name="clientOrderHeaderRuleForm" type="com.kan.hro.domain.biz.client.ClientOrderHeaderRuleVO"></form-bean>
+		<form-bean name="clientOrderDetailForm" type="com.kan.hro.domain.biz.client.ClientOrderDetailVO"></form-bean>
+		<form-bean name="clientOrderDetailRuleForm" type="com.kan.hro.domain.biz.client.ClientOrderDetailRuleVO"></form-bean>
+		<form-bean name="clientOrderDetailSBRuleForm" type="com.kan.hro.domain.biz.client.ClientOrderDetailSBRuleVO"></form-bean>
+		<form-bean name="clientOrderSBForm" type="com.kan.hro.domain.biz.client.ClientOrderSBVO"></form-bean>
+		<form-bean name="clientOrderCBForm" type="com.kan.hro.domain.biz.client.ClientOrderCBVO"></form-bean>
+		<form-bean name="clientOrderOTForm" type="com.kan.hro.domain.biz.client.ClientOrderOTVO"></form-bean>
+		<form-bean name="clientOrderOtherForm" type="com.kan.hro.domain.biz.client.ClientOrderOtherVO"></form-bean>
+		<form-bean name="clientOrderLeaveForm" type="com.kan.hro.domain.biz.client.ClientOrderLeaveVO"></form-bean>
+		<!-- Employee Form Beans -->
+		<form-bean name="employeeForm" type="com.kan.hro.domain.biz.employee.EmployeeVO"></form-bean>
+		<form-bean name="employeeEmergencyForm" type="com.kan.hro.domain.biz.employee.EmployeeEmergencyVO"></form-bean>		
+		<form-bean name="employeeEducationForm" type="com.kan.hro.domain.biz.employee.EmployeeEducationVO"></form-bean>
+		<form-bean name="employeeWorkForm" type="com.kan.hro.domain.biz.employee.EmployeeWorkVO"></form-bean>
+		<form-bean name="employeeLanguageForm" type="com.kan.hro.domain.biz.employee.EmployeeLanguageVO"></form-bean>
+		<form-bean name="employeeSkillForm" type="com.kan.hro.domain.biz.employee.EmployeeSkillVO"></form-bean>
+		<form-bean name="employeeCertificationForm" type="com.kan.hro.domain.biz.employee.EmployeeCertificationVO"></form-bean>
+		<form-bean name="employeeMembershipForm" type="com.kan.hro.domain.biz.employee.EmployeeMembershipVO"></form-bean>
+		<form-bean name="employeeContractForm" type="com.kan.hro.domain.biz.employee.EmployeeContractVO"></form-bean>
+		<form-bean name="employeeContractSBForm" type="com.kan.hro.domain.biz.employee.EmployeeContractSBVO"></form-bean>
+		<form-bean name="employeeContractCBForm" type="com.kan.hro.domain.biz.employee.EmployeeContractCBVO"></form-bean>
+		<form-bean name="employeeContractSalaryForm" type="com.kan.hro.domain.biz.employee.EmployeeContractSalaryVO"></form-bean>
+		<form-bean name="employeeContractOTForm" type="com.kan.hro.domain.biz.employee.EmployeeContractOTVO"></form-bean>
+		<form-bean name="employeeContractLeaveForm" type="com.kan.hro.domain.biz.employee.EmployeeContractLeaveVO"></form-bean>
+		<form-bean name="employeeContractOtherForm" type="com.kan.hro.domain.biz.employee.EmployeeContractOtherVO"></form-bean>
+		<form-bean name="employeeContractSettlementForm" type="com.kan.hro.domain.biz.employee.EmployeeContractSettlementVO"></form-bean>
+		<form-bean name="employeeContractTempForm" type="com.kan.hro.domain.biz.employee.EmployeeContractTempVO"></form-bean>
+		<form-bean name="employeeContractImportBatchForm" type="com.kan.hro.domain.biz.employee.EmployeeContractImportBatchVO"></form-bean>
+		<form-bean name="employeeContractResignImportBatchForm" type="com.kan.hro.domain.biz.employee.EmployeeContractResignImportBatchVO"></form-bean>
+		<form-bean name="employeeContractResignForm" type="com.kan.hro.domain.biz.employee.EmployeeContractResignVO"></form-bean>
+		<form-bean name="employeeInsuranceNoImportBatchForm" type="com.kan.hro.domain.biz.employee.EmployeeInsuranceNoImportBatchVO"></form-bean>
+		<form-bean name="employeeInsuranceNoImportHeaderForm" type="com.kan.hro.domain.biz.employee.EmployeeInsuranceNoImportHeaderVO"></form-bean>
+		<form-bean name="employeeAddSubtractForm" type="com.kan.hro.domain.biz.employee.EmployeeAddSubtract"></form-bean>
+		<form-bean name="employeeLogForm" type="com.kan.hro.domain.biz.employee.EmployeeLogVO"></form-bean>
+		<form-bean name="employeeContractLeaveReportForm" type="com.kan.hro.domain.biz.employee.EmployeeContractLeaveReportVO"></form-bean>
+		<form-bean name="employeeReportForm" type="com.kan.hro.domain.biz.employee.EmployeeReportVO"></form-bean>
+		<form-bean name="employeePositionChangeForm" type="com.kan.hro.domain.biz.employee.EmployeePositionChangeVO"></form-bean>
+		<form-bean name="employeeSalaryAdjustmentForm" type="com.kan.hro.domain.biz.employee.EmployeeSalaryAdjustmentVO"></form-bean>
+		
+		<form-bean name="employeePositionChangeBatchForm" type="com.kan.hro.domain.biz.employee.EmployeePositionChangeBatchVO"></form-bean>
+		<form-bean name="employeePositionChangeTempForm" type="com.kan.hro.domain.biz.employee.EmployeePositionChangeTempVO"></form-bean>
+		
+		<form-bean name="iClickEmployeeReportForm" type="com.kan.hro.domain.biz.employee.IClickEmployeeReportView"></form-bean>
+		<form-bean name="employeeChangeReportForm" type="com.kan.hro.domain.biz.employee.EmployeeChangeReportVO"></form-bean>
+		<form-bean name="employeeSalaryAdjustmentBatchForm" type="com.kan.hro.domain.biz.employee.EmployeeSalaryAdjustmentBatchVO"></form-bean>
+		<form-bean name="employeeSalaryAdjustmentTempForm" type="com.kan.hro.domain.biz.employee.EmployeeSalaryAdjustmentTempVO"></form-bean>
+		
+		<!-- Attendance Form Beans -->
+		<form-bean name="leaveHeaderForm" type="com.kan.hro.domain.biz.attendance.LeaveHeaderVO"></form-bean>
+		<form-bean name="leaveImportHeaderForm" type="com.kan.hro.domain.biz.attendance.LeaveImportHeaderVO"></form-bean>			
+		<form-bean name="otHeaderForm" type="com.kan.hro.domain.biz.attendance.OTHeaderVO"></form-bean>
+		<form-bean name="otImportHeaderForm" type="com.kan.hro.domain.biz.attendance.OTImportHeaderVO"></form-bean>
+		<form-bean name="timesheetBatchForm" type="com.kan.hro.domain.biz.attendance.TimesheetBatchVO"></form-bean>
+		<form-bean name="timesheetHeaderForm" type="com.kan.hro.domain.biz.attendance.TimesheetHeaderVO"></form-bean>
+		<form-bean name="timesheetDetailForm" type="com.kan.hro.domain.biz.attendance.TimesheetDetailVO"></form-bean>
+		<form-bean name="timesheetReportExportForm" type="com.kan.hro.domain.biz.attendance.TimesheetReportExportVO"></form-bean>
+		<form-bean name="timesheetAllowanceForm" type="com.kan.hro.domain.biz.attendance.TimesheetAllowanceVO"></form-bean>
+		<form-bean name="timesheetTempForm" type="com.kan.hro.domain.biz.attendance.TimesheetTempVO"></form-bean>
+		<form-bean name="recordForm" type="com.kan.hro.domain.biz.attendance.RecordVO"></form-bean>
+		<form-bean name="attendanceImportHeaderForm" type="com.kan.hro.domain.biz.attendance.AttendanceImportHeaderVO"></form-bean>
+		<form-bean name="attendanceImportDetailForm" type="com.kan.hro.domain.biz.attendance.AttendanceImportDetailVO"></form-bean>
+		
+		<!-- travel Form Beans -->
+		<form-bean name="travelForm" type="com.kan.hro.domain.biz.travel.TravelVO"></form-bean>
+		
+		<!-- performance Form Beans -->
+		<form-bean name="performanceForm" type="com.kan.hro.domain.biz.performance.PerformanceVO"></form-bean>
+		
+		
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+
+	<action-mappings>
+	
+		<!-- Vendor actions start -->
+		<action parameter="proc" path="/vendorAction" type="com.kan.hro.web.actions.biz.vendor.VendorAction" name="vendorForm" scope="request" validate="false">
+			<forward name="listVendor" path="/jsp/business/vendor/vendor/listVendor.jsp"></forward>
+			<forward name="listSpecialInfo" path="/contents/business/vendor/vendor/extend/manageVendorExtend.jsp"></forward>
+			<forward name="manageVendor" path="/jsp/business/vendor/vendor/manageVendor.jsp"></forward>
+			<forward name="popupTable" path="/popup/table/searchVendorTable.jsp"></forward>
+			<forward name="listServiceEvaluate" path="/jsp/business/vendor/serviceEvaluate/listServiceEvaluate.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/vendorPaymentAction" type="com.kan.hro.web.actions.biz.vendor.VendorPaymentAction" name="sbHeaderForm" scope="request" validate="false">
+			<forward name="listVendorPayment" path="/jsp/business/vendor/vendorPayment/listVendorPayment.jsp"></forward>
+			<forward name="listVendorPaymentTable" path="/contents/business/vendor/vendorPayment/table/listVendorPaymentTable.jsp"></forward>
+			<forward name="listHeader" path="/jsp/business/vendor/vendorPayment/listHeader.jsp"></forward>
+			<forward name="listHeaderTable" path="/contents/business/vendor/vendorPayment/table/listHeaderTable.jsp"></forward>
+			<forward name="listHeaderTableForTab" path="/contents/business/vendor/vendorPayment/table/listHeaderTableForTab.jsp"></forward>
+			<forward name="listDetail" path="/jsp/business/vendor/vendorPayment/listDetail.jsp"></forward>
+			<forward name="listDetailTable" path="/contents/business/vendor/vendorPayment/table/listDetailTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- VendorService actions start -->
+		<action parameter="proc" path="/vendorServiceAction" type="com.kan.hro.web.actions.biz.vendor.VendorServiceAction" name="vendorServiceForm" scope="request" validate="false">
+			<forward name="manageVendor" path="/jsp/business/vendor/vendor/manageVendor.jsp"></forward>
+			<forward name="manageVendorServiceForm" path="/contents/business/vendor/vendor/form/manageVendorService.jsp"></forward>
+			<forward name="listVendorServiceTable" path="/contents/business/vendor/vendor/table/manageVendorServiceTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- VendorUser actions start -->
+		<action parameter="proc" path="/vendorUserAction" type="com.kan.hro.web.actions.biz.vendor.VendorUserAction" name="vendorUserForm" scope="request" validate="false">
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- VendorContact actions start -->
+		<action parameter="proc" path="/vendorContactAction" type="com.kan.hro.web.actions.biz.vendor.VendorContactAction" name="vendorContactForm" scope="request" validate="false">
+			<forward name="listVendorContact" path="/jsp/business/vendor/contact/listVendorContact.jsp"></forward>
+			<forward name="manageVendorContact" path="/jsp/business/vendor/contact/manageVendorContact.jsp"></forward>
+			<forward name="listSpecialInfo" path="/contents/business/vendor/contact/extend/manageVendorContactExtend.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Client actions start -->
+		<action parameter="proc" path="/clientAction" type="com.kan.hro.web.actions.biz.client.ClientAction" name="clientForm" scope="request" validate="false">
+			<forward name="listClient" path="/jsp/business/client/client/listClient.jsp"></forward>
+			<forward name="manageClient" path="/jsp/business/client/client/manageClient.jsp" ></forward>
+			<forward name="manageClientInternal" path="/jsp/business/client/client/manageClientInternal.jsp" ></forward>
+			<forward name="managerSpecialInfo" path="/contents/business/client/client/extend/manageClientSpecialInfo.jsp"></forward>
+			<forward name="popupTable" path="/popup/table/searchClientTable.jsp" ></forward>
+			<forward name="imageFileExtend" path="/contents/business/client/client/extend/imageFileExtend.jsp" ></forward>
+			<forward name="orderBillDetailHeader" path="/contents/settlement/orderBillDetailHeader.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientGroup actions start -->
+		<action parameter="proc" path="/clientGroupAction" type="com.kan.hro.web.actions.biz.client.ClientGroupAction" name="clientGroupForm" scope="request" validate="false">
+			<forward name="listClientGroup" path="/jsp/business/client/clientGroup/listClientGroup.jsp"></forward>
+			<forward name="listSpecialInfo" path="/contents/business/client/clientGroup/extend/manageSpecialInfo.jsp"></forward>
+			<forward name="manageClientGroup" path="/jsp/business/client/clientGroup/manageClientGroup.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientContact actions start -->
+		<action parameter="proc" path="/clientContactAction" type="com.kan.hro.web.actions.biz.client.ClientContactAction" name="clientContactForm" scope="request" validate="false">
+			<forward name="listClientContact" path="/jsp/business/client/clientContact/listClientContact.jsp"></forward>
+			<forward name="manageClientContact" path="/jsp/business/client/clientContact/manageClientContact.jsp" ></forward>
+			<forward name="listSpecialInfo" path="/contents/business/client/clientContact/extend/manageClientContactExtend.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientUser actions start -->
+		<action parameter="proc" path="/clientUserAction" type="com.kan.hro.web.actions.biz.client.ClientUserAction" name="clientUserForm" scope="request" validate="false">
+			<forward name="listClientUser" path="/jsp/business/client/clientUser/listClientUser.jsp" />				
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientContract actions start -->
+		<action parameter="proc" path="/clientContractAction" type="com.kan.hro.web.actions.biz.client.ClientContractAction" name="clientContractForm" scope="request" validate="false">
+			<forward name="listClientContract" path="/jsp/business/client/clientContract/listClientContract.jsp"></forward>
+			<forward name="manageClientContract" path="/jsp/business/client/clientContract/manageClientContract.jsp" ></forward>
+			<forward name="manageClientContractSpecialInfo" path="/contents/business/client/clientContract/extend/manageClientContractSpecialInfo.jsp"></forward>
+			<forward name="generateContract" path="/jsp/business/client/clientContract/generateContract.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientContractProperty actions start -->
+		<action parameter="proc" path="/clientContractPropertyAction" type="com.kan.hro.web.actions.biz.client.ClientContractPropertyAction" name="clientContractPropertyForm" scope="request" validate="false">
+			<forward name="listClientContractProperty" path="/jsp/business/client/clientContractProperty/listClientContractProperty.jsp"></forward>
+			<forward name="listSpecialInfo" path="/contents/business/client/clientContractProperty/extend/manageSpecialInfo.jsp"></forward>
+			<forward name="manageClientContractProperty" path="/jsp/business/client/clientContractProperty/manageClientContractProperty.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientInvoice actions start -->
+		<action parameter="proc" path="/clientInvoiceAction" type="com.kan.hro.web.actions.biz.client.ClientInvoiceAction" name="clientInvoiceForm" scope="request" validate="false">
+			<forward name="listClientInvoice" path="/jsp/business/client/clientInvoice/listClientInvoice.jsp"></forward>
+			<forward name="manageClientInvoice" path="/jsp/business/client/clientInvoice/manageClientInvoice.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientOrderHeader actions start -->
+		<action parameter="proc" path="/clientOrderHeaderAction" type="com.kan.hro.web.actions.biz.client.ClientOrderHeaderAction" name="clientOrderHeaderForm" scope="request" validate="false">
+			<forward name="listClientOrderHeader" path="/jsp/business/client/clientOrder/listClientOrderHeader.jsp"></forward>
+			<forward name="listClientOrderHeaderInHouse" path="/jsp/business/client/clientOrder/listClientOrderHeaderInHouse.jsp"></forward>
+			<forward name="manageClientOrderHeader" path="/jsp/business/client/clientOrder/manageClientOrderHeader.jsp" ></forward>
+			<forward name="manageClientOrderHeaderInHouse" path="/jsp/business/client/clientOrder/manageClientOrderHeaderInHouse.jsp" ></forward>
+			<forward name="workflowClientOrderHeaderSpecialInfo" path="/contents/business/client/clientOrder/workflow/workflowClientOrderHeaderSpecialInfo.jsp"></forward>
+			<forward name="manageClientOrderHeaderSpecialInfo" path="/contents/business/client/clientOrder/extend/manageClientOrderHeaderSpecialInfo.jsp"></forward>
+			<forward name="manageClientOrderHeaderSpecialInfoInHouse" path="/contents/business/client/clientOrder/extend/manageClientOrderHeaderSpecialInfoInHouse.jsp"></forward>
+			<forward name="popupTable" path="/popup/table/searchOrderTable.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientOrderHeaderRule actions start -->
+		<action parameter="proc" path="/clientOrderHeaderRuleAction" type="com.kan.hro.web.actions.biz.client.ClientOrderHeaderRuleAction" name="clientOrderHeaderRuleForm" scope="request" validate="false">
+			<forward name="manageClientOrderHeaderRule" path="/jsp/business/client/clientOrder/clientOrderRule/manageClientOrderHeaderRule.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientOrderDetail actions start -->
+		<action parameter="proc" path="/clientOrderDetailAction" type="com.kan.hro.web.actions.biz.client.ClientOrderDetailAction" name="clientOrderDetailForm" scope="request" validate="false">
+			<forward name="manageClientOrderDetail" path="/jsp/business/client/clientOrder/clientOrderDetail/manageClientOrderDetail.jsp" ></forward>
+			<forward name="manageClientOrderDetailSpecialInfo" path="/contents/business/client/clientOrder/clientOrderDetail/extend/manageClientOrderDetailSpecialInfo.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientOrderDetailRule actions start -->
+		<action parameter="proc" path="/clientOrderDetailRuleAction" type="com.kan.hro.web.actions.biz.client.ClientOrderDetailRuleAction" name="clientOrderDetailRuleForm" scope="request" validate="false">
+			<forward name="manageClientOrderDetailRule" path="/jsp/business/client/clientOrder/clientOrderDetail/clientOrderDetailRule/manageClientOrderDetailRule.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- clientOrderDetailSBRule action start  -->
+		<action parameter="proc" path="/clientOrderDetailSBRuleAction" type="com.kan.hro.web.actions.biz.client.ClientOrderDetailSBRuleAction" name="clientOrderDetailSBRuleForm" scope="request" validate="false">
+			
+			<forward name="manageClientOrderDetailSBRule" path="/jsp/business/client/clientOrder/clientOrderDetail/clientOrderDetailSBRule/manageClientOrderDetailSBRule.jsp" ></forward>
+			 
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientOrderSB actions start -->
+		<action parameter="proc" path="/clientOrderSBAction" type="com.kan.hro.web.actions.biz.client.ClientOrderSBAction" name="clientOrderSBForm" scope="request" validate="false">
+			<forward name="manageClientOrderSB" path="/jsp/business/client/clientOrder/clientOrderSB/manageClientOrderSB.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientOrderCB actions start -->
+		<action parameter="proc" path="/clientOrderCBAction" type="com.kan.hro.web.actions.biz.client.ClientOrderCBAction" name="clientOrderCBForm" scope="request" validate="false">
+			<forward name="manageClientOrderCB" path="/jsp/business/client/clientOrder/clientOrderCB/manageClientOrderCB.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientOrderOT actions start -->
+		<action parameter="proc" path="/clientOrderOTAction" type="com.kan.hro.web.actions.biz.client.ClientOrderOTAction" name="clientOrderOTForm" scope="request" validate="false">
+			<forward name="manageClientOrderOT" path="/jsp/business/client/clientOrder/clientOrderOT/manageClientOrderOT.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientOrderOther actions start -->
+		<action parameter="proc" path="/clientOrderOtherAction" type="com.kan.hro.web.actions.biz.client.ClientOrderOtherAction" name="clientOrderOtherForm" scope="request" validate="false">
+			<forward name="manageClientOrderOther" path="/jsp/business/client/clientOrder/clientOrderOther/manageClientOrderOther.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- ClientOrderLeave actions start -->
+		<action parameter="proc" path="/clientOrderLeaveAction" type="com.kan.hro.web.actions.biz.client.ClientOrderLeaveAction" name="clientOrderLeaveForm" scope="request" validate="false">
+			<forward name="manageClientOrderLeave" path="/jsp/business/client/clientOrder/clientOrderLeave/manageClientOrderLeave.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+
+		<!-- Employee actions start -->
+		<action parameter="proc" path="/employeeAction" type="com.kan.hro.web.actions.biz.employee.EmployeeAction" name="employeeForm" scope="request" validate="false">
+			<forward name="listEmployee" path="/jsp/business/employee/employee/listEmployee.jsp"></forward>
+			<forward name="listEmployeeInHouse" path="/jsp/business/employee/employee/listEmployeeInHouse.jsp"></forward>
+			<forward name="manageEmployee" path="/jsp/business/employee/employee/manageEmployee.jsp" ></forward>
+			<forward name="manageEmployeeInHouse" path="/jsp/business/employee/employee/manageEmployeeInHouse.jsp" ></forward>
+			<forward name="manageEmployeeHRQuick" path="/jsp/business/employee/employee/manageEmployeeHRQuick.jsp" ></forward>
+			<forward name="listSpecialInfo" path="/contents/business/employee/employee/extend/manageEmployeeExtend.jsp"></forward>
+			<forward name="listSpecialInfoInHouse" path="/contents/business/employee/employee/extend/manageEmployeeExtendInHouse.jsp"></forward>
+			<forward name="manageEmployeeContractInHouse" path="/jsp/business/employee/contract/manageEmployeeContractInHouse.jsp" ></forward>
+			<forward name="manageEmployeeContractSEV" path="/jsp/business/employee/contract/manageEmployeeContractSEV.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+			<!-- Used for order tab-->
+			<forward name="listEmployeeContractTable" path="/contents/business/employee/employee/extend/listEmployeeContractTable.jsp" ></forward>
+			<!-- Search employee for popup -->
+			<forward name="popupTable" path="/popup/table/searchEmployeeTable.jsp"></forward>
+			<forward name="invitePopupTable" path="/popup/table/searchInviteEmployeeTable.jsp"></forward>
+		</action>
+		
+		<action parameter="proc" path="/employeeImportAction" type="com.kan.hro.web.actions.biz.employee.EmployeeImportAction" scope="request" validate="false">
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+
+		<action parameter="proc" path="/employeeEmergencyAction" type="com.kan.hro.web.actions.biz.employee.EmployeeEmergencyAction" name="employeeEmergencyForm" scope="request" validate="false">
+			<forward name="listEmployeeEmergency" path="/jsp/business/employee/emergency/listEmployeeEmergency.jsp"></forward>
+			<forward name="manageEmployeeEmergency" path="/jsp/business/employee/emergency/manageEmployeeEmergency.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeEducationAction" type="com.kan.hro.web.actions.biz.employee.EmployeeEducationAction" name="employeeEducationForm" scope="request" validate="false">
+			<forward name="manageEmployeeEducation" path="/jsp/business/employee/education/manageEmployeeEducation.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeWorkAction" type="com.kan.hro.web.actions.biz.employee.EmployeeWorkAction" name="employeeWorkForm" scope="request" validate="false">
+			<forward name="manageEmployeeWork" path="/jsp/business/employee/work/manageEmployeeWork.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeLanguageAction" type="com.kan.hro.web.actions.biz.employee.EmployeeLanguageAction" name="employeeLanguageForm" scope="request" validate="false">
+			<forward name="manageEmployeeLanguage" path="/jsp/business/employee/language/manageEmployeeLanguage.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeSkillAction" type="com.kan.hro.web.actions.biz.employee.EmployeeSkillAction" name="employeeSkillForm" scope="request" validate="false">
+			<forward name="manageEmployeeSkill" path="/jsp/business/employee/skill/manageEmployeeSkill.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeCertificationAction" type="com.kan.hro.web.actions.biz.employee.EmployeeCertificationAction" name="employeeCertificationForm" scope="request" validate="false">
+			<forward name="manageEmployeeCertification" path="/jsp/business/employee/certification/manageEmployeeCertification.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeMembershipAction" type="com.kan.hro.web.actions.biz.employee.EmployeeMembershipAction" name="employeeMembershipForm" scope="request" validate="false">
+			<forward name="manageEmployeeMembership" path="/jsp/business/employee/membership/manageEmployeeMembership.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeContractAction" type="com.kan.hro.web.actions.biz.employee.EmployeeContractAction" name="employeeContractForm" scope="request" validate="false">
+			<forward name="listEmployeeContract" path="/jsp/business/employee/contract/listEmployeeContract.jsp"></forward>
+			<forward name="listEmployeeContractInHouse" path="/jsp/business/employee/contract/listEmployeeContractInHouse.jsp"></forward>
+			<forward name="manageEmployeeContract" path="/jsp/business/employee/contract/manageEmployeeContract.jsp" ></forward>
+			<forward name="manageEmployeeContractInHouse" path="/jsp/business/employee/contract/manageEmployeeContractInHouse.jsp" ></forward>
+			<forward name="manageEmployeeContractSEV" path="/jsp/business/employee/contract/manageEmployeeContractSEV.jsp" ></forward>
+			<forward name="add_object_step_2" path="/jsp/business/employee/contract/add_object_step_2.jsp" ></forward>
+			<forward name="manageEmployeeContractSpecialInfo" path="/contents/business/employee/contract/extend/manageEmployeeContractSpecialInfo.jsp" ></forward>
+			<forward name="generateContract" path="/jsp/business/employee/contract/generateContract.jsp" ></forward>
+			<forward name="popupTable" path="/popup/table/searchContractTable.jsp" ></forward>
+			<forward name="handleEmployeeContractPopup" path="/popup/handleEmployeeContract.jsp" ></forward>
+			<!-- Used for order tab-->
+			<forward name="listServiceContractTable" path="/contents/business/client/clientOrder/table/listServiceContractTable.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+			<!-- userd for workflow -->
+			<forward name="workflowEmployeeContractSpecialInfo" path="/contents/business/employee/contract/workflow/workflowEmployeeContractSpecialInfo.jsp" ></forward>
+		</action>
+		
+		<action parameter="proc" path="/employeeContractTempAction" type="com.kan.hro.web.actions.biz.employee.EmployeeContractTempAction" name="employeeContractTempForm" scope="request" validate="false">
+			<!-- Used for temp -->
+			<forward name="listEmployeeContractTemp" path="/jsp/business/employee/contract/listEmployeeContractTemp.jsp"></forward>
+			<forward name="listEmployeeContractTempInHouse" path="/jsp/business/employee/contract/listEmployeeContractTempInHouse.jsp"></forward>
+			<forward name="listEmployeeContractTempTable" path="/contents/business/employee/contract/table/listEmployeeContractHeaderTable.jsp"></forward>
+			<forward name="listEmployeeContractTempTableInHouse" path="/contents/business/employee/contract/table/listEmployeeContractHeaderTableInHouse.jsp"></forward>
+			<forward name="manageEmployeeContractTempInHouse" path="/jsp/business/employee/contract/manageEmployeeContractTempInHouse.jsp"></forward>
+			<forward name="manageEmployeeContractTemp" path="/jsp/business/employee/contract/manageEmployeeContractTemp.jsp"></forward>
+			<forward name="manageEmployeeContractSpecialInfo" path="/contents/business/employee/contract/extend/manageEmployeeContractSpecialInfo.jsp" ></forward>
+			
+			<!-- BatchUpdate -->
+			<forward name="listEmployeeContractTempUpdateInHouse" path="/jsp/business/employee/contract/listEmployeeContractTempUpdateInHouse.jsp"></forward>
+			<forward name="listEmployeeContractTempUpdateTableInHouse" path="/contents/business/employee/contract/table/listEmployeeContractHeaderUpdateTableInHouse.jsp"></forward>
+			<forward name="manageEmployeeContractTempUpdateInHouse" path="/jsp/business/employee/contract/manageEmployeeContractTempUpdateInHouse.jsp"></forward>
+		</action>
+		
+		<action parameter="proc" path="/employeeContractBatchAction" type="com.kan.hro.web.actions.biz.importExcel.EmployeeContractBatchAction" name="employeeContractImportBatchForm" scope="request" validate="false">
+			<forward name="listEmplyeeContractBatch" path="/jsp/import/employeeContract/listEmployeeContractBatch.jsp"></forward>
+			<forward name="listEmplyeeContractBatchTable" path="/contents/import/employeeContract/table/listEmployeeContractBatchTable.jsp"></forward>
+			<forward name="listEmplyeeContractBatchUpdate" path="/jsp/import/employeeContract/listEmployeeContractBatchUpdate.jsp"></forward>
+			<forward name="listEmplyeeContractBatchUpdateTable" path="/contents/import/employeeContract/table/listEmployeeContractBatchUpdateTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeContractResignImportAction" type="com.kan.hro.web.actions.biz.importExcel.EmployeeContractResignImportAction" name="employeeContractResignImportBatchForm" scope="request" validate="false">
+			<forward name="listCommonBatch" path="/jsp/business/employee/contract/resign/listBatch.jsp"></forward>
+			<forward name="listCommonBatchTable" path="/contents/business/employee/contract/resign/table/listBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeContractResignAction" type="com.kan.hro.web.actions.biz.employee.EmployeeContractResignAction" name="employeeContractResignForm" scope="request" validate="false">
+			<forward name="listHeaderTemp" path="/jsp/business/employee/contract/resign/listHeaderTemp.jsp"></forward>
+			<forward name="listHeaderTempTable" path="/contents/business/employee/contract/resign/table/listHeaderTempTable.jsp"></forward>
+			<forward name="listCommonBatch" path="/jsp/business/employee/contract/resign/listBatch.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeInsuranceNoImportBatchAction" type="com.kan.hro.web.actions.biz.importExcel.EmployeeInsuranceNoImportBatchAction" name="employeeInsuranceNoImportBatchForm" scope="request" validate="false">
+			<forward name="listEmployeeInsuranceNoImportBatch" path="/jsp/import/employeeInsuranceNo/listEmployeeInsuranceNoImportBatch.jsp"></forward>
+			<forward name="listEmployeeInsuranceNoImportBatchTable" path="/contents/import/employeeInsuranceNo/table/listEmployeeInsuranceNoImportBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeInsuranceNoImportHeaderAction" type="com.kan.hro.web.actions.biz.importExcel.EmployeeInsuranceNoImportHeaderAction" name="employeeInsuranceNoImportHeaderForm" scope="request" validate="false">
+			<forward name="listEmployeeInsuranceNoImportBatch" path="/jsp/import/employeeInsuranceNo/listEmployeeInsuranceNoImportBatch.jsp"></forward>
+			<forward name="listEmployeeInsuranceNoImportHeader" path="/jsp/import/employeeInsuranceNo/listEmployeeInsuranceNoImportHeader.jsp"></forward>
+			<forward name="listEmployeeInsuranceNoImportHeaderTable" path="/contents/import/employeeInsuranceNo/table/listEmployeeInsuranceNoImportHeaderTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- for android -->
+		<action parameter="proc" path="/m.employeeContractAction" type="com.kan.hro.wap.actions.biz.employee.EmployeeContractAction_Wap" name="employeeContractForm" scope="request" validate="false">
+		</action>
+		
+		<action parameter="proc" path="/employeeContractSBAction" type="com.kan.hro.web.actions.biz.employee.EmployeeContractSBAction" name="employeeContractSBForm" scope="request" validate="false">
+			<forward name="manageEmployeeContractSB" path="/jsp/business/employee/contract/contractSB/manageEmployeeContractSB.jsp" ></forward>
+			<forward name="listEmployeeContractSBDetail" path="/contents/business/employee/contract/contractSB/extend/listEmployeeContractSBDetail.jsp" ></forward>
+			<forward name="listEmployeeContractSBDetailTable" path="/contents/business/employee/contract/contractSB/table/listEmployeeContractSBDetailTable.jsp" ></forward>
+			<forward name="listEmployeeContractSB" path="/jsp/sb/setting/listEmployeeContractSB.jsp" ></forward>
+			<forward name="listEmployeeContractSBTable" path="/contents/sb/setting/table/listEmployeeContractSBTable.jsp" ></forward>
+			<forward name="listVendorSB" path="/jsp/sb/setting/listVendorSB.jsp" ></forward>
+			<forward name="listVendorSBTable" path="/contents/sb/setting/table/listVendorSBTable.jsp" ></forward>
+			<!-- re-submit forward-->
+			<forward name="manageEmployeeContract" path="/jsp/business/employee/contract/manageEmployeeContract.jsp" ></forward>
+			<forward name="manageEmployeeContractInHouse" path="/jsp/business/employee/contract/manageEmployeeContractInHouse.jsp" ></forward>
+			<forward name="manageEmployeeContractSEV" path="/jsp/business/employee/contract/manageEmployeeContractSEV.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeContractCBAction" type="com.kan.hro.web.actions.biz.employee.EmployeeContractCBAction" name="employeeContractCBForm" scope="request" validate="false">
+			<forward name="manageEmployeeContractCB" path="/jsp/business/employee/contract/contractCB/manageEmployeeContractCB.jsp" ></forward>
+			<forward name="listEmployeeContractCB" path="/jsp/cb/setting/listEmployeeContractCB.jsp" ></forward>
+			<forward name="listEmployeeContractCBTable" path="/contents/cb/setting/table/listEmployeeContractCBTable.jsp" ></forward>
+			<!-- re-submit forward-->
+			<forward name="manageEmployeeContract" path="/jsp/business/employee/contract/manageEmployeeContract.jsp" ></forward>
+			<forward name="manageEmployeeContractInHouse" path="/jsp/business/employee/contract/manageEmployeeContractInHouse.jsp" ></forward>
+			<forward name="manageEmployeeContractSEV" path="/jsp/business/employee/contract/manageEmployeeContractSEV.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeContractSalaryAction" type="com.kan.hro.web.actions.biz.employee.EmployeeContractSalaryAction" name="employeeContractSalaryForm" scope="request" validate="false">
+			<forward name="manageEmployeeContractSalary" path="/jsp/business/employee/contract/contractSalary/manageEmployeeContractSalary.jsp" ></forward>
+			<forward name="listEmployeeContractSalary" path="/jsp/payment/setting/listEmployeeContractSalary.jsp"></forward>
+			<forward name="listEmployeeContractSalaryTable" path="/contents/payment/setting/table/listEmployeeContractSalaryTable.jsp"></forward>
+			<forward name="manageEmployeeContractSalaryPopup" path="/popup/manageEmployeeContractSalary.jsp"></forward>
+			<!-- re-submit forward-->
+			<forward name="manageEmployeeContract" path="/jsp/business/employee/contract/manageEmployeeContract.jsp" ></forward>
+			<forward name="manageEmployeeContractInHouse" path="/jsp/business/employee/contract/manageEmployeeContractInHouse.jsp" ></forward>
+			<forward name="manageEmployeeContractSEV" path="/jsp/business/employee/contract/manageEmployeeContractSEV.jsp" ></forward>
+			<!-- Workflow Approval Page -->
+			<forward name="manageEmployeeContractSalaryWorkflow" path="/contents/business/employee/contract/contractSalary/workflow/workflowContractSalaryView.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+			<!-- for Salary Adjustment popup -->
+			<forward name="manageEmployeeContractSalaryForAdjustment" path="/popup/salaryAdjustmentForAdd.jsp"></forward>
+		</action>
+		
+		<action parameter="proc" path="/employeeContractOTAction" type="com.kan.hro.web.actions.biz.employee.EmployeeContractOTAction" name="employeeContractOTForm" scope="request" validate="false">
+			<forward name="manageEmployeeContractOT" path="/jsp/business/employee/contract/contractOT/manageEmployeeContractOT.jsp" ></forward>
+			<!-- re-submit forward-->
+			<forward name="manageEmployeeContract" path="/jsp/business/employee/contract/manageEmployeeContract.jsp" ></forward>
+			<forward name="manageEmployeeContractInHouse" path="/jsp/business/employee/contract/manageEmployeeContractInHouse.jsp" ></forward>
+			<forward name="manageEmployeeContractSEV" path="/jsp/business/employee/contract/manageEmployeeContractSEV.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeContractLeaveAction" type="com.kan.hro.web.actions.biz.employee.EmployeeContractLeaveAction" name="employeeContractLeaveForm" scope="request" validate="false">
+			<forward name="manageEmployeeContractLeave" path="/jsp/business/employee/contract/contractLeave/manageEmployeeContractLeave.jsp" ></forward>
+			<!-- re-submit forward-->
+			<forward name="manageEmployeeContract" path="/jsp/business/employee/contract/manageEmployeeContract.jsp" ></forward>
+			<forward name="manageEmployeeContractInHouse" path="/jsp/business/employee/contract/manageEmployeeContractInHouse.jsp" ></forward>
+			<forward name="manageEmployeeContractSEV" path="/jsp/business/employee/contract/manageEmployeeContractSEV.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeContractOtherAction" type="com.kan.hro.web.actions.biz.employee.EmployeeContractOtherAction" name="employeeContractOtherForm" scope="request" validate="false">
+			<forward name="manageEmployeeContractOther" path="/jsp/business/employee/contract/contractOther/manageEmployeeContractOther.jsp" ></forward>
+			<!-- re-submit forward-->
+			<forward name="manageEmployeeContract" path="/jsp/business/employee/contract/manageEmployeeContract.jsp" ></forward>
+			<forward name="manageEmployeeContractInHouse" path="/jsp/business/employee/contract/manageEmployeeContractInHouse.jsp" ></forward>
+			<forward name="manageEmployeeContractSEV" path="/jsp/business/employee/contract/manageEmployeeContractSEV.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeeContractSettlementAction" type="com.kan.hro.web.actions.biz.employee.EmployeeContractSettlementAction" name="employeeContractSettlementForm" scope="request" validate="false">
+			<forward name="manageEmployeeContractSettlement" path="/jsp/business/employee/settlement/manageEmployeeContractSettlement.jsp" ></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		<!-- Employee actions end -->
+		
+		<!-- EmployeeAddSubtract actions start -->
+		<action parameter="proc" path="/employeeAddSubtractAction" type="com.kan.hro.web.actions.biz.employee.EmployeeAddSubtractAction" name="employeeAddSubtractForm" scope="request" validate="false">
+			<forward name="listEmployeeAddSubtract" path="/jsp/business/employee/employeeAddSubtract/listEmployeeAddSubtract.jsp"></forward>
+			<forward name="listEmployeeAddSubtractTable" path="/contents/business/employee/employeeAddSubtract/table/listEmployeeAddSubtractTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		<!-- EmployeeAddSubtract actions end -->
+		
+		<!-- EmployeeLog actions start -->
+		<action parameter="proc" path="/employeeLogAction" type="com.kan.hro.web.actions.biz.employee.EmployeeLogAction" name="employeeLogForm" scope="request" validate="false">
+			<forward name="manageEmployeeLog" path="/jsp/business/employee/log/manageEmployeeLog.jsp" />
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- EmployeeContractLeaveReport actions start -->
+		<action parameter="proc" path="/employeeContractLeaveReportAction" type="com.kan.hro.web.actions.biz.employee.EmployeeContractLeaveReportAction" name="employeeContractLeaveReportForm" scope="request" validate="false">
+			<forward name="listEmployeeContractLeaveReport" path="/jsp/business/attendance/leave/listEmployeeContractLeaveReport.jsp"></forward>
+			<forward name="listEmployeeContractLeaveReportTable" path="/contents/business/attendance/leave/table/listEmployeeContractLeaveReportTable.jsp"></forward>
+			<forward name="listAnnualLeaveDetails" path="/jsp/business/attendance/report/listAnnualLeaveDetails.jsp"></forward>
+			<forward name="listAnnualLeaveDetailsTable" path="/contents/business/attendance/report/table/listAnnualLeaveDetailsTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- EmployeeReport actions start -->
+		<action parameter="proc" path="/employeeReportAction" type="com.kan.hro.web.actions.biz.employee.EmployeeReportAction" name="employeeReportForm" scope="request" validate="false">
+			<forward name="listEmployeeNewReport" path="/jsp/business/employee/report/listEmployeeNewReport.jsp"></forward>
+			<forward name="listEmployeeNewReportTable" path="/contents/business/employee/report/table/listEmployeeNewReportBodyTable.jsp"></forward>
+			<forward name="listEmployeeDimissionReport" path="/jsp/business/employee/report/listEmployeeDimissionReport.jsp"></forward>
+			<forward name="listEmployeeDimissionReportTable" path="/contents/business/employee/report/table/listEmployeeDimissionReportBodyTable.jsp"></forward>
+			<forward name="listEmployeeFullReport" path="/jsp/business/employee/report/listEmployeeFullReport.jsp"></forward>
+			<forward name="listEmployeeFullReportTable" path="/contents/business/employee/report/table/listEmployeeFullReportBodyTable.jsp"></forward>
+			<forward name="listEmployeeFullReport2" path="/jsp/business/employee/report/listEmployeeFullReport2.jsp"></forward>
+			<forward name="listEmployeeFullReportTable2" path="/contents/business/employee/report/table/listEmployeeFullReportBodyTable2.jsp"></forward>
+			<forward name="listEmployeeFullReport3" path="/jsp/business/employee/report/listEmployeeFullReport3.jsp"></forward>
+			<forward name="listEmployeeFullReportTable3" path="/contents/business/employee/report/table/listEmployeeFullReportBodyTable3.jsp"></forward>
+			<forward name="listEmployeeSalaryReport" path="/jsp/business/employee/report/listEmployeeSalaryReport.jsp"></forward>
+			<forward name="listEmployeeSalaryReportTable" path="/contents/business/employee/report/table/listEmployeeSalaryReportBodyTable.jsp"></forward>
+			<forward name="listEmployeePerformanceReport" path="/jsp/business/employee/report/listEmployeePerformanceReport.jsp"></forward>
+			<forward name="listEmployeePerformanceReportTable" path="/contents/business/employee/report/table/listEmployeePerformanceReportBodyTable.jsp"></forward>
+			<forward name="listContacts" path="/jsp/business/employee/contacts/listContacts.jsp"></forward>
+			<forward name="listContactsTable" path="/contents/business/employee/contacts/listContactsBodyTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- IClick EmployeeReport actions start -->
+		<action parameter="proc" path="/iClickEmployeeReportAction" type="com.kan.hro.web.actions.biz.employee.IClickEmployeeReportAction" name="iClickEmployeeReportForm" scope="request" validate="false">
+			<forward name="listFullEmployeeReport" path="/jsp/business/employee/report/listIClickFullEmployeeReport.jsp"></forward>
+			<forward name="listFullEmployeeReport_r4" path="/jsp/business/employee/report/listIClickFullEmployeeReport_r4.jsp"></forward>
+		</action>
+		
+		<!-- IClick EmployeeChangeReport actions start -->
+		<action parameter="proc" path="/employeeChangeReportAction" type="com.kan.hro.web.actions.biz.employee.EmployeeChangeReportAction" name="employeeChangeReportForm" scope="request" validate="false">
+			<forward name="listEmployeeChangeReport" path="/jsp/business/employee/report/listEmployeeChangeReport.jsp"></forward>
+			<forward name="listEmployeeChangeReportTable" path="/contents/business/employee/report/table/listEmployeeChangeReportBodyTable.jsp"></forward>
+		</action>
+		
+		<action parameter="proc" path="/employeeSalaryAdjustmentBatchAction" type="com.kan.hro.web.actions.biz.employee.EmployeeSalaryAdjustmentBatchAction" name="employeeSalaryAdjustmentBatchForm" scope="request" validate="false">
+			<forward name="listEmployeeSalaryAdjustmentBatch" path="/jsp/business/employee/salaryAdjustmentImport/listSalaryAdjustmentBatch.jsp"></forward>
+			<forward name="listEmployeeSalaryAdjustmentBatchTable" path="/contents/business/employee/salaryAdjustmentImport/table/listSalaryAdjustmentBatchTable.jsp"></forward>
+		</action>
+		
+		<action parameter="proc" path="/employeeSalaryAdjustmentTempAction" type="com.kan.hro.web.actions.biz.employee.EmployeeSalaryAdjustmentTempAction" name="employeeSalaryAdjustmentTempForm" scope="request" validate="false">
+			<forward name="listEmployeeSalaryAdjustmentTemp" path="/jsp/business/employee/salaryAdjustmentImport/listSalaryAdjustmentTemp.jsp"></forward>
+			<forward name="listEmployeeSalaryAdjustmentTempTable" path="/contents/business/employee/salaryAdjustmentImport/table/listSalaryAdjustmentTempTable.jsp"></forward>
+			<forward name="listEmployeeSalaryAdjustmentBatch" path="/jsp/business/employee/salaryAdjustmentImport/listSalaryAdjustmentBatch.jsp"></forward>
+		</action>
+		
+		<action parameter="proc" path="/employeePositionChangeAction" type="com.kan.hro.web.actions.biz.employee.EmployeePositionChangeAction" name="employeePositionChangeForm" scope="request" validate="false">
+			
+			<forward name="listPositionChange" path="/jsp/business/employee/positionChange/listPositionChange.jsp"></forward>
+			<forward name="listPositionChangeTable" path="/contents/business/employee/positionChange/table/listPositionChangeTable.jsp" ></forward>
+			<forward name="managePositionChange" path="/jsp/business/employee/positionChange/managePositionChange.jsp" ></forward>
+			<forward name="managePositionChangeWorkFlow" path="/contents/business/employee/positionChange/managePositionChangeWorkFlowBody.jsp" ></forward>
+			<forward name="listPositionChangePage" redirect="true" path="employeePositionChangeAction.do?proc=list_object"></forward>
+			<!-- Quick PositionChange -->
+			<forward name="quickPositionChange" path="/jsp/business/employee/positionChange/quickPositionChange.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeePositionChangeBatchAction" type="com.kan.hro.web.actions.biz.employee.EmployeePositionChangeBatchAction" name="employeePositionChangeBatchForm" scope="request" validate="false">
+			<forward name="listEmployeePositionChangeBatch" path="/jsp/business/employee/positionChangeImport/listPositionChangeBatch.jsp"></forward>
+			<forward name="listEmployeePositionChangeBatchTable" path="/contents/business/employee/positionChangeImport/table/listPositionChangeBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<action parameter="proc" path="/employeePositionChangeTempAction" type="com.kan.hro.web.actions.biz.employee.EmployeePositionChangeTempAction" name="employeePositionChangeTempForm" scope="request" validate="false">
+			<forward name="listEmployeePositionChangeTemp" path="/jsp/business/employee/positionChangeImport/listPositionChangeTemp.jsp"></forward>
+			<forward name="listEmployeePositionChangeTempTable" path="/contents/business/employee/positionChangeImport/table/listPositionChangeTempTable.jsp"></forward>
+			<forward name="listEmployeePositionChangeBatch" path="/jsp/business/employee/positionChangeImport/listPositionChangeBatch.jsp"></forward>
+		</action>
+		
+		<action parameter="proc" path="/employeeSalaryAdjustmentAction" type="com.kan.hro.web.actions.biz.employee.EmployeeSalaryAdjustmentAction" name="employeeSalaryAdjustmentForm" scope="request" validate="false">
+			<forward name="listSalaryAdjustment" path="/jsp/business/employee/salaryAdjustment/listSalaryAdjustment.jsp"></forward>
+			<forward name="listSalaryAdjustmentTable" path="/contents/business/employee/salaryAdjustment/table/listSalaryAdjustmentTable.jsp" ></forward>
+			<forward name="manageSalaryAdjustment" path="/jsp/business/employee/salaryAdjustment/manageSalaryAdjustment.jsp" ></forward>
+			<forward name="manageSalaryAdjustmentWorkFlow" path="/contents/business/employee/salaryAdjustment/manageSalaryAdjustmentWorkFlowBody.jsp" ></forward>
+			<forward name="listSalaryAdjustmentPage" redirect="true" path="employeeSalaryAdjustmentAction.do?proc=list_object"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Leave actions start -->
+		<action parameter="proc" path="/leaveHeaderAction" type="com.kan.hro.web.actions.biz.attendance.LeaveHeaderAction" name="leaveHeaderForm" scope="request" validate="false">
+			<forward name="listLeave" path="/jsp/business/attendance/leave/listLeave.jsp"></forward>
+			<forward name="listLeaveTable" path="/contents/business/attendance/leave/table/listLeaveTable.jsp"></forward>
+			<forward name="manageLeave" path="/jsp/business/attendance/leave/manageLeave.jsp"></forward>
+			<forward name="manageLeaveMobile" path="/mobile/manageLeave.jsp"></forward>
+			<forward name="manageLeaveSpecialInfo" path="/contents/business/attendance/leave/extend/manageLeaveSpecialInfo.jsp"></forward>
+			<forward name="manageLeaveSpecialTable" path="/contents/business/attendance/leave/table/listEmployeeContractLeaveTable.jsp"></forward>
+			<forward name="index_mobile" path="/mobile/index.jsp"></forward>
+			<forward name="listLeaveOT" path="/mobile/listLeaveOT.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		<!-- for android client -->
+		<action parameter="proc" path="/m.leaveAction" type="com.kan.hro.wap.actions.biz.attendance.LeaveAction_Wap" name="leaveForm" scope="request" validate="false">
+			
+		</action>
+		
+		<!-- Ot actions start -->
+		<action parameter="proc" path="/otHeaderAction" type="com.kan.hro.web.actions.biz.attendance.OTHeaderAction" name="otHeaderForm" scope="request" validate="false">
+			<forward name="listOT" path="/jsp/business/attendance/ot/listOT.jsp"></forward>
+			<forward name="listOTTable" path="/contents/business/attendance/ot/table/listOTTable.jsp"></forward>
+			<forward name="manageOT" path="/jsp/business/attendance/ot/manageOT.jsp"></forward>
+			<forward name="manageOT_mobile" path="/mobile/manageOT.jsp"></forward>
+			<forward name="manageOTSpecialInfo" path="/contents/business/attendance/ot/extend/manageOTSpecialInfo.jsp"></forward>
+			<forward name="manageOTSpecialTable" path="/contents/business/attendance/ot/table/listOTRecordTable.jsp"></forward>
+			<forward name="index_mobile" path="/mobile/index.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Timesheet Batch actions start -->
+		<action parameter="proc" path="/timesheetBatchAction" type="com.kan.hro.web.actions.biz.attendance.TimesheetBatchAction" name="timesheetBatchForm" scope="request" validate="false">
+			<forward name="listTimesheetBatch" path="/jsp/business/attendance/timesheet/batch/listTimesheetBatch.jsp"></forward>
+			<forward name="listTimesheetBatchTable" path="/contents/business/attendance/timesheet/batch/table/listTimesheetBatchTable.jsp"></forward>
+			<forward name="generateTimesheetBatch" path="/jsp/business/attendance/timesheet/batch/generateTimesheetBatch.jsp"></forward>
+			<forward name="listTimesheetHeader" path="/jsp/business/attendance/timesheet/header/listTimesheetHeader.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- TimesheetReportExport actions start -->
+		<action parameter="proc" path="/timesheetReportExportAction" type="com.kan.hro.web.actions.biz.attendance.TimesheetReportExportAction" name="timesheetReportExportForm" scope="request" validate="false">
+			<forward name="listTimesheetReportExport" path="/jsp/business/attendance/timesheet/export/listTimesheetReportExport.jsp"></forward>
+			<forward name="listTimesheetReportExportTable" path="/contents/business/attendance/timesheet/export/table/listTimesheetReportExportTable.jsp"></forward>
+			<forward name="listAVGTimesheetReportExport" path="/jsp/business/attendance/report/listAVGTimesheetReportExport.jsp"></forward>
+			<forward name="listAVGTimesheetReportExportTable" path="/contents/business/attendance/report/table/listAVGTimesheetReportExportTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Timesheet Allowance Batch actions start jzy add-->
+		<action parameter="proc" path="/timesheetAllowanceBatchAction" type="com.kan.hro.web.actions.biz.attendance.TimesheetAllowanceBatchAction" name="timesheetBatchForm" scope="request" validate="false">
+			<forward name="listTimesheetAllowanceBatch" path="/jsp/business/attendance/timesheet/batch/listTimesheetAllowanceBatch.jsp"></forward>
+			<forward name="listTimesheetAllowanceBatchTable" path="/contents/business/attendance/timesheet/batch/table/listTimesheetAllowanceBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Timesheet Header actions start -->
+		<action parameter="proc" path="/timesheetHeaderAction" type="com.kan.hro.web.actions.biz.attendance.TimesheetHeaderAction" name="timesheetHeaderForm" scope="request" validate="false">
+			<forward name="listTimesheetHeader" path="/jsp/business/attendance/timesheet/header/listTimesheetHeader.jsp"></forward>
+			<forward name="listTimesheetHeaderTable" path="/contents/business/attendance/timesheet/header/table/listTimesheetHeaderTable.jsp"></forward>
+			<forward name="generateTimesheetHeader" path="/jsp/business/attendance/timesheet/header/generateTimesheetHeader.jsp"></forward>
+			<forward name="manageTimesheetHeader" path="/jsp/business/attendance/timesheet/header/manageTimesheet.jsp"></forward>
+			<forward name="listSpecialInfo" path="/contents/business/attendance/timesheet/header/extend/manageTimesheetHeaderExtend.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Timesheet Header actions start jzy add-->
+		<action parameter="proc" path="/timesheetAllowanceHeaderAction" type="com.kan.hro.web.actions.biz.attendance.TimesheetAllowanceHeaderAction" name="timesheetHeaderForm" scope="request" validate="false">
+			<forward name="listTimesheetAllowanceHeader" path="/jsp/business/attendance/timesheet/header/listTimesheetAllowanceHeader.jsp"></forward>
+			<forward name="listTimesheetAllowanceHeaderTable" path="/contents/business/attendance/timesheet/header/table/listTimesheetAllowanceHeaderTable.jsp"></forward>
+			<!-- <forward name="listSpecialInfo" path="/contents/business/attendance/timesheet/header/extend/manageTimesheetHeaderExtend.jsp"></forward> -->
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Timesheet Header actions start jzy add-->
+		<action parameter="proc" path="/timesheetTempAction" type="com.kan.hro.web.actions.biz.attendance.TimesheetTempAction" name="timesheetTempForm" scope="request" validate="false">
+			<forward name="listTimesheetTemp" path="/jsp/business/attendance/timesheet/header/listTimesheetTemp.jsp"></forward>
+			<forward name="listTimesheetTempTable" path="/contents/business/attendance/timesheet/header/table/listTimesheetTempTable.jsp"></forward>
+			<!-- <forward name="listSpecialInfo" path="/contents/business/attendance/timesheet/header/extend/manageTimesheetHeaderExtend.jsp"></forward> -->
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Dashboard actions start -->
+		<action parameter="proc" path="/dashboardAction"
+			type="com.kan.hro.web.actions.biz.dashboard.DashboardAction" 
+			scope="request" validate="false">
+			<forward name="showDashboard" path="/jsp/management/dashboard/showDashboard.jsp"></forward>		
+			<forward name="index_mobile" path="/mobile/index.jsp" />			
+		</action>
+		
+		<!-- leaveImport Batch actions start fox add-->
+		<action parameter="proc" path="/leaveImportBatchAction" type="com.kan.hro.web.actions.biz.attendance.LeaveImportBatchAction" name="timesheetBatchForm" scope="request" validate="false">
+			<forward name="leaveImportBatch" path="/jsp/business/attendance/leave/listLeaveImportBatch.jsp"></forward>
+			<forward name="leaveImportBatchTable" path="/contents/business/attendance/leave/table/listLeaveImportBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- leaveImpor Header actions start fox add-->
+		<action parameter="proc" path="/leaveImportHeaderAction" type="com.kan.hro.web.actions.biz.attendance.LeaveImportHeaderAction" name="leaveImportHeaderForm" scope="request" validate="false">
+			<forward name="leaveImportHeader" path="/jsp/business/attendance/leave/listLeaveImportHeader.jsp"></forward>
+			<forward name="leaveImportHeaderTable" path="/contents/business/attendance/leave/table/listLeaveImportHeaderTable.jsp"></forward>
+			<forward name="leaveImportBatch" path="/jsp/business/attendance/leave/listLeaveImportBatch.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- otImport Batch actions start fox add-->
+		<action parameter="proc" path="/otImportBatchAction" type="com.kan.hro.web.actions.biz.attendance.OTImportBatchAction" name="timesheetBatchForm" scope="request" validate="false">
+			<forward name="otImportBatch" path="/jsp/business/attendance/ot/listOTImportBatch.jsp"></forward>
+			<forward name="otImportBatchTable" path="/contents/business/attendance/ot/table/listOTImportBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- otImport Header actions start fox add-->
+		<action parameter="proc" path="/otImportHeaderAction" type="com.kan.hro.web.actions.biz.attendance.OTImportHeaderAction" name="otImportHeaderForm" scope="request" validate="false">
+			<forward name="otImportHeader" path="/jsp/business/attendance/ot/listOTImportHeader.jsp"></forward>
+			<forward name="otImportHeaderTable" path="/contents/business/attendance/ot/table/listOTImportHeaderTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- Record actions start siuvan add-->
+		<action parameter="proc" path="/recordAction" type="com.kan.hro.web.actions.biz.attendance.RecordAction" name="recordForm" scope="request" validate="false">
+			<forward name="listRecord" path="/jsp/business/attendance/record/listRecord.jsp"></forward>
+			<forward name="listRecordTable" path="/contents/business/attendance/record/table/listRecordTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- TimesheetAllowance actions start siuvan add-->
+		<action parameter="proc" path="/timesheetAllowanceAction" type="com.kan.hro.web.actions.biz.attendance.TimesheetAllowanceAction" name="timesheetAllowanceForm" scope="request" validate="false">
+			<forward name="manageTimesheetHeader" path="/jsp/business/attendance/timesheet/header/manageTimesheet.jsp"></forward>
+			<forward name="manageTimesheetAllowanceForm" path="/popup/manageTimesheetAllowance.jsp"></forward>
+			<forward name="listTimesheetBatch" path="/jsp/business/attendance/timesheet/batch/listTimesheetBatch.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- AttendanceImportBatchAction start siuvan add-->
+		<action parameter="proc" path="/attendanceImportBatchAction" type="com.kan.hro.web.actions.biz.attendance.AttendanceImportBatchAction" name="commonBatchForm" scope="request" validate="false">
+			<forward name="listAttendanceImportBatch" path="/jsp/business/attendance/import/listAttendanceImportBatch.jsp"></forward>
+			<forward name="listAttendanceImportBatchTable" path="/contents/business/attendance/import/table/listAttendanceImportBatchTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- AttendanceImportHeaderAction start siuvan add-->
+		<action parameter="proc" path="/attendanceImportHeaderAction" type="com.kan.hro.web.actions.biz.attendance.AttendanceImportHeaderAction" name="attendanceImportHeaderForm" scope="request" validate="false">
+			<forward name="listAttendanceImportHeader" path="/jsp/business/attendance/import/listAttendanceImportHeader.jsp"></forward>
+			<forward name="listAttendanceImportHeaderTable" path="/contents/business/attendance/import/table/listAttendanceImportHeaderTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		<!-- AttendanceImportDetailAction start siuvan add-->
+		<action parameter="proc" path="/attendanceImportDetailAction" type="com.kan.hro.web.actions.biz.attendance.AttendanceImportDetailAction" name="attendanceImportDetailForm" scope="request" validate="false">
+			<forward name="listAttendanceImportDetail" path="/jsp/business/attendance/import/listAttendanceImportDetail.jsp"></forward>
+			<forward name="listAttendanceImportDetailTable" path="/contents/business/attendance/import/table/listAttendanceImportDetailTable.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		
+		<!-- TravelAction -->
+		
+		<action parameter="proc" path="/travelAction" type="com.kan.hro.web.actions.biz.travel.TravelAction" name="travelForm" scope="request" validate="false">
+			<forward name="listTravel" path="/jsp/business/travel/listTravel.jsp"></forward>
+			<forward name="listTravelTable" path="/contents/business/travel/table/listTravelTable.jsp"></forward>
+			<forward name="manageTravel" path="/jsp/business/travel/manageTravel.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		
+		<!-- Performance -->
+		<action parameter="proc" path="/performanceAction" type="com.kan.hro.web.actions.biz.performance.PerformanceAction" name="performanceForm" scope="request" validate="false">
+			<forward name="listPerformance" path="/jsp/business/employee/report/listEmployeePerformanceReport.jsp"></forward>
+			<forward name="listPerformanceTable" path="/contents/business/employee/report/table/listEmployeePerformanceReportBodyTable.jsp"></forward>
+			<forward name="managePerformance" path="/jsp/performance/managePerformance.jsp"></forward>
+			<forward name="error" path="/jsp/error.jsp" />
+		</action>
+		
+		
+		
+		<action parameter="proc" path="/m.timesheetHeaderAction" type="com.kan.hro.wap.actions.biz.attendance.TimesheetHeaderAction_Wap" name="timesheetHeaderForm" scope="request" validate="false"></action>
+		
+	</action-mappings>
+
+	<message-resources parameter="MessageResources/Business/Business" key="business" />
+
+</struts-config>
+

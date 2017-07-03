@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.system.ProvinceVO">
+
+	<resultMap id="result" type="com.kan.base.domain.system.ProvinceVO" >
+		<result property="provinceId" column="provinceId"/>
+		<result property="countryId" column="countryId"/>
+		<result property="provinceNameZH" column="provinceNameZH"/>
+		<result property="provinceNameEN" column="provinceNameEN"/>
+		<result property="deleted" column="deleted"/>
+		<result property="status" column="status"/>
+		<result property="remark1" column="remark1"/>
+		<result property="remark2" column="remark2"/>
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+	
+	<sql id="provinceColumns">
+		countryId, provinceNameZH, provinceNameEN, deleted, status, remark1, remark2, createBy, createDate, modifyBy, modifyDate
+	</sql>  	 	
+	
+	<select id="countProvinceVOByCondition" parameterType="province" resultType="int">
+		select count(*) 
+		from HRO_SYS_Province
+		where deleted = 1 and countryId = #{countryId}	
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+	
+	<select id="getProvinceVOByCondition" parameterType="province" resultMap="result">
+		select provinceId, <include refid="provinceColumns"/>  
+		from HRO_SYS_Province 
+		where deleted = 1 and countryId = #{countryId}	
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+			
+  	</select>
+  	
+  	<select id="getProvinceVOByProvinceId" parameterType="int" resultMap="result">
+  		select provinceId, <include refid="provinceColumns"/>
+  		from HRO_SYS_Province
+  		where provinceId = #{value}
+  	</select>
+  	
+  	<insert id="insertProvince" parameterType="province" useGeneratedKeys="true" keyProperty="provinceId">
+  		insert into HRO_SYS_Province(<include refid="provinceColumns"/>)
+  		values(#{countryId}, #{provinceNameZH}, #{provinceNameEN}, 1, #{status}, #{remark1}, #{remark2}, #{createBy}, #{createDate}, #{modifyBy}, 
+  			#{modifyDate}) 	
+  	</insert>
+  	
+  	<delete id="deleteProvince" parameterType="province">
+  		update HRO_SYS_Province set deleted = 2,  modifyBy = #{modifyBy}, modifyDate = #{modifyDate} 
+  		where provinceId = #{provinceId}
+  	</delete>
+  	
+  	<update id="updateProvince" parameterType="province">
+  		update HRO_SYS_Province set countryId = #{countryId}, provinceNameZH = #{provinceNameZH}, provinceNameEN = #{provinceNameEN}, 
+  			 deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, createBy = #{createBy}, createDate = #{createDate}, 
+  			 modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+  		where provinceId = #{provinceId}
+  		
+  	</update>
+  	
+	<select id="getProvinceVOsByCountryId" parameterType="int" resultMap="result">
+		select provinceId, countryId, provinceNameZH ,provinceNameEN 
+		from HRO_SYS_Province 
+		where deleted = 1 and countryId = #{value} 
+		order by provinceNameEN
+  	</select>
+</mapper>

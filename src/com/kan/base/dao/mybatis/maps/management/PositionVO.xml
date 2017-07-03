@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.management.PositionVO">
+
+	<resultMap id="mgtPositionBaseView" type="com.kan.base.domain.management.PositionBaseView">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+	</resultMap>
+
+	<resultMap id="result" type="com.kan.base.domain.management.PositionVO">
+		<result property="positionId" column="positionId" />
+		<result property="positionGradeId" column="positionGradeId" />
+		<result property="accountId" column="accountId" />
+		<result property="corpId" column="corpId" />
+		<result property="titleZH" column="titleZH" />
+		<result property="titleEN" column="titleEN" />
+		<result property="description" column="description" />
+		<result property="parentPositionId" column="parentPositionId" />
+		<result property="skill" column="skill" />
+		<result property="note" column="note" />
+		<result property="attachment" column="attachment" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+  	
+  	<sql id="PositionColumns"> 
+  		positionGradeId,accountId,corpId, titleZH, titleEN, parentPositionId, description, skill, note, attachment, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<select id="countMgtPositionVOsByCondition" parameterType="position" resultType="int">
+		SELECT 	count(*) 
+		FROM 	HRO_MGT_Position
+		WHERE 	deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND ( corpId = #{corpId} OR  0 = #{corpId} )
+		</if>
+		<if test="corpId == null or corpId =='' ">
+   			AND corpId IS NULL
+  		</if>
+		<if test="positionGradeId != null and positionGradeId != ''">
+			AND ( positionGradeId = #{positionGradeId} OR  0 = #{positionGradeId} )
+		</if>
+		<if test="titleZH != null and titleZH != ''">
+			AND titleZH like CONCAT('%', '${titleZH}', '%') 
+		</if>
+		<if test="titleEN != null and titleEN != ''">
+			AND titleEN like CONCAT('%', '${titleEN}', '%') 
+		</if>
+		<if test="description != null and description != ''">
+			AND description like CONCAT('%', '${description}', '%') 
+		</if>
+		<if test="skill != null and skill != ''">
+			AND skill like CONCAT('%', '${skill}', '%') 
+		</if>
+		<if test="note != null and note != ''">
+			AND note like CONCAT('%', '${note}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+  	</select>
+  	
+	<select id="getMgtPositionVOsByCondition" parameterType="position" resultMap="result">
+		SELECT positionId, <include refid="PositionColumns"/>  
+		FROM HRO_MGT_Position 
+		WHERE deleted = 1 AND accountId = #{accountId}
+		<if test="corpId != null and corpId != ''">
+			AND ( corpId = #{corpId} OR  0 = #{corpId} )
+		</if>
+		<if test="corpId == null or corpId =='' ">
+   			AND corpId IS NULL
+  		</if>
+		<if test="positionGradeId != null and positionGradeId != ''">
+			AND ( positionGradeId = #{positionGradeId} OR  0 = #{positionGradeId} )
+		</if>
+		<if test="titleZH != null and titleZH != ''">
+			AND titleZH like CONCAT('%', '${titleZH}', '%') 
+		</if>
+		<if test="titleEN != null and titleEN != ''">
+			AND titleEN like CONCAT('%', '${titleEN}', '%') 
+		</if>
+		<if test="description != null and description != ''">
+			AND description like CONCAT('%', '${description}', '%') 
+		</if>
+		<if test="skill != null and skill != ''">
+			AND skill like CONCAT('%', '${skill}', '%') 
+		</if>
+		<if test="note != null and note != ''">
+			AND note like CONCAT('%', '${note}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (status = #{status} or 0 = #{status})
+		</if>
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			order by ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+  	
+  	<select id="getMgtPositionVOByPositionId" parameterType="int" resultMap="result">
+		SELECT 	positionId, <include refid="PositionColumns"/>  
+		FROM 	HRO_MGT_Position 
+		WHERE 	positionId = #{value}
+  	</select>
+  	
+	<update id="updateMgtPosition" parameterType="position">
+		UPDATE HRO_MGT_Position set positionGradeId=#{positionGradeId}, titleZH = #{titleZH}, titleEN = #{titleEN}, parentPositionId = #{parentPositionId}, description = #{description}, skill = #{skill}, note = #{note}, attachment = #{attachment}, 
+			deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, remark4 = #{remark4}, 
+			remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		WHERE positionId = #{positionId} 
+  	</update>
+  	
+  	<insert id="insertMgtPosition" parameterType="position" useGeneratedKeys="true" keyProperty="positionId">
+		INSERT INTO HRO_MGT_Position(<include refid="PositionColumns"/>) 
+		VALUES	(#{positionGradeId}, #{accountId},#{corpId}, #{titleZH}, #{titleEN}, #{parentPositionId}, #{description}, #{skill}, #{note}, #{attachment}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, 
+			#{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+  	
+  	<delete id="deleteMgtPosition" parameterType="int">
+		DELETE FROM HRO_MGT_Position where positionId = #{value}
+  	</delete>
+	 	
+  	<select id="getMgtPositionVOsByParentPositionId" parameterType="position" resultMap="result">
+		SELECT 	positionId, <include refid="PositionColumns"/>  
+		FROM 	HRO_MGT_Position 
+		WHERE 	deleted = 1 AND status = 1  AND parentPositionId = #{parentPositionId} 
+		order by positionId
+  	</select>
+  	
+  	<select id="getMgtPositionBaseViewsByAccountId" resultType="mgtPositionBaseView">
+  		SELECT 	a.positionId as id, 
+  			CASE WHEN ISNULL(b.titleZH)
+  				THEN CONCAT( a.titleZH, ' - ', a.titleEN ) 
+  				ELSE CONCAT( a.titleZH, ' - ', a.titleEN, '(',  b.titleZH, ' - ', b.titleEN, ')' ) 
+  			END AS `name`	
+  		FROM HRO_MGT_Position a LEFT JOIN HRO_MGT_Position b ON a.parentPositionId = b.positionId AND b.deleted = 1
+  		WHERE a.deleted = 1 AND a.status = 1 AND a.accountId = #{value}
+  		ORDER BY name 
+  	</select>
+  	
+</mapper>

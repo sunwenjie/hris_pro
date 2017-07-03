@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kan.base.domain.security.BranchVO">
+
+	<resultMap id="result" type="com.kan.base.domain.security.BranchVO">
+		<result property="branchId" column="branchId" />
+		<result property="accountId" column="accountId" />
+		<result property="parentBranchId" column="parentBranchId" />
+		<result property="corpId" column="corpId" />
+		<result property="entityId" column="entityId" />
+		<result property="businessTypeId" column="businessTypeId" />
+		<result property="settlementBranch" column="settlementBranch" />
+		<result property="branchCode" column="branchCode" />
+		<result property="nameZH" column="nameZH" />
+		<result property="nameEN" column="nameEN" />
+		<result property="description" column="description" />
+		<result property="deleted" column="deleted" />
+		<result property="status" column="status" />
+		<result property="remark1" column="remark1" />
+		<result property="remark2" column="remark2" />
+		<result property="remark3" column="remark3" />
+		<result property="remark4" column="remark4" />
+		<result property="remark5" column="remark5" />
+		<result property="createBy" column="createBy" />
+		<result property="createDate" column="createDate" />
+		<result property="modifyBy" column="modifyBy" />
+		<result property="modifyDate" column="modifyDate" />
+	</resultMap>
+	
+  	<sql id="BranchColumns">
+  		accountId,parentBranchId,corpId,entityId,businessTypeId,settlementBranch,branchCode, nameZH, nameEN, description, deleted, status, remark1, remark2, remark3, remark4, remark5, createBy, createDate, modifyBy, modifyDate 
+	</sql>
+	
+	<sql id="BranchColumns-for-join"> 
+  		a.accountId,a.parentBranchId, a.corpId,a.entityId,a.businessTypeId,a.settlementBranch,a.branchCode, a.nameZH, a.nameEN, a.description, a.deleted, a.status, a.remark1, a.remark2, a.remark3, a.remark4, a.remark5, a.createBy, a.createDate, a.modifyBy, a.modifyDate 
+	</sql>
+	
+	<select id="countBranchVOsByCondition" parameterType="branch" resultType="int">
+		SELECT COUNT(0) FROM
+		(
+			select 0
+			from HRO_SEC_Branch a LEFT JOIN HRO_SEC_Position b ON a.branchId = b.branchId AND b.deleted = 1
+			WHERE a.deleted = 1 AND a.accountId = #{accountId}		
+			<if test="corpId != null and corpId != ''">
+				AND a.corpId = #{corpId}
+			</if>
+			<if test="corpId == null or corpId == ''">
+				AND a.corpId IS NULL
+			</if>
+			<if test="branchCode != null and branchCode != ''">
+				AND a.branchCode like CONCAT('%', '${branchCode}', '%') 
+			</if>
+			<if test="nameZH != null and nameZH != ''">
+				AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+			</if>
+			<if test="nameEN != null and nameEN != ''">
+				AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+			</if>
+			<if test="status != null and status != ''">
+				AND (a.status = #{status} or 0 = #{status})
+			</if>
+			<if test="parentBranchId != null and parentBranchId != ''">
+				AND (parentBranchId = #{parentBranchId} or 0 = #{parentBranchId})
+			</if>
+			GROUP BY a.branchId
+		)t
+  	</select>
+  	
+	<select id="getBranchVOsByCondition" parameterType="branch" resultMap="result">
+		SELECT a.branchId,<include refid="BranchColumns-for-join" />, c.nameZH as parentBranchName,
+		CASE WHEN ISNULL( b.branchId ) THEN 2 ELSE 1 END as extended
+		FROM HRO_SEC_Branch a 
+		left join HRO_SEC_Branch c on c.branchId = a.parentBranchId 
+		LEFT JOIN 
+		(
+			SELECT branchId FROM HRO_SEC_Position
+			WHERE deleted = 1 AND accountId = #{accountId}
+			GROUP BY branchId
+		) b ON a.branchId = b.branchId
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}				
+		<if test="corpId != null and corpId != ''">
+			AND a.corpId = #{corpId}
+		</if>
+		<if test="corpId == null or corpId == ''">
+			AND a.corpId IS NULL
+		</if>
+		<if test="branchCode != null and branchCode != ''">
+			AND a.branchCode like CONCAT('%', '${branchCode}', '%') 
+		</if>
+		<if test="nameZH != null and nameZH != ''">
+			AND a.nameZH like CONCAT('%', '${nameZH}', '%') 
+		</if>
+		<if test="nameEN != null and nameEN != ''">
+			AND a.nameEN like CONCAT('%', '${nameEN}', '%') 
+		</if>
+		<if test="status != null and status != ''">
+			AND (a.status = #{status} or 0 = #{status})
+		</if>
+		<if test="parentBranchId != null and parentBranchId != ''">
+			AND (a.parentBranchId = #{parentBranchId} or 0 = #{parentBranchId})
+		</if>
+		GROUP BY a.branchId
+		<if test="sortColumn != null and sortColumn != '' and sortOrder != null and sortOrder != ''">
+			ORDER BY ${sortColumn} ${sortOrder}
+		</if>
+  	</select>
+  	
+  	<select id="getBranchVOByBranchId" parameterType="int" resultMap="result">
+		select branchId, <include refid="BranchColumns"/>  
+		from HRO_SEC_Branch 
+		where branchId = #{value}
+  	</select>
+  	
+  	<select id="getBranchVOsByAccountId" parameterType="int" resultMap="result">
+		select branchId, <include refid="BranchColumns"/>  
+		from HRO_SEC_Branch 
+		where deleted = 1 AND status = 1 AND accountId = #{value}
+		order by branchId
+  	</select>
+  	
+	<update id="updateBranch" parameterType="branch">
+		update HRO_SEC_Branch set accountId = #{accountId},parentBranchId=#{parentBranchId}, corpId=#{corpId},entityId=#{entityId},businessTypeId=#{businessTypeId},  
+			settlementBranch = #{settlementBranch}, branchCode = #{branchCode}, nameZH = #{nameZH}, nameEN = #{nameEN}, 
+			description = #{description}, deleted = #{deleted}, status = #{status}, remark1 = #{remark1}, remark2 = #{remark2}, remark3 = #{remark3}, 
+			remark4 = #{remark4}, remark5 = #{remark5}, modifyBy = #{modifyBy}, modifyDate = #{modifyDate}
+		where branchId = #{branchId} 
+  	</update>
+  	
+  	<insert id="insertBranch" parameterType="branch" useGeneratedKeys="true" keyProperty="branchId">
+		insert into HRO_SEC_Branch(<include refid="BranchColumns"/>) 
+		values (#{accountId},#{parentBranchId},#{corpId},#{entityId},#{businessTypeId},#{settlementBranch}, #{branchCode}, #{nameZH}, #{nameEN}, #{description}, 1, #{status}, #{remark1}, #{remark2}, #{remark3}, #{remark4}, 
+			#{remark5}, #{createBy}, #{createDate}, #{modifyBy}, #{modifyDate})
+  	</insert>
+  	
+  	<delete id="deleteBranch" parameterType="branch">
+		update HRO_SEC_Branch set deleted = 2, modifyBy = #{modifyBy}, modifyDate = #{modifyDate} where branchId = #{branchId}
+  	</delete>
+  	
+  	<select id="getBranchVOsByParentBranchId" parameterType="branch" resultMap="result">
+		SELECT a.branchId,<include refid="BranchColumns-for-join" />,
+			CASE
+				WHEN ( COUNT(b.branchId)=0 )
+				THEN 2
+				ELSE 1
+			END AS `extended`
+		FROM HRO_SEC_Branch a 
+			LEFT JOIN HRO_SEC_Position b
+				ON a.branchId = b.branchId AND b.deleted = 1
+		WHERE a.deleted = 1 AND a.accountId = #{accountId}				
+		 AND a.parentBranchId = #{parentBranchId} 
+		 GROUP BY a.branchId
+		ORDER BY a.branchId
+  	</select>
+  	
+  	
+  	<select id="getBUFuction"  resultMap="result">
+        select branchId, <include refid="BranchColumns"/>  
+         from hro_sec_branch where parentBranchId = 0 AND deleted = 1 and status = 1
+        AND accountId = 100017  and branchId != 1572 and branchId != 1591 order by nameZH 
+  	</select>
+
+</mapper>
